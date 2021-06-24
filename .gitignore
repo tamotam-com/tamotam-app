@@ -119,3 +119,13 @@ dist
 
 # macOS
 .DS_Store
+
+# React Native
+.expo/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
