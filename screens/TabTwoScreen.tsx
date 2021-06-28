@@ -10,6 +10,7 @@ export default function TabTwoScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
+      {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView style={styles.map}>
         {/* TODO: Add Callout for events fetched from API's. */}
         <Marker
