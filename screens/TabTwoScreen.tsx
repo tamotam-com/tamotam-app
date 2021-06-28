@@ -11,6 +11,7 @@ export default function TabTwoScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
       <MapView style={styles.map}>
+        {/* TODO: Add Callout for events fetched from API's. */}
         <Marker
           coordinate={{ latitude: 51.23123, longitude: 4.921321 }}
           description="Description"
