@@ -1,4 +1,5 @@
 import * as React from "react";
+import { PREDICTHQ_API_KEY } from "@env";
 import MapView from "react-native-maps";
 import { Button, Dimensions, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
@@ -26,7 +27,7 @@ export default function TabTwoScreen() {
       />
       <Button
         onPress={() => {
-          alert("You tapped the button!");
+          alert(PREDICTHQ_API_KEY);
         }}
         title="Press Me"
       />
