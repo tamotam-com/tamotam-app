@@ -1,6 +1,6 @@
 import * as React from "react";
 import MapView from "react-native-maps";
-import { Dimensions, StyleSheet } from "react-native";
+import { Button, Dimensions, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
 
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -24,6 +24,12 @@ export default function TabTwoScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
+      <Button
+        onPress={() => {
+          alert("You tapped the button!");
+        }}
+        title="Press Me"
+      />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
     </View>
   );
@@ -37,7 +43,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height - 400,
   },
   title: {
     fontSize: 20,
