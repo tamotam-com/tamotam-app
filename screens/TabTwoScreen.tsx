@@ -1,8 +1,9 @@
 import * as React from "react";
-import { PREDICTHQ_API_KEY } from "@env";
+import axios from "axios";
 import MapView from "react-native-maps";
 import { Button, Dimensions, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
+import { PREDICTHQ_ACCESS_TOKEN, PREDICTHQ_CATEGORIES } from "@env";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
@@ -27,7 +28,23 @@ export default function TabTwoScreen() {
       />
       <Button
         onPress={() => {
-          alert(PREDICTHQ_API_KEY);
+          axios({
+            method: "GET",
+            url: "https://api.predicthq.com/v1/events/",
+            headers: {
+              Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
+              Accept: "application/json",
+            },
+            params: {
+              category: PREDICTHQ_CATEGORIES,
+            },
+          })
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }}
         title="Press Me"
       />
