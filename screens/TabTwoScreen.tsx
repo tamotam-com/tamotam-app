@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MapView from "react-native-maps";
-import { Button, Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
 import { PREDICTHQ_ACCESS_TOKEN, PREDICTHQ_CATEGORIES } from "@env";
-
-import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 
 export default function TabTwoScreen() {
