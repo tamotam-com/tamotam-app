@@ -3,7 +3,11 @@ import axios from "axios";
 import MapView from "react-native-maps";
 import { Dimensions, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
-import { PREDICTHQ_ACCESS_TOKEN, PREDICTHQ_CATEGORIES } from "@env";
+import {
+  PREDICTHQ_ACCESS_TOKEN,
+  PREDICTHQ_CATEGORIES,
+  PREDICTHQ_LIMIT,
+} from "@env";
 import { Text, View } from "../components/Themed";
 
 export default function TabTwoScreen() {
@@ -19,6 +23,7 @@ export default function TabTwoScreen() {
       },
       params: {
         category: PREDICTHQ_CATEGORIES,
+        limit: PREDICTHQ_LIMIT,
       },
     })
       .then((response) => {
