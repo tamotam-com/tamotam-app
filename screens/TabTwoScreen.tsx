@@ -1,3 +1,4 @@
+import * as Localization from "expo-localization";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MapView from "react-native-maps";
@@ -28,6 +29,7 @@ export default function TabTwoScreen() {
     })
       .then((response) => {
         setMarkers(response.data.results);
+        console.log(Localization.region);
       })
       .catch((error) => {
         console.log(error);
