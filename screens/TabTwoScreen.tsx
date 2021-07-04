@@ -11,6 +11,18 @@ import {
 } from "@env";
 import { Text, View } from "../components/Themed";
 
+async function onLocationPress(this: any) {
+  // TODO: It breaks when the app will reload.
+  if (this.mapRef) {
+    try {
+      const camera = await this.mapRef.getCamera();
+      console.log("test", camera);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
 export default function TabTwoScreen() {
   const [markers, setMarkers] = useState(null);
 
@@ -41,7 +53,8 @@ export default function TabTwoScreen() {
       <Text style={styles.title}>Tab Two</Text>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
-        onPress={(e) => console.log(e.nativeEvent.coordinate)}
+        ref={(ref) => (this.mapRef = ref)}
+        onPress={async (e) => await onLocationPress()}
         style={styles.map}
       >
         {/* TODO: Add Callout for events fetched from API's. */}
