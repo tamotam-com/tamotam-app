@@ -11,7 +11,7 @@ import {
 } from "@env";
 import { Text, View } from "../components/Themed";
 
-async function onLocationPress(this: any) {
+async function onRegionChange(this: any) {
   // TODO: It breaks when the app will reload.
   if (this.mapRef) {
     try {
@@ -54,7 +54,7 @@ export default function TabTwoScreen() {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         ref={(ref) => (this.mapRef = ref)}
-        onPress={async (e) => await onLocationPress()}
+        onRegionChange={async (e) => await onRegionChange()}
         style={styles.map}
       >
         {/* TODO: Add Callout for events fetched from API's. */}
