@@ -36,12 +36,12 @@ export default function TabTwoScreen() {
       },
       params: {
         category: PREDICTHQ_CATEGORIES,
+        country: Localization.region,
         limit: PREDICTHQ_LIMIT,
       },
     })
       .then((response) => {
         setMarkers(response.data.results);
-        console.log(Localization.region);
       })
       .catch((error) => {
         console.log(error);
