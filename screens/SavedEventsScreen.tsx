@@ -9,7 +9,7 @@ const SavedEventsScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        No favorite meals found. Start adding some!
+        No saved events found. Start adding some!
       </Text>
       <View
         style={styles.separator}
