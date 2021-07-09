@@ -1,11 +1,94 @@
-import HeaderButton from "../components/HeaderButton";
 import React from "react";
-// import { useSelector } from "react-redux";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { StyleSheet } from "react-native";
-import { Text, View } from "../components/Themed";
+import { MaterialIcons } from "@expo/vector-icons";
+import { StyleSheet, Text, View } from "react-native";
+import {
+  HeaderButtons,
+  HeaderButton,
+  Item,
+  HiddenItem,
+  OverflowMenu,
+  defaultOnOverflowMenuPress,
+} from "react-navigation-header-buttons";
 
-const SavedEventsScreen = () => {
+const MaterialHeaderButton = (props) => {
+  // the `props` here come from <Item ... />
+  // you may access them and pass something else to `HeaderButton` if you like
+  return (
+    <HeaderButton
+      IconComponent={MaterialIcons}
+      iconSize={23}
+      // you can customize the colors, by default colors from react navigation theme will be used
+      // color="red"
+      // pressColor="blue"
+      {...props}
+    />
+  );
+};
+
+// normally, on android, text is UPPERCASED
+const ReusableCapitalizedEditItem = ({ iconName, onPress }) => {
+  return (
+    <Item
+      iconName={iconName}
+      title="back"
+      onPress={onPress}
+      buttonStyle={{ textTransform: "capitalize" }}
+    />
+  );
+};
+
+export default function SavedEventsScreen({ navigation, route, navData }) {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+          <ReusableCapitalizedEditItem
+            iconName={
+              route.params && route.params.showIcon ? "arrow-back" : undefined
+            }
+            onPress={() => navigation.goBack()}
+          />
+        </HeaderButtons>
+      ),
+      // in your app, extract the arrow function into a separate component
+      // to avoid creating a new one every time
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+          <Item
+            title="search"
+            iconName="search"
+            onPress={() => alert("search")}
+          />
+          {/* <Item
+            title="Menu"
+            iconName="ios-menu"
+            onPress={() => {
+              navData.navigation.toggleDrawer();
+            }}
+          /> */}
+          <OverflowMenu
+            OverflowIcon={
+              <MaterialIcons name="more-vert" size={23} color="blue" />
+            }
+            pressColor="blue"
+            onPress={(params) => {
+              defaultOnOverflowMenuPress({
+                ...params,
+                cancelButtonLabel: "cancel - custom iOS label!",
+              });
+            }}
+          >
+            <HiddenItem
+              icon={<MaterialIcons name="add" size={23} />}
+              title="add"
+              onPress={() => alert("add")}
+            />
+          </OverflowMenu>
+        </HeaderButtons>
+      ),
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -13,24 +96,7 @@ const SavedEventsScreen = () => {
       </Text>
     </View>
   );
-};
-
-SavedEventsScreen.navigationOptions = (navData: any) => {
-  return {
-    headerTitle: "Saved Events",
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName="ios-menu"
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
-    ),
-  };
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -43,5 +109,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-export default SavedEventsScreen;
