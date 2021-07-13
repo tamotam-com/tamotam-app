@@ -8,9 +8,15 @@ import {
   HiddenItem,
   OverflowMenu,
   defaultOnOverflowMenuPress,
+  HeaderButtonProps,
 } from "react-navigation-header-buttons";
 
-const MaterialHeaderButton = (props) => {
+const MaterialHeaderButton = (
+  props: JSX.IntrinsicAttributes &
+    JSX.IntrinsicClassAttributes<HeaderButton> &
+    Readonly<HeaderButtonProps> &
+    Readonly<{ children?: React.ReactNode }>
+) => {
   // the `props` here come from <Item ... />
   // you may access them and pass something else to `HeaderButton` if you like
   return (
