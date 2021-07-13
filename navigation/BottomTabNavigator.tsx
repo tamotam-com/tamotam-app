@@ -5,11 +5,13 @@
 
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import DrawerScreen from "../screens/DrawerScreen";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import SavedEventsScreen from "../screens/SavedEventsScreen";
@@ -46,6 +48,15 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="SavedEvents"
         component={SavedEventsNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-code" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="DrawerStack"
+        component={DrawerStackNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-code" color={color} />
@@ -106,5 +117,24 @@ function SavedEventsNavigator() {
         options={{ headerTitle: "Saved" }}
       />
     </SavedEventsStack.Navigator>
+  );
+}
+
+const DrawerStack = createDrawerNavigator();
+
+function DrawerStackNavigator() {
+  return (
+    <DrawerStack.Navigator>
+      <DrawerStack.Screen
+        name="DrawerScreen"
+        component={DrawerScreen}
+        options={{ headerTitle: "DrawerScreen" }}
+      />
+      <DrawerStack.Screen
+        name="DrawerScreen2"
+        component={DrawerScreen}
+        options={{ headerTitle: "DrawerScreen2" }}
+      />
+    </DrawerStack.Navigator>
   );
 }
