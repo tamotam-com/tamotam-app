@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import MapView from "react-native-maps";
-import { Dimensions, StyleSheet } from "react-native";
+import { Alert, Dimensions, StyleSheet } from "react-native";
 import {
   HeaderButton,
   HeaderButtons,
@@ -53,9 +53,11 @@ async function onRegionChange(this: any) {
 }
 
 export default function TabTwoScreen({ navigation }) {
+  const [error, setError] = useState(null);
   const [markers, setMarkers] = useState(null);
 
   useEffect(() => {
+    setError(null);
     axios({
       method: "GET",
       url: "https://api.predicthq.com/v1/events/",
@@ -74,8 +76,14 @@ export default function TabTwoScreen({ navigation }) {
       })
       .catch((error) => {
         console.log(error);
+        setError(error.message);
+        Alert.alert(
+          "An error occurred!",
+          "We couldn't load events, sorry.\nTry to reload tamotam!",
+          [{ text: "Okay" }]
+        );
       });
-  }, []); // "[]" makes sure the effect will run only once.
+  }, [setError]);
 
   // TODO: Make adding favorites working.
   const dispatch = useDispatch();
