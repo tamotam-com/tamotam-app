@@ -57,7 +57,7 @@ export default function TabTwoScreen({ navigation }) {
       await dispatch(eventsActions.fetchEvents());
     } catch (error) {
       Alert.alert(
-        "An error occurred!",
+        "An error occurred ❌",
         "We couldn't load events, sorry.\nTry to reload tamotam!",
         [{ text: "Okay" }]
       );
