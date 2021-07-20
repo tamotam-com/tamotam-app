@@ -38,7 +38,8 @@
     "react-native-screens": "~3.0.0",
     "react-native-web": "~0.13.12",
     "react-navigation-header-buttons": "^7.0.1",
-    "react-redux": "^7.2.4"
+    "react-redux": "^7.2.4",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

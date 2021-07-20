@@ -1,8 +1,7 @@
-import * as Localization from "expo-localization";
+import * as eventsActions from "../store/actions/events";
 import { toggleFavorite } from "../store/actions/events";
 import { useDispatch } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import MapView from "react-native-maps";
 import { Alert, Dimensions, StyleSheet } from "react-native";
 import {
@@ -13,11 +12,6 @@ import {
 } from "react-navigation-header-buttons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Marker } from "react-native-maps";
-import {
-  PREDICTHQ_ACCESS_TOKEN,
-  PREDICTHQ_CATEGORIES,
-  PREDICTHQ_LIMIT,
-} from "@env";
 import { Text, View } from "../components/Themed";
 
 const MaterialHeaderButton = (
@@ -55,39 +49,28 @@ async function onRegionChange(this: any) {
 export default function TabTwoScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [markers, setMarkers] = useState(null);
-
-  useEffect(() => {
-    setError(null);
-    axios({
-      method: "GET",
-      url: "https://api.predicthq.com/v1/events/",
-      headers: {
-        Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
-        Accept: "application/json",
-      },
-      params: {
-        category: PREDICTHQ_CATEGORIES,
-        country: Localization.region,
-        limit: PREDICTHQ_LIMIT,
-      },
-    })
-      .then((response) => {
-        setMarkers(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-        setError(error.message);
-        Alert.alert(
-          "An error occurred!",
-          "We couldn't load events, sorry.\nTry to reload tamotam!",
-          [{ text: "Okay" }]
-        );
-      });
-  }, [setError]);
-
-  // TODO: Make adding favorites working.
   const dispatch = useDispatch();
 
+  const loadEvents = useCallback(async () => {
+    setError(null);
+    try {
+      await dispatch(eventsActions.fetchEvents());
+    } catch (error) {
+      Alert.alert(
+        "An error occurred!",
+        "We couldn't load events, sorry.\nTry to reload tamotam!",
+        [{ text: "Okay" }]
+      );
+      setError(error.message);
+    }
+  }, [dispatch, setError]);
+
+  useEffect(() => {
+    loadEvents();
+    console.log(loadEvents);
+  }, []);
+
+  // TODO: Make adding favorites working.
   const toggleFavoriteHandler = useCallback(() => {
     dispatchEvent(toggleFavorite());
   }, [dispatch]);
@@ -122,6 +105,7 @@ export default function TabTwoScreen({ navigation }) {
         style={styles.map}
       >
         {/* TODO: Add Callout for events fetched from API's. */}
+        {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
         {markers &&
           markers.map((marker: any, index: number) => (
             <Marker
