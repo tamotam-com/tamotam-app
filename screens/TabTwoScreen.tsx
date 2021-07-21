@@ -106,7 +106,8 @@ export default function TabTwoScreen({ navigation }) {
       >
         {/* TODO: Add Callout for events fetched from API's. */}
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
-        {markers &&
+        {/* TODO: Uncomment this once access to the API will be back. */}
+        {/* {markers &&
           markers.map((marker: any, index: number) => (
             <Marker
               key={index}
@@ -117,7 +118,12 @@ export default function TabTwoScreen({ navigation }) {
               title={marker.title}
               description={marker.description}
             />
-          ))}
+          ))} */}
+        <Marker
+          coordinate={{ latitude: 51.23123, longitude: 4.921321 }}
+          description="Description"
+          title="Title"
+        />
       </MapView>
     </View>
   );
