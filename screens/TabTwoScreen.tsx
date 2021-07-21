@@ -2,8 +2,8 @@ import * as eventsActions from "../store/actions/events";
 import { toggleFavorite } from "../store/actions/events";
 import { useDispatch } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
-import MapView from "react-native-maps";
-import { Alert, Dimensions, StyleSheet } from "react-native";
+import MapView, { Callout } from "react-native-maps";
+import { Alert, Button, Dimensions, StyleSheet } from "react-native";
 import {
   HeaderButton,
   HeaderButtons,
@@ -123,7 +123,14 @@ export default function TabTwoScreen({ navigation }) {
           coordinate={{ latitude: 51.23123, longitude: 4.921321 }}
           description="Description"
           title="Title"
-        />
+        >
+          <Callout style={styles.locationButtonCallout}>
+            <Button
+              onPress={() => alert("button hello")}
+              title={"Callout Button"}
+            />
+          </Callout>
+        </Marker>
       </MapView>
     </View>
   );
@@ -134,6 +141,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  locationButtonCallout: {
+    borderRadius: 0,
+    opacity: 0.8,
+    backgroundColor: "lightgrey",
   },
   map: {
     width: Dimensions.get("window").width,
