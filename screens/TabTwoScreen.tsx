@@ -125,10 +125,14 @@ export default function TabTwoScreen({ navigation }) {
           title="Title"
         >
           <Callout style={styles.locationButtonCallout}>
+            <Text style={styles.title}>Title</Text>
             <Button
               onPress={() => alert("button hello")}
               title={"Callout Button"}
             />
+            <Text style={styles.description}>
+              Description Description Description Description
+            </Text>
           </Callout>
         </Marker>
       </MapView>
@@ -142,6 +146,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  description: {
+    fontSize: 14,
+    textAlign: "justify",
+  },
   locationButtonCallout: {
     borderRadius: 0,
     opacity: 0.8,
@@ -154,5 +162,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
