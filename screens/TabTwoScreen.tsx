@@ -1,6 +1,6 @@
 import * as eventsActions from "../store/actions/events";
 import { toggleFavorite } from "../store/actions/events";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
 import { Alert, Button, Dimensions, StyleSheet } from "react-native";
@@ -49,6 +49,7 @@ async function onRegionChange(this: any) {
 export default function TabTwoScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [markers, setMarkers] = useState(null);
+  const events = useSelector((state) => state.events.events);
   const dispatch = useDispatch();
 
   const loadEvents = useCallback(async () => {
@@ -67,7 +68,6 @@ export default function TabTwoScreen({ navigation }) {
 
   useEffect(() => {
     loadEvents();
-    console.log(loadEvents);
   }, []);
 
   // TODO: Make adding favorites working.
@@ -107,32 +107,19 @@ export default function TabTwoScreen({ navigation }) {
         {/* TODO: Add Callout for events fetched from API's. */}
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
         {/* TODO: Uncomment this once access to the API will be back. */}
-        {/* {markers &&
-          markers.map((marker: any, index: number) => (
-            <Marker
-              key={index}
-              coordinate={{
-                latitude: marker.location[1],
-                longitude: marker.location[0],
-              }}
-              title={marker.title}
-              description={marker.description}
-            />
-          ))} */}
         <Marker
-          coordinate={{ latitude: 51.23123, longitude: 4.921321 }}
-          description="Description"
-          title="Title"
+          coordinate={{
+            latitude: events.coordinate.latitude,
+            longitude: events.coordinate.longitude,
+          }}
         >
           <Callout style={styles.locationButtonCallout}>
-            <Text style={styles.title}>Title</Text>
+            <Text style={styles.title}>{events.title}</Text>
             <Button
               onPress={() => alert("button hello")}
               title={"Callout Button"}
             />
-            <Text style={styles.description}>
-              Description Description Description Description
-            </Text>
+            <Text style={styles.description}>{events.description}</Text>
           </Callout>
         </Marker>
       </MapView>

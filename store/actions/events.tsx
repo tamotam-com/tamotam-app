@@ -52,7 +52,7 @@ export const fetchEvents = () => {
   };
 };
 
-export const toggleFavorite = (id: any) => {
+export const toggleFavorite = (id: number) => {
   return { type: TOGGLE_FAVORITE, eventId: id };
 };
 

@@ -11,7 +11,7 @@ import eventsReducer from "./store/reducers/events";
 import ReduxThunk from "redux-thunk";
 
 const rootReducer = combineReducers({
-  Events: eventsReducer,
+  events: eventsReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

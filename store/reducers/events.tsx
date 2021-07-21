@@ -1,11 +1,12 @@
+import { EVENTS } from "../../data/dummy-data";
 import { TOGGLE_FAVORITE, SET_FILTERS } from "../actions/events";
 
 const initialState = {
-  events: [],
+  events: EVENTS,
   savedEvents: [],
 };
 
-const eventsReducer = (state = initialState, action: any) => {
+export default (state = initialState, action: any) => {
   switch (action.type) {
     case TOGGLE_FAVORITE:
       console.log("toggle");
@@ -20,5 +21,3 @@ const eventsReducer = (state = initialState, action: any) => {
       return state;
   }
 };
-
-export default eventsReducer;
