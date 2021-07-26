@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import {
@@ -96,11 +97,21 @@ export default function SavedEventsScreen({ navigation, route, navData }) {
     });
   }, [navigation]);
 
+  const savedEvents = useSelector((state) => state.events.savedEvents);
+
+  if (savedEvents.length === 0 || !savedEvents) {
+    return (
+      <View style={styles.content}>
+        <Text style={styles.title}>
+          No saved events found. Start adding some!
+        </Text>
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        No saved events found. Start adding some!
-      </Text>
+    <View style={styles.content}>
+      <Text style={styles.title}>Something is in</Text>
     </View>
   );
 }
@@ -110,6 +121,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: 20,
