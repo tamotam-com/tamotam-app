@@ -72,7 +72,7 @@ export default function TabTwoScreen({ navigation }) {
 
   // TODO: Make adding favorites working.
   const toggleFavoriteHandler = useCallback(() => {
-    dispatchEvent(toggleFavorite());
+    dispatchEvent(toggleFavorite(1));
   }, [dispatch]);
 
   // useEffect(() => {
@@ -87,7 +87,7 @@ export default function TabTwoScreen({ navigation }) {
             title="Menu"
             iconName="ios-menu"
             onPress={() => {
-              alert("toggle favorites");
+              toggleFavoriteHandler();
             }}
           />
         </HeaderButtons>

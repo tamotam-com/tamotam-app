@@ -1,6 +1,6 @@
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   HeaderButtons,
   HeaderButton,
@@ -10,6 +10,7 @@ import {
   defaultOnOverflowMenuPress,
   HeaderButtonProps,
 } from "react-navigation-header-buttons";
+import { Text, View } from "../components/Themed";
 
 const MaterialHeaderButton = (
   props: JSX.IntrinsicAttributes &
