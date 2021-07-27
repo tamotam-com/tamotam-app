@@ -111,7 +111,11 @@ export default function SavedEventsScreen({ navigation, route, navData }) {
 
   return (
     <View style={styles.content}>
-      <Text style={styles.title}>Something is in</Text>
+      <Text style={styles.title}>
+        {savedEvents[0].title}, {savedEvents[0].description},{" "}
+        {savedEvents[0].coordinate.latitude},{" "}
+        {savedEvents[0].coordinate.longitude}
+      </Text>
     </View>
   );
 }
