@@ -1,3 +1,4 @@
+import StyledText from "./../components/StyledText";
 import React from "react";
 import { useSelector } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -11,7 +12,7 @@ import {
   defaultOnOverflowMenuPress,
   HeaderButtonProps,
 } from "react-navigation-header-buttons";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 
 const MaterialHeaderButton = (
   props: JSX.IntrinsicAttributes &
@@ -102,20 +103,20 @@ export default function SavedEventsScreen({ navigation, route, navData }) {
   if (savedEvents.length === 0 || !savedEvents) {
     return (
       <View style={styles.content}>
-        <Text style={styles.title}>
+        <StyledText style={styles.title}>
           No saved events found. Start adding some!
-        </Text>
+        </StyledText>
       </View>
     );
   }
 
   return (
     <View style={styles.content}>
-      <Text style={styles.title}>
+      <StyledText style={styles.title}>
         {savedEvents[0].title}, {savedEvents[0].description},{" "}
         {savedEvents[0].coordinate.latitude},{" "}
         {savedEvents[0].coordinate.longitude}
-      </Text>
+      </StyledText>
     </View>
   );
 }

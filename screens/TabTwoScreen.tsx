@@ -1,4 +1,5 @@
 import * as eventsActions from "../store/actions/events";
+import StyledText from "./../components/StyledText";
 import { toggleFavorite } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
@@ -114,12 +115,14 @@ export default function TabTwoScreen({ navigation }) {
           }}
         >
           <Callout style={styles.locationButtonCallout}>
-            <Text style={styles.title}>{events.title}</Text>
+            <StyledText style={styles.title}>{events.title}</StyledText>
             <Button
               onPress={() => dispatch(toggleFavorite(1))}
               title={"Callout Button"}
             />
-            <Text style={styles.description}>{events.description}</Text>
+            <StyledText style={styles.description}>
+              {events.description}
+            </StyledText>
           </Callout>
         </Marker>
       </MapView>

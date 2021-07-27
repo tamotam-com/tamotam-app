@@ -1,10 +1,11 @@
+import StyledText from "./../components/StyledText";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function DrawerScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Drawer Screen</Text>
+      <StyledText style={styles.title}>Drawer Screen</StyledText>
     </View>
   );
 }
