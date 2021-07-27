@@ -11,12 +11,7 @@ export type RootStackParamList = {
 export type BottomTabParamList = {
   DrawerStack: undefined;
   SavedEvents: undefined;
-  TabOne: undefined;
   TabTwo: undefined;
-};
-
-export type TabOneParamList = {
-  TabOneScreen: undefined;
 };
 
 export type TabTwoParamList = {
