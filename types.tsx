@@ -14,6 +14,14 @@ export type BottomTabParamList = {
   TabTwo: undefined;
 };
 
+export type DrawerScreenParamList = {
+  DrawerScreenScreen: undefined;
+};
+
+export type SavedEventsParamList = {
+  SavedEventsScreen: undefined;
+};
+
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };

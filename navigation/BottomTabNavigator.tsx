@@ -14,7 +14,12 @@ import useColorScheme from "../hooks/useColorScheme";
 import DrawerScreen from "../screens/DrawerScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import SavedEventsScreen from "../screens/SavedEventsScreen";
-import { BottomTabParamList, TabTwoParamList } from "../types";
+import {
+  BottomTabParamList,
+  DrawerScreenParamList,
+  SavedEventsParamList,
+  TabTwoParamList,
+} from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -82,7 +87,7 @@ function TabTwoNavigator() {
   );
 }
 
-const SavedEventsStack = createStackNavigator();
+const SavedEventsStack = createStackNavigator<SavedEventsParamList>();
 
 function SavedEventsNavigator() {
   return (
@@ -96,7 +101,7 @@ function SavedEventsNavigator() {
   );
 }
 
-const DrawerStack = createDrawerNavigator();
+const DrawerStack = createDrawerNavigator<DrawerScreenParamList>();
 
 function DrawerStackNavigator() {
   return (
