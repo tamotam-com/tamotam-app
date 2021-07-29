@@ -77,7 +77,7 @@ function TabBarIcon(props: {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const MapStack = createStackNavigator<MapParamList>();
+const MapStack = createDrawerNavigator<MapParamList>();
 
 function MapNavigator() {
   return (
@@ -86,6 +86,11 @@ function MapNavigator() {
         name="MapScreen"
         component={MapScreen}
         options={{ headerTitle: "Bratolek tamotam" }}
+      />
+      <MapStack.Screen
+        name="DrawerScreen2"
+        component={DrawerScreen}
+        options={{ headerTitle: "DrawerScreen2" }}
       />
     </MapStack.Navigator>
   );
