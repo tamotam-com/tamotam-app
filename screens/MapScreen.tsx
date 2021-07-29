@@ -1,5 +1,5 @@
 import * as eventsActions from "../store/actions/events";
-import StyledText from "./../components/StyledText";
+import StyledText from "../components/StyledText";
 import { toggleFavorite } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
@@ -47,7 +47,7 @@ async function onRegionChange(this: any) {
   }
 }
 
-export default function TabTwoScreen({ navigation }) {
+export default function MapScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [markers, setMarkers] = useState(null);
   const events = useSelector((state) => state.events.events);
@@ -98,7 +98,7 @@ export default function TabTwoScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
+      <Text style={styles.title}>Map</Text>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         ref={(ref) => (this.mapRef = ref)}

@@ -12,13 +12,13 @@ import * as React from "react";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import DrawerScreen from "../screens/DrawerScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import MapScreen from "../screens/MapScreen";
 import SavedEventsScreen from "../screens/SavedEventsScreen";
 import {
   BottomTabParamList,
   DrawerScreenParamList,
   SavedEventsParamList,
-  TabTwoParamList,
+  MapParamList,
 } from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -28,12 +28,12 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabTwo"
+      initialRouteName="Map"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="Map"
+        component={MapNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-code" color={color} />
@@ -73,17 +73,17 @@ function TabBarIcon(props: {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const MapStack = createStackNavigator<MapParamList>();
 
-function TabTwoNavigator() {
+function MapNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
+    <MapStack.Navigator>
+      <MapStack.Screen
+        name="MapScreen"
+        component={MapScreen}
         options={{ headerTitle: "Bratolek tamotam" }}
       />
-    </TabTwoStack.Navigator>
+    </MapStack.Navigator>
   );
 }
 

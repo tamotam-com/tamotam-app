@@ -22,9 +22,9 @@ export default {
               SavedEventsScreen: "saved",
             },
           },
-          TabTwo: {
+          Map: {
             screens: {
-              TabTwoScreen: "two",
+              MapScreen: "map",
             },
           },
         },
