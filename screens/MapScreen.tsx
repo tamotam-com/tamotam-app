@@ -86,7 +86,7 @@ export default function MapScreen({ navigation }) {
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
             title="Menu"
-            iconName="ios-menu"
+            iconName="menu"
             onPress={() => {
               alert("toggle favorites");
             }}
