@@ -4,7 +4,6 @@
  */
 
 import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -36,16 +35,22 @@ export default function BottomTabNavigator() {
         name="Map"
         component={MapNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
+          tabBarIcon: ({ color, focused }) => {
+            let iconName: string = focused ? "map" : "map-outline";
+
+            return <TabBarIcon name={iconName} color={color} />;
+          },
         }}
       />
       <BottomTab.Screen
         name="SavedEvents"
         component={SavedEventsNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="event-available" size={30} color={color} />
-          ),
+          tabBarIcon: ({ color, focused }) => {
+            let iconName: string = focused ? "calendar" : "calendar-outline";
+
+            return <TabBarIcon name={iconName} color={color} />;
+          },
         }}
       />
       <BottomTab.Screen
