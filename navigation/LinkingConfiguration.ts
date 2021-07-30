@@ -12,11 +12,6 @@ export default {
     screens: {
       Root: {
         screens: {
-          DrawerStack: {
-            screens: {
-              DrawerStackScreen: "drawer",
-            },
-          },
           SavedEvents: {
             screens: {
               SavedEventsScreen: "saved",

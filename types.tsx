@@ -9,7 +9,6 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  DrawerStack: undefined;
   SavedEvents: undefined;
   Map: undefined;
 };
