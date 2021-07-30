@@ -11,12 +11,10 @@ import * as React from "react";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import DrawerScreen from "../screens/DrawerScreen";
 import MapScreen from "../screens/MapScreen";
 import SavedEventsScreen from "../screens/SavedEventsScreen";
 import {
   BottomTabParamList,
-  DrawerScreenParamList,
   SavedEventsParamList,
   MapParamList,
 } from "../types";
@@ -53,15 +51,6 @@ export default function BottomTabNavigator() {
           },
         }}
       />
-      <BottomTab.Screen
-        name="DrawerStack"
-        component={DrawerStackNavigator}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
-          ),
-        }}
-      />
     </BottomTab.Navigator>
   );
 }
@@ -87,11 +76,6 @@ function MapNavigator() {
         component={MapScreen}
         options={{ headerTitle: "Bratolek tamotam" }}
       />
-      <MapStack.Screen
-        name="DrawerScreen2"
-        component={DrawerScreen}
-        options={{ headerTitle: "DrawerScreen2" }}
-      />
     </MapStack.Navigator>
   );
 }
@@ -107,24 +91,5 @@ function SavedEventsNavigator() {
         options={{ headerTitle: "Saved" }}
       />
     </SavedEventsStack.Navigator>
-  );
-}
-
-const DrawerStack = createDrawerNavigator<DrawerScreenParamList>();
-
-function DrawerStackNavigator() {
-  return (
-    <DrawerStack.Navigator>
-      <DrawerStack.Screen
-        name="DrawerScreen"
-        component={DrawerScreen}
-        options={{ headerTitle: "DrawerScreen" }}
-      />
-      <DrawerStack.Screen
-        name="DrawerScreen2"
-        component={DrawerScreen}
-        options={{ headerTitle: "DrawerScreen2" }}
-      />
-    </DrawerStack.Navigator>
   );
 }

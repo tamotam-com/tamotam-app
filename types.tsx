@@ -14,11 +14,6 @@ export type BottomTabParamList = {
   Map: undefined;
 };
 
-export type DrawerScreenParamList = {
-  DrawerScreen: undefined;
-  DrawerScreen2: undefined;
-};
-
 export type SavedEventsParamList = {
   Map: undefined;
   SavedEventsScreen: undefined;
