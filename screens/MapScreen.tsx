@@ -1,5 +1,6 @@
 import * as eventsActions from "../store/actions/events";
 import StyledText from "../components/StyledText";
+import { createStackNavigator } from "@react-navigation/stack";
 import { toggleFavorite } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
@@ -13,7 +14,10 @@ import {
 } from "react-navigation-header-buttons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Marker } from "react-native-maps";
+import { SavedEventsParamList } from "../types";
 import { Text, View } from "../components/Themed";
+
+const SavedEventsStack = createStackNavigator<SavedEventsParamList>();
 
 const MaterialHeaderButton = (
   props: JSX.IntrinsicAttributes &
@@ -80,23 +84,7 @@ export default function MapScreen({ navigation }) {
   //   navigation.setParam({ toggleFav: toggleFavoriteHandler });
   // }, [toggleFavoriteHandler]);
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-          <Item
-            title="Menu"
-            iconName="menu"
-            onPress={() => {
-              alert("toggle favorites");
-            }}
-          />
-        </HeaderButtons>
-      ),
-    });
-  });
-
-  return (
+  const Map = () => (
     <View style={styles.container}>
       <Text style={styles.title}>Map</Text>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
@@ -127,6 +115,25 @@ export default function MapScreen({ navigation }) {
         </Marker>
       </MapView>
     </View>
+  );
+
+  return (
+    <SavedEventsStack.Navigator>
+      <SavedEventsStack.Screen
+        name="Map"
+        component={Map}
+        options={(props) => {
+          const { toggleDrawer } = props.navigation;
+          return {
+            headerLeft: () => (
+              <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+                <Item title="Menu" iconName="menu" onPress={toggleDrawer} />
+              </HeaderButtons>
+            ),
+          };
+        }}
+      />
+    </SavedEventsStack.Navigator>
   );
 }
 

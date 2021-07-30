@@ -20,6 +20,7 @@ export type DrawerScreenParamList = {
 };
 
 export type SavedEventsParamList = {
+  Map: undefined;
   SavedEventsScreen: undefined;
 };
 
