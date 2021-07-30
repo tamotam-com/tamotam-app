@@ -68,13 +68,6 @@ export default function SavedEventsScreen({ navigation, route, navData }) {
             iconName="search"
             onPress={() => alert("search")}
           />
-          {/* <Item
-            title="Menu"
-            iconName="ios-menu"
-            onPress={() => {
-              navData.navigation.toggleDrawer();
-            }}
-          /> */}
           <OverflowMenu
             OverflowIcon={
               <MaterialIcons name="more-vert" size={23} color="blue" />
