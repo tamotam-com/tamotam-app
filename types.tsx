@@ -9,15 +9,15 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  SavedEvents: undefined;
   Map: undefined;
-};
-
-export type SavedEventsParamList = {
-  Map: undefined;
-  SavedEventsScreen: undefined;
+  Saved: undefined;
 };
 
 export type MapParamList = {
   MapScreen: undefined;
+};
+
+export type SavedParamList = {
+  Map: undefined;
+  SavedScreen: undefined;
 };

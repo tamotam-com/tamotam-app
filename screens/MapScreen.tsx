@@ -14,10 +14,10 @@ import {
 } from "react-navigation-header-buttons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Marker } from "react-native-maps";
-import { SavedEventsParamList } from "../types";
+import { SavedEventsList } from "../types";
 import { Text, View } from "../components/Themed";
 
-const SavedEventsStack = createStackNavigator<SavedEventsParamList>();
+const SavedStack = createStackNavigator<SavedEventsList>();
 
 const MaterialHeaderButton = (
   props: JSX.IntrinsicAttributes &
@@ -118,8 +118,8 @@ export default function MapScreen({ navigation }) {
   );
 
   return (
-    <SavedEventsStack.Navigator>
-      <SavedEventsStack.Screen
+    <SavedStack.Navigator>
+      <SavedStack.Screen
         name="Map"
         component={Map}
         options={(props) => {
@@ -133,7 +133,7 @@ export default function MapScreen({ navigation }) {
           };
         }}
       />
-    </SavedEventsStack.Navigator>
+    </SavedStack.Navigator>
   );
 }
 

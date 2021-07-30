@@ -12,12 +12,8 @@ import * as React from "react";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
-import SavedEventsScreen from "../screens/SavedEventsScreen";
-import {
-  BottomTabParamList,
-  SavedEventsParamList,
-  MapParamList,
-} from "../types";
+import SavedScreen from "../screens/SavedScreen";
+import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -41,8 +37,8 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="SavedEvents"
-        component={SavedEventsNavigator}
+        name="Saved"
+        component={SavedNavigator}
         options={{
           tabBarIcon: ({ color, focused }) => {
             let iconName: string = focused ? "calendar" : "calendar-outline";
@@ -80,16 +76,16 @@ function MapNavigator() {
   );
 }
 
-const SavedEventsStack = createStackNavigator<SavedEventsParamList>();
+const SavedStack = createStackNavigator<SavedParamList>();
 
-function SavedEventsNavigator() {
+function SavedNavigator() {
   return (
-    <SavedEventsStack.Navigator>
-      <SavedEventsStack.Screen
-        name="SavedEventsScreen"
-        component={SavedEventsScreen}
+    <SavedStack.Navigator>
+      <SavedStack.Screen
+        name="SavedScreen"
+        component={SavedScreen}
         options={{ headerTitle: "Saved" }}
       />
-    </SavedEventsStack.Navigator>
+    </SavedStack.Navigator>
   );
 }

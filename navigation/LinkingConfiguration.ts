@@ -12,14 +12,14 @@ export default {
     screens: {
       Root: {
         screens: {
-          SavedEvents: {
-            screens: {
-              SavedEventsScreen: "saved",
-            },
-          },
           Map: {
             screens: {
               MapScreen: "map",
+            },
+          },
+          Saved: {
+            screens: {
+              SavedScreen: "saved",
             },
           },
         },

@@ -1,4 +1,4 @@
-import StyledText from "./../components/StyledText";
+import StyledText from "../components/StyledText";
 import React from "react";
 import { useSelector } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -46,7 +46,7 @@ const ReusableCapitalizedEditItem = ({ iconName, onPress }) => {
   );
 };
 
-export default function SavedEventsScreen({ navigation, route, navData }) {
+export default function SavedScreen({ navigation, route, navData }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
