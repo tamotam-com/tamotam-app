@@ -14,10 +14,10 @@ import {
 } from "react-navigation-header-buttons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Marker } from "react-native-maps";
-import { SavedEventsList } from "../types";
+import { SavedParamList } from "../types";
 import { Text, View } from "../components/Themed";
 
-const SavedStack = createStackNavigator<SavedEventsList>();
+const SavedStack = createStackNavigator<SavedParamList>();
 
 const MaterialHeaderButton = (
   props: JSX.IntrinsicAttributes &
