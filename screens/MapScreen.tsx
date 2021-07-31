@@ -1,4 +1,5 @@
 import * as eventsActions from "../store/actions/events";
+import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
 import { createStackNavigator } from "@react-navigation/stack";
 import { toggleFavorite } from "../store/actions/events";
@@ -6,38 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
 import { Alert, Button, Dimensions, StyleSheet } from "react-native";
-import {
-  HeaderButton,
-  HeaderButtons,
-  HeaderButtonProps,
-  Item,
-} from "react-navigation-header-buttons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Marker } from "react-native-maps";
 import { SavedParamList } from "../types";
 import { Text, View } from "../components/Themed";
 
 const SavedStack = createStackNavigator<SavedParamList>();
-
-const MaterialHeaderButton = (
-  props: JSX.IntrinsicAttributes &
-    JSX.IntrinsicClassAttributes<HeaderButton> &
-    Readonly<HeaderButtonProps> &
-    Readonly<{ children?: React.ReactNode }>
-) => {
-  // the `props` here come from <Item ... />
-  // you may access them and pass something else to `HeaderButton` if you like
-  return (
-    <HeaderButton
-      IconComponent={MaterialIcons}
-      iconSize={23}
-      // you can customize the colors, by default colors from react navigation theme will be used
-      // color="red"
-      // pressColor="blue"
-      {...props}
-    />
-  );
-};
 
 async function onRegionChange(this: any) {
   // TODO: It breaks when the app will reload.
