@@ -1,7 +1,8 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Provider } from "react-redux";
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as StoreProvider } from 'react-redux';
 
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
@@ -24,10 +25,11 @@ export default function App() {
     return null;
   } else {
     return (
-      <Provider store={store}>
+      <StoreProvider store={store}>
+        <PaperProvider>
         <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </Provider>
+        <StatusBar /></PaperProvider>
+        </StoreProvider>
     );
   }
 }
