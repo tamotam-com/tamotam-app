@@ -67,7 +67,7 @@ export default function BottomTabNavigator() {
       </BottomTab.Navigator>
       <Portal>
         <FAB
-          icon="feather"
+          icon="map-marker-plus-outline"
           style={{
             position: "absolute",
             bottom: 100,
