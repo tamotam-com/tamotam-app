@@ -38,7 +38,7 @@ export default function BottomTabNavigator() {
         component={MapNavigator}
         options={{
           tabBarIcon: ({ color, focused }) => {
-            let iconName: string = focused ? "map" : "map-outline";
+            let iconName: string = !focused ? "map-check" : "map-check-outline";
 
             return <TabBarIcon name={iconName} color={color} />;
           },
@@ -49,7 +49,9 @@ export default function BottomTabNavigator() {
         component={SavedNavigator}
         options={{
           tabBarIcon: ({ color, focused }) => {
-            let iconName: string = focused ? "calendar" : "calendar-outline";
+            let iconName: string = !focused
+              ? "bookmark"
+              : "bookmark-check-outline";
 
             return <TabBarIcon name={iconName} color={color} />;
           },
