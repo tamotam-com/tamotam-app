@@ -67,8 +67,10 @@ export default function BottomTabNavigator() {
       </BottomTab.Navigator>
       <Portal>
         <FAB
+          color="#b30000"
           icon="map-marker-plus-outline"
           style={{
+            backgroundColor: "white",
             position: "absolute",
             bottom: 100,
             right: 16,
