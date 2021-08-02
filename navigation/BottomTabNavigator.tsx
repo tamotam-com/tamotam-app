@@ -9,6 +9,7 @@ import {
 } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { useIsFocused } from "@react-navigation/native";
 import { Drawer, Text, TouchableRipple, Switch } from "react-native-paper";
 import { FAB, Portal } from "react-native-paper";
 import * as React from "react";
@@ -25,6 +26,7 @@ const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   // const colorScheme = useColorScheme();
+  const isFocused = useIsFocused();
 
   return (
     <React.Fragment>
@@ -71,6 +73,7 @@ export default function BottomTabNavigator() {
             bottom: 100,
             right: 16,
           }}
+          visible={isFocused}
         />
       </Portal>
     </React.Fragment>
