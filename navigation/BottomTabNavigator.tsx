@@ -10,6 +10,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Drawer, Text, TouchableRipple, Switch } from "react-native-paper";
+import { FAB, Portal } from "react-native-paper";
 import * as React from "react";
 
 // import Colors from "../constants/Colors";
@@ -26,39 +27,53 @@ export default function BottomTabNavigator() {
   // const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      activeColor="#ffbfbf"
-      barStyle={{ backgroundColor: "#000000" }}
-      inactiveColor="#ffffff"
-      initialRouteName="Map"
-      sceneAnimationEnabled={true}
-      shifting={true}
-    >
-      <BottomTab.Screen
-        name="Map"
-        component={MapNavigator}
-        options={{
-          tabBarIcon: ({ color, focused }) => {
-            let iconName: string = !focused ? "map-check" : "map-check-outline";
+    <React.Fragment>
+      <BottomTab.Navigator
+        activeColor="#ffbfbf"
+        barStyle={{ backgroundColor: "#000000" }}
+        inactiveColor="#ffffff"
+        initialRouteName="Map"
+        sceneAnimationEnabled={true}
+        shifting={true}
+      >
+        <BottomTab.Screen
+          name="Map"
+          component={MapNavigator}
+          options={{
+            tabBarIcon: ({ color, focused }) => {
+              let iconName: string = !focused
+                ? "map-check"
+                : "map-check-outline";
 
-            return <TabBarIcon name={iconName} color={color} />;
-          },
-        }}
-      />
-      <BottomTab.Screen
-        name="Saved"
-        component={SavedNavigator}
-        options={{
-          tabBarIcon: ({ color, focused }) => {
-            let iconName: string = !focused
-              ? "bookmark"
-              : "bookmark-check-outline";
+              return <TabBarIcon name={iconName} color={color} />;
+            },
+          }}
+        />
+        <BottomTab.Screen
+          name="Saved"
+          component={SavedNavigator}
+          options={{
+            tabBarIcon: ({ color, focused }) => {
+              let iconName: string = !focused
+                ? "bookmark"
+                : "bookmark-check-outline";
 
-            return <TabBarIcon name={iconName} color={color} />;
-          },
-        }}
-      />
-    </BottomTab.Navigator>
+              return <TabBarIcon name={iconName} color={color} />;
+            },
+          }}
+        />
+      </BottomTab.Navigator>
+      <Portal>
+        <FAB
+          icon="feather"
+          style={{
+            position: "absolute",
+            bottom: 100,
+            right: 16,
+          }}
+        />
+      </Portal>
+    </React.Fragment>
   );
 }
 
