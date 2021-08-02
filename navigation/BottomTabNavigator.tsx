@@ -28,7 +28,8 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       activeColor="#ffbfbf"
-      inactiveColor="#ff8080"
+      barStyle={{ backgroundColor: "#000000" }}
+      inactiveColor="#ffffff"
       initialRouteName="Map"
       sceneAnimationEnabled={true}
       shifting={true}
