@@ -4,8 +4,15 @@
  */
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator,
+  DrawerContentScrollView, } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
+import {
+  Drawer,
+  Text,
+  TouchableRipple,
+  Switch,
+} from 'react-native-paper';
 import * as React from "react";
 
 import Colors from "../constants/Colors";
@@ -14,6 +21,7 @@ import MapScreen from "../screens/MapScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
+import { StyleSheet, View } from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -51,13 +59,44 @@ export default function BottomTabNavigator() {
   );
 }
 
+export function DrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <View
+        style={
+          styles.drawerContent
+        }
+      >
+        <Drawer.Section title="Preferences">
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.preference}>
+              <Text>Dark Theme</Text>
+              <View pointerEvents="none">
+                <Switch value={false} />
+              </View>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.preference}>
+              <Text>RTL</Text>
+              <View pointerEvents="none">
+                <Switch value={false} />
+              </View>
+            </View>
+          </TouchableRipple>
+        </Drawer.Section>
+      </View>
+    </DrawerContentScrollView>
+  );
+}
+
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const MapStack = createDrawerNavigator<MapParamList>();
 
 function MapNavigator() {
   return (
-    <MapStack.Navigator>
+    <MapStack.Navigator drawerContent={() => <DrawerContent />}>
       <MapStack.Screen
         name="MapScreen"
         component={MapScreen}
@@ -80,3 +119,43 @@ function SavedNavigator() {
     </SavedStack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  drawerContent: {
+    flex: 1,
+  },
+  userInfoSection: {
+    paddingLeft: 20,
+  },
+  title: {
+    marginTop: 20,
+    fontWeight: 'bold',
+  },
+  caption: {
+    fontSize: 14,
+    lineHeight: 14,
+  },
+  row: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  paragraph: {
+    fontWeight: 'bold',
+    marginRight: 3,
+  },
+  drawerSection: {
+    marginTop: 15,
+  },
+  preference: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+});
