@@ -3,35 +3,35 @@
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator,
-  DrawerContentScrollView, } from "@react-navigation/drawer";
-import { createStackNavigator } from "@react-navigation/stack";
 import {
-  Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
-} from 'react-native-paper';
+  createDrawerNavigator,
+  DrawerContentScrollView,
+} from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { Drawer, Text, TouchableRipple, Switch } from "react-native-paper";
 import * as React from "react";
 
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
+// import Colors from "../constants/Colors";
+// import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from "react-native";
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
 
   return (
     <BottomTab.Navigator
+      activeColor="#ffbfbf"
+      inactiveColor="#ff8080"
       initialRouteName="Map"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      sceneAnimationEnabled={true}
+      shifting={true}
     >
       <BottomTab.Screen
         name="Map"
@@ -62,11 +62,7 @@ export default function BottomTabNavigator() {
 export function DrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
-      <View
-        style={
-          styles.drawerContent
-        }
-      >
+      <View style={styles.drawerContent}>
         <Drawer.Section title="Preferences">
           <TouchableRipple onPress={() => {}}>
             <View style={styles.preference}>
@@ -125,8 +121,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   preference: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
