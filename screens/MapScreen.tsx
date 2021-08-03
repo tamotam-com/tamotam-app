@@ -3,6 +3,7 @@ import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
 import { createStackNavigator } from "@react-navigation/stack";
 import { toggleFavorite } from "../store/actions/events";
+import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
@@ -29,6 +30,7 @@ async function onRegionChange(this: any) {
 export default function MapScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [markers, setMarkers] = useState(null);
+  const colorScheme = useColorScheme();
   const events = useSelector((state) => state.events.events);
   const dispatch = useDispatch();
 
@@ -103,7 +105,7 @@ export default function MapScreen({ navigation }) {
             headerLeft: () => (
               <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
                 <Item
-                  color="#ffbfbf"
+                  color={colorScheme === "dark" ? "#ffffff" : "#000000"}
                   iconName="menu"
                   onPress={toggleDrawer}
                   title="Menu"

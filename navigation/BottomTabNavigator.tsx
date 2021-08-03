@@ -10,30 +10,33 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { useIsFocused } from "@react-navigation/native";
-import { Drawer, Text, TouchableRipple, Switch } from "react-native-paper";
+import { Drawer, TouchableRipple, Switch } from "react-native-paper";
 import { FAB, Portal } from "react-native-paper";
 import * as React from "react";
 
 // import Colors from "../constants/Colors";
-// import useColorScheme from "../hooks/useColorScheme";
+import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { Text, View } from "../components/Themed";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  // const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
   const isFocused = useIsFocused();
 
   return (
     <React.Fragment>
       <BottomTab.Navigator
-        activeColor="#ffbfbf"
-        barStyle={{ backgroundColor: "#000000" }}
-        inactiveColor="#ffffff"
+        activeColor={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+        barStyle={{
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
+        }}
+        inactiveColor={colorScheme === "dark" ? "#ffffff" : "#000000"}
         initialRouteName="Map"
         sceneAnimationEnabled={true}
         shifting={true}
@@ -67,10 +70,10 @@ export default function BottomTabNavigator() {
       </BottomTab.Navigator>
       <Portal>
         <FAB
-          color="#b30000"
+          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
           icon="map-marker-plus-outline"
           style={{
-            backgroundColor: "white",
+            backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
             position: "absolute",
             bottom: 100,
             right: 16,
