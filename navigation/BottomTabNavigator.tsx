@@ -10,7 +10,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { useIsFocused } from "@react-navigation/native";
-import { Drawer, TouchableRipple, Switch } from "react-native-paper";
+import { Drawer} from "react-native-paper";
 import { FAB, Portal } from "react-native-paper";
 import * as React from "react";
 
@@ -19,9 +19,9 @@ import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
-import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
 import { StyleSheet } from "react-native";
-import { Text, View } from "../components/Themed";
+import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
+import { View } from "../components/Themed";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
@@ -90,14 +90,6 @@ export function DrawerContent(props) {
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerContent}>
         <Drawer.Section title="Preferences">
-          <TouchableRipple onPress={() => {}}>
-            <View style={styles.preference}>
-              <Text>Dark Theme</Text>
-              <View pointerEvents="none">
-                <Switch value={false} />
-              </View>
-            </View>
-          </TouchableRipple>
         </Drawer.Section>
       </View>
     </DrawerContentScrollView>
