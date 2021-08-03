@@ -86,9 +86,8 @@ function MapNavigator() {
   return (
     <MapStack.Navigator>
       <MapStack.Screen
-        name="MapScreen"
+        name="Map"
         component={MapScreen}
-        options={{ headerTitle: "Bratolek tamotam" }}
       />
     </MapStack.Navigator>
   );
