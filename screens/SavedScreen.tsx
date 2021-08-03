@@ -1,9 +1,9 @@
+import Card from "../components/Card";
 import StyledText from "../components/StyledText";
 import React from "react";
 import { useSelector } from "react-redux";
 import { StyleSheet } from "react-native";
 import { View } from "../components/Themed";
-
 
 export default function SavedScreen() {
   const savedEvents = useSelector((state) => state.events.savedEvents);
@@ -20,11 +20,13 @@ export default function SavedScreen() {
 
   return (
     <View style={styles.content}>
-      <StyledText style={styles.title}>
-        {savedEvents[0].title}, {savedEvents[0].description},{" "}
-        {savedEvents[0].coordinate.latitude},{" "}
-        {savedEvents[0].coordinate.longitude}
-      </StyledText>
+      <Card style={styles.product}>
+        <StyledText style={styles.title}>
+          {savedEvents[0].title}, {savedEvents[0].description},{" "}
+          {savedEvents[0].coordinate.latitude},{" "}
+          {savedEvents[0].coordinate.longitude}
+        </StyledText>
+      </Card>
     </View>
   );
 }
@@ -39,6 +41,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  product: {
+    height: 30,
+    margin: 5,
   },
   title: {
     fontSize: 20,
