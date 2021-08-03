@@ -1,6 +1,5 @@
 import * as eventsActions from "../store/actions/events";
 import StyledText from "../components/StyledText";
-import { createStackNavigator } from "@react-navigation/stack";
 import { toggleFavorite } from "../store/actions/events";
 import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,10 +7,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
 import { Alert, Button, Dimensions, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
-import { SavedParamList } from "../types";
 import { Text, View } from "../components/Themed";
-
-const SavedStack = createStackNavigator<SavedParamList>();
 
 async function onRegionChange(this: any) {
   // TODO: It breaks when the app will reload.
