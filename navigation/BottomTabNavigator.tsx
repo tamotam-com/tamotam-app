@@ -98,14 +98,6 @@ export function DrawerContent(props) {
               </View>
             </View>
           </TouchableRipple>
-          <TouchableRipple onPress={() => {}}>
-            <View style={styles.preference}>
-              <Text>RTL</Text>
-              <View pointerEvents="none">
-                <Switch value={false} />
-              </View>
-            </View>
-          </TouchableRipple>
         </Drawer.Section>
       </View>
     </DrawerContentScrollView>
