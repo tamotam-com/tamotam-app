@@ -1,5 +1,4 @@
 import * as eventsActions from "../store/actions/events";
-import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
 import { createStackNavigator } from "@react-navigation/stack";
 import { toggleFavorite } from "../store/actions/events";
@@ -8,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
 import { Alert, Button, Dimensions, StyleSheet } from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Marker } from "react-native-maps";
 import { SavedParamList } from "../types";
 import { Text, View } from "../components/Themed";
