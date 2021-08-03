@@ -103,7 +103,7 @@ export default function MapScreen({ navigation }) {
             headerLeft: () => (
               <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
                 <Item
-                  color="white"
+                  color="#ffbfbf"
                   iconName="menu"
                   onPress={toggleDrawer}
                   title="Menu"
