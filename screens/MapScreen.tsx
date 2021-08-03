@@ -88,9 +88,7 @@ export default function MapScreen({ navigation }) {
     </View>
   );
 
-  return (
-    <Map />
-  );
+  return <Map />;
 }
 
 const styles = StyleSheet.create({

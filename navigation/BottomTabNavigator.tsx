@@ -85,10 +85,7 @@ const MapStack = createStackNavigator<MapParamList>();
 function MapNavigator() {
   return (
     <MapStack.Navigator>
-      <MapStack.Screen
-        name="Map"
-        component={MapScreen}
-      />
+      <MapStack.Screen name="Map" component={MapScreen} />
     </MapStack.Navigator>
   );
 }
