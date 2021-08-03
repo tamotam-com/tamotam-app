@@ -95,27 +95,7 @@ export default function MapScreen({ navigation }) {
   );
 
   return (
-    <SavedStack.Navigator>
-      <SavedStack.Screen
-        name="Map"
-        component={Map}
-        options={(props) => {
-          const { toggleDrawer } = props.navigation;
-          return {
-            headerLeft: () => (
-              <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-                <Item
-                  color={colorScheme === "dark" ? "#ffffff" : "#000000"}
-                  iconName="menu"
-                  onPress={toggleDrawer}
-                  title="Menu"
-                />
-              </HeaderButtons>
-            ),
-          };
-        }}
-      />
-    </SavedStack.Navigator>
+    <Map />
   );
 }
 

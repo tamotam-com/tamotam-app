@@ -3,14 +3,9 @@
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-} from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { useIsFocused } from "@react-navigation/native";
-import { Drawer} from "react-native-paper";
 import { FAB, Portal } from "react-native-paper";
 import * as React from "react";
 
@@ -19,9 +14,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
-import { StyleSheet } from "react-native";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
-import { View } from "../components/Themed";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
@@ -85,24 +78,13 @@ export default function BottomTabNavigator() {
   );
 }
 
-export function DrawerContent(props) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <View style={styles.drawerContent}>
-        <Drawer.Section title="Preferences">
-        </Drawer.Section>
-      </View>
-    </DrawerContentScrollView>
-  );
-}
-
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const MapStack = createDrawerNavigator<MapParamList>();
+const MapStack = createStackNavigator<MapParamList>();
 
 function MapNavigator() {
   return (
-    <MapStack.Navigator drawerContent={() => <DrawerContent />}>
+    <MapStack.Navigator>
       <MapStack.Screen
         name="MapScreen"
         component={MapScreen}
@@ -125,15 +107,3 @@ function SavedNavigator() {
     </SavedStack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  drawerContent: {
-    flex: 1,
-  },
-  preference: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-});
