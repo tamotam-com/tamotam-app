@@ -64,12 +64,9 @@ export default function MapScreen({ navigation }) {
             longitude: events.coordinate.longitude,
           }}
         >
-          <Callout style={styles.locationButtonCallout}>
+          <Callout style={styles.locationButtonCallout} tooltip>
             <StyledText style={styles.title}>{events.title}</StyledText>
-            <Button
-              onPress={() => dispatch(addEvent(1))}
-              title={"Callout Button"}
-            />
+            <Button onPress={() => dispatch(addEvent(1))} title={"Save"} />
             <StyledText style={styles.description}>
               {events.description}
             </StyledText>
@@ -93,9 +90,9 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
   locationButtonCallout: {
-    borderRadius: 0,
-    opacity: 0.8,
-    backgroundColor: "lightgrey",
+    borderRadius: 10,
+    backgroundColor: "#ffbfbf",
+    padding: 10,
   },
   map: {
     width: Dimensions.get("window").width,
