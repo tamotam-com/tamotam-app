@@ -46,15 +46,6 @@ export default function MapScreen({ navigation }) {
     loadEvents();
   }, []);
 
-  // TODO: Make adding favorites working.
-  // const toggleFavoriteHandler = useCallback(() => {
-  //   dispatchEvent(toggleFavorite(1));
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   navigation.setParam({ toggleFav: toggleFavoriteHandler });
-  // }, [toggleFavoriteHandler]);
-
   const Map = () => (
     <View style={styles.container}>
       <Text style={styles.title}>Map</Text>
