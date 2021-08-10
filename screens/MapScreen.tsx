@@ -55,7 +55,6 @@ export default function MapScreen({ navigation }) {
         onRegionChange={async (e) => await onRegionChange()}
         style={styles.map}
       >
-        {/* TODO: Add Callout for events fetched from API's. */}
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
         <Marker
           coordinate={{
