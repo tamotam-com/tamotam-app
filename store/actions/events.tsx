@@ -6,7 +6,7 @@ import {
   PREDICTHQ_LIMIT,
 } from "@env";
 
-export const TOGGLE_FAVORITE = "TOGGLE_FAVORITE";
+export const ADD_EVENT = "ADD_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
 export const SET_FILTERS = "SET_FILTERS";
 
@@ -52,8 +52,8 @@ export const fetchEvents = () => {
   };
 };
 
-export const toggleFavorite = (id: number) => {
-  return { type: TOGGLE_FAVORITE, eventId: id };
+export const addEvent = (id: number) => {
+  return { type: ADD_EVENT, eventId: id };
 };
 
 export const setFilters = (filterSettings: any) => {

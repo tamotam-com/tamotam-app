@@ -1,6 +1,6 @@
 import * as eventsActions from "../store/actions/events";
 import StyledText from "../components/StyledText";
-import { toggleFavorite } from "../store/actions/events";
+import { addEvent } from "../store/actions/events";
 import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
@@ -76,7 +76,7 @@ export default function MapScreen({ navigation }) {
           <Callout style={styles.locationButtonCallout}>
             <StyledText style={styles.title}>{events.title}</StyledText>
             <Button
-              onPress={() => dispatch(toggleFavorite(1))}
+              onPress={() => dispatch(addEvent(1))}
               title={"Callout Button"}
             />
             <StyledText style={styles.description}>

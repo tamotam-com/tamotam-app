@@ -1,5 +1,5 @@
 import { EVENTS } from "../../data/dummy-data";
-import { TOGGLE_FAVORITE, SET_FILTERS } from "../actions/events";
+import { ADD_EVENT, SET_FILTERS } from "../actions/events";
 
 const initialState = {
   events: EVENTS,
@@ -8,7 +8,7 @@ const initialState = {
 
 export default (state = initialState, action: any) => {
   switch (action.type) {
-    case TOGGLE_FAVORITE:
+    case ADD_EVENT:
       return {
         ...state,
         savedEvents: state.savedEvents.concat({
