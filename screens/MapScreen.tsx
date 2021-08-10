@@ -57,7 +57,6 @@ export default function MapScreen({ navigation }) {
       >
         {/* TODO: Add Callout for events fetched from API's. */}
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
-        {/* TODO: Uncomment this once access to the API will be back. */}
         <Marker
           coordinate={{
             latitude: events.coordinate.latitude,
