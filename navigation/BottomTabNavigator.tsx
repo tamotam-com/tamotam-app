@@ -19,9 +19,7 @@ import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator(navData: {
-  navigation: { navigate: (arg0: string) => void };
-}) {
+export default function BottomTabNavigator({ navigation }) {
   const colorScheme = useColorScheme();
   const isFocused = useIsFocused();
 
@@ -81,6 +79,7 @@ export default function BottomTabNavigator(navData: {
         <FAB
           color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
           icon="map-marker-plus-outline"
+          onPress={() => navigation.navigate("NewEvent")}
           style={{
             backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
             position: "absolute",

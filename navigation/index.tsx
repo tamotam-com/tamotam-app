@@ -11,6 +11,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
+import NewEventScreen from "../screens/NewEventScreen";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
@@ -44,6 +45,11 @@ function RootNavigator() {
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
+      />
+      <Stack.Screen
+        name="NewEvent"
+        component={NewEventScreen}
+        options={{ title: "New Event" }}
       />
     </Stack.Navigator>
   );
