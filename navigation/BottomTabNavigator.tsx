@@ -12,13 +12,16 @@ import * as React from "react";
 // import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
+import NewEventScreen from "../screens/NewEventScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator(navData: {
+  navigation: { navigate: (arg0: string) => void };
+}) {
   const colorScheme = useColorScheme();
   const isFocused = useIsFocused();
 
@@ -60,6 +63,19 @@ export default function BottomTabNavigator() {
             },
           }}
         />
+        <BottomTab.Screen
+          name="NewEvent"
+          component={NewEventNavigator}
+          options={{
+            tabBarIcon: ({ color, focused }) => {
+              let iconName: string = !focused
+                ? "map-marker-plus-outline"
+                : "map-marker-plus-outline";
+
+              return <TabBarIcon name={iconName} color={color} />;
+            },
+          }}
+        />
       </BottomTab.Navigator>
       <Portal>
         <FAB
@@ -75,6 +91,16 @@ export default function BottomTabNavigator() {
         />
       </Portal>
     </React.Fragment>
+  );
+}
+
+const NewEventStack = createStackNavigator<MapParamList>();
+
+function NewEventNavigator() {
+  return (
+    <NewEventStack.Navigator>
+      <NewEventStack.Screen name="NewEvent" component={NewEventScreen} />
+    </NewEventStack.Navigator>
   );
 }
 
