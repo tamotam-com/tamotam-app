@@ -12,7 +12,6 @@ import * as React from "react";
 // import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import MapScreen from "../screens/MapScreen";
-import NewEventScreen from "../screens/NewEventScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
@@ -77,16 +76,6 @@ export default function BottomTabNavigator({ navigation }) {
         />
       </Portal>
     </React.Fragment>
-  );
-}
-
-const NewEventStack = createStackNavigator<MapParamList>();
-
-function NewEventNavigator() {
-  return (
-    <NewEventStack.Navigator>
-      <NewEventStack.Screen name="NewEvent" component={NewEventScreen} />
-    </NewEventStack.Navigator>
   );
 }
 
