@@ -2,10 +2,10 @@ import Card from "../components/Card";
 import StyledText from "../components/StyledText";
 import React from "react";
 import { useSelector } from "react-redux";
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 import { View } from "../components/Themed";
 
-export default function SavedScreen() {
+export default function SavedScreen({ navigation }) {
   const savedEvents = useSelector((state) => state.events.savedEvents);
 
   if (savedEvents.length === 0 || !savedEvents) {
@@ -26,6 +26,10 @@ export default function SavedScreen() {
           {savedEvents[0].coordinate.latitude},{" "}
           {savedEvents[0].coordinate.longitude}
         </StyledText>
+        <Button
+          title="Event Detail"
+          onPress={() => navigation.navigate("EventDetail")}
+        />
       </Card>
     </View>
   );
