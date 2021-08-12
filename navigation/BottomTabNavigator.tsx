@@ -61,19 +61,6 @@ export default function BottomTabNavigator({ navigation }) {
             },
           }}
         />
-        <BottomTab.Screen
-          name="NewEvent"
-          component={NewEventNavigator}
-          options={{
-            tabBarIcon: ({ color, focused }) => {
-              let iconName: string = !focused
-                ? "map-marker-plus-outline"
-                : "map-marker-plus-outline";
-
-              return <TabBarIcon name={iconName} color={color} />;
-            },
-          }}
-        />
       </BottomTab.Navigator>
       <Portal>
         <FAB
