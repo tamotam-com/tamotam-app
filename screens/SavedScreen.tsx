@@ -21,11 +21,7 @@ export default function SavedScreen({ navigation }) {
   return (
     <View style={styles.content}>
       <Card style={styles.product}>
-        <StyledText style={styles.title}>
-          {savedEvents[0].title}, {savedEvents[0].description},{" "}
-          {savedEvents[0].coordinate.latitude},{" "}
-          {savedEvents[0].coordinate.longitude}
-        </StyledText>
+        <StyledText style={styles.title}>{savedEvents[0].title}</StyledText>
         <Button
           title="Event Detail"
           onPress={() => navigation.navigate("EventDetail")}
