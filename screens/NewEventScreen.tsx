@@ -83,10 +83,6 @@ export default function NewEventScreen({ navigation, route }) {
   );
 }
 
-NewEventScreen.navigationOptions = {
-  headerTitle: "Add Place",
-};
-
 const styles = StyleSheet.create({
   form: {
     margin: 30,
