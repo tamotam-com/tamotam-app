@@ -26,34 +26,6 @@ export default function PlaceDetailScreen({ navigation, route }) {
           />
         </HeaderButtons>
       ),
-      // in your app, extract the arrow function into a separate component
-      // to avoid creating a new one every time
-      headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-          <Item
-            title="search"
-            iconName="search"
-            onPress={() => alert("search")}
-          />
-          <OverflowMenu
-            OverflowIcon={
-              <MaterialIcons name="more-vert" size={23} color="blue" />
-            }
-            onPress={(params) => {
-              defaultOnOverflowMenuPress({
-                ...params,
-                cancelButtonLabel: "cancel - custom iOS label!",
-              });
-            }}
-          >
-            <HiddenItem
-              icon={<MaterialIcons name="add" size={23} />}
-              title="add"
-              onPress={() => alert("add")}
-            />
-          </OverflowMenu>
-        </HeaderButtons>
-      ),
     });
   }, [navigation]);
 
