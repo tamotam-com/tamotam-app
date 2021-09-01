@@ -1,3 +1,4 @@
+import useColorScheme from "../hooks/useColorScheme";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React from "react";
 import StyledText from "../components/StyledText";
@@ -6,11 +7,14 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function PlaceDetailScreen({ navigation, route }) {
+  const colorScheme = useColorScheme();
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }

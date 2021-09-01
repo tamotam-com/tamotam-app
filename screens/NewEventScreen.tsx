@@ -1,5 +1,6 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useState } from "react";
+import useColorScheme from "../hooks/useColorScheme";
 import { ScrollView, Button, Text, TextInput, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import StyledText from "../components/StyledText";
@@ -7,11 +8,14 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function NewEventScreen({ navigation, route }) {
+  const colorScheme = useColorScheme();
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }

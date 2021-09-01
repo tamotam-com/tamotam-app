@@ -1,3 +1,4 @@
+import useColorScheme from "../hooks/useColorScheme";
 import Card from "../components/Card";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
@@ -15,11 +16,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { View } from "../components/Themed";
 
 export default function SavedScreen({ navigation, route }) {
+  const colorScheme = useColorScheme();
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }
@@ -33,13 +37,18 @@ export default function SavedScreen({ navigation, route }) {
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             title="search"
             iconName="search"
             onPress={() => alert("search")}
           />
           <OverflowMenu
             OverflowIcon={
-              <MaterialIcons name="more-vert" size={23} color="blue" />
+              <MaterialIcons
+                color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+                name="more-vert"
+                size={23}
+              />
             }
             onPress={(params) => {
               defaultOnOverflowMenuPress({
