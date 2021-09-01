@@ -2,14 +2,7 @@ import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React from "react";
 import StyledText from "../components/StyledText";
 import { useSelector } from "react-redux";
-import {
-  HeaderButtons,
-  Item,
-  HiddenItem,
-  OverflowMenu,
-  defaultOnOverflowMenuPress,
-} from "react-navigation-header-buttons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function PlaceDetailScreen({ navigation, route }) {
