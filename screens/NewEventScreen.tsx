@@ -3,14 +3,7 @@ import React, { useState } from "react";
 import { ScrollView, Button, Text, TextInput, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import StyledText from "../components/StyledText";
-import {
-  HeaderButtons,
-  Item,
-  HiddenItem,
-  OverflowMenu,
-  defaultOnOverflowMenuPress,
-} from "react-navigation-header-buttons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function NewEventScreen({ navigation, route }) {
