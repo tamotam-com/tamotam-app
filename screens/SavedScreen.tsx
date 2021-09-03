@@ -5,14 +5,7 @@ import StyledText from "../components/StyledText";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Button, StyleSheet } from "react-native";
-import {
-  HeaderButtons,
-  Item,
-  HiddenItem,
-  OverflowMenu,
-  defaultOnOverflowMenuPress,
-} from "react-navigation-header-buttons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function SavedScreen({ navigation, route }: any) {
@@ -42,27 +35,6 @@ export default function SavedScreen({ navigation, route }: any) {
             iconName="search"
             onPress={() => alert("search")}
           />
-          <OverflowMenu
-            OverflowIcon={
-              <MaterialIcons
-                color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
-                name="more-vert"
-                size={23}
-              />
-            }
-            onPress={(params) => {
-              defaultOnOverflowMenuPress({
-                ...params,
-                cancelButtonLabel: "cancel - custom iOS label!",
-              });
-            }}
-          >
-            <HiddenItem
-              icon={<MaterialIcons name="add" size={23} />}
-              title="add"
-              onPress={() => alert("add")}
-            />
-          </OverflowMenu>
         </HeaderButtons>
       ),
     });
