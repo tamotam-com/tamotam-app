@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { ScrollView, StyleSheet, View } from "react-native";
 
-export default function PlaceDetailScreen({ navigation, route }) {
+export default function PlaceDetailScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
 
   React.useLayoutEffect(() => {

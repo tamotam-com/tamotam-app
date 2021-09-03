@@ -7,7 +7,7 @@ import StyledText from "../components/StyledText";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
-export default function NewEventScreen({ navigation, route }) {
+export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
 
   React.useLayoutEffect(() => {

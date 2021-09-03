@@ -18,7 +18,7 @@ import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator({ navigation }) {
+export default function BottomTabNavigator({ navigation }: any) {
   const colorScheme = useColorScheme();
   const isFocused = useIsFocused();
 

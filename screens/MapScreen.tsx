@@ -21,7 +21,7 @@ async function onRegionChange(this: any) {
   }
 }
 
-export default function MapScreen({ navigation }) {
+export default function MapScreen({ navigation }: any) {
   const [error, setError] = useState(null);
   const [markers, setMarkers] = useState(null);
   const colorScheme = useColorScheme();

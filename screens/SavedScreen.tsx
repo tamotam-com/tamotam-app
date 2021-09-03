@@ -15,7 +15,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { View } from "../components/Themed";
 
-export default function SavedScreen({ navigation, route }) {
+export default function SavedScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
 
   React.useLayoutEffect(() => {
