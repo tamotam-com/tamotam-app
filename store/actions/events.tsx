@@ -1,5 +1,6 @@
 import * as Localization from "expo-localization";
 import axios from "axios";
+import { Event } from "../../interfaces/event";
 import {
   PREDICTHQ_ACCESS_TOKEN,
   PREDICTHQ_CATEGORIES,
@@ -52,8 +53,31 @@ export const fetchEvents = () => {
   };
 };
 
-export const addEvent = (id: number) => {
-  return { type: ADD_EVENT, eventId: id };
+export const addEvent = (event: Event) => {
+  return async (
+    dispatch: (arg0: {
+      type: string;
+      eventData: {
+        id: number;
+        coordinate: { latitude: number; longitude: number };
+        description: string;
+        title: string;
+      };
+    }) => void
+  ) => {
+    dispatch({
+      type: ADD_EVENT,
+      eventData: {
+        id: event.id,
+        coordinate: {
+          latitude: event.coordinate.latitude,
+          longitude: event.coordinate.longitude,
+        },
+        description: event.description,
+        title: event.title,
+      },
+    });
+  };
 };
 
 export const setFilters = (filterSettings: any) => {

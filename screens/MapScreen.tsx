@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
 import { Alert, Button, Dimensions, StyleSheet } from "react-native";
+import { Event } from "../interfaces/event";
 import { Marker } from "react-native-maps";
 import { Text, View } from "../components/Themed";
 
@@ -44,6 +45,16 @@ export default function MapScreen({ navigation }: any) {
 
   const onMapPress = (e: { nativeEvent: { coordinate: any } }) => {
     alert("coordinates:" + JSON.stringify(e.nativeEvent.coordinate));
+    const event: Event = {
+      id: 2,
+      coordinate: {
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      },
+      description: "dynamic test",
+      title: "dynamic title",
+    };
+    dispatch(addEvent(event));
   };
 
   useEffect(() => {
@@ -69,7 +80,7 @@ export default function MapScreen({ navigation }: any) {
         >
           <Callout style={styles.locationButtonCallout} tooltip>
             <StyledText style={styles.title}>{events.title}</StyledText>
-            <Button onPress={() => dispatch(addEvent(1))} title={"Save"} />
+            <Button onPress={() => dispatch(addEvent())} title={"Save"} />
             <StyledText style={styles.description}>
               {events.description}
             </StyledText>

@@ -11,10 +11,13 @@ export default (state = initialState, action: any) => {
   switch (action.type) {
     case ADD_EVENT:
       const newEvent: Event = {
-        id: 2,
-        coordinate: { latitude: 51.23123, longitude: 4.921321 },
-        description: "Description2",
-        title: "Title2",
+        id: action.eventData.id,
+        coordinate: {
+          latitude: action.eventData.coordinate.latitude,
+          longitude: action.eventData.coordinate.longitude,
+        },
+        description: action.eventData.description,
+        title: action.eventData.title,
       };
 
       return {
