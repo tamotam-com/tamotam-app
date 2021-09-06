@@ -42,6 +42,10 @@ export default function MapScreen({ navigation }: any) {
     }
   }, [dispatch, setError]);
 
+  const onMapPress = (e: { nativeEvent: { coordinate: any } }) => {
+    alert("coordinates:" + JSON.stringify(e.nativeEvent.coordinate));
+  };
+
   useEffect(() => {
     loadEvents();
   }, []);
@@ -52,6 +56,7 @@ export default function MapScreen({ navigation }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         ref={(ref) => (this.mapRef = ref)}
+        onPress={onMapPress}
         onRegionChange={async (e) => await onRegionChange()}
         style={styles.map}
       >
