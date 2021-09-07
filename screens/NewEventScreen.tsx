@@ -4,11 +4,15 @@ import useColorScheme from "../hooks/useColorScheme";
 import { ScrollView, Button, Text, TextInput, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import StyledText from "../components/StyledText";
+import { addEvent } from "../store/actions/events";
+import { useDispatch } from "react-redux";
+import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
+  const dispatch = useDispatch();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,7 +37,18 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const savePlaceHandler = () => {
-    props.navigation.goBack();
+    const newEvent: Event = {
+      id: 3,
+      coordinate: {
+        latitude: 51.2,
+        longitude: 5.0,
+      },
+      description: "New Description",
+      title: titleValue,
+    };
+
+    dispatch(addEvent(newEvent));
+    // props.navigation.goBack();
   };
 
   return (
