@@ -44,7 +44,6 @@ export default function MapScreen({ navigation }: any) {
   }, [dispatch, setError]);
 
   const onMapPress = (e: { nativeEvent: { coordinate: any } }) => {
-    alert("coordinates:" + JSON.stringify(e.nativeEvent.coordinate));
     const event: Event = {
       id: 2,
       coordinate: {
