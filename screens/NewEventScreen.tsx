@@ -29,7 +29,6 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const [titleValue, setTitleValue] = useState("");
   const titleChangeHandler = (text: React.SetStateAction<string>) => {
-    // you could add validation
     setTitleValue(text);
   };
 
