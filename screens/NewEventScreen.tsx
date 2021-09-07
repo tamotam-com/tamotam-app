@@ -31,7 +31,12 @@ export default function NewEventScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
+  const [descriptionValue, setDescriptionValue] = useState("");
   const [titleValue, setTitleValue] = useState("");
+
+  const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
+    setDescriptionValue(text);
+  };
   const titleChangeHandler = (text: React.SetStateAction<string>) => {
     setTitleValue(text);
   };
@@ -43,7 +48,7 @@ export default function NewEventScreen({ navigation, route }: any) {
         latitude: 51.2,
         longitude: 5.0,
       },
-      description: "New Description",
+      description: descriptionValue,
       title: titleValue,
     };
 
@@ -59,6 +64,12 @@ export default function NewEventScreen({ navigation, route }: any) {
           style={styles.textInput}
           onChangeText={titleChangeHandler}
           value={titleValue}
+        />
+        <StyledText style={styles.label}>Description</StyledText>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={descriptionChangeHandler}
+          value={descriptionValue}
         />
         <Button title="Save Place" onPress={savePlaceHandler} />
       </View>
