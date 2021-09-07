@@ -48,7 +48,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     };
 
     dispatch(addEvent(newEvent));
-    // props.navigation.goBack();
+    navigation.goBack();
   };
 
   return (
