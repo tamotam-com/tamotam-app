@@ -1,11 +1,11 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useState } from "react";
 import useColorScheme from "../hooks/useColorScheme";
-import { ScrollView, Button, Text, TextInput, StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
 import { useDispatch } from "react-redux";
+import { Button, ScrollView, StyleSheet, TextInput } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";

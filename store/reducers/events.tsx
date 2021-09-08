@@ -1,5 +1,5 @@
 import { EVENTS } from "../../data/dummy-data";
-import { ADD_EVENT, SET_FILTERS } from "../actions/events";
+import { ADD_EVENT, DELETE_EVENT, SET_FILTERS } from "../actions/events";
 import { Event } from "../../interfaces/event";
 
 const initialState = {
@@ -23,6 +23,17 @@ export default (state = initialState, action: any) => {
       return {
         ...state,
         savedEvents: state.savedEvents.concat(newEvent),
+      };
+    case DELETE_EVENT:
+      if (!state.savedEvents[action.event_id]) {
+        return state;
+      }
+
+      const updatedEvents = { ...state.savedEvents };
+      delete updatedEvents[action.event_id];
+      return {
+        ...state,
+        savedEvents: updatedEvents,
       };
     case SET_FILTERS:
       console.log("filters");

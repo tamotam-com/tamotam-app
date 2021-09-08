@@ -8,6 +8,7 @@ import {
 } from "@env";
 
 export const ADD_EVENT = "ADD_EVENT";
+export const DELETE_EVENT = "DELETE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
 export const SET_FILTERS = "SET_FILTERS";
 
@@ -77,6 +78,14 @@ export const addEvent = (event: Event) => {
         title: event.title,
       },
     });
+  };
+};
+
+export const deleteEvent = (eventId: number) => {
+  return async (
+    dispatch: (arg0: { type: string; event_id: number }) => void
+  ) => {
+    dispatch({ type: DELETE_EVENT, event_id: eventId });
   };
 };
 
