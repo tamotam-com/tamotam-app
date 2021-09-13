@@ -4,6 +4,7 @@
  */
 
 export type RootStackParamList = {
+  EditEvent: undefined;
   EventDetail: undefined;
   Root: undefined;
   NewEvent: undefined;

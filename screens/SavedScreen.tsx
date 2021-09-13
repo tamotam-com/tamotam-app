@@ -35,7 +35,7 @@ export default function SavedScreen({ navigation, route }: any) {
             color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             title="search"
             iconName="search"
-            onPress={() => alert("search")}
+            onPress={() => navigation.navigate("EditEvent")}
           />
         </HeaderButtons>
       ),
