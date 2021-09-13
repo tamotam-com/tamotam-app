@@ -41,7 +41,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     setTitleValue(text);
   };
 
-  const savePlaceHandler = () => {
+  const addEventHandler = () => {
     const newEvent: Event = {
       id: 3,
       coordinate: {
@@ -71,7 +71,7 @@ export default function NewEventScreen({ navigation, route }: any) {
           onChangeText={descriptionChangeHandler}
           value={descriptionValue}
         />
-        <Button title="Save Place" onPress={savePlaceHandler} />
+        <Button title="Add" onPress={addEventHandler} />
       </View>
     </ScrollView>
   );
