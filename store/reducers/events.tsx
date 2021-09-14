@@ -1,5 +1,10 @@
 import { EVENTS } from "../../data/dummy-data";
-import { ADD_EVENT, DELETE_EVENT, SET_FILTERS } from "../actions/events";
+import {
+  ADD_EVENT,
+  DELETE_EVENT,
+  SET_FILTERS,
+  UPDATE_EVENT,
+} from "../actions/events";
 import { Event } from "../../interfaces/event";
 
 const initialState = {
@@ -37,6 +42,21 @@ export default (state = initialState, action: any) => {
       };
     case SET_FILTERS:
       console.log("filters");
+    case UPDATE_EVENT:
+      const updatedEvent: Event = {
+        id: action.event_id,
+        coordinate: action.coordinate,
+        description: action.description,
+        title: action.title,
+      };
+
+      const updatedEditEvents: any = { ...state.savedEvents };
+      updatedEditEvents[0] = updatedEvent;
+
+      return {
+        ...state,
+        savedEvents: updatedEditEvents,
+      };
     default:
       return state;
   }

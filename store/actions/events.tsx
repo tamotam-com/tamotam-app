@@ -1,5 +1,6 @@
 import * as Localization from "expo-localization";
 import axios from "axios";
+import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
 import {
   PREDICTHQ_ACCESS_TOKEN,
@@ -11,6 +12,7 @@ export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
 export const SET_FILTERS = "SET_FILTERS";
+export const UPDATE_EVENT = "UPDATE_EVENT";
 
 export const fetchEvents = () => {
   return async (dispatch: any) => {
@@ -86,6 +88,31 @@ export const deleteEvent = (eventId: number) => {
     dispatch: (arg0: { type: string; event_id: number }) => void
   ) => {
     dispatch({ type: DELETE_EVENT, event_id: eventId });
+  };
+};
+
+export const updateEvent = (
+  eventId: number,
+  coordinate: Coordinate,
+  description: string,
+  title: string
+) => {
+  return async (
+    dispatch: (arg0: {
+      type: string;
+      eventData: { coordinate: Coordinate; description: string; title: string };
+      event_id: number;
+    }) => void
+  ) => {
+    dispatch({
+      type: UPDATE_EVENT,
+      eventData: {
+        coordinate,
+        description,
+        title,
+      },
+      event_id: eventId,
+    });
   };
 };
 

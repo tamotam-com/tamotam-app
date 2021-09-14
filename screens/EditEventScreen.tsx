@@ -1,9 +1,9 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useReducer, useState } from "react";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import StyledText from "../components/StyledText";
-import { addEvent } from "../store/actions/events";
+import { updateEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, ScrollView, StyleSheet, TextInput } from "react-native";
 import { Event } from "../interfaces/event";
@@ -18,6 +18,21 @@ export default function EditEventScreen({ navigation, route }: any) {
   );
   const [error, setError] = useState();
   const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+  const formReducer = (
+    state: { inputValues: any },
+    action: { type: string; input: any; value: any }
+  ) => {
+    if (action.type === FORM_INPUT_UPDATE) {
+      const updatedValues: any = {
+        ...state.inputValues,
+        [action.input]: action.value,
+      };
+      return {
+        inputValues: updatedValues,
+      };
+    }
+    return state;
+  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,7 +51,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  const [formState, dispatchFormState] = useState({
+  const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       description: editedEvent ? editedEvent.description : "",
       title: editedEvent ? editedEvent.title : "",
@@ -57,7 +72,14 @@ export default function EditEventScreen({ navigation, route }: any) {
           title: formState.inputValues.title,
         };
 
-        await dispatch(addEvent(event));
+        await dispatch(
+          updateEvent(
+            event.id,
+            event.coordinate,
+            event.description,
+            event.title
+          )
+        );
       } else {
         const event: Event = {
           id: 2,
@@ -69,7 +91,14 @@ export default function EditEventScreen({ navigation, route }: any) {
           title: formState.inputValues.title,
         };
 
-        await dispatch(addEvent(event));
+        await dispatch(
+          updateEvent(
+            event.id,
+            event.coordinate,
+            event.description,
+            event.title
+          )
+        );
       }
       navigation.goBack();
     } catch (err) {
