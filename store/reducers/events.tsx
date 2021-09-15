@@ -44,10 +44,13 @@ export default (state = initialState, action: any) => {
       console.log("filters");
     case UPDATE_EVENT:
       const updatedEvent: Event = {
-        id: action.event_id,
-        coordinate: action.coordinate,
-        description: action.description,
-        title: action.title,
+        id: action.eventData.id,
+        coordinate: {
+          latitude: action.eventData.coordinate.latitude,
+          longitude: action.eventData.coordinate.longitude,
+        },
+        description: action.eventData.description,
+        title: action.eventData.title,
       };
 
       const updatedEditEvents: any = { ...state.savedEvents };

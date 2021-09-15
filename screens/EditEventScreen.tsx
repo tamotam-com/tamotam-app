@@ -13,9 +13,10 @@ import { View } from "../components/Themed";
 export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
-  const editedEvent = useSelector((state) =>
-    state.events.savedEvents.find((event: Event) => event.id === 2)
-  );
+  // const editedEvent = useSelector((state) =>
+  //   state.events.savedEvents.find((event: Event) => event.id === 2)
+  // );
+  const editedEvent = useSelector((state) => state.events.savedEvents);
   const [error, setError] = useState();
   const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
   const formReducer = (
@@ -53,15 +54,15 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
-      description: editedEvent ? editedEvent.description : "",
-      title: editedEvent ? editedEvent.title : "",
+      description: editedEvent[0] ? editedEvent[0].description : "",
+      title: editedEvent[0] ? editedEvent[0].title : "",
     },
   });
 
   const submitHandler = useCallback(async () => {
     setError(null);
     try {
-      if (editedEvent) {
+      if (editedEvent[0]) {
         const event: Event = {
           id: 2,
           coordinate: {
@@ -72,33 +73,19 @@ export default function EditEventScreen({ navigation, route }: any) {
           title: formState.inputValues.title,
         };
 
-        await dispatch(
-          updateEvent(
-            event.id,
-            event.coordinate,
-            event.description,
-            event.title
-          )
-        );
+        await dispatch(updateEvent(event));
       } else {
         const event: Event = {
           id: 2,
           coordinate: {
-            latitude: 51.0,
+            latitude: 41.0,
             longitude: 5.0,
           },
           description: formState.inputValues.description,
           title: formState.inputValues.title,
         };
 
-        await dispatch(
-          updateEvent(
-            event.id,
-            event.coordinate,
-            event.description,
-            event.title
-          )
-        );
+        await dispatch(updateEvent(event));
       }
       navigation.goBack();
     } catch (err) {
@@ -124,13 +111,13 @@ export default function EditEventScreen({ navigation, route }: any) {
         <TextInput
           style={styles.textInput}
           onChangeText={inputChangeHandler}
-          value={editedEvent ? editedEvent.title : ""}
+          value={editedEvent[0] ? editedEvent[0].title : ""}
         />
         <StyledText style={styles.label}>Description</StyledText>
         <TextInput
           style={styles.textInput}
           onChangeText={inputChangeHandler}
-          value={editedEvent ? editedEvent.description : ""}
+          value={editedEvent[0] ? editedEvent[0].description : ""}
         />
         <Button title="Save" onPress={submitHandler} />
       </View>

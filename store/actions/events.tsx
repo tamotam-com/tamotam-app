@@ -91,27 +91,29 @@ export const deleteEvent = (eventId: number) => {
   };
 };
 
-export const updateEvent = (
-  eventId: number,
-  coordinate: Coordinate,
-  description: string,
-  title: string
-) => {
+export const updateEvent = (event: Event) => {
   return async (
     dispatch: (arg0: {
       type: string;
-      eventData: { coordinate: Coordinate; description: string; title: string };
-      event_id: number;
+      eventData: {
+        id: number;
+        coordinate: { latitude: number; longitude: number };
+        description: string;
+        title: string;
+      };
     }) => void
   ) => {
     dispatch({
       type: UPDATE_EVENT,
       eventData: {
-        coordinate,
-        description,
-        title,
+        id: event.id,
+        coordinate: {
+          latitude: event.coordinate.latitude,
+          longitude: event.coordinate.longitude,
+        },
+        description: event.description,
+        title: event.title,
       },
-      event_id: eventId,
     });
   };
 };
