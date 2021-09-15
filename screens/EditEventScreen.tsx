@@ -59,50 +59,30 @@ export default function EditEventScreen({ navigation, route }: any) {
     },
   });
 
-  const submitHandler = useCallback(async () => {
-    setError(null);
-    try {
-      if (editedEvent[0]) {
-        const event: Event = {
-          id: 2,
-          coordinate: {
-            latitude: 51.0,
-            longitude: 5.0,
-          },
-          description: formState.inputValues.description,
-          title: formState.inputValues.title,
-        };
+  const [descriptionValue, setDescriptionValue] = useState("");
+  const [titleValue, setTitleValue] = useState("");
 
-        await dispatch(updateEvent(event));
-      } else {
-        const event: Event = {
-          id: 2,
-          coordinate: {
-            latitude: 41.0,
-            longitude: 5.0,
-          },
-          description: formState.inputValues.description,
-          title: formState.inputValues.title,
-        };
+  const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
+    setDescriptionValue(text);
+  };
+  const titleChangeHandler = (text: React.SetStateAction<string>) => {
+    setTitleValue(text);
+  };
 
-        await dispatch(updateEvent(event));
-      }
-      navigation.goBack();
-    } catch (err) {
-      setError(err.message);
-    }
-  }, [dispatch, 2, formState]);
+  const onSaveHandler = () => {
+    const newEvent: Event = {
+      id: 2,
+      coordinate: {
+        latitude: 41.2,
+        longitude: 2.0,
+      },
+      description: descriptionValue,
+      title: titleValue,
+    };
 
-  const inputChangeHandler = useCallback(
-    (inputIdentifier, inputValue) => {
-      dispatchFormState({
-        type: FORM_INPUT_UPDATE,
-        value: inputValue,
-        input: inputIdentifier,
-      });
-    },
-    [dispatchFormState]
-  );
+    dispatch(updateEvent(newEvent));
+    navigation.goBack();
+  };
 
   return (
     <ScrollView>
@@ -110,16 +90,16 @@ export default function EditEventScreen({ navigation, route }: any) {
         <StyledText style={styles.label}>Title</StyledText>
         <TextInput
           style={styles.textInput}
-          onChangeText={inputChangeHandler}
-          value={editedEvent[0] ? editedEvent[0].title : ""}
+          onChangeText={titleChangeHandler}
+          value={editedEvent[0] ? editedEvent[0].title : titleValue}
         />
         <StyledText style={styles.label}>Description</StyledText>
         <TextInput
           style={styles.textInput}
-          onChangeText={inputChangeHandler}
-          value={editedEvent[0] ? editedEvent[0].description : ""}
+          onChangeText={descriptionChangeHandler}
+          value={editedEvent[0] ? editedEvent[0].description : descriptionValue}
         />
-        <Button title="Save" onPress={submitHandler} />
+        <Button title="Save" onPress={onSaveHandler} />
       </View>
     </ScrollView>
   );
