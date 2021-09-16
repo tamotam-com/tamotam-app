@@ -1,4 +1,5 @@
 import useColorScheme from "../hooks/useColorScheme";
+import MapPreview from "../components/MapPreview";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React from "react";
 import StyledText from "../components/StyledText";
@@ -27,6 +28,10 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const savedEvents = useSelector((state) => state.events.savedEvents);
+  const selectedLocation = { latitude: 50.0, longitude: 50.0 };
+  const showMapHandler = () => {
+    navigation.navigate("Map");
+  };
 
   if (savedEvents.length === 0 || !savedEvents) {
     return (
@@ -48,6 +53,11 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
           {savedEvents[0].coordinate.longitude}
         </StyledText>
       </View>
+      <MapPreview
+        style={styles.mapPreview}
+        location={selectedLocation}
+        onPress={showMapHandler}
+      />
     </ScrollView>
   );
 }
@@ -63,6 +73,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  mapPreview: {
+    width: "100%",
+    maxWidth: 350,
+    height: 300,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   title: {
     fontSize: 20,
