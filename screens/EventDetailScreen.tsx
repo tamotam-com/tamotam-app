@@ -45,7 +45,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
 
   return (
     <ScrollView contentContainerStyle={{ alignItems: "center" }}>
-      <View style={styles.eventDetailContainer}>
+      <View style={styles.container}>
         <StyledText>Title: {savedEvents[0].title}</StyledText>
         <StyledText>Description: {savedEvents[0].description}</StyledText>
         <StyledText>
@@ -63,11 +63,10 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
 }
 
 const styles = StyleSheet.create({
-  eventDetailContainer: {
-    backgroundColor: "red",
-    borderRadius: 10,
-    marginVertical: 20,
-    padding: 20,
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   content: {
     flex: 1,
