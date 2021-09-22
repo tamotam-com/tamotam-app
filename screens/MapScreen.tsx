@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
 import { Alert, Button, Dimensions, StyleSheet } from "react-native";
+import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { Marker } from "react-native-maps";
 import { Text, View } from "../components/Themed";
-import { Coordinate } from "../interfaces/coordinate";
 
 async function onRegionChange(this: any) {
   // TODO: It breaks when the app will reload.
@@ -29,7 +29,6 @@ export default function MapScreen({ navigation }: any) {
   const colorScheme = useColorScheme();
   const events = useSelector((state) => state.events.events);
   const dispatch = useDispatch();
-  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const loadEvents = useCallback(async () => {
     setError(null);
@@ -45,45 +44,6 @@ export default function MapScreen({ navigation }: any) {
     }
   }, [dispatch, setError]);
 
-  const savePickedLocationHandler = useCallback(() => {
-    if (!selectedLocation) {
-      // could show an alert!
-      return;
-    }
-    navigation.navigate("NewPlace", { pickedLocation: selectedLocation });
-  }, [selectedLocation]);
-
-  useEffect(() => {
-    navigation.setParams({ saveLocation: savePickedLocationHandler });
-  }, [savePickedLocationHandler]);
-
-  const selectLocationHandler = (e: { nativeEvent: { coordinate: any } }) => {
-    const event: Event = {
-      id: 2,
-      coordinate: {
-        latitude: e.nativeEvent.coordinate.latitude,
-        longitude: e.nativeEvent.coordinate.longitude,
-      },
-      description: "dynamic test",
-      title: "dynamic title",
-    };
-    dispatch(addEvent(event));
-
-    setSelectedLocation({
-      latitude: e.nativeEvent.coordinate.latitude,
-      longitude: e.nativeEvent.coordinate.longitude,
-    });
-  };
-
-  let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
-
-  if (selectedLocation) {
-    markerCoordinates = {
-      latitude: selectedLocation.latitude,
-      longitude: selectedLocation.longitude,
-    };
-  }
-
   useEffect(() => {
     loadEvents();
   }, []);
@@ -94,7 +54,6 @@ export default function MapScreen({ navigation }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         ref={(ref) => (this.mapRef = ref)}
-        onPress={selectLocationHandler}
         onRegionChange={async (e) => await onRegionChange()}
         style={styles.map}
       >
@@ -113,17 +72,6 @@ export default function MapScreen({ navigation }: any) {
             </StyledText>
           </Callout>
         </Marker>
-        {markerCoordinates && (
-          <Marker title="Picked Location" coordinate={markerCoordinates}>
-            <Callout style={styles.locationButtonCallout} tooltip>
-              <StyledText style={styles.title}>{events.title}</StyledText>
-              <Button onPress={() => dispatch(addEvent())} title={"Save"} />
-              <StyledText style={styles.description}>
-                {events.description}
-              </StyledText>
-            </Callout>
-          </Marker>
-        )}
       </MapView>
     </View>
   );
