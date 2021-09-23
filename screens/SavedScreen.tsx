@@ -5,7 +5,7 @@ import StyledText from "../components/StyledText";
 import React from "react";
 import { deleteEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, StyleSheet } from "react-native";
+import { Alert, Button, FlatList, StyleSheet } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
@@ -68,19 +68,19 @@ export default function SavedScreen({ navigation, route }: any) {
   }
 
   return (
-    <View style={styles.content}>
-      <Card style={styles.product}>
-        <StyledText style={styles.title}>
-          {savedEvents[0] ? savedEvents[0].title : "Nothing is here"}
-        </StyledText>
-        <Button
-          title="Event Detail"
-          onPress={() => navigation.navigate("EventDetail")}
-        />
-        {/* TODO: Temporarly solution for deleting just 1 saved event. */}
-        <Button title="Delete" onPress={deleteHandler.bind(this, 0)} />
-      </Card>
-    </View>
+    <FlatList
+      data={savedEvents}
+      keyExtractor={(item) => item.id}
+      renderItem={(eventData: Event | any) => (
+        <Card style={styles.product}>
+          <StyledText style={styles.title}>{eventData.item.title}</StyledText>
+          <Button
+            title="Event Detail"
+            onPress={() => navigation.navigate("EventDetail")}
+          />
+        </Card>
+      )}
+    />
   );
 }
 
@@ -89,11 +89,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   product: {
     height: 30,
