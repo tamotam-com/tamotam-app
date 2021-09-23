@@ -27,7 +27,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  const savedEvents = useSelector((state) => state.events.savedEvents);
+  const savedEvents = useSelector((state: any) => state.events.savedEvents);
   const selectedLocation = { latitude: 50.0, longitude: 50.0 };
   const showMapHandler = () => {
     navigation.navigate("Map");

@@ -36,7 +36,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   // const editedEvent = useSelector((state) =>
   //   state.events.savedEvents.find((event: Event) => event.id === 2)
   // );
-  const editedEvent = useSelector((state) => state.events.savedEvents);
+  const editedEvent = useSelector((state: any) => state.events.savedEvents);
   const [error, setError] = useState();
   const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
   const formReducer = (

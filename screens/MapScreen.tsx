@@ -27,7 +27,7 @@ export default function MapScreen({ navigation }: any) {
   const [error, setError] = useState(null);
   const [markers, setMarkers] = useState(null);
   const colorScheme = useColorScheme();
-  const events = useSelector((state) => state.events.events);
+  const events = useSelector((state: any) => state.events.events);
   const dispatch = useDispatch();
 
   const loadEvents = useCallback(async () => {

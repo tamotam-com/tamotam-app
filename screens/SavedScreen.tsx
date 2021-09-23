@@ -42,7 +42,7 @@ export default function SavedScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  const savedEvents = useSelector((state) => state.events.savedEvents);
+  const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
   const deleteHandler = (eventId: number) => {
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
