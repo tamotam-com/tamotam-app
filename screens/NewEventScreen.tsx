@@ -5,7 +5,7 @@ import Colors from "../constants/Colors";
 import MapView, { Marker } from "react-native-maps";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Dimensions,
@@ -54,6 +54,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [titleValue, setTitleValue] = useState("");
+  const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
     setDescriptionValue(text);
@@ -64,7 +65,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const addEventHandler = () => {
     const newEvent: Event = {
-      id: 3,
+      id: savedEvents.length + 1, // TODO: That's a temporarly solution, later it has to go from the database.
       coordinate: {
         latitude: 51.2,
         longitude: 5.0,
