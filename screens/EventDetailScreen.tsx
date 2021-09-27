@@ -4,11 +4,16 @@ import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React from "react";
 import StyledText from "../components/StyledText";
 import { useSelector } from "react-redux";
+import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function PlaceDetailScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
+  const eventId: number = route.params.eventId;
+  const selectedEvent: Event = useSelector((state: any) =>
+    state.events.savedEvents.find((event: Event) => event.id === eventId)
+  );
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -46,11 +51,11 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
   return (
     <ScrollView contentContainerStyle={{ alignItems: "center" }}>
       <View style={styles.container}>
-        <StyledText>Title: {savedEvents[0].title}</StyledText>
-        <StyledText>Description: {savedEvents[0].description}</StyledText>
+        <StyledText>Title: {selectedEvent.title}</StyledText>
+        <StyledText>Description: {selectedEvent.description}</StyledText>
         <StyledText>
-          Adress: {savedEvents[0].coordinate.latitude},{" "}
-          {savedEvents[0].coordinate.longitude}
+          Adress: {selectedEvent.coordinate.latitude},{" "}
+          {selectedEvent.coordinate.longitude}
         </StyledText>
       </View>
       <MapPreview

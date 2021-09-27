@@ -76,7 +76,9 @@ export default function SavedScreen({ navigation, route }: any) {
           <StyledText style={styles.title}>{eventData.item.title}</StyledText>
           <Button
             title="Event Detail"
-            onPress={() => navigation.navigate("EventDetail")}
+            onPress={() =>
+              navigation.navigate("EventDetail", { eventId: eventData.item.id })
+            }
           />
         </Card>
       )}
