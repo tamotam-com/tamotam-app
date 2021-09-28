@@ -80,6 +80,12 @@ export default function SavedScreen({ navigation, route }: any) {
               navigation.navigate("EventDetail", { eventId: eventData.item.id })
             }
           />
+          <Button
+            title="Edit Event"
+            onPress={() =>
+              navigation.navigate("EditEvent", { eventId: eventData.item.id })
+            }
+          />
         </Card>
       )}
     />

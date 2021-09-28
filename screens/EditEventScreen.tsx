@@ -13,6 +13,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Text, View } from "../components/Themed";
@@ -33,10 +34,10 @@ async function onRegionChange(this: any) {
 export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
-  // const editedEvent = useSelector((state) =>
-  //   state.events.savedEvents.find((event: Event) => event.id === 2)
-  // );
-  const editedEvent = useSelector((state: any) => state.events.savedEvents);
+  const eventId: number = route.params.eventId;
+  const selectedEvent: Event = useSelector((state: any) =>
+    state.events.savedEvents.find((event: Event) => event.id === eventId)
+  );
   const [error, setError] = useState();
   const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
   const formReducer = (
@@ -74,8 +75,8 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
-      description: editedEvent[0] ? editedEvent[0].description : "",
-      title: editedEvent[0] ? editedEvent[0].title : "",
+      description: selectedEvent ? selectedEvent.description : "",
+      title: selectedEvent ? selectedEvent.title : "",
     },
   });
 
@@ -92,10 +93,10 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const onSaveHandler = () => {
     const newEvent: Event = {
-      id: 2,
+      id: eventId,
       coordinate: {
-        latitude: 41.2,
-        longitude: 2.0,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
       },
       description: descriptionValue,
       title: titleValue,
@@ -107,15 +108,15 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const selectLocationHandler = (e: { nativeEvent: { coordinate: any } }) => {
     const event: Event = {
-      id: 2,
+      id: eventId,
       coordinate: {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
       },
-      description: "dynamic test",
-      title: "dynamic title",
+      description: selectedEvent.description,
+      title: selectedEvent.title,
     };
-    dispatch(addEvent(event));
+    dispatch(updateEvent(event));
 
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
@@ -123,7 +124,10 @@ export default function EditEventScreen({ navigation, route }: any) {
     });
   };
 
-  let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
+  let markerCoordinates: Coordinate = {
+    latitude: selectedEvent.coordinate.latitude,
+    longitude: selectedEvent.coordinate.longitude,
+  };
 
   if (selectedLocation) {
     markerCoordinates = {
@@ -159,13 +163,13 @@ export default function EditEventScreen({ navigation, route }: any) {
         <TextInput
           style={styles.textInput}
           onChangeText={titleChangeHandler}
-          value={editedEvent[0] ? editedEvent[0].title : titleValue}
+          value={selectedEvent ? selectedEvent.title : titleValue}
         />
         <StyledText style={styles.label}>Description</StyledText>
         <TextInput
           style={styles.textInput}
           onChangeText={descriptionChangeHandler}
-          value={editedEvent[0] ? editedEvent[0].description : descriptionValue}
+          value={selectedEvent ? selectedEvent.description : descriptionValue}
         />
         <Button title="Save" onPress={onSaveHandler} />
       </View>
