@@ -43,6 +43,10 @@ export default (state = initialState, action: any) => {
     case SET_FILTERS:
       console.log("filters");
     case UPDATE_EVENT:
+      const eventIndex = state.savedEvents.findIndex(
+        (event: Event) => event.id === action.eventData.id
+      );
+
       const updatedEvent: Event = {
         id: action.eventData.id,
         coordinate: {
@@ -53,8 +57,8 @@ export default (state = initialState, action: any) => {
         title: action.eventData.title,
       };
 
-      const updatedEditEvents: any = { ...state.savedEvents };
-      updatedEditEvents[0] = updatedEvent;
+      const updatedEditEvents: Event[] = [...state.savedEvents];
+      updatedEditEvents[eventIndex] = updatedEvent;
 
       return {
         ...state,
