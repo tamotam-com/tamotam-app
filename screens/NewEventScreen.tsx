@@ -78,7 +78,9 @@ export default function NewEventScreen({ navigation, route }: any) {
     navigation.goBack();
   };
 
-  const selectLocationHandler = (e: { nativeEvent: { coordinate: any } }) => {
+  const selectLocationHandler = (e: {
+    nativeEvent: { coordinate: Coordinate };
+  }) => {
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
