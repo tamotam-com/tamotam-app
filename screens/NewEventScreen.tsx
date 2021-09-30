@@ -52,7 +52,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const [descriptionValue, setDescriptionValue] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [titleValue, setTitleValue] = useState("");
   const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
@@ -67,8 +67,8 @@ export default function NewEventScreen({ navigation, route }: any) {
     const newEvent: Event = {
       id: savedEvents.length + 1, // TODO: That's a temporarly solution, later it has to go from the database.
       coordinate: {
-        latitude: 51.2,
-        longitude: 5.0,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
       },
       description: descriptionValue,
       title: titleValue,
@@ -79,17 +79,6 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const selectLocationHandler = (e: { nativeEvent: { coordinate: any } }) => {
-    const event: Event = {
-      id: 2,
-      coordinate: {
-        latitude: e.nativeEvent.coordinate.latitude,
-        longitude: e.nativeEvent.coordinate.longitude,
-      },
-      description: "dynamic test",
-      title: "dynamic title",
-    };
-    dispatch(addEvent(event));
-
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
