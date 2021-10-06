@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Dimensions,
+  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -117,24 +118,26 @@ export default function NewEventScreen({ navigation, route }: any) {
   );
 
   return (
-    <ScrollView>
-      <View style={styles.form}>
-        <StyledText style={styles.label}>Title</StyledText>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={titleChangeHandler}
-          value={titleValue}
-        />
-        <StyledText style={styles.label}>Description</StyledText>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={descriptionChangeHandler}
-          value={descriptionValue}
-        />
-        <Button title="Add" onPress={addEventHandler} />
-      </View>
-      <Map />
-    </ScrollView>
+    <KeyboardAvoidingView behavior="position" style={styles.screen}>
+      <ScrollView>
+        <Map />
+        <View style={styles.form}>
+          <StyledText style={styles.label}>Title</StyledText>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={titleChangeHandler}
+            value={titleValue}
+          />
+          <StyledText style={styles.label}>Description</StyledText>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={descriptionChangeHandler}
+            value={descriptionValue}
+          />
+          <Button title="Add" onPress={addEventHandler} />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -145,15 +148,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   form: {
-    margin: 30,
+    marginHorizontal: 30,
   },
   label: {
     fontSize: 18,
     marginBottom: 15,
   },
   map: {
-    width: Dimensions.get("window").width,
     height: Dimensions.get("window").height / 2,
+    width: Dimensions.get("window").width,
+  },
+  screen: {
+    flex: 1,
   },
   textInput: {
     borderBottomColor: "#ccc",
