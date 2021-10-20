@@ -77,6 +77,8 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       description: selectedEvent ? selectedEvent.description : "",
+      latitude: selectedEvent ? selectedEvent.coordinate.latitude : "",
+      longitude: selectedEvent ? selectedEvent.coordinate.longitude : "",
       title: selectedEvent ? selectedEvent.title : "",
     },
   });
@@ -92,16 +94,29 @@ export default function EditEventScreen({ navigation, route }: any) {
     setTitleValue(text);
   };
 
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue) => {
+      dispatchFormState({
+        input: inputIdentifier,
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+      });
+    },
+    [dispatchFormState]
+  );
+
   const onSaveHandler = () => {
     const newEvent: Event = {
       id: eventId,
       coordinate: {
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
+        latitude: +formState.inputValues.latitude,
+        longitude: +formState.inputValues.longitude,
       },
       description: descriptionValue,
       title: titleValue,
     };
+    console.log("HOP", newEvent);
+    console.log(formState);
 
     dispatch(updateEvent(newEvent));
     navigation.goBack();
