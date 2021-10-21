@@ -41,15 +41,19 @@ export default function EditEventScreen({ navigation, route }: any) {
   );
   const [error, setError] = useState();
   const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+  // TODO: Fix the formReducer after fixing 1 letter input and clean up the code...
   const formReducer = (
     state: { inputValues: any },
-    action: { type: string; input: any; value: any }
+    action: { input: any; type: string; value: any }
   ) => {
     if (action.type === FORM_INPUT_UPDATE) {
       const updatedValues: any = {
         ...state.inputValues,
-        [action.input]: action.value,
+        title: action.input,
       };
+      console.log("============== form Reducer");
+      console.log("updatedValues", updatedValues);
+      console.log("action", action);
       return {
         inputValues: updatedValues,
       };
@@ -66,7 +70,10 @@ export default function EditEventScreen({ navigation, route }: any) {
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }
-            onPress={() => navigation.goBack()}
+            onPress={() => {
+              console.log("description", formState.inputValues.description);
+              console.log("title", formState.inputValues.title);
+            }}
             title="back"
           />
         </HeaderButtons>
@@ -105,22 +112,24 @@ export default function EditEventScreen({ navigation, route }: any) {
     [dispatchFormState]
   );
 
-  const onSaveHandler = () => {
+  const onSaveHandler = useCallback(async () => {
     const newEvent: Event = {
       id: eventId,
       coordinate: {
         latitude: +formState.inputValues.latitude,
         longitude: +formState.inputValues.longitude,
       },
-      description: descriptionValue,
-      title: titleValue,
+      description: formState.inputValues.description,
+      title: formState.inputValues.title,
     };
     console.log("HOP", newEvent);
-    console.log(formState);
+    console.log("FORM STATE", formState);
+    console.log("description", formState.inputValues.description);
+    console.log("title", formState.inputValues.title);
 
-    dispatch(updateEvent(newEvent));
+    await dispatch(updateEvent(newEvent));
     navigation.goBack();
-  };
+  }, [dispatch, eventId, formState]);
 
   const selectLocationHandler = (e: { nativeEvent: { coordinate: any } }) => {
     const event: Event = {
@@ -180,14 +189,14 @@ export default function EditEventScreen({ navigation, route }: any) {
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
             style={styles.textInput}
-            onChangeText={titleChangeHandler}
-            value={selectedEvent ? selectedEvent.title : titleValue}
+            onChangeText={inputChangeHandler}
+            value={selectedEvent ? selectedEvent.title : ""}
           />
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
             style={styles.textInput}
-            onChangeText={descriptionChangeHandler}
-            value={selectedEvent ? selectedEvent.description : descriptionValue}
+            onChangeText={inputChangeHandler}
+            value={selectedEvent ? selectedEvent.description : ""}
           />
           <Button title="Save" onPress={onSaveHandler} />
         </View>
