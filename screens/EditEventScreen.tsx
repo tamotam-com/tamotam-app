@@ -188,15 +188,15 @@ export default function EditEventScreen({ navigation, route }: any) {
         <View style={styles.form}>
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
+            defaultValue={selectedEvent ? selectedEvent.title : ""}
             style={styles.textInput}
             onChangeText={inputChangeHandler}
-            value={selectedEvent ? selectedEvent.title : ""}
           />
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
+            defaultValue={selectedEvent ? selectedEvent.description : ""}
             style={styles.textInput}
             onChangeText={inputChangeHandler}
-            value={selectedEvent ? selectedEvent.description : ""}
           />
           <Button title="Save" onPress={onSaveHandler} />
         </View>
