@@ -189,13 +189,19 @@ export default function EditEventScreen({ navigation, route }: any) {
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
             defaultValue={selectedEvent ? selectedEvent.title : ""}
-            style={styles.textInput}
+            style={[
+              styles.textInput,
+              { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
+            ]}
             onChangeText={inputChangeHandler}
           />
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
             defaultValue={selectedEvent ? selectedEvent.description : ""}
-            style={styles.textInput}
+            style={[
+              styles.textInput,
+              { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
+            ]}
             onChangeText={inputChangeHandler}
           />
           <Button title="Save" onPress={onSaveHandler} />

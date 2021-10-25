@@ -124,13 +124,19 @@ export default function NewEventScreen({ navigation, route }: any) {
         <View style={styles.form}>
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
-            style={styles.textInput}
+            style={[
+              styles.textInput,
+              { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
+            ]}
             onChangeText={titleChangeHandler}
             value={titleValue}
           />
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
-            style={styles.textInput}
+            style={[
+              styles.textInput,
+              { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
+            ]}
             onChangeText={descriptionChangeHandler}
             value={descriptionValue}
           />
