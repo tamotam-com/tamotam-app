@@ -1,12 +1,27 @@
 import useColorScheme from "../hooks/useColorScheme";
-import MapPreview from "../components/MapPreview";
+import MapView, { Marker } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React from "react";
 import StyledText from "../components/StyledText";
 import { useSelector } from "react-redux";
+import { Coordinate } from "../interfaces/coordinate";
+import { Dimensions, ScrollView, StyleSheet } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Text, View } from "../components/Themed";
+
+// TODO: This method multiplies across components.
+async function onRegionChange(this: any) {
+  // TODO: It breaks when the app will reload.
+  if (this.mapRef) {
+    try {
+      const camera = await this.mapRef.getCamera();
+      console.log("test", camera);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
 
 export default function PlaceDetailScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
@@ -33,10 +48,6 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const savedEvents = useSelector((state: any) => state.events.savedEvents);
-  const selectedLocation = { latitude: 50.0, longitude: 50.0 };
-  const showMapHandler = () => {
-    navigation.navigate("Map");
-  };
 
   if (savedEvents.length === 0 || !savedEvents) {
     return (
@@ -48,8 +59,33 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
     );
   }
 
+  let markerCoordinates: Coordinate = {
+    latitude: selectedEvent.coordinate.latitude,
+    longitude: selectedEvent.coordinate.longitude,
+  };
+
+  const Map = () => (
+    <View style={styles.container}>
+      <Text style={styles.title}>Map</Text>
+      {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
+      <MapView
+        ref={(ref) => (this.mapRef = ref)}
+        onRegionChange={async (e) => await onRegionChange()}
+        style={styles.map}
+      >
+        {markerCoordinates && (
+          <Marker
+            title="Picked Location"
+            coordinate={markerCoordinates}
+          ></Marker>
+        )}
+      </MapView>
+    </View>
+  );
+
   return (
-    <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+    <ScrollView>
+      <Map />
       <View style={styles.container}>
         <StyledText>Title: {selectedEvent.title}</StyledText>
         <StyledText>Description: {selectedEvent.description}</StyledText>
@@ -58,11 +94,6 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
           {selectedEvent.coordinate.longitude}
         </StyledText>
       </View>
-      <MapPreview
-        style={styles.mapPreview}
-        location={selectedLocation}
-        onPress={showMapHandler}
-      />
     </ScrollView>
   );
 }
@@ -78,15 +109,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  mapPreview: {
-    width: "100%",
-    maxWidth: 350,
-    height: 300,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+  map: {
+    height: Dimensions.get("window").height / 2,
+    width: Dimensions.get("window").width,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
