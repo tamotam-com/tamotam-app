@@ -71,8 +71,7 @@ export default function EditEventScreen({ navigation, route }: any) {
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }
             onPress={() => {
-              console.log("description", formState.inputValues.description);
-              console.log("title", formState.inputValues.title);
+              navigation.goBack();
             }}
             title="back"
           />
