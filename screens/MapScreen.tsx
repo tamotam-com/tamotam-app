@@ -1,6 +1,7 @@
 import * as eventsActions from "../store/actions/events";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
+import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
@@ -10,18 +11,6 @@ import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { Marker } from "react-native-maps";
 import { Text, View } from "../components/Themed";
-
-async function onRegionChange(this: any) {
-  // TODO: It breaks when the app will reload.
-  if (this.mapRef) {
-    try {
-      const camera = await this.mapRef.getCamera();
-      console.log("test", camera);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}
 
 export default function MapScreen({ navigation }: any) {
   const [error, setError] = useState(null);
@@ -54,7 +43,7 @@ export default function MapScreen({ navigation }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         ref={(ref) => (this.mapRef = ref)}
-        onRegionChange={async (e) => await onRegionChange()}
+        onRegionChange={async (e) => await getAddressFromCoordinate()}
         style={styles.map}
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}

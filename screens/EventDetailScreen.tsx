@@ -1,3 +1,4 @@
+import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import MapView, { Marker } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
@@ -9,19 +10,6 @@ import { Dimensions, ScrollView, StyleSheet } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Text, View } from "../components/Themed";
-
-// TODO: This method multiplies across components.
-async function onRegionChange(this: any) {
-  // TODO: It breaks when the app will reload.
-  if (this.mapRef) {
-    try {
-      const camera = await this.mapRef.getCamera();
-      console.log("test", camera);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}
 
 export default function PlaceDetailScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
@@ -70,7 +58,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         ref={(ref) => (this.mapRef = ref)}
-        onRegionChange={async (e) => await onRegionChange()}
+        onRegionChange={async (e) => await getAddressFromCoordinate()}
         style={styles.map}
       >
         {markerCoordinates && (

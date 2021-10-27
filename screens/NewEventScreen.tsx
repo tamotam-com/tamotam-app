@@ -1,5 +1,6 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useState } from "react";
+import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import MapView, { Marker } from "react-native-maps";
@@ -18,18 +19,6 @@ import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Text, View } from "../components/Themed";
-
-async function onRegionChange(this: any) {
-  // TODO: It breaks when the app will reload.
-  if (this.mapRef) {
-    try {
-      const camera = await this.mapRef.getCamera();
-      console.log("test", camera);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}
 
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
@@ -104,7 +93,7 @@ export default function NewEventScreen({ navigation, route }: any) {
       <MapView
         ref={(ref) => (this.mapRef = ref)}
         onPress={selectLocationHandler}
-        onRegionChange={async (e) => await onRegionChange()}
+        onRegionChange={async (e) => await getAddressFromCoordinate()}
         style={styles.map}
       >
         {markerCoordinates && (
