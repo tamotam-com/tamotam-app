@@ -57,7 +57,6 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
       <Text style={styles.title}>Map</Text>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
-        ref={(ref) => (this.mapRef = ref)}
         onRegionChange={async (e) => await getAddressFromCoordinate()}
         style={styles.map}
       >

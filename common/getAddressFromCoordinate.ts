@@ -1,5 +1,4 @@
 export default async function getAddressFromCoordinate(this: any) {
-  // TODO: It breaks when the app will reload.
   // TODO: Transform this to addressForCoordinate.
   if (this.mapRef) {
     try {
