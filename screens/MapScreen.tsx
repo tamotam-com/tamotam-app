@@ -42,7 +42,8 @@ export default function MapScreen({ navigation }: any) {
       <Text style={styles.title}>Map</Text>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
-        onRegionChange={async (e) => await getAddressFromCoordinate()}
+        onLongPress={async (e) => await getAddressFromCoordinate(e)}
+        ref={(ref) => (this.mapRef = ref)}
         style={styles.map}
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}

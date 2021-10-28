@@ -154,7 +154,8 @@ export default function EditEventScreen({ navigation, route }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         onPress={selectLocationHandler}
-        onRegionChange={async (e) => await getAddressFromCoordinate()}
+        onLongPress={async (e) => await getAddressFromCoordinate(e)}
+        ref={(ref) => (this.mapRef = ref)}
         style={styles.map}
       >
         {markerCoordinates && (
