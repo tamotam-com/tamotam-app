@@ -1,5 +1,5 @@
 import useColorScheme from "../hooks/useColorScheme";
-import Card from "../components/Card";
+import EventItem from "../components/EventItem";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
 import React from "react";
@@ -72,8 +72,7 @@ export default function SavedScreen({ navigation, route }: any) {
       data={savedEvents}
       keyExtractor={(item) => item.id}
       renderItem={(eventData: Event | any) => (
-        <Card style={styles.product}>
-          <StyledText style={styles.title}>{eventData.item.title}</StyledText>
+        <EventItem title={eventData.item.title}>
           <Button
             title="Event Detail"
             onPress={() =>
@@ -86,7 +85,7 @@ export default function SavedScreen({ navigation, route }: any) {
               navigation.navigate("EditEvent", { eventId: eventData.item.id })
             }
           />
-        </Card>
+        </EventItem>
       )}
     />
   );
@@ -97,10 +96,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  product: {
-    height: 300,
-    margin: 20,
   },
   title: {
     fontSize: 20,
