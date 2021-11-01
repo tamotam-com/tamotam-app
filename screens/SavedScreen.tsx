@@ -97,6 +97,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  content: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
