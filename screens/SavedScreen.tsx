@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   product: {
-    height: 30,
-    margin: 5,
+    height: 300,
+    margin: 20,
   },
   title: {
     fontSize: 20,
