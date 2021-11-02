@@ -15,6 +15,7 @@ import MapScreen from "../screens/MapScreen";
 import SavedScreen from "../screens/SavedScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
+import StyledText from "../components/StyledText";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
@@ -86,7 +87,13 @@ const MapStack = createStackNavigator<MapParamList>();
 function MapNavigator() {
   return (
     <MapStack.Navigator>
-      <MapStack.Screen name="Map" component={MapScreen} />
+      <MapStack.Screen
+        name="Map"
+        component={MapScreen}
+        options={{
+          headerTitleStyle: { fontFamily: "boiling-demo" },
+        }}
+      />
     </MapStack.Navigator>
   );
 }
@@ -99,7 +106,10 @@ function SavedNavigator() {
       <SavedStack.Screen
         name="SavedScreen"
         component={SavedScreen}
-        options={{ headerTitle: "Saved" }}
+        options={{
+          headerTitle: "Saved",
+          headerTitleStyle: { fontFamily: "boiling-demo" },
+        }}
       />
     </SavedStack.Navigator>
   );

@@ -46,22 +46,34 @@ function RootNavigator() {
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
-        options={{ title: "Oops!" }}
+        options={{
+          headerTitleStyle: { fontFamily: "boiling-demo" },
+          title: "Oops!",
+        }}
       />
       <Stack.Screen
         name="EditEvent"
         component={EditEventScreen}
-        options={{ title: "Edit Event" }}
+        options={{
+          headerTitleStyle: { fontFamily: "boiling-demo" },
+          title: "Edit Event",
+        }}
       />
       <Stack.Screen
         name="NewEvent"
         component={NewEventScreen}
-        options={{ title: "New Event" }}
+        options={{
+          headerTitleStyle: { fontFamily: "boiling-demo" },
+          title: "New Event",
+        }}
       />
       <Stack.Screen
         name="EventDetail"
         component={EventDetailScreen}
-        options={{ title: "Event Detail" }}
+        options={{
+          headerTitleStyle: { fontFamily: "boiling-demo" },
+          title: "Event Detail",
+        }}
       />
     </Stack.Navigator>
   );
