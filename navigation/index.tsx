@@ -41,12 +41,19 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{
+          headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "Oops!",
         }}
@@ -55,6 +62,7 @@ function RootNavigator() {
         name="EditEvent"
         component={EditEventScreen}
         options={{
+          headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "Edit Event",
         }}
@@ -63,6 +71,7 @@ function RootNavigator() {
         name="NewEvent"
         component={NewEventScreen}
         options={{
+          headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "New Event",
         }}
@@ -71,6 +80,7 @@ function RootNavigator() {
         name="EventDetail"
         component={EventDetailScreen}
         options={{
+          headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "Event Detail",
         }}

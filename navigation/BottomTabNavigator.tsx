@@ -92,6 +92,7 @@ function MapNavigator() {
         component={MapScreen}
         options={{
           headerTitleStyle: { fontFamily: "boiling-demo" },
+          headerShown: true,
         }}
       />
     </MapStack.Navigator>
@@ -107,6 +108,7 @@ function SavedNavigator() {
         name="SavedScreen"
         component={SavedScreen}
         options={{
+          headerShown: true,
           headerTitle: "Saved",
           headerTitleStyle: { fontFamily: "boiling-demo" },
         }}
