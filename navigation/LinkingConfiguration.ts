@@ -10,21 +10,17 @@ export default {
   prefixes: [Linking.makeUrl("/")],
   config: {
     screens: {
-      Root: {
+      Map: {
         screens: {
-          Map: {
-            screens: {
-              MapScreen: "map",
-            },
-          },
-          Saved: {
-            screens: {
-              SavedScreen: "saved",
-            },
-          },
+          MapScreen: "map",
         },
       },
-      NotFound: "*",
+      Saved: {
+        screens: {
+          SavedScreen: "saved",
+        },
+      },
     },
   },
+  NotFound: "*",
 };
