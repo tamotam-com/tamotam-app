@@ -72,7 +72,10 @@ export default function SavedScreen({ navigation, route }: any) {
       data={savedEvents}
       keyExtractor={(item) => item.id}
       renderItem={(eventData: Event | any) => (
-        <EventItem title={eventData.item.title}>
+        <EventItem
+          description={eventData.item.description}
+          title={eventData.item.title}
+        >
           <Button
             title="Event Detail"
             onPress={() =>
