@@ -107,7 +107,13 @@ export default function NewEventScreen({ navigation, route }: any) {
   );
 
   return (
-    <KeyboardAvoidingView behavior="position" style={styles.screen}>
+    <KeyboardAvoidingView
+      behavior="position"
+      style={[
+        styles.screen,
+        { backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff" },
+      ]}
+    >
       <ScrollView>
         <Map />
         <View style={styles.form}>
