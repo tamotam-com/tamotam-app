@@ -12,7 +12,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo/vector-icons": "^12.0.5",
+    "@expo/vector-icons": "^12.0.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "6.0.9",
     "@react-navigation/material-bottom-tabs": "^6.0.9",
@@ -28,27 +28,27 @@
     "expo-splash-screen": "~0.13.4",
     "expo-status-bar": "~1.1.0",
     "expo-web-browser": "~10.0.3",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
-    "react-native-gesture-handler": "~1.10.3",
-    "react-native-maps": "0.29.3",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-43.tar.gz",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-maps": "0.28.0",
     "react-native-paper": "^4.9.2",
-    "react-native-reanimated": "~2.2.3",
+    "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
-    "react-native-web": "~0.17.5",
+    "react-native-web": "0.17.1",
     "react-navigation-header-buttons": "^9.0.1",
     "react-redux": "^7.2.6",
     "redux-thunk": "^2.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@types/react": "~17.0.33",
-    "@types/react-native": "~0.66.1",
-    "jest-expo": "~43.0.1",
+    "@babel/core": "^7.12.9",
+    "@types/react": "~17.0.21",
+    "@types/react-native": "~0.64.12",
+    "jest-expo": "^43.0.0",
     "react-native-dotenv": "^3.2.0",
-    "typescript": "~4.4.4"
+    "typescript": "~4.3.5"
   },
   "private": true
 }
