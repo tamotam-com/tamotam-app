@@ -34,11 +34,11 @@ export default (state = initialState, action: any) => {
         return state;
       }
 
-      const updatedEvents = { ...state.savedEvents };
-      delete updatedEvents[action.event_id];
       return {
         ...state,
-        savedEvents: updatedEvents,
+        savedEvents: state.savedEvents.filter(
+          (event: Event) => event.id !== action.event_id
+        ),
       };
     case SET_FILTERS:
       console.log("filters");

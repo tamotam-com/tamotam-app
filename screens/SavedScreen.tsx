@@ -12,6 +12,7 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
+  const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,8 +42,6 @@ export default function SavedScreen({ navigation, route }: any) {
       ),
     });
   }, [navigation]);
-
-  const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
   const deleteHandler = (eventId: number) => {
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
@@ -88,6 +87,7 @@ export default function SavedScreen({ navigation, route }: any) {
               navigation.navigate("EditEvent", { eventId: eventData.item.id })
             }
           />
+          <Button title="x" onPress={() => deleteHandler(eventData.item.id)} />
         </EventItem>
       )}
     />
