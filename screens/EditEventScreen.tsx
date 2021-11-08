@@ -1,5 +1,5 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useCallback, useReducer, useState } from "react";
+import React, { useState } from "react";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -28,26 +28,6 @@ export default function EditEventScreen({ navigation, route }: any) {
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
   const [error, setError] = useState();
-  const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
-  // TODO: Fix the formReducer after fixing 1 letter input and clean up the code...
-  const formReducer = (
-    state: { inputValues: any },
-    action: { input: any; type: string; value: any }
-  ) => {
-    if (action.type === FORM_INPUT_UPDATE) {
-      const updatedValues: any = {
-        ...state.inputValues,
-        title: action.input,
-      };
-      console.log("============== form Reducer");
-      console.log("updatedValues", updatedValues);
-      console.log("action", action);
-      return {
-        inputValues: updatedValues,
-      };
-    }
-    return state;
-  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -68,15 +48,6 @@ export default function EditEventScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  const [formState, dispatchFormState] = useReducer(formReducer, {
-    inputValues: {
-      description: selectedEvent ? selectedEvent.description : "",
-      latitude: selectedEvent ? selectedEvent.coordinate.latitude : "",
-      longitude: selectedEvent ? selectedEvent.coordinate.longitude : "",
-      title: selectedEvent ? selectedEvent.title : "",
-    },
-  });
-
   const [descriptionValue, setDescriptionValue] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [titleValue, setTitleValue] = useState("");
@@ -84,56 +55,33 @@ export default function EditEventScreen({ navigation, route }: any) {
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
     setDescriptionValue(text);
   };
-  const titleChangeHandler = (text: React.SetStateAction<string>) => {
-    setTitleValue(text);
-  };
-
-  const inputChangeHandler = useCallback(
-    (inputIdentifier, inputValue) => {
-      dispatchFormState({
-        input: inputIdentifier,
-        type: FORM_INPUT_UPDATE,
-        value: inputValue,
-      });
-    },
-    [dispatchFormState]
-  );
-
-  const onSaveHandler = useCallback(async () => {
-    const newEvent: Event = {
-      id: eventId,
-      coordinate: {
-        latitude: +formState.inputValues.latitude,
-        longitude: +formState.inputValues.longitude,
-      },
-      description: formState.inputValues.description,
-      title: formState.inputValues.title,
-    };
-    console.log("HOP", newEvent);
-    console.log("FORM STATE", formState);
-    console.log("description", formState.inputValues.description);
-    console.log("title", formState.inputValues.title);
-
-    await dispatch(updateEvent(newEvent));
-    navigation.goBack();
-  }, [dispatch, eventId, formState]);
-
-  const selectLocationHandler = (e: { nativeEvent: { coordinate: any } }) => {
-    const event: Event = {
-      id: eventId,
-      coordinate: {
-        latitude: e.nativeEvent.coordinate.latitude,
-        longitude: e.nativeEvent.coordinate.longitude,
-      },
-      description: selectedEvent.description,
-      title: selectedEvent.title,
-    };
-    dispatch(updateEvent(event));
-
+  const selectLocationHandler = (e: {
+    nativeEvent: { coordinate: Coordinate };
+  }) => {
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
     });
+  };
+  const titleChangeHandler = (text: React.SetStateAction<string>) => {
+    setTitleValue(text);
+  };
+
+  const onSaveHandler = () => {
+    const newEvent: Event = {
+      id: eventId,
+      coordinate: {
+        latitude: markerCoordinates.latitude,
+        longitude: markerCoordinates.longitude,
+      },
+      description: descriptionValue
+        ? descriptionValue
+        : selectedEvent.description,
+      title: titleValue ? titleValue : selectedEvent.title,
+    };
+
+    dispatch(updateEvent(newEvent));
+    navigation.goBack();
   };
 
   let markerCoordinates: Coordinate = {
@@ -186,7 +134,7 @@ export default function EditEventScreen({ navigation, route }: any) {
               styles.textInput,
               { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
             ]}
-            onChangeText={inputChangeHandler}
+            onChangeText={titleChangeHandler}
           />
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
@@ -195,7 +143,7 @@ export default function EditEventScreen({ navigation, route }: any) {
               styles.textInput,
               { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
             ]}
-            onChangeText={inputChangeHandler}
+            onChangeText={descriptionChangeHandler}
           />
           <Button title="Save" onPress={onSaveHandler} />
         </View>
