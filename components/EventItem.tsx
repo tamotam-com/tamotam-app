@@ -5,8 +5,7 @@ import { Avatar, Button, Card, Paragraph } from "react-native-paper";
 const LeftContent = (props: any) => (
   <Avatar.Icon
     {...props}
-    // TODO: Fix problem with not being possible to use the React Hook twice and just uncomment it.
-    // color={useColorScheme() === "dark" ? "#ffbfbf" : "#b30000"}
+    color={useColorScheme() === "dark" ? "#ffbfbf" : "#b30000"}
     icon="map-check"
     style={{
       backgroundColor: useColorScheme() === "dark" ? "#ffffff" : "#000000",
