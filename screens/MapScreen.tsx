@@ -39,7 +39,6 @@ export default function MapScreen({ navigation }: any) {
 
   const Map = () => (
     <View style={styles.container}>
-      <Text style={styles.title}>Map</Text>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         onLongPress={async (e) => await getAddressFromCoordinate(e)}
@@ -86,10 +85,5 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });

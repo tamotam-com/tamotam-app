@@ -98,7 +98,6 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const Map = () => (
     <View style={styles.container}>
-      <Text style={styles.title}>Map</Text>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         onPress={selectLocationHandler}
@@ -178,10 +177,5 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 4,
     paddingHorizontal: 2,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });
