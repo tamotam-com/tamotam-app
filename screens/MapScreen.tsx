@@ -6,7 +6,13 @@ import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
-import { Alert, Button, Dimensions, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { Marker } from "react-native-maps";
@@ -14,6 +20,7 @@ import { Text, View } from "../components/Themed";
 
 export default function MapScreen({ navigation }: any) {
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [markers, setMarkers] = useState(null);
   const colorScheme = useColorScheme();
   const events = useSelector((state: any) => state.events.events);
@@ -21,6 +28,7 @@ export default function MapScreen({ navigation }: any) {
 
   const loadEvents = useCallback(async () => {
     setError(null);
+    setIsLoading(true);
     try {
       await dispatch(eventsActions.fetchEvents());
     } catch (error) {
@@ -30,12 +38,24 @@ export default function MapScreen({ navigation }: any) {
         [{ text: "Okay" }]
       );
       setError(error.message);
+      setIsLoading(false);
     }
   }, [dispatch, setError]);
 
   useEffect(() => {
     loadEvents();
   }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+          size="large"
+        />
+      </View>
+    );
+  }
 
   const Map = () => (
     <View style={styles.container}>
@@ -68,6 +88,11 @@ export default function MapScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -85,5 +110,10 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
