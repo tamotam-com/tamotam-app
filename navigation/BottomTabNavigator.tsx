@@ -88,7 +88,7 @@ function MapNavigator() {
   return (
     <MapStack.Navigator>
       <MapStack.Screen
-        name="Map"
+        name="MapScreen"
         component={MapScreen}
         options={{
           headerTitleStyle: { fontFamily: "boiling-demo" },
