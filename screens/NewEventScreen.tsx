@@ -1,5 +1,5 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -8,6 +8,8 @@ import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  ActivityIndicator,
+  Alert,
   Button,
   Dimensions,
   KeyboardAvoidingView,
@@ -23,6 +25,8 @@ import { Text, View } from "../components/Themed";
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -53,19 +57,36 @@ export default function NewEventScreen({ navigation, route }: any) {
     setTitleValue(text);
   };
 
-  const addEventHandler = () => {
-    const newEvent: Event = {
-      id: savedEvents.length + 1, // TODO: That's a temporarly solution, later it has to go from the database.
-      coordinate: {
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
-      },
-      description: descriptionValue,
-      title: titleValue,
-    };
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
 
-    dispatch(addEvent(newEvent));
+  const addEventHandler = () => {
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const newEvent: Event = {
+        id: savedEvents.length + 1, // TODO: That's a temporarly solution, later it has to go from the database.
+        coordinate: {
+          latitude: selectedLocation.latitude,
+          longitude: selectedLocation.longitude,
+        },
+        description: descriptionValue,
+        title: titleValue,
+      };
+
+      dispatch(addEvent(newEvent));
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
+
     navigation.goBack();
+    setIsLoading(false);
   };
 
   const selectLocationHandler = (e: {
@@ -84,6 +105,17 @@ export default function NewEventScreen({ navigation, route }: any) {
       latitude: selectedLocation.latitude,
       longitude: selectedLocation.longitude,
     };
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+          size="large"
+        />
+      </View>
+    );
   }
 
   const Map = () => (
@@ -142,6 +174,11 @@ export default function NewEventScreen({ navigation, route }: any) {
 }
 
 const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   container: {
     flex: 1,
     alignItems: "center",

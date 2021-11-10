@@ -2,10 +2,16 @@ import useColorScheme from "../hooks/useColorScheme";
 import EventItem from "../components/EventItem";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { deleteEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, FlatList, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  FlatList,
+  StyleSheet,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
@@ -13,6 +19,8 @@ export default function SavedScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
   const savedEvents = useSelector((state: any) => state.events.savedEvents);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -43,6 +51,12 @@ export default function SavedScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
   const deleteHandler = (eventId: number) => {
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
       { text: "No", style: "default" },
@@ -50,7 +64,18 @@ export default function SavedScreen({ navigation, route }: any) {
         text: "Yes",
         style: "destructive",
         onPress: () => {
-          dispatch(deleteEvent(eventId));
+          setError("");
+          setIsLoading(true);
+
+          try {
+            dispatch(deleteEvent(eventId));
+          } catch (err) {
+            if (err instanceof Error) {
+              setError(err.message);
+            }
+          }
+
+          setIsLoading(false);
         },
       },
     ]);
@@ -62,6 +87,17 @@ export default function SavedScreen({ navigation, route }: any) {
         <StyledText style={styles.title}>
           No saved events found. Start adding some!
         </StyledText>
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+          size="large"
+        />
       </View>
     );
   }
@@ -95,6 +131,11 @@ export default function SavedScreen({ navigation, route }: any) {
 }
 
 const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   container: {
     flex: 1,
     alignItems: "center",

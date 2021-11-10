@@ -19,7 +19,7 @@ import { Marker } from "react-native-maps";
 import { Text, View } from "../components/Themed";
 
 export default function MapScreen({ navigation }: any) {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [markers, setMarkers] = useState(null);
   const colorScheme = useColorScheme();
@@ -27,24 +27,33 @@ export default function MapScreen({ navigation }: any) {
   const dispatch = useDispatch();
 
   const loadEvents = useCallback(async () => {
-    setError(null);
+    setError("");
     setIsLoading(true);
+
     try {
-      await dispatch(eventsActions.fetchEvents());
-    } catch (error) {
-      Alert.alert(
-        "An error occurred ❌",
-        "We couldn't load events, sorry.\nTry to reload tamotam!",
-        [{ text: "Okay" }]
-      );
-      setError(error.message);
-      setIsLoading(false);
+      dispatch(eventsActions.fetchEvents());
+    } catch (err) {
+      if (err instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "We couldn't load events, sorry.\nTry to reload tamotam!",
+          [{ text: "Okay" }]
+        );
+        setError(err.message);
+      }
     }
+    setIsLoading(false);
   }, [dispatch, setError]);
 
   useEffect(() => {
     loadEvents();
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
 
   if (isLoading) {
     return (

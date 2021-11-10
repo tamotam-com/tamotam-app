@@ -47,10 +47,12 @@ export const fetchEvents = () => {
       }
 
       dispatch({ type: SET_EVENTS, events: loadedEvents });
-    } catch (error) {
-      console.log(error);
-      // Send to some analytics server.
-      throw error;
+    } catch (err) {
+      if (err instanceof Error) {
+        console.log(err);
+        // Send to some analytics server.
+        throw err;
+      }
     }
   };
 };
