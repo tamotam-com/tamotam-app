@@ -1,10 +1,5 @@
 import { EVENTS } from "../../data/dummy-data";
-import {
-  ADD_EVENT,
-  DELETE_EVENT,
-  SET_FILTERS,
-  UPDATE_EVENT,
-} from "../actions/events";
+import { ADD_EVENT, DELETE_EVENT, UPDATE_EVENT } from "../actions/events";
 import { Event } from "../../interfaces/event";
 
 const initialState = {
@@ -40,8 +35,6 @@ export default (state = initialState, action: any) => {
           (event: Event) => event.id !== action.event_id
         ),
       };
-    case SET_FILTERS:
-      console.log("filters");
     case UPDATE_EVENT:
       const eventIndex = state.savedEvents.findIndex(
         (event: Event) => event.id === action.eventData.id

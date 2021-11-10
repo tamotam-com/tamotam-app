@@ -11,7 +11,6 @@ import {
 export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
-export const SET_FILTERS = "SET_FILTERS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
 
 export const fetchEvents = () => {
@@ -116,8 +115,4 @@ export const updateEvent = (event: Event) => {
       },
     });
   };
-};
-
-export const setFilters = (filterSettings: any) => {
-  return { type: SET_FILTERS, filters: filterSettings };
 };
