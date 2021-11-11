@@ -36,18 +36,6 @@ export default function SavedScreen({ navigation, route }: any) {
           />
         </HeaderButtons>
       ),
-      // in your app, extract the arrow function into a separate component
-      // to avoid creating a new one every time
-      headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-          <Item
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
-            title="search"
-            iconName="search"
-            onPress={() => navigation.navigate("EditEvent")}
-          />
-        </HeaderButtons>
-      ),
     });
   }, [navigation]);
 
