@@ -5,13 +5,8 @@ import StyledText from "../components/StyledText";
 import React, { useEffect, useState } from "react";
 import { deleteEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  FlatList,
-  StyleSheet,
-} from "react-native";
+import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
@@ -100,18 +95,33 @@ export default function SavedScreen({ navigation, route }: any) {
           title={eventData.item.title}
         >
           <Button
-            title="Event Detail"
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            icon="information-outline"
             onPress={() =>
-              navigation.navigate("EventDetail", { eventId: eventData.item.id })
+              navigation.navigate("EventDetail", {
+                eventId: eventData.item.id,
+              })
             }
-          />
+          >
+            Read More
+          </Button>
           <Button
-            title="Edit Event"
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            icon="lead-pencil"
             onPress={() =>
               navigation.navigate("EditEvent", { eventId: eventData.item.id })
             }
-          />
-          <Button title="x" onPress={() => deleteHandler(eventData.item.id)} />
+          >
+            Edit
+          </Button>
+
+          <Button
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            icon="delete"
+            onPress={() => deleteHandler(eventData.item.id)}
+          >
+            {" "}
+          </Button>
         </EventItem>
       )}
     />
