@@ -10,13 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   ActivityIndicator,
   Alert,
-  Button,
   Dimensions,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   TextInput,
 } from "react-native";
+import { Button } from "react-native-paper";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -166,7 +166,13 @@ export default function NewEventScreen({ navigation, route }: any) {
             onChangeText={descriptionChangeHandler}
             value={descriptionValue}
           />
-          <Button title="Add" onPress={addEventHandler} />
+          <Button
+            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            icon="plus-box"
+            onPress={addEventHandler}
+          >
+            Add
+          </Button>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

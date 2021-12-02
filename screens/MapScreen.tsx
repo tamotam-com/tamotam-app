@@ -6,13 +6,8 @@ import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
-import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { ActivityIndicator, Alert, Dimensions, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { Marker } from "react-native-maps";
@@ -83,7 +78,13 @@ export default function MapScreen({ navigation }: any) {
         >
           <Callout style={styles.locationButtonCallout} tooltip>
             <StyledText style={styles.title}>{events.title}</StyledText>
-            <Button onPress={() => dispatch(addEvent())} title={"Save"} />
+            <Button
+              color={colorScheme === "dark" ? "#b30000" : "#ffbfbf"}
+              icon="check-circle-outline"
+              onPress={() => dispatch(addEvent())}
+            >
+              Save
+            </Button>
             <StyledText style={styles.description}>
               {events.description}
             </StyledText>
