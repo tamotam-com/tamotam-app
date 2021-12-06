@@ -4,6 +4,7 @@ import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import MapView, { Marker } from "react-native-maps";
+import SelectImage from "../components/SelectImage";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,12 +47,16 @@ export default function NewEventScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const [descriptionValue, setDescriptionValue] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [titleValue, setTitleValue] = useState("");
   const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
     setDescriptionValue(text);
+  };
+  const imageTakenHandler = (imagePath: string) => {
+    setSelectedImage(imagePath);
   };
   const titleChangeHandler = (text: React.SetStateAction<string>) => {
     setTitleValue(text);
@@ -166,6 +171,7 @@ export default function NewEventScreen({ navigation, route }: any) {
             onChangeText={descriptionChangeHandler}
             value={descriptionValue}
           />
+          <SelectImage onImageTaken={imageTakenHandler} />
           <Button
             color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             icon="plus-box"
