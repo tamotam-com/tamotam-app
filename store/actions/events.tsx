@@ -65,6 +65,7 @@ export const addEvent = (event: Event) => {
         id: number;
         coordinate: { latitude: number; longitude: number };
         description: string;
+        imageUrl: string;
         title: string;
       };
     }) => void
@@ -78,6 +79,7 @@ export const addEvent = (event: Event) => {
           longitude: event.coordinate.longitude,
         },
         description: event.description,
+        imageUrl: event.imageUrl,
         title: event.title,
       },
     });
@@ -100,6 +102,7 @@ export const updateEvent = (event: Event) => {
         id: number;
         coordinate: { latitude: number; longitude: number };
         description: string;
+        imageUrl: string;
         title: string;
       };
     }) => void
@@ -113,6 +116,7 @@ export const updateEvent = (event: Event) => {
           longitude: event.coordinate.longitude,
         },
         description: event.description,
+        imageUrl: event.imageUrl,
         title: event.title,
       },
     });

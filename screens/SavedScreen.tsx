@@ -92,6 +92,7 @@ export default function SavedScreen({ navigation, route }: any) {
       renderItem={(eventData: Event | any) => (
         <EventItem
           description={eventData.item.description}
+          imageUrl={eventData.item.imageUrl}
           title={eventData.item.title}
         >
           <Button

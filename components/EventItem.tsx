@@ -20,7 +20,7 @@ const EventItem = (props: any) => {
       <Card.Content>
         <Paragraph>{props.description}</Paragraph>
       </Card.Content>
-      <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+      <Card.Cover source={{ uri: props.imageUrl }} />
       <Card.Actions>
         <Button>{props.children}</Button>
       </Card.Actions>

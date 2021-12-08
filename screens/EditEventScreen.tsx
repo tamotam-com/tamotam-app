@@ -90,6 +90,7 @@ export default function EditEventScreen({ navigation, route }: any) {
         description: descriptionValue
           ? descriptionValue
           : selectedEvent.description,
+        imageUrl: "https://picsum.photos/700",
         title: titleValue ? titleValue : selectedEvent.title,
       };
       dispatch(updateEvent(newEvent));

@@ -17,6 +17,7 @@ export default (state = initialState, action: any) => {
           longitude: action.eventData.coordinate.longitude,
         },
         description: action.eventData.description,
+        imageUrl: action.eventData.imageUrl,
         title: action.eventData.title,
       };
 
@@ -47,6 +48,7 @@ export default (state = initialState, action: any) => {
           longitude: action.eventData.coordinate.longitude,
         },
         description: action.eventData.description,
+        imageUrl: action.eventData.imageUrl,
         title: action.eventData.title,
       };
 

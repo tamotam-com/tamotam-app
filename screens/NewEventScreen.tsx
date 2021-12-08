@@ -80,6 +80,7 @@ export default function NewEventScreen({ navigation, route }: any) {
           longitude: selectedLocation.longitude,
         },
         description: descriptionValue,
+        imageUrl: selectedImage,
         title: titleValue,
       };
 
