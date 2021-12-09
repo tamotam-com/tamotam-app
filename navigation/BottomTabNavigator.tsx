@@ -69,6 +69,10 @@ export default function BottomTabNavigator({ navigation }: any) {
           onPress={() => navigation.navigate("NewEvent")}
           style={{
             backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
+            borderWidth: 1,
+            borderColor: colorScheme === "dark" ? "#ffbfbf" : "#b30000",
+            shadowColor: colorScheme === "dark" ? "#ffbfbf" : "#b30000",
+            shadowRadius: 15,
             position: "absolute",
             bottom: 100,
             right: 16,
