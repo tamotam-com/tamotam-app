@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   selectImage: {
     alignItems: "center",
     marginBottom: 15,
+    marginTop: 15,
   },
   imagePreview: {
     width: "100%",

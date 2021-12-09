@@ -176,9 +176,11 @@ export default function NewEventScreen({ navigation, route }: any) {
           <Button
             color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             icon="plus-box"
+            mode="outlined"
             onPress={addEventHandler}
+            style={styles.addEventButton}
           >
-            Add
+            Add Event
           </Button>
         </View>
       </ScrollView>
@@ -187,6 +189,11 @@ export default function NewEventScreen({ navigation, route }: any) {
 }
 
 const styles = StyleSheet.create({
+  addEventButton: {
+    borderColor: "#ffffff",
+    borderRadius: 50,
+    marginBottom: 50,
+  },
   centered: {
     alignItems: "center",
     flex: 1,
