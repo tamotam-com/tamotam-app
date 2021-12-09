@@ -6,7 +6,7 @@ import React from "react";
 import StyledText from "../components/StyledText";
 import { useSelector } from "react-redux";
 import { Coordinate } from "../interfaces/coordinate";
-import { Dimensions, ScrollView, StyleSheet } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Text, View } from "../components/Themed";
@@ -72,6 +72,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
 
   return (
     <ScrollView>
+      <Image source={{ uri: selectedEvent.imageUrl }} style={styles.image} />
       <Map />
       <View style={styles.container}>
         <StyledText>Title: {selectedEvent.title}</StyledText>
@@ -95,6 +96,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  image: {
+    backgroundColor: "#ccc",
+    height: "35%",
+    minHeight: 300,
+    width: "100%",
   },
   map: {
     height: Dimensions.get("window").height / 2,
