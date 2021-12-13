@@ -4,7 +4,7 @@ import { addEvent } from "../store/actions/events";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
 import {
   ActivityIndicator,
@@ -26,6 +26,7 @@ export default function MapScreen({ navigation }: any) {
   const colorScheme = useColorScheme();
   const events = useSelector((state: any) => state.events.events);
   const dispatch = useDispatch();
+  const mapRef = useRef(null);
 
   const loadEvents = useCallback(async () => {
     setError("");
@@ -98,7 +99,7 @@ export default function MapScreen({ navigation }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         onLongPress={async (e) => await getAddressFromCoordinate(e)}
-        ref={(ref) => (this.mapRef = ref)}
+        ref={mapRef}
         style={styles.map}
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}

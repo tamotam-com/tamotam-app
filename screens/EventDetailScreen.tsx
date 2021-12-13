@@ -2,7 +2,7 @@ import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import MapView, { Marker } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React from "react";
+import React, { useRef } from "react";
 import StyledText from "../components/StyledText";
 import { useSelector } from "react-redux";
 import { Coordinate } from "../interfaces/coordinate";
@@ -14,6 +14,7 @@ import { Text, View } from "../components/Themed";
 export default function PlaceDetailScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const eventId: number = route.params.eventId;
+  const mapRef = useRef(null);
   const selectedEvent: Event = useSelector((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
@@ -57,7 +58,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         onLongPress={async (e) => await getAddressFromCoordinate(e)}
-        ref={(ref) => (this.mapRef = ref)}
+        ref={mapRef}
         style={styles.map}
       >
         {markerCoordinates && (

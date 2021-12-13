@@ -1,5 +1,5 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -50,6 +50,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [titleValue, setTitleValue] = useState("");
+  const mapRef = useRef(null);
   const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
@@ -130,7 +131,7 @@ export default function NewEventScreen({ navigation, route }: any) {
       <MapView
         onPress={selectLocationHandler}
         onLongPress={async (e) => await getAddressFromCoordinate(e)}
-        ref={(ref) => (this.mapRef = ref)}
+        ref={mapRef}
         style={styles.map}
       >
         {markerCoordinates && (

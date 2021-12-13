@@ -1,5 +1,5 @@
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -26,6 +26,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
   const eventId: number = route.params.eventId;
+  const mapRef = useRef(null);
   const selectedEvent: Event = useSelector((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
@@ -133,7 +134,7 @@ export default function EditEventScreen({ navigation, route }: any) {
       <MapView
         onPress={selectLocationHandler}
         onLongPress={async (e) => await getAddressFromCoordinate(e)}
-        ref={(ref) => (this.mapRef = ref)}
+        ref={mapRef}
         style={styles.map}
       >
         {markerCoordinates && (
