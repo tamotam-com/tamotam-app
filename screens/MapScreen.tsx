@@ -6,7 +6,13 @@ import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
-import { ActivityIndicator, Alert, Dimensions, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Image,
+  StyleSheet,
+} from "react-native";
 import { Button } from "react-native-paper";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
@@ -78,6 +84,10 @@ export default function MapScreen({ navigation }: any) {
         >
           <Callout style={styles.locationButtonCallout} tooltip>
             <StyledText style={styles.title}>{events.title}</StyledText>
+            <Image
+              source={{ uri: "https://picsum.photos/700" }}
+              style={styles.image}
+            />
             <Button
               color={colorScheme === "dark" ? "#b30000" : "#ffbfbf"}
               icon="check-circle-outline"
@@ -112,10 +122,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "justify",
   },
+  image: {
+    width: "100%",
+    height: "50%",
+  },
   locationButtonCallout: {
-    borderRadius: 10,
     backgroundColor: "#ffbfbf",
+    borderRadius: 10,
+    height: 200,
     padding: 10,
+    width: 200,
   },
   map: {
     width: Dimensions.get("window").width,
