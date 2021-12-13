@@ -71,7 +71,6 @@ export default function MapScreen({ navigation }: any) {
         imageUrl: events.imageUrl,
         title: events.title,
       };
-      console.log("newEvent", newEvent);
 
       dispatch(addEvent(newEvent));
     } catch (err) {
