@@ -56,6 +56,33 @@ export default function MapScreen({ navigation }: any) {
     }
   }, [error]);
 
+  const addEventHandler = () => {
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const newEvent: Event = {
+        id: events.id,
+        coordinate: {
+          latitude: events.coordinate.latitude,
+          longitude: events.coordinate.longitude,
+        },
+        description: events.description,
+        imageUrl: events.imageUrl,
+        title: events.title,
+      };
+      console.log("newEvent", newEvent);
+
+      dispatch(addEvent(newEvent));
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
+
+    setIsLoading(false);
+  };
+
   if (isLoading) {
     return (
       <View style={styles.centered}>
@@ -82,7 +109,11 @@ export default function MapScreen({ navigation }: any) {
             longitude: events.coordinate.longitude,
           }}
         >
-          <Callout style={styles.locationButtonCallout} tooltip>
+          <Callout
+            onPress={addEventHandler}
+            style={styles.locationButtonCallout}
+            tooltip
+          >
             <StyledText style={styles.title}>{events.title}</StyledText>
             <Image
               source={{ uri: "https://picsum.photos/700" }}
@@ -91,7 +122,6 @@ export default function MapScreen({ navigation }: any) {
             <Button
               color={colorScheme === "dark" ? "#b30000" : "#ffbfbf"}
               icon="check-circle-outline"
-              onPress={() => dispatch(addEvent())}
             >
               Save
             </Button>
