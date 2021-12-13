@@ -48,7 +48,10 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const [descriptionValue, setDescriptionValue] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  }>({ latitude: 0, longitude: 0 });
   const [titleValue, setTitleValue] = useState("");
   const mapRef = useRef(null);
   const savedEvents = useSelector((state: any) => state.events.savedEvents);

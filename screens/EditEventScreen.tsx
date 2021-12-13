@@ -53,7 +53,10 @@ export default function EditEventScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const [descriptionValue, setDescriptionValue] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  }>({ latitude: 0, longitude: 0 });
   const [titleValue, setTitleValue] = useState("");
 
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
