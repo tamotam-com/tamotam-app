@@ -38,7 +38,7 @@ export default function MapScreen({ navigation }: any) {
       if (err instanceof Error) {
         Alert.alert(
           "An error occurred ❌",
-          "We couldn't load events, sorry.\nTry to reload tamotam!",
+          "We couldn't load events, sorry.\nTry to reload TamoTam!",
           [{ text: "Okay" }]
         );
         setError(err.message);
@@ -103,33 +103,37 @@ export default function MapScreen({ navigation }: any) {
         style={styles.map}
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
-        <Marker
-          coordinate={{
-            latitude: events.coordinate.latitude,
-            longitude: events.coordinate.longitude,
-          }}
-        >
-          <Callout
-            onPress={addEventHandler}
-            style={styles.locationButtonCallout}
-            tooltip
-          >
-            <StyledText style={styles.title}>{events.title}</StyledText>
-            <Image
-              source={{ uri: "https://picsum.photos/700" }}
-              style={styles.image}
-            />
-            <Button
-              color={colorScheme === "dark" ? "#b30000" : "#ffbfbf"}
-              icon="check-circle-outline"
+        {events.map((event: Event) => {
+          return (
+            <Marker
+              coordinate={{
+                latitude: event.coordinate.latitude,
+                longitude: event.coordinate.longitude,
+              }}
             >
-              Save
-            </Button>
-            <StyledText style={styles.description}>
-              {events.description}
-            </StyledText>
-          </Callout>
-        </Marker>
+              <Callout
+                onPress={addEventHandler}
+                style={styles.locationButtonCallout}
+                tooltip
+              >
+                <StyledText style={styles.title}>{event.title}</StyledText>
+                <Image
+                  source={{ uri: "https://picsum.photos/700" }}
+                  style={styles.image}
+                />
+                <Button
+                  color={colorScheme === "dark" ? "#b30000" : "#ffbfbf"}
+                  icon="check-circle-outline"
+                >
+                  Save
+                </Button>
+                <StyledText style={styles.description}>
+                  {event.description}
+                </StyledText>
+              </Callout>
+            </Marker>
+          );
+        })}
       </MapView>
     </View>
   );
