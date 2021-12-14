@@ -57,23 +57,12 @@ export default function MapScreen({ navigation }: any) {
     }
   }, [error]);
 
-  const addEventHandler = () => {
+  const addEventHandler = (event: Event) => {
     setError("");
     setIsLoading(true);
 
     try {
-      const newEvent: Event = {
-        id: events.id,
-        coordinate: {
-          latitude: events.coordinate.latitude,
-          longitude: events.coordinate.longitude,
-        },
-        description: events.description,
-        imageUrl: events.imageUrl,
-        title: events.title,
-      };
-
-      dispatch(addEvent(newEvent));
+      dispatch(addEvent(event));
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -112,7 +101,7 @@ export default function MapScreen({ navigation }: any) {
               }}
             >
               <Callout
-                onPress={addEventHandler}
+                onPress={() => addEventHandler(event)}
                 style={styles.locationButtonCallout}
                 tooltip
               >
