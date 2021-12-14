@@ -40,7 +40,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
 
   if (savedEvents.length === 0 || !savedEvents) {
     return (
-      <View style={styles.content}>
+      <View style={styles.container}>
         <StyledText style={styles.title}>
           No saved events found. Start adding some!
         </StyledText>
@@ -73,15 +73,11 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
 
   return (
     <ScrollView>
-      <Image source={{ uri: selectedEvent.imageUrl }} style={styles.image} />
-      <Map />
       <View style={styles.container}>
-        <StyledText>Title: {selectedEvent.title}</StyledText>
-        <StyledText>Description: {selectedEvent.description}</StyledText>
-        <StyledText>
-          Adress: {selectedEvent.coordinate.latitude},{" "}
-          {selectedEvent.coordinate.longitude}
-        </StyledText>
+        <StyledText>{selectedEvent.title}</StyledText>
+        <Map />
+        <StyledText>{selectedEvent.description}</StyledText>
+        <Image source={{ uri: selectedEvent.imageUrl }} style={styles.image} />
       </View>
     </ScrollView>
   );
@@ -92,11 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   image: {
     backgroundColor: "#ccc",
