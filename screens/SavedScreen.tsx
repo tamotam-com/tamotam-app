@@ -7,6 +7,7 @@ import { deleteEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
+import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
@@ -40,7 +41,7 @@ export default function SavedScreen({ navigation, route }: any) {
     }
   }, [error]);
 
-  const deleteHandler = (eventId: number) => {
+  const deleteHandler = (event: Event) => {
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
       { text: "No", style: "default" },
       {
@@ -51,7 +52,7 @@ export default function SavedScreen({ navigation, route }: any) {
           setIsLoading(true);
 
           try {
-            dispatch(deleteEvent(eventId));
+            dispatch(deleteEvent(event));
           } catch (err) {
             if (err instanceof Error) {
               setError(err.message);
@@ -119,7 +120,7 @@ export default function SavedScreen({ navigation, route }: any) {
           <Button
             color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
             icon="delete"
-            onPress={() => deleteHandler(eventData.item.id)}
+            onPress={() => deleteHandler(eventData.item)}
           >
             {" "}
           </Button>

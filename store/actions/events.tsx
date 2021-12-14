@@ -86,11 +86,32 @@ export const addEvent = (event: Event) => {
   };
 };
 
-export const deleteEvent = (eventId: number) => {
+export const deleteEvent = (event: Event) => {
   return async (
-    dispatch: (arg0: { type: string; event_id: number }) => void
+    dispatch: (arg0: {
+      type: string;
+      eventData: {
+        id: number;
+        coordinate: { latitude: number; longitude: number };
+        description: string;
+        imageUrl: string;
+        title: string;
+      };
+    }) => void
   ) => {
-    dispatch({ type: DELETE_EVENT, event_id: eventId });
+    dispatch({
+      type: DELETE_EVENT,
+      eventData: {
+        id: event.id,
+        coordinate: {
+          latitude: event.coordinate.latitude,
+          longitude: event.coordinate.longitude,
+        },
+        description: event.description,
+        imageUrl: event.imageUrl,
+        title: event.title,
+      },
+    });
   };
 };
 

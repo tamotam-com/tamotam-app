@@ -26,14 +26,10 @@ export default (state = initialState, action: any) => {
         savedEvents: state.savedEvents.concat(newEvent),
       };
     case DELETE_EVENT:
-      if (!state.savedEvents[action.event_id]) {
-        return state;
-      }
-
       return {
         ...state,
         savedEvents: state.savedEvents.filter(
-          (event: Event) => event.id !== action.event_id
+          (event: Event) => event.id !== action.eventData.id
         ),
       };
     case UPDATE_EVENT:
