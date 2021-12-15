@@ -23,7 +23,7 @@ export default (state = initialState, action: any) => {
 
       return {
         ...state,
-        savedEvents: state.savedEvents.concat(newEvent),
+        events: state.events.concat(newEvent),
       };
     case DELETE_EVENT:
       return {

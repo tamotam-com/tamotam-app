@@ -53,8 +53,8 @@ export default function NewEventScreen({ navigation, route }: any) {
     longitude: number;
   }>({ latitude: 0, longitude: 0 });
   const [titleValue, setTitleValue] = useState("");
+  const events = useSelector((state: any) => state.events.events);
   const mapRef = useRef(null);
-  const savedEvents = useSelector((state: any) => state.events.savedEvents);
 
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
     setDescriptionValue(text);
@@ -78,7 +78,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
     try {
       const newEvent: Event = {
-        id: savedEvents.length + 1, // TODO: That's a temporarly solution, later it has to go from the database.
+        id: events.length + 1, // TODO: That's a temporarly solution, later it has to go from the database.
         coordinate: {
           latitude: selectedLocation.latitude,
           longitude: selectedLocation.longitude,
