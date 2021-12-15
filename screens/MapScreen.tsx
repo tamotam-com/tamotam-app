@@ -1,8 +1,8 @@
 import * as eventsActions from "../store/actions/events";
 import StyledText from "../components/StyledText";
-import { addEvent } from "../store/actions/events";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
+import { saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import MapView, { Callout } from "react-native-maps";
@@ -57,12 +57,13 @@ export default function MapScreen({ navigation }: any) {
     }
   }, [error]);
 
-  const addEventHandler = (event: Event) => {
+  const saveEventHandler = (event: Event) => {
     setError("");
     setIsLoading(true);
 
     try {
-      dispatch(addEvent(event));
+      console.log(event);
+      dispatch(saveEvent(event));
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -101,7 +102,7 @@ export default function MapScreen({ navigation }: any) {
               }}
             >
               <Callout
-                onPress={() => addEventHandler(event)}
+                onPress={() => saveEventHandler(event)}
                 style={styles.locationButtonCallout}
                 tooltip
               >

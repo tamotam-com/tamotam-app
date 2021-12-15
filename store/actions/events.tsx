@@ -10,6 +10,7 @@ import {
 
 export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
+export const SAVE_EVENT = "SAVE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
 
@@ -101,6 +102,35 @@ export const deleteEvent = (event: Event) => {
   ) => {
     dispatch({
       type: DELETE_EVENT,
+      eventData: {
+        id: event.id,
+        coordinate: {
+          latitude: event.coordinate.latitude,
+          longitude: event.coordinate.longitude,
+        },
+        description: event.description,
+        imageUrl: event.imageUrl,
+        title: event.title,
+      },
+    });
+  };
+};
+
+export const saveEvent = (event: Event) => {
+  return async (
+    dispatch: (arg0: {
+      type: string;
+      eventData: {
+        id: number;
+        coordinate: { latitude: number; longitude: number };
+        description: string;
+        imageUrl: string;
+        title: string;
+      };
+    }) => void
+  ) => {
+    dispatch({
+      type: SAVE_EVENT,
       eventData: {
         id: event.id,
         coordinate: {
