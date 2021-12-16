@@ -19,10 +19,33 @@ const LeftContent = (props: any) => (
 
 const EventItem = (props: any) => {
   return (
-    <Card>
-      <Card.Title title={props.title} left={LeftContent} />
+    <Card
+      style={{
+        backgroundColor:
+          useColorScheme() === "dark"
+            ? Colors.dark.background
+            : Colors.light.background,
+      }}
+    >
+      <Card.Title
+        left={LeftContent}
+        title={props.title}
+        titleStyle={{
+          color:
+            useColorScheme() === "dark" ? Colors.dark.text : Colors.light.text,
+        }}
+      />
       <Card.Content>
-        <Paragraph>{props.description}</Paragraph>
+        <Paragraph
+          style={{
+            color:
+              useColorScheme() === "dark"
+                ? Colors.dark.text
+                : Colors.light.text,
+          }}
+        >
+          {props.description}
+        </Paragraph>
       </Card.Content>
       <Card.Cover source={{ uri: props.imageUrl }} />
       <Card.Actions>
