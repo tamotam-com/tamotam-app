@@ -1,21 +1,15 @@
-/**
- * Learn more about createBottomTabNavigator:
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-
+import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
+import MapScreen from "../screens/MapScreen";
+import React from "react";
+import SavedScreen from "../screens/SavedScreen";
+import StyledText from "../components/StyledText";
+import TabBarIcon from "../components/TabBarIcon";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { useIsFocused } from "@react-navigation/native";
-import { FAB, Portal } from "react-native-paper";
-import * as React from "react";
-
-// import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
-import MapScreen from "../screens/MapScreen";
-import SavedScreen from "../screens/SavedScreen";
-import TabBarIcon from "../components/TabBarIcon";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
-import StyledText from "../components/StyledText";
+import { FAB, Portal } from "react-native-paper";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
@@ -26,11 +20,18 @@ export default function BottomTabNavigator({ navigation }: any) {
   return (
     <React.Fragment>
       <BottomTab.Navigator
-        activeColor={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+        activeColor={
+          colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+        }
         barStyle={{
-          backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
+          backgroundColor:
+            colorScheme === "dark"
+              ? Colors.dark.background
+              : Colors.light.background,
         }}
-        inactiveColor={colorScheme === "dark" ? "#ffffff" : "#000000"}
+        inactiveColor={
+          colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+        }
         initialRouteName="Map"
         sceneAnimationEnabled={true}
         shifting={true}
@@ -64,14 +65,19 @@ export default function BottomTabNavigator({ navigation }: any) {
       </BottomTab.Navigator>
       <Portal>
         <FAB
-          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           icon="map-marker-plus-outline"
           onPress={() => navigation.navigate("NewEvent")}
           style={{
-            backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff",
+            backgroundColor:
+              colorScheme === "dark"
+                ? Colors.dark.background
+                : Colors.light.background,
             borderWidth: 1,
-            borderColor: colorScheme === "dark" ? "#ffbfbf" : "#b30000",
-            shadowColor: colorScheme === "dark" ? "#ffbfbf" : "#b30000",
+            borderColor:
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
+            shadowColor:
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
             shadowRadius: 15,
             position: "absolute",
             bottom: 100,

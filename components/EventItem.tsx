@@ -1,14 +1,18 @@
 import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
 import React from "react";
 import { Avatar, Button, Card, Paragraph } from "react-native-paper";
 
 const LeftContent = (props: any) => (
   <Avatar.Icon
     {...props}
-    color={useColorScheme() === "dark" ? "#ffbfbf" : "#b30000"}
+    color={useColorScheme() === "dark" ? Colors.dark.text : Colors.light.text}
     icon="map-check"
     style={{
-      backgroundColor: useColorScheme() === "dark" ? "#ffffff" : "#000000",
+      backgroundColor:
+        useColorScheme() === "dark"
+          ? Colors.dark.background
+          : Colors.light.background,
     }}
   />
 );

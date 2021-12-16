@@ -1,5 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
 import React, { useEffect, useState } from "react";
 import { Alert, Image, Platform, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
@@ -51,7 +52,7 @@ const SelectImage = (props: { onImageTaken: (arg0: string) => void }) => {
         )}
       </View>
       <Button
-        color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+        color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
         icon="camera"
         onPress={selectImageHandler}
       >

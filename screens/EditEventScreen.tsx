@@ -1,9 +1,9 @@
-import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useEffect, useRef, useState } from "react";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
+import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import MapView, { Marker } from "react-native-maps";
+import React, { useEffect, useRef, useState } from "react";
 import StyledText from "../components/StyledText";
 import { updateEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,7 +38,9 @@ export default function EditEventScreen({ navigation, route }: any) {
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            color={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }
@@ -124,7 +126,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator
-          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
       </View>
@@ -155,7 +157,12 @@ export default function EditEventScreen({ navigation, route }: any) {
       behavior="position"
       style={[
         styles.screen,
-        { backgroundColor: colorScheme === "dark" ? "#000000" : "#ffffff" },
+        {
+          backgroundColor:
+            colorScheme === "dark"
+              ? Colors.dark.background
+              : Colors.light.background,
+        },
       ]}
     >
       <ScrollView>
@@ -166,7 +173,10 @@ export default function EditEventScreen({ navigation, route }: any) {
             defaultValue={selectedEvent ? selectedEvent.title : ""}
             style={[
               styles.textInput,
-              { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
+              {
+                color:
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
+              },
             ]}
             onChangeText={titleChangeHandler}
           />
@@ -175,12 +185,17 @@ export default function EditEventScreen({ navigation, route }: any) {
             defaultValue={selectedEvent ? selectedEvent.description : ""}
             style={[
               styles.textInput,
-              { color: colorScheme === "dark" ? "#ffffff" : "#000000" },
+              {
+                color:
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
+              },
             ]}
             onChangeText={descriptionChangeHandler}
           />
           <Button
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            color={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
             icon="check-circle-outline"
             onPress={onSaveHandler}
           >

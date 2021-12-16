@@ -1,11 +1,12 @@
 import * as eventsActions from "../store/actions/events";
-import StyledText from "../components/StyledText";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
+import MapView, { Callout } from "react-native-maps";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import StyledText from "../components/StyledText";
 import { saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import MapView, { Callout } from "react-native-maps";
 import {
   ActivityIndicator,
   Alert,
@@ -77,7 +78,7 @@ export default function MapScreen({ navigation }: any) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator
-          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
       </View>
@@ -103,7 +104,23 @@ export default function MapScreen({ navigation }: any) {
             >
               <Callout
                 onPress={() => saveEventHandler(event)}
-                style={styles.locationButtonCallout}
+                style={[
+                  styles.locationButtonCallout,
+                  {
+                    backgroundColor:
+                      colorScheme === "dark"
+                        ? Colors.dark.background
+                        : Colors.light.background,
+                    borderColor:
+                      colorScheme === "dark"
+                        ? Colors.dark.text
+                        : Colors.light.text,
+                    shadowColor:
+                      colorScheme === "dark"
+                        ? Colors.dark.text
+                        : Colors.light.text,
+                  },
+                ]}
                 tooltip
               >
                 <StyledText style={styles.title}>{event.title}</StyledText>
@@ -112,7 +129,11 @@ export default function MapScreen({ navigation }: any) {
                   style={styles.image}
                 />
                 <Button
-                  color={colorScheme === "dark" ? "#b30000" : "#ffbfbf"}
+                  color={
+                    colorScheme === "dark"
+                      ? Colors.dark.text
+                      : Colors.light.text
+                  }
                   icon="check-circle-outline"
                 >
                   Save
@@ -151,10 +172,11 @@ const styles = StyleSheet.create({
     height: "50%",
   },
   locationButtonCallout: {
-    backgroundColor: "#ffbfbf",
     borderRadius: 10,
+    borderWidth: 1,
     height: 200,
     padding: 10,
+    shadowRadius: 15,
     width: 200,
   },
   map: {

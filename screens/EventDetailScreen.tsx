@@ -1,5 +1,6 @@
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
 import MapView, { Marker } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useRef } from "react";
@@ -24,7 +25,9 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            color={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }

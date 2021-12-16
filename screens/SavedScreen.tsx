@@ -1,4 +1,5 @@
 import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
 import EventItem from "../components/EventItem";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
@@ -23,7 +24,9 @@ export default function SavedScreen({ navigation, route }: any) {
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            color={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }
@@ -79,7 +82,7 @@ export default function SavedScreen({ navigation, route }: any) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator
-          color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
       </View>
@@ -97,7 +100,9 @@ export default function SavedScreen({ navigation, route }: any) {
           title={eventData.item.title}
         >
           <Button
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            color={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
             icon="information-outline"
             onPress={() =>
               navigation.navigate("EventDetail", {
@@ -108,7 +113,9 @@ export default function SavedScreen({ navigation, route }: any) {
             Read More
           </Button>
           <Button
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            color={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
             icon="lead-pencil"
             onPress={() =>
               navigation.navigate("EditEvent", { eventId: eventData.item.id })
@@ -118,7 +125,9 @@ export default function SavedScreen({ navigation, route }: any) {
           </Button>
 
           <Button
-            color={colorScheme === "dark" ? "#ffbfbf" : "#b30000"}
+            color={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
             icon="delete"
             onPress={() => deleteHandler(eventData.item)}
           >
