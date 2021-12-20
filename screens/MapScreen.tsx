@@ -28,6 +28,9 @@ export default function MapScreen({ navigation }: any) {
   const events = useSelector((state: any) => state.events.events);
   const dispatch = useDispatch();
   const mapRef = useRef(null);
+  const savedEvents: Event[] = useSelector(
+    (state: any) => state.events.savedEvents
+  );
 
   const loadEvents = useCallback(async () => {
     setError("");
@@ -63,7 +66,11 @@ export default function MapScreen({ navigation }: any) {
     setIsLoading(true);
 
     try {
-      console.log(event);
+      if (savedEvents.some((savedEvent: Event) => savedEvent.id === event.id)) {
+        Alert.alert("Duplicated saved event", error, [{ text: "Okay" }]);
+        setIsLoading(false);
+        return;
+      }
       dispatch(saveEvent(event));
     } catch (err) {
       if (err instanceof Error) {

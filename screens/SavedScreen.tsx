@@ -15,7 +15,9 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
-  const savedEvents = useSelector((state: any) => state.events.savedEvents);
+  const savedEvents: Event[] = useSelector(
+    (state: any) => state.events.savedEvents
+  );
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
