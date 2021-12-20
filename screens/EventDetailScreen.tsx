@@ -66,8 +66,8 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
       >
         {markerCoordinates && (
           <Marker
-            title="Picked Location"
             coordinate={markerCoordinates}
+            title="Event's Location"
           ></Marker>
         )}
       </MapView>
@@ -77,10 +77,12 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <StyledText>{selectedEvent.title}</StyledText>
-        <Map />
-        <StyledText>{selectedEvent.description}</StyledText>
+        <StyledText style={styles.title}>{selectedEvent.title}</StyledText>
+        <StyledText style={styles.description}>
+          {selectedEvent.description}
+        </StyledText>
         <Image source={{ uri: selectedEvent.imageUrl }} style={styles.image} />
+        <Map />
       </View>
     </ScrollView>
   );
@@ -92,17 +94,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  description: {
+    margin: 10,
+  },
   image: {
     backgroundColor: "#ccc",
-    height: "35%",
-    minHeight: 300,
-    width: "100%",
+    height: 150,
+    width: "50%",
   },
   map: {
     height: Dimensions.get("window").height / 2,
+    marginTop: 35,
     width: Dimensions.get("window").width,
   },
   title: {
+    fontSize: 20,
+    margin: 10,
     textAlign: "center",
   },
 });
