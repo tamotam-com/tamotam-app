@@ -81,7 +81,15 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
         <StyledText style={styles.description}>
           {selectedEvent.description}
         </StyledText>
-        <Image source={{ uri: selectedEvent.imageUrl }} style={styles.image} />
+        <Image
+          source={{
+            uri:
+              selectedEvent.imageUrl === ""
+                ? "https://picsum.photos/700"
+                : selectedEvent.imageUrl,
+          }}
+          style={styles.image}
+        />
         <Map />
       </View>
     </ScrollView>
