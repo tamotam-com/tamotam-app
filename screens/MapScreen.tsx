@@ -124,10 +124,7 @@ export default function MapScreen({ navigation }: any) {
                 tooltip
               >
                 <StyledText style={styles.title}>{event.title}</StyledText>
-                <Image
-                  source={{ uri: "https://picsum.photos/700" }}
-                  style={styles.image}
-                />
+                <Image source={{ uri: event.imageUrl }} style={styles.image} />
                 <Button
                   color={
                     colorScheme === "dark"
