@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     height: 200,
+    overflow: "scroll",
     padding: 10,
     shadowRadius: 15,
     width: 200,
