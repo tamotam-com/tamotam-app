@@ -3,6 +3,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import MapView, { Marker } from "react-native-maps";
+import SelectImage from "../components/SelectImage";
 import React, { useEffect, useRef, useState } from "react";
 import StyledText from "../components/StyledText";
 import { updateEvent } from "../store/actions/events";
@@ -11,6 +12,7 @@ import {
   ActivityIndicator,
   Alert,
   Dimensions,
+  Image,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -55,6 +57,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const [descriptionValue, setDescriptionValue] = useState("");
+  const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -63,6 +66,9 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
     setDescriptionValue(text);
+  };
+  const imageTakenHandler = (imagePath: string) => {
+    setSelectedImage(imagePath);
   };
   const selectLocationHandler = (e: {
     nativeEvent: { coordinate: Coordinate };
@@ -96,7 +102,7 @@ export default function EditEventScreen({ navigation, route }: any) {
         description: descriptionValue
           ? descriptionValue
           : selectedEvent.description,
-        imageUrl: "https://picsum.photos/700",
+        imageUrl: selectedImage === "" ? selectedEvent.imageUrl : selectedImage,
         title: titleValue ? titleValue : selectedEvent.title,
       };
       dispatch(updateEvent(newEvent));
@@ -192,6 +198,16 @@ export default function EditEventScreen({ navigation, route }: any) {
             ]}
             onChangeText={descriptionChangeHandler}
           />
+          <Image
+            source={{
+              uri:
+                selectedEvent.imageUrl === ""
+                  ? "https://picsum.photos/700"
+                  : selectedEvent.imageUrl,
+            }}
+            style={styles.image}
+          />
+          <SelectImage onImageTaken={imageTakenHandler} />
           <Button
             color={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
@@ -220,6 +236,15 @@ const styles = StyleSheet.create({
   },
   form: {
     marginHorizontal: 30,
+  },
+  image: {
+    alignItems: "center",
+    borderColor: "#ccc",
+    borderRadius: 10,
+    borderWidth: 1,
+    height: 200,
+    justifyContent: "center",
+    width: "100%",
   },
   label: {
     fontSize: 18,
