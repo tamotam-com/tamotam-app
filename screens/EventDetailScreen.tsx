@@ -98,26 +98,31 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
+    marginHorizontal: 30,
   },
   description: {
-    margin: 10,
+    marginBottom: 10,
   },
   image: {
-    backgroundColor: "#ccc",
-    height: 150,
-    width: "50%",
+    alignItems: "center",
+    borderColor: "#ccc",
+    borderRadius: 10,
+    borderWidth: 1,
+    height: 200,
+    justifyContent: "center",
+    width: "100%",
   },
   map: {
     height: Dimensions.get("window").height / 2,
-    marginTop: 35,
+    marginTop: 30,
     width: Dimensions.get("window").width,
   },
   title: {
     fontSize: 20,
-    margin: 10,
+    marginVertical: 15,
     textAlign: "center",
   },
 });
