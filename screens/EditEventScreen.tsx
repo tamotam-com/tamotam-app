@@ -198,16 +198,14 @@ export default function EditEventScreen({ navigation, route }: any) {
             ]}
             onChangeText={descriptionChangeHandler}
           />
-          <Image
-            source={{
-              uri:
-                selectedEvent.imageUrl === ""
-                  ? "https://picsum.photos/700"
-                  : selectedEvent.imageUrl,
-            }}
-            style={styles.image}
+          <SelectImage
+            existingImageUrl={
+              selectedEvent.imageUrl === ""
+                ? "https://picsum.photos/700"
+                : selectedEvent.imageUrl
+            }
+            onImageTaken={imageTakenHandler}
           />
-          <SelectImage onImageTaken={imageTakenHandler} />
           <Button
             color={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
@@ -236,15 +234,6 @@ const styles = StyleSheet.create({
   },
   form: {
     marginHorizontal: 30,
-  },
-  image: {
-    alignItems: "center",
-    borderColor: "#ccc",
-    borderRadius: 10,
-    borderWidth: 1,
-    height: 200,
-    justifyContent: "center",
-    width: "100%",
   },
   label: {
     fontSize: 18,

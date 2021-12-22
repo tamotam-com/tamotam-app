@@ -6,7 +6,10 @@ import { Alert, Image, Platform, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { Text, View } from "./Themed";
 
-const SelectImage = (props: { onImageTaken: (arg0: string) => void }) => {
+const SelectImage = (props: {
+  existingImageUrl?: string;
+  onImageTaken: (arg0: string) => void;
+}) => {
   const colorScheme = useColorScheme();
   const [pickedImage, setPickedImage] = useState("");
 
@@ -45,10 +48,16 @@ const SelectImage = (props: { onImageTaken: (arg0: string) => void }) => {
   return (
     <View style={styles.selectImage}>
       <View style={styles.imagePreview}>
-        {!pickedImage ? (
+        {!pickedImage &&
+        (!props.existingImageUrl || props.existingImageUrl === "") ? (
           <Text>No image picked yet.</Text>
         ) : (
-          <Image style={styles.image} source={{ uri: pickedImage }} />
+          <Image
+            style={styles.image}
+            source={{
+              uri: pickedImage ? pickedImage : props.existingImageUrl,
+            }}
+          />
         )}
       </View>
       <Button
