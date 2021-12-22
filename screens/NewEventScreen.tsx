@@ -1,6 +1,7 @@
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import MapView, { Marker } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useEffect, useRef, useState } from "react";
@@ -188,6 +189,28 @@ export default function NewEventScreen({ navigation, route }: any) {
             ]}
             onChangeText={descriptionChangeHandler}
             value={descriptionValue}
+          />
+          <DateTimePicker
+            display="spinner"
+            mode="date"
+            testID="datePicker"
+            textColor={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
+            value={new Date(1598051730000)}
+            // value={date}
+            // onChange={onChange}
+          />
+          <DateTimePicker
+            display="spinner"
+            mode="time"
+            testID="timePicker"
+            textColor={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
+            value={new Date(1598051730000)}
+            // value={date}
+            // onChange={onChange}
           />
           <SelectImage onImageTaken={imageTakenHandler} />
           <Button
