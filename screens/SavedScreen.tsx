@@ -94,7 +94,7 @@ export default function SavedScreen({ navigation, route }: any) {
   return (
     <FlatList
       data={savedEvents}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item: Event, index: number) => index.toString()}
       renderItem={(eventData: Event | any) => (
         <EventItem
           description={eventData.item.description}
