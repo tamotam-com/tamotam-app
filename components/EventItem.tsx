@@ -46,6 +46,26 @@ const EventItem = (props: any) => {
         >
           {props.description}
         </Paragraph>
+        <Paragraph
+          style={{
+            color:
+              useColorScheme() === "dark"
+                ? Colors.dark.text
+                : Colors.light.text,
+          }}
+        >
+          🗓️ {props.date}
+        </Paragraph>
+        <Paragraph
+          style={{
+            color:
+              useColorScheme() === "dark"
+                ? Colors.dark.text
+                : Colors.light.text,
+          }}
+        >
+          🕒 {props.time}
+        </Paragraph>
       </Card.Content>
       <Card.Cover source={{ uri: props.imageUrl }} />
       <Card.Actions>

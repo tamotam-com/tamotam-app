@@ -140,6 +140,15 @@ export default function MapScreen({ navigation }: any) {
                   }}
                   style={styles.image}
                 />
+                <StyledText style={styles.description}>
+                  {event.description}
+                </StyledText>
+                <StyledText style={styles.description}>
+                  🗓️ {event.date}
+                </StyledText>
+                <StyledText style={styles.description}>
+                  🕒 {event.time}
+                </StyledText>
                 <Button
                   color={
                     colorScheme === "dark"
@@ -150,9 +159,6 @@ export default function MapScreen({ navigation }: any) {
                 >
                   Save
                 </Button>
-                <StyledText style={styles.description}>
-                  {event.description}
-                </StyledText>
               </Callout>
             </Marker>
           );
@@ -186,11 +192,11 @@ const styles = StyleSheet.create({
   locationButtonCallout: {
     borderRadius: 10,
     borderWidth: 1,
-    height: 200,
+    height: 300,
     overflow: "scroll",
     padding: 10,
     shadowRadius: 15,
-    width: 200,
+    width: 300,
   },
   map: {
     width: Dimensions.get("window").width,

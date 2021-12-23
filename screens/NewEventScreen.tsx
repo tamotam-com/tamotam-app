@@ -49,12 +49,14 @@ export default function NewEventScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
+  const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [descriptionValue, setDescriptionValue] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
     longitude: number;
   }>({ latitude: 0, longitude: 0 });
+  const [selectedTime, setSelectedTime] = useState<any>(new Date());
   const [titleValue, setTitleValue] = useState("");
   const events = useSelector((state: any) => state.events.events);
   const mapRef = useRef(null);
@@ -86,8 +88,10 @@ export default function NewEventScreen({ navigation, route }: any) {
           latitude: selectedLocation.latitude,
           longitude: selectedLocation.longitude,
         },
+        date: selectedDate.toDateString(),
         description: descriptionValue,
         imageUrl: selectedImage,
+        time: selectedTime.toTimeString(),
         title: titleValue,
       };
 
@@ -100,6 +104,16 @@ export default function NewEventScreen({ navigation, route }: any) {
 
     navigation.goBack();
     setIsLoading(false);
+  };
+
+  const onDateChange = (_event: any, selectedValueDate: Date | undefined) => {
+    const currentDate: Date = selectedValueDate || selectedDate;
+    setSelectedDate(currentDate);
+  };
+
+  const onTimeChange = (_event: any, selectedTimeValue: Date | undefined) => {
+    const currentTime: Date = selectedTimeValue || selectedTime;
+    setSelectedTime(currentTime);
   };
 
   const selectLocationHandler = (e: {
@@ -193,24 +207,22 @@ export default function NewEventScreen({ navigation, route }: any) {
           <DateTimePicker
             display="spinner"
             mode="date"
+            onChange={onDateChange}
             testID="datePicker"
             textColor={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
-            value={new Date(1598051730000)}
-            // value={date}
-            // onChange={onChange}
+            value={selectedDate}
           />
           <DateTimePicker
             display="spinner"
             mode="time"
+            onChange={onTimeChange}
             testID="timePicker"
             textColor={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
-            value={new Date(1598051730000)}
-            // value={date}
-            // onChange={onChange}
+            value={selectedTime}
           />
           <SelectImage onImageTaken={imageTakenHandler} />
           <Button

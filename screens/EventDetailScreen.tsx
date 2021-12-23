@@ -81,6 +81,12 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
         <StyledText style={styles.description}>
           {selectedEvent.description}
         </StyledText>
+        <StyledText style={styles.description}>
+          🗓️ {selectedEvent.date}
+        </StyledText>
+        <StyledText style={styles.description}>
+          🕒 {selectedEvent.time}
+        </StyledText>
         <Image
           source={{
             uri:

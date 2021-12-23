@@ -97,12 +97,14 @@ export default function SavedScreen({ navigation, route }: any) {
       keyExtractor={(item: Event, index: number) => index.toString()}
       renderItem={(eventData: Event | any) => (
         <EventItem
+          date={eventData.item.date}
           description={eventData.item.description}
           imageUrl={
             eventData.item.imageUrl === ""
               ? "https://picsum.photos/700"
               : eventData.item.imageUrl
           }
+          time={eventData.item.time}
           title={eventData.item.title}
         >
           <Button

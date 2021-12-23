@@ -1,6 +1,7 @@
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import MapView, { Marker } from "react-native-maps";
 import SelectImage from "../components/SelectImage";
@@ -57,11 +58,13 @@ export default function EditEventScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const [descriptionValue, setDescriptionValue] = useState("");
+  const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
     longitude: number;
   }>({ latitude: 0, longitude: 0 });
+  const [selectedTime, setSelectedTime] = useState<any>(new Date());
   const [titleValue, setTitleValue] = useState("");
 
   const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
@@ -69,6 +72,14 @@ export default function EditEventScreen({ navigation, route }: any) {
   };
   const imageTakenHandler = (imagePath: string) => {
     setSelectedImage(imagePath);
+  };
+  const onDateChange = (_event: any, selectedValueDate: Date | undefined) => {
+    const currentDate: Date = selectedValueDate || selectedDate;
+    setSelectedDate(currentDate);
+  };
+  const onTimeChange = (_event: any, selectedTimeValue: Date | undefined) => {
+    const currentTime: Date = selectedTimeValue || selectedTime;
+    setSelectedTime(currentTime);
   };
   const selectLocationHandler = (e: {
     nativeEvent: { coordinate: Coordinate };
@@ -99,10 +110,12 @@ export default function EditEventScreen({ navigation, route }: any) {
           latitude: markerCoordinates.latitude,
           longitude: markerCoordinates.longitude,
         },
+        date: selectedDate ? selectedDate.toDateString() : selectedEvent.date,
         description: descriptionValue
           ? descriptionValue
           : selectedEvent.description,
         imageUrl: selectedImage === "" ? selectedEvent.imageUrl : selectedImage,
+        time: selectedTime ? selectedTime.toTimeString() : selectedEvent.time,
         title: titleValue ? titleValue : selectedEvent.title,
       };
       dispatch(updateEvent(newEvent));
@@ -197,6 +210,30 @@ export default function EditEventScreen({ navigation, route }: any) {
               },
             ]}
             onChangeText={descriptionChangeHandler}
+          />
+          <DateTimePicker
+            display="spinner"
+            mode="date"
+            onChange={onDateChange}
+            testID="datePicker"
+            textColor={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
+            // TODO: Fix this issue here, as I can't edit the date.
+            // value={selectedEvent ? new Date(selectedEvent.date) : new Date()}
+            value={new Date()}
+          />
+          <DateTimePicker
+            display="spinner"
+            mode="time"
+            onChange={onTimeChange}
+            testID="timePicker"
+            textColor={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
+            // TODO: Fix this issue here, as I can't edit the time.
+            // value={selectedEvent ? new Date(selectedEvent.time) : new Date()}
+            value={new Date()}
           />
           <SelectImage
             existingImageUrl={
