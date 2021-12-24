@@ -110,12 +110,16 @@ export default function EditEventScreen({ navigation, route }: any) {
           latitude: markerCoordinates.latitude,
           longitude: markerCoordinates.longitude,
         },
-        date: selectedDate ? selectedDate.toDateString() : selectedEvent.date,
+        date: selectedDate
+          ? selectedDate.toLocaleDateString()
+          : selectedEvent.date,
         description: descriptionValue
           ? descriptionValue
           : selectedEvent.description,
         imageUrl: selectedImage === "" ? selectedEvent.imageUrl : selectedImage,
-        time: selectedTime ? selectedTime.toTimeString() : selectedEvent.time,
+        time: selectedTime
+          ? selectedTime.toLocaleTimeString()
+          : selectedEvent.time,
         title: titleValue ? titleValue : selectedEvent.title,
       };
       dispatch(updateEvent(newEvent));

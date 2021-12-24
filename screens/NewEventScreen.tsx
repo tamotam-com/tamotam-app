@@ -88,10 +88,10 @@ export default function NewEventScreen({ navigation, route }: any) {
           latitude: selectedLocation.latitude,
           longitude: selectedLocation.longitude,
         },
-        date: selectedDate.toDateString(),
+        date: selectedDate.toLocaleDateString(),
         description: descriptionValue,
         imageUrl: selectedImage,
-        time: selectedTime.toTimeString(),
+        time: selectedTime.toLocaleTimeString(),
         title: titleValue,
       };
 
