@@ -82,10 +82,10 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
           {selectedEvent.description}
         </StyledText>
         <StyledText style={styles.description}>
-          🗓️ {selectedEvent.date}
+          🗓️ {selectedEvent.date.toLocaleDateString()}
         </StyledText>
         <StyledText style={styles.description}>
-          🕒 {selectedEvent.time}
+          🕒 {selectedEvent.date.toLocaleTimeString()}
         </StyledText>
         <Image
           source={{

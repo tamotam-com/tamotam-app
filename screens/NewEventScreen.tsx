@@ -56,7 +56,6 @@ export default function NewEventScreen({ navigation, route }: any) {
     latitude: number;
     longitude: number;
   }>({ latitude: 0, longitude: 0 });
-  const [selectedTime, setSelectedTime] = useState<any>(new Date());
   const [titleValue, setTitleValue] = useState("");
   const events = useSelector((state: any) => state.events.events);
   const mapRef = useRef(null);
@@ -88,10 +87,9 @@ export default function NewEventScreen({ navigation, route }: any) {
           latitude: selectedLocation.latitude,
           longitude: selectedLocation.longitude,
         },
-        date: selectedDate.toLocaleDateString(),
+        date: selectedDate,
         description: descriptionValue,
         imageUrl: selectedImage,
-        time: selectedTime.toLocaleTimeString(),
         title: titleValue,
       };
 
@@ -107,13 +105,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const onDateChange = (_event: any, selectedValueDate: Date | undefined) => {
-    const currentDate: Date = selectedValueDate || selectedDate;
-    setSelectedDate(currentDate);
-  };
-
-  const onTimeChange = (_event: any, selectedTimeValue: Date | undefined) => {
-    const currentTime: Date = selectedTimeValue || selectedTime;
-    setSelectedTime(currentTime);
+    setSelectedDate(selectedValueDate);
   };
 
   const selectLocationHandler = (e: {
@@ -217,12 +209,12 @@ export default function NewEventScreen({ navigation, route }: any) {
           <DateTimePicker
             display="spinner"
             mode="time"
-            onChange={onTimeChange}
+            onChange={onDateChange}
             testID="timePicker"
             textColor={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
-            value={selectedTime}
+            value={selectedDate}
           />
           <SelectImage onImageTaken={imageTakenHandler} />
           <Button

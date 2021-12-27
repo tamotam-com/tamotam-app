@@ -54,7 +54,7 @@ const EventItem = (props: any) => {
                 : Colors.light.text,
           }}
         >
-          🗓️ {props.date}
+          🗓️ {props.date.toLocaleDateString()}
         </Paragraph>
         <Paragraph
           style={{
@@ -64,7 +64,7 @@ const EventItem = (props: any) => {
                 : Colors.light.text,
           }}
         >
-          🕒 {props.time}
+          🕒 {props.date.toLocaleTimeString()}
         </Paragraph>
       </Card.Content>
       <Card.Cover source={{ uri: props.imageUrl }} />

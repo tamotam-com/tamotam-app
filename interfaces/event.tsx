@@ -3,9 +3,8 @@ import { Coordinate } from "./coordinate";
 export interface Event {
   id: number;
   coordinate: Coordinate;
-  date: string;
+  date: Date;
   description: string;
   imageUrl: string;
-  time: string;
   title: string;
 }

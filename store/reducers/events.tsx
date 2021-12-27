@@ -24,7 +24,6 @@ export default (state = initialState, action: any) => {
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
-        time: action.eventData.time,
         title: action.eventData.title,
       };
 
@@ -49,7 +48,6 @@ export default (state = initialState, action: any) => {
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
-        time: action.eventData.time,
         title: action.eventData.title,
       };
 
@@ -71,7 +69,6 @@ export default (state = initialState, action: any) => {
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
-        time: action.eventData.time,
         title: action.eventData.title,
       };
 

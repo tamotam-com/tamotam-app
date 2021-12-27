@@ -144,10 +144,10 @@ export default function MapScreen({ navigation }: any) {
                   {event.description}
                 </StyledText>
                 <StyledText style={styles.description}>
-                  🗓️ {event.date}
+                  🗓️ {event.date.toLocaleDateString()}
                 </StyledText>
                 <StyledText style={styles.description}>
-                  🕒 {event.time}
+                  🕒 {event.date.toLocaleTimeString()}
                 </StyledText>
                 <Button
                   color={

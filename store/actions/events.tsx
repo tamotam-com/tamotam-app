@@ -65,11 +65,10 @@ export const addEvent = (event: Event) => {
       eventData: {
         id: number;
         coordinate: { latitude: number; longitude: number };
-        date: string;
+        date: Date;
         description: string;
         imageUrl: string;
         title: string;
-        time: string;
       };
     }) => void
   ) => {
@@ -84,7 +83,6 @@ export const addEvent = (event: Event) => {
         date: event.date,
         description: event.description,
         imageUrl: event.imageUrl,
-        time: event.time,
         title: event.title,
       },
     });
@@ -98,11 +96,10 @@ export const deleteEvent = (event: Event) => {
       eventData: {
         id: number;
         coordinate: { latitude: number; longitude: number };
-        date: string;
+        date: Date;
         description: string;
         imageUrl: string;
         title: string;
-        time: string;
       };
     }) => void
   ) => {
@@ -117,7 +114,6 @@ export const deleteEvent = (event: Event) => {
         date: event.date,
         description: event.description,
         imageUrl: event.imageUrl,
-        time: event.time,
         title: event.title,
       },
     });
@@ -131,11 +127,10 @@ export const saveEvent = (event: Event) => {
       eventData: {
         id: number;
         coordinate: { latitude: number; longitude: number };
-        date: string;
+        date: Date;
         description: string;
         imageUrl: string;
         title: string;
-        time: string;
       };
     }) => void
   ) => {
@@ -150,7 +145,6 @@ export const saveEvent = (event: Event) => {
         date: event.date,
         description: event.description,
         imageUrl: event.imageUrl,
-        time: event.time,
         title: event.title,
       },
     });
@@ -164,11 +158,10 @@ export const updateEvent = (event: Event) => {
       eventData: {
         id: number;
         coordinate: { latitude: number; longitude: number };
-        date: string;
+        date: Date;
         description: string;
         imageUrl: string;
         title: string;
-        time: string;
       };
     }) => void
   ) => {
@@ -183,7 +176,6 @@ export const updateEvent = (event: Event) => {
         date: event.date,
         description: event.description,
         imageUrl: event.imageUrl,
-        time: event.time,
         title: event.title,
       },
     });
