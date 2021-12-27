@@ -147,7 +147,11 @@ export default function MapScreen({ navigation }: any) {
                   🗓️ {event.date.toLocaleDateString()}
                 </StyledText>
                 <StyledText style={styles.description}>
-                  🕒 {event.date.toLocaleTimeString()}
+                  🕒{" "}
+                  {event.date.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </StyledText>
                 <Button
                   color={

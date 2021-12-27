@@ -64,7 +64,11 @@ const EventItem = (props: any) => {
                 : Colors.light.text,
           }}
         >
-          🕒 {props.date.toLocaleTimeString()}
+          🕒{" "}
+          {props.date.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </Paragraph>
       </Card.Content>
       <Card.Cover source={{ uri: props.imageUrl }} />
