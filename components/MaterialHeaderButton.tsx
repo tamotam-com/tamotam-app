@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   HeaderButton,
   HeaderButtonProps,
@@ -9,7 +9,7 @@ const MaterialHeaderButton = (
   props: JSX.IntrinsicAttributes &
     JSX.IntrinsicClassAttributes<HeaderButton> &
     Readonly<HeaderButtonProps> &
-    Readonly<{ children?: React.ReactNode }>
+    Readonly<{ children?: ReactNode }>
 ) => {
   return (
     <HeaderButton IconComponent={MaterialIcons} iconSize={23} {...props} />

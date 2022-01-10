@@ -1,24 +1,18 @@
-/**
- * If you are not familiar with React Navigation, check out the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import { ColorSchemeName } from "react-native";
+import BottomTabNavigator from "./BottomTabNavigator";
 import EditEventScreen from "../screens/EditEventScreen";
 import EventDetailScreen from "../screens/EventDetailScreen";
-import NewEventScreen from "../screens/NewEventScreen";
-
-import NotFoundScreen from "../screens/NotFoundScreen";
-import { RootStackParamList } from "../types";
-import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
+import NewEventScreen from "../screens/NewEventScreen";
+import NotFoundScreen from "../screens/NotFoundScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import { ColorSchemeName } from "react-native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from "@react-navigation/native";
+import { RootStackParamList } from "../types";
 
 export default function Navigation({
   colorScheme,
@@ -35,23 +29,20 @@ export default function Navigation({
   );
 }
 
-// A root stack navigator is often used for displaying modals on top of all other content
-// Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator<RootStackParamList>();
-
 function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Root"
         component={BottomTabNavigator}
+        name="Root"
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="NotFound"
         component={NotFoundScreen}
+        name="NotFound"
         options={{
           headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },
@@ -59,8 +50,8 @@ function RootNavigator() {
         }}
       />
       <Stack.Screen
-        name="EditEvent"
         component={EditEventScreen}
+        name="EditEvent"
         options={{
           headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },
@@ -68,8 +59,8 @@ function RootNavigator() {
         }}
       />
       <Stack.Screen
-        name="NewEvent"
         component={NewEventScreen}
+        name="NewEvent"
         options={{
           headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },
@@ -77,8 +68,8 @@ function RootNavigator() {
         }}
       />
       <Stack.Screen
-        name="EventDetail"
         component={EventDetailScreen}
+        name="EventDetail"
         options={{
           headerShown: true,
           headerTitleStyle: { fontFamily: "boiling-demo" },

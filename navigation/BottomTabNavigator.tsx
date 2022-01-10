@@ -1,9 +1,8 @@
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import MapScreen from "../screens/MapScreen";
-import React from "react";
+import React, { Fragment } from "react";
 import SavedScreen from "../screens/SavedScreen";
-import StyledText from "../components/StyledText";
 import TabBarIcon from "../components/TabBarIcon";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -15,10 +14,10 @@ const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator({ navigation }: any) {
   const colorScheme = useColorScheme();
-  const isFocused = useIsFocused();
+  const isFocused: boolean = useIsFocused();
 
   return (
-    <React.Fragment>
+    <Fragment>
       <BottomTab.Navigator
         activeColor={
           colorScheme === "dark" ? Colors.dark.text : Colors.light.text
@@ -37,28 +36,28 @@ export default function BottomTabNavigator({ navigation }: any) {
         shifting={true}
       >
         <BottomTab.Screen
-          name="Map"
           component={MapNavigator}
+          name="Map"
           options={{
             tabBarIcon: ({ color, focused }) => {
               let iconName: string = !focused
                 ? "map-check"
                 : "map-check-outline";
 
-              return <TabBarIcon name={iconName} color={color} />;
+              return <TabBarIcon color={color} name={iconName} />;
             },
           }}
         />
         <BottomTab.Screen
-          name="Saved"
           component={SavedNavigator}
+          name="Saved"
           options={{
             tabBarIcon: ({ color, focused }) => {
               let iconName: string = !focused
                 ? "bookmark"
                 : "bookmark-check-outline";
 
-              return <TabBarIcon name={iconName} color={color} />;
+              return <TabBarIcon color={color} name={iconName} />;
             },
           }}
         />
@@ -76,30 +75,27 @@ export default function BottomTabNavigator({ navigation }: any) {
             borderWidth: 1,
             borderColor:
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
+            bottom: 100,
+            position: "absolute",
+            right: 16,
             shadowColor:
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
             shadowRadius: 15,
-            position: "absolute",
-            bottom: 100,
-            right: 16,
           }}
           visible={isFocused}
         />
       </Portal>
-    </React.Fragment>
+    </Fragment>
   );
 }
 
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const MapStack = createStackNavigator<MapParamList>();
-
 function MapNavigator() {
   return (
     <MapStack.Navigator>
       <MapStack.Screen
-        name="MapScreen"
         component={MapScreen}
+        name="MapScreen"
         options={{
           headerTitleStyle: { fontFamily: "boiling-demo" },
           headerShown: true,
@@ -110,13 +106,12 @@ function MapNavigator() {
 }
 
 const SavedStack = createStackNavigator<SavedParamList>();
-
 function SavedNavigator() {
   return (
     <SavedStack.Navigator>
       <SavedStack.Screen
-        name="SavedScreen"
         component={SavedScreen}
+        name="SavedScreen"
         options={{
           headerShown: true,
           headerTitle: "Saved",

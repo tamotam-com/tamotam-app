@@ -5,7 +5,15 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import MapView, { Marker } from "react-native-maps";
 import SelectImage from "../components/SelectImage";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+} from "react";
 import StyledText from "../components/StyledText";
 import { updateEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +21,6 @@ import {
   ActivityIndicator,
   Alert,
   Dimensions,
-  Image,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -23,20 +30,40 @@ import { Button } from "react-native-paper";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 
 export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
   const eventId: number = route.params.eventId;
-  const mapRef = useRef(null);
+  const mapRef: MutableRefObject<null> = useRef(null);
   const selectedEvent: Event = useSelector((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [descriptionValue, setDescriptionValue] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<any | Date>(
+    selectedEvent.date
+  );
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [selectedLocation, setSelectedLocation] = useState<Coordinate>({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [titleValue, setTitleValue] = useState<string>("");
+  let markerCoordinates: Coordinate = {
+    latitude: selectedEvent.coordinate.latitude,
+    longitude: selectedEvent.coordinate.longitude,
+  };
 
-  React.useLayoutEffect(() => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
@@ -57,45 +84,59 @@ export default function EditEventScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  const [descriptionValue, setDescriptionValue] = useState("");
-  const [selectedDate, setSelectedDate] = useState<any | Date>(
-    selectedEvent.date
-  );
-  const [selectedImage, setSelectedImage] = useState<string>("");
-  const [selectedLocation, setSelectedLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  }>({ latitude: 0, longitude: 0 });
-  const [titleValue, setTitleValue] = useState("");
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+          size="large"
+        />
+      </View>
+    );
+  }
 
-  const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
+  if (selectedLocation) {
+    markerCoordinates = {
+      latitude: selectedLocation.latitude,
+      longitude: selectedLocation.longitude,
+    };
+  }
+
+  const onDescriptionChange: (text: SetStateAction<string>) => void = (
+    text: SetStateAction<string>
+  ) => {
     setDescriptionValue(text);
   };
-  const imageTakenHandler = (imagePath: string) => {
-    setSelectedImage(imagePath);
-  };
-  const onDateChange = (_event: any, selectedValueDate: Date | undefined) => {
+
+  const onDateChange: (
+    _event: any,
+    selectedValueDate: Date | undefined
+  ) => void = (_event: any, selectedValueDate: Date | undefined) => {
     setSelectedDate(selectedValueDate);
   };
-  const selectLocationHandler = (e: {
-    nativeEvent: { coordinate: Coordinate };
-  }) => {
+
+  const onImageChange: (imagePath: string) => void = (imagePath: string) => {
+    setSelectedImage(imagePath);
+  };
+
+  const onLocationChange: (e: {
+    nativeEvent: {
+      coordinate: Coordinate;
+    };
+  }) => void = (e: { nativeEvent: { coordinate: Coordinate } }) => {
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
     });
   };
-  const titleChangeHandler = (text: React.SetStateAction<string>) => {
+
+  const onTitleChange: (text: SetStateAction<string>) => void = (
+    text: SetStateAction<string>
+  ) => {
     setTitleValue(text);
   };
 
-  useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
-    }
-  }, [error]);
-
-  const onSaveHandler = () => {
+  const onSaveHandler: () => void = () => {
     setError("");
     setIsLoading(true);
 
@@ -124,42 +165,19 @@ export default function EditEventScreen({ navigation, route }: any) {
     setIsLoading(false);
   };
 
-  let markerCoordinates: Coordinate = {
-    latitude: selectedEvent.coordinate.latitude,
-    longitude: selectedEvent.coordinate.longitude,
-  };
-
-  if (selectedLocation) {
-    markerCoordinates = {
-      latitude: selectedLocation.latitude,
-      longitude: selectedLocation.longitude,
-    };
-  }
-
-  if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator
-          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
-          size="large"
-        />
-      </View>
-    );
-  }
-
   const Map = () => (
     <View style={styles.container}>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
-        onPress={selectLocationHandler}
         onLongPress={async (e) => await getAddressFromCoordinate(e)}
+        onPress={onLocationChange}
         ref={mapRef}
         style={styles.map}
       >
         {markerCoordinates && (
           <Marker
-            title="Picked Location"
             coordinate={markerCoordinates}
+            title="Picked Location"
           ></Marker>
         )}
       </MapView>
@@ -185,6 +203,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
             defaultValue={selectedEvent ? selectedEvent.title : ""}
+            onChangeText={onTitleChange}
             style={[
               styles.textInput,
               {
@@ -192,11 +211,11 @@ export default function EditEventScreen({ navigation, route }: any) {
                   colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
               },
             ]}
-            onChangeText={titleChangeHandler}
           />
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
             defaultValue={selectedEvent ? selectedEvent.description : ""}
+            onChangeText={onDescriptionChange}
             style={[
               styles.textInput,
               {
@@ -204,7 +223,6 @@ export default function EditEventScreen({ navigation, route }: any) {
                   colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
               },
             ]}
-            onChangeText={descriptionChangeHandler}
           />
           <DateTimePicker
             display="spinner"
@@ -232,7 +250,7 @@ export default function EditEventScreen({ navigation, route }: any) {
                 ? "https://picsum.photos/700"
                 : selectedEvent.imageUrl
             }
-            onImageTaken={imageTakenHandler}
+            onImageTaken={onImageChange}
           />
           <Button
             color={
@@ -256,8 +274,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: {
-    flex: 1,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
   },
   form: {

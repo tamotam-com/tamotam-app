@@ -1,10 +1,7 @@
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const TabBarIcon = (props: {
-  name: React.ComponentProps<typeof Ionicons>["name"];
-  color: string;
-}) => {
+const TabBarIcon = (props: { color: string; name: string }) => {
   return <MaterialCommunityIcons size={34} style={{ margin: -6 }} {...props} />;
 };
 

@@ -78,18 +78,18 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   imagePreview: {
-    width: "100%",
-    height: 200,
-    marginBottom: 10,
-    justifyContent: "center",
     alignItems: "center",
     borderColor: "#ccc",
     borderRadius: 10,
     borderWidth: 1,
+    height: 200,
+    justifyContent: "center",
+    marginBottom: 10,
+    width: "100%",
   },
   image: {
-    height: "100%",
     borderRadius: 10,
+    height: "100%",
     width: "100%",
   },
 });
