@@ -3,24 +3,31 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import MapView, { Marker } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useRef } from "react";
+import React, { useLayoutEffect, useRef, MutableRefObject } from "react";
 import StyledText from "../components/StyledText";
 import { useSelector } from "react-redux";
 import { Coordinate } from "../interfaces/coordinate";
 import { Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 
 export default function PlaceDetailScreen({ navigation, route }: any) {
   const colorScheme = useColorScheme();
   const eventId: number = route.params.eventId;
-  const mapRef = useRef(null);
+  const mapRef: MutableRefObject<null> = useRef(null);
+  const savedEvents: Event[] = useSelector(
+    (state: any) => state.events.savedEvents
+  );
   const selectedEvent: Event = useSelector((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
+  let markerCoordinates: Coordinate = {
+    latitude: selectedEvent.coordinate.latitude,
+    longitude: selectedEvent.coordinate.longitude,
+  };
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
@@ -39,8 +46,6 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  const savedEvents = useSelector((state: any) => state.events.savedEvents);
-
   if (savedEvents.length === 0 || !savedEvents) {
     return (
       <View style={styles.container}>
@@ -51,12 +56,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
     );
   }
 
-  let markerCoordinates: Coordinate = {
-    latitude: selectedEvent.coordinate.latitude,
-    longitude: selectedEvent.coordinate.longitude,
-  };
-
-  const Map = () => (
+  const Map: () => JSX.Element = () => (
     <View style={styles.container}>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView

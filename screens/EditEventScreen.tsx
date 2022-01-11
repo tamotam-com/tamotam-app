@@ -165,7 +165,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     setIsLoading(false);
   };
 
-  const Map = () => (
+  const Map: () => JSX.Element = () => (
     <View style={styles.container}>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
