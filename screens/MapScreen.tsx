@@ -3,7 +3,14 @@ import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import MapView, { Callout } from "react-native-maps";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  Dispatch,
+  MutableRefObject,
+} from "react";
 import StyledText from "../components/StyledText";
 import { saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,24 +22,28 @@ import {
   StyleSheet,
 } from "react-native";
 import { Button } from "react-native-paper";
-import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { Marker } from "react-native-maps";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 
-export default function MapScreen({ navigation }: any) {
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [markers, setMarkers] = useState(null);
+export default function MapScreen() {
   const colorScheme = useColorScheme();
-  const events = useSelector((state: any) => state.events.events);
-  const dispatch = useDispatch();
-  const mapRef = useRef(null);
+  const dispatch: Dispatch<any> = useDispatch();
+  const events: Event[] = useSelector((state: any) => state.events.events);
+  const mapRef: MutableRefObject<null> = useRef(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const loadEvents = useCallback(async () => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  const loadEvents: () => Promise<void> = useCallback(async () => {
     setError("");
     setIsLoading(true);
 
@@ -55,13 +66,7 @@ export default function MapScreen({ navigation }: any) {
     loadEvents();
   }, []);
 
-  useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
-    }
-  }, [error]);
-
-  const saveEventHandler = (event: Event) => {
+  const saveEventHandler: (event: Event) => void = (event: Event) => {
     setError("");
     setIsLoading(true);
 
@@ -92,7 +97,7 @@ export default function MapScreen({ navigation }: any) {
     );
   }
 
-  const Map = () => (
+  const Map: () => JSX.Element = () => (
     <View style={styles.container}>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
@@ -181,8 +186,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: {
-    flex: 1,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
   },
   description: {
@@ -190,8 +195,8 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
   image: {
-    width: "100%",
     height: "50%",
+    width: "100%",
   },
   locationButtonCallout: {
     borderRadius: 10,
@@ -203,8 +208,8 @@ const styles = StyleSheet.create({
     width: 300,
   },
   map: {
-    width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
   },
   title: {
     fontSize: 20,

@@ -46,7 +46,7 @@ export default function SavedScreen({ navigation, route }: any) {
     }
   }, [error]);
 
-  const deleteHandler = (event: Event) => {
+  const deleteHandler: (event: Event) => void = (event: Event) => {
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
       { text: "No", style: "default" },
       {

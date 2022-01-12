@@ -25,6 +25,7 @@ type ThemeProps = {
 export type TextProps = ThemeProps & DefaultText["props"];
 export type ViewProps = ThemeProps & DefaultView["props"];
 
+// TODO: For now it's not being used, check out how text could be changed not manually, but instead using this function.
 export function Text(props: TextProps) {
   const { darkColor, lightColor, style, ...otherProps } = props;
   const color = useThemeColor({ dark: darkColor, light: lightColor }, "text");
