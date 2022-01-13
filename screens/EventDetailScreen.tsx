@@ -13,9 +13,9 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function PlaceDetailScreen({ navigation, route }: any) {
-  const colorScheme = useColorScheme();
+  const colorScheme: "light" | "dark" = useColorScheme();
   const eventId: number = route.params.eventId;
-  const mapRef: MutableRefObject<null> = useRef(null);
+  const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );

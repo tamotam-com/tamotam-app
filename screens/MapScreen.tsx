@@ -27,10 +27,10 @@ import { Marker } from "react-native-maps";
 import { View } from "../components/Themed";
 
 export default function MapScreen() {
-  const colorScheme = useColorScheme();
-  const dispatch: Dispatch<any> = useDispatch();
+  const colorScheme: "light" | "dark" = useColorScheme();
+  const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const events: Event[] = useSelector((state: any) => state.events.events);
-  const mapRef: MutableRefObject<null> = useRef(null);
+  const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
@@ -56,6 +56,7 @@ export default function MapScreen() {
           "We couldn't load events, sorry.\nTry to reload TamoTam!",
           [{ text: "Okay" }]
         );
+
         setError(err.message);
       }
     }
@@ -64,6 +65,7 @@ export default function MapScreen() {
 
   useEffect(() => {
     setIsLoading(true);
+
     loadEvents().then(() => {
       setIsLoading(false);
     });
@@ -82,6 +84,12 @@ export default function MapScreen() {
       dispatch(saveEvent(event));
     } catch (err) {
       if (err instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "TamoTam couldn't save this event.\nTry one more time!",
+          [{ text: "Okay" }]
+        );
+
         setError(err.message);
       }
     }

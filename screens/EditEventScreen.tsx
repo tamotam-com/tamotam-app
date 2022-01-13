@@ -33,11 +33,11 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function EditEventScreen({ navigation, route }: any) {
-  const colorScheme = useColorScheme();
-  const dispatch: Dispatch<any> = useDispatch();
+  const colorScheme: "light" | "dark" = useColorScheme();
+  const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const eventId: number = route.params.eventId;
-  const mapRef: MutableRefObject<null> = useRef(null);
-  const selectedEvent: Event = useSelector((state: any) =>
+  const mapRef: MutableRefObject<null> = useRef<null>(null);
+  const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
   const [descriptionValue, setDescriptionValue] = useState<string>("");
@@ -154,9 +154,16 @@ export default function EditEventScreen({ navigation, route }: any) {
         imageUrl: selectedImage === "" ? selectedEvent.imageUrl : selectedImage,
         title: titleValue ? titleValue : selectedEvent.title,
       };
+
       dispatch(updateEvent(newEvent));
     } catch (err) {
       if (err instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "TamoTam couldn't save the changes.\nTry one more time!",
+          [{ text: "Okay" }]
+        );
+
         setError(err.message);
       }
     }

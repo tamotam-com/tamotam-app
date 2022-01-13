@@ -18,8 +18,8 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
+  const colorScheme: "light" | "dark" = useColorScheme(); // TODO: This type might be an interface.
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
     return null;

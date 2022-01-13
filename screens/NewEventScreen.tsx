@@ -4,7 +4,15 @@ import Colors from "../constants/Colors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import MapView, { Marker } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+} from "react";
 import SelectImage from "../components/SelectImage";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
@@ -22,15 +30,32 @@ import { Button } from "react-native-paper";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 
 export default function NewEventScreen({ navigation, route }: any) {
-  const colorScheme = useColorScheme();
-  const dispatch = useDispatch();
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const colorScheme: "light" | "dark" = useColorScheme();
+  const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
+  const events: Event[] = useSelector((state: any) => state.events.events);
+  const mapRef: MutableRefObject<null> = useRef<null>(null);
+  const [descriptionValue, setDescriptionValue] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<any | Date>(new Date());
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [selectedLocation, setSelectedLocation] = useState<Coordinate>({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [titleValue, setTitleValue] = useState<string>("");
+  let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
 
-  React.useLayoutEffect(() => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
@@ -49,34 +74,59 @@ export default function NewEventScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  const [selectedDate, setSelectedDate] = useState<any>(new Date());
-  const [descriptionValue, setDescriptionValue] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  }>({ latitude: 0, longitude: 0 });
-  const [titleValue, setTitleValue] = useState("");
-  const events = useSelector((state: any) => state.events.events);
-  const mapRef = useRef(null);
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+          size="large"
+        />
+      </View>
+    );
+  }
 
-  const descriptionChangeHandler = (text: React.SetStateAction<string>) => {
+  if (selectedLocation) {
+    markerCoordinates = {
+      latitude: selectedLocation.latitude,
+      longitude: selectedLocation.longitude,
+    };
+  }
+
+  const onDescriptionChange: (text: SetStateAction<string>) => void = (
+    text: SetStateAction<string>
+  ) => {
     setDescriptionValue(text);
   };
-  const imageTakenHandler = (imagePath: string) => {
+
+  const onDateChange: (
+    _event: any,
+    selectedValueDate: Date | undefined
+  ) => void = (_event: any, selectedValueDate: Date | undefined) => {
+    setSelectedDate(selectedValueDate);
+  };
+
+  const onImageChange: (imagePath: string) => void = (imagePath: string) => {
     setSelectedImage(imagePath);
   };
-  const titleChangeHandler = (text: React.SetStateAction<string>) => {
+
+  const onLocationChange: (e: {
+    nativeEvent: {
+      coordinate: Coordinate;
+    };
+  }) => void = (e: { nativeEvent: { coordinate: Coordinate } }) => {
+    setSelectedLocation({
+      latitude: e.nativeEvent.coordinate.latitude,
+      longitude: e.nativeEvent.coordinate.longitude,
+    });
+  };
+
+  const onTitleChange: (text: SetStateAction<string>) => void = (
+    text: SetStateAction<string>
+  ) => {
     setTitleValue(text);
   };
 
-  useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
-    }
-  }, [error]);
-
-  const addEventHandler = () => {
+  const addEventHandler: () => void = () => {
     setError("");
     setIsLoading(true);
 
@@ -96,6 +146,12 @@ export default function NewEventScreen({ navigation, route }: any) {
       dispatch(addEvent(newEvent));
     } catch (err) {
       if (err instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "TamoTam couldn't create an event.\nTry one more time!",
+          [{ text: "Okay" }]
+        );
+
         setError(err.message);
       }
     }
@@ -104,52 +160,19 @@ export default function NewEventScreen({ navigation, route }: any) {
     setIsLoading(false);
   };
 
-  const onDateChange = (_event: any, selectedValueDate: Date | undefined) => {
-    setSelectedDate(selectedValueDate);
-  };
-
-  const selectLocationHandler = (e: {
-    nativeEvent: { coordinate: Coordinate };
-  }) => {
-    setSelectedLocation({
-      latitude: e.nativeEvent.coordinate.latitude,
-      longitude: e.nativeEvent.coordinate.longitude,
-    });
-  };
-
-  let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
-
-  if (selectedLocation) {
-    markerCoordinates = {
-      latitude: selectedLocation.latitude,
-      longitude: selectedLocation.longitude,
-    };
-  }
-
-  if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator
-          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
-          size="large"
-        />
-      </View>
-    );
-  }
-
-  const Map = () => (
+  const Map: () => JSX.Element = () => (
     <View style={styles.container}>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
-        onPress={selectLocationHandler}
+        onPress={onLocationChange}
         onLongPress={async (e) => await getAddressFromCoordinate(e)}
         ref={mapRef}
         style={styles.map}
       >
         {markerCoordinates && (
           <Marker
-            title="Picked Location"
             coordinate={markerCoordinates}
+            title="Picked Location"
           ></Marker>
         )}
       </MapView>
@@ -181,7 +204,7 @@ export default function NewEventScreen({ navigation, route }: any) {
                   colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
               },
             ]}
-            onChangeText={titleChangeHandler}
+            onChangeText={onTitleChange}
             value={titleValue}
           />
           <StyledText style={styles.label}>Description</StyledText>
@@ -193,7 +216,7 @@ export default function NewEventScreen({ navigation, route }: any) {
                   colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
               },
             ]}
-            onChangeText={descriptionChangeHandler}
+            onChangeText={onDescriptionChange}
             value={descriptionValue}
           />
           <DateTimePicker
@@ -216,7 +239,7 @@ export default function NewEventScreen({ navigation, route }: any) {
             }
             value={selectedDate}
           />
-          <SelectImage onImageTaken={imageTakenHandler} />
+          <SelectImage onImageTaken={onImageChange} />
           <Button
             color={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
@@ -246,8 +269,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: {
-    flex: 1,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
   },
   form: {

@@ -10,7 +10,7 @@ const SelectImage = (props: {
   existingImageUrl?: string;
   onImageTaken: (arg0: string) => void;
 }) => {
-  const colorScheme = useColorScheme();
+  const colorScheme: "light" | "dark" = useColorScheme();
   const [pickedImage, setPickedImage] = useState("");
 
   useEffect(() => {

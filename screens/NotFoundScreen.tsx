@@ -1,8 +1,7 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import * as React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import React from "react";
 import { RootStackParamList } from "../types";
+import { StackScreenProps } from "@react-navigation/stack";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function NotFoundScreen({
   navigation,
@@ -22,9 +21,9 @@ export default function NotFoundScreen({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
+    backgroundColor: "#fff",
+    flex: 1,
     justifyContent: "center",
     padding: 20,
   },
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   linkText: {
-    fontSize: 14,
     color: "#2e78b7",
+    fontSize: 14,
   },
 });

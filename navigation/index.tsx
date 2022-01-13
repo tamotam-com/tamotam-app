@@ -1,10 +1,10 @@
-import * as React from "react";
 import BottomTabNavigator from "./BottomTabNavigator";
 import EditEventScreen from "../screens/EditEventScreen";
 import EventDetailScreen from "../screens/EventDetailScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
 import NewEventScreen from "../screens/NewEventScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ColorSchemeName } from "react-native";
 import {

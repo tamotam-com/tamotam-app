@@ -13,7 +13,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function SavedScreen({ navigation, route }: any) {
-  const colorScheme = useColorScheme();
+  const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch = useDispatch();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -60,6 +60,12 @@ export default function SavedScreen({ navigation, route }: any) {
             dispatch(deleteEvent(event));
           } catch (err) {
             if (err instanceof Error) {
+              Alert.alert(
+                "An error occurred ❌",
+                "TamoTam couldn't save this event.\nTry one more time!",
+                [{ text: "Okay" }]
+              );
+
               setError(err.message);
             }
           }

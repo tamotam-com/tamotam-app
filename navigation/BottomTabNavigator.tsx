@@ -13,7 +13,7 @@ import { FAB, Portal } from "react-native-paper";
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator({ navigation }: any) {
-  const colorScheme = useColorScheme();
+  const colorScheme: "light" | "dark" = useColorScheme();
   const isFocused: boolean = useIsFocused();
 
   return (
