@@ -60,11 +60,14 @@ export default function MapScreen() {
       }
     }
     setIsLoading(false);
-  }, [dispatch, setError]);
+  }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
-    loadEvents();
-  }, []);
+    setIsLoading(true);
+    loadEvents().then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch, loadEvents]);
 
   const saveEventHandler: (event: Event) => void = (event: Event) => {
     setError("");
