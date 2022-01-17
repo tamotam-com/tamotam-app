@@ -1,11 +1,11 @@
-import { EVENTS } from "../../data/dummy-data";
+import { Event } from "../../interfaces/event";
 import {
   ADD_EVENT,
   DELETE_EVENT,
   SAVE_EVENT,
   UPDATE_EVENT,
 } from "../actions/events";
-import { Event } from "../../interfaces/event";
+import { EVENTS } from "../../data/dummy-data";
 
 const initialState = {
   events: EVENTS,
@@ -53,6 +53,7 @@ export default (state = initialState, action: any) => {
 
       return {
         ...state,
+        // @ts-ignore
         savedEvents: state.savedEvents.concat(savedEvent),
       };
     case UPDATE_EVENT:

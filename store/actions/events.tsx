@@ -6,6 +6,7 @@ import {
   PREDICTHQ_ACCESS_TOKEN,
   PREDICTHQ_CATEGORIES,
   PREDICTHQ_LIMIT,
+  // @ts-ignore
 } from "@env";
 
 export const ADD_EVENT = "ADD_EVENT";
@@ -18,24 +19,24 @@ export const fetchEvents = () => {
   return async (dispatch: any) => {
     try {
       const response: any = await axios({
-        method: "GET",
-        url: "https://api.predicthq.com/v1/events/",
         headers: {
           Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
           Accept: "application/json",
         },
+        method: "GET",
         params: {
           category: PREDICTHQ_CATEGORIES,
           country: Localization.region,
           limit: PREDICTHQ_LIMIT,
         },
+        url: "https://api.predicthq.com/v1/events/",
       });
 
       if (!response.ok) {
         throw new Error("Error with fetching events");
       }
 
-      const loadedEvents = [];
+      const loadedEvents: any[] = [];
 
       for (const key in response) {
         loadedEvents.push({
@@ -64,7 +65,7 @@ export const addEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number;
-        coordinate: { latitude: number; longitude: number };
+        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;
@@ -95,7 +96,7 @@ export const deleteEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number;
-        coordinate: { latitude: number; longitude: number };
+        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;
@@ -126,7 +127,7 @@ export const saveEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number;
-        coordinate: { latitude: number; longitude: number };
+        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;
@@ -157,7 +158,7 @@ export const updateEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number;
-        coordinate: { latitude: number; longitude: number };
+        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;

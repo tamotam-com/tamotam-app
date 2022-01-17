@@ -3,7 +3,7 @@ import Colors from "../constants/Colors";
 import EventItem from "../components/EventItem";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState, Dispatch } from "react";
 import { deleteEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
@@ -14,14 +14,20 @@ import { View } from "../components/Themed";
 
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  React.useLayoutEffect(() => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
@@ -40,11 +46,26 @@ export default function SavedScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
-    }
-  }, [error]);
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+          size="large"
+        />
+      </View>
+    );
+  }
+
+  if (savedEvents.length === 0 || !savedEvents) {
+    return (
+      <View style={styles.content}>
+        <StyledText style={styles.title}>
+          No saved events found. Start adding some!
+        </StyledText>
+      </View>
+    );
+  }
 
   const deleteHandler: (event: Event) => void = (event: Event) => {
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
@@ -75,27 +96,6 @@ export default function SavedScreen({ navigation, route }: any) {
       },
     ]);
   };
-
-  if (savedEvents.length === 0 || !savedEvents) {
-    return (
-      <View style={styles.content}>
-        <StyledText style={styles.title}>
-          No saved events found. Start adding some!
-        </StyledText>
-      </View>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator
-          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
-          size="large"
-        />
-      </View>
-    );
-  }
 
   return (
     <FlatList
@@ -137,7 +137,6 @@ export default function SavedScreen({ navigation, route }: any) {
           >
             Edit
           </Button>
-
           <Button
             color={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
@@ -160,8 +159,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: {
-    flex: 1,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
   },
   content: {
