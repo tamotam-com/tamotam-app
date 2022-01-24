@@ -1,3 +1,5 @@
+import { addDoc, collection } from "firebase/firestore";
+import { firebaseApp, firestoreDatabase } from "../config/firebase";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -126,7 +128,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     setTitleValue(text);
   };
 
-  const addEventHandler: () => void = () => {
+  const addEventHandler: () => Promise<void> = async () => {
     setError("");
     setIsLoading(true);
 
@@ -143,6 +145,16 @@ export default function NewEventScreen({ navigation, route }: any) {
         title: titleValue,
       };
 
+      try {
+        const docRef = await addDoc(
+          collection(firestoreDatabase, "usersEvents"),
+          newEvent
+        );
+
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
       dispatch(addEvent(newEvent));
     } catch (err) {
       if (err instanceof Error) {

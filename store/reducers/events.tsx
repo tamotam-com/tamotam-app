@@ -1,4 +1,3 @@
-import { firebaseApp } from "../../config/firebase";
 import { Event } from "../../interfaces/event";
 import {
   ADD_EVENT,
@@ -16,8 +15,6 @@ const initialState = {
 export default (state = initialState, action: any) => {
   switch (action.type) {
     case ADD_EVENT:
-      // const entityRef = firebaseApp.firestore().collection("entities");
-
       const newEvent: Event = {
         id: action.eventData.id,
         coordinate: {

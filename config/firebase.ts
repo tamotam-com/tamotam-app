@@ -24,10 +24,9 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
+const firestoreDatabase = getFirestore();
 // TODO: Integrate those wherever needed.
 const analytics = getAnalytics(firebaseApp);
-const firestore = getFirestore();
 const performance = getPerformance(firebaseApp);
 logEvent(analytics, "notification_received");
-
-export { firebaseApp };
+export { firebaseApp, firestoreDatabase };
