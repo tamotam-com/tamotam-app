@@ -1,5 +1,4 @@
-import { addDoc, collection } from "firebase/firestore";
-import { firebaseApp, firestoreDatabase } from "../config/firebase";
+import firestore from "@react-native-firebase/firestore";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -33,6 +32,8 @@ import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
+// @ts-ignore
+import { FIRESTORE_COLLECTION } from "@env";
 
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
@@ -145,16 +146,18 @@ export default function NewEventScreen({ navigation, route }: any) {
         title: titleValue,
       };
 
-      try {
-        const docRef = await addDoc(
-          collection(firestoreDatabase, "usersEvents"),
-          newEvent
-        );
-
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+      firestore()
+        .collection(FIRESTORE_COLLECTION)
+        .add(newEvent)
+        .then(() => {
+          console.log("User's event added: ", newEvent);
+        })
+        .catch(() => {
+          console.log("Problem with adding user's event: ", newEvent);
+        })
+        .finally(() => {
+          console.log(`Firestore ${FIRESTORE_COLLECTION} stopped executing`);
+        });
       dispatch(addEvent(newEvent));
     } catch (err) {
       if (err instanceof Error) {
