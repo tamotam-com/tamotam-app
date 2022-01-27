@@ -3,6 +3,7 @@ import {
   ADD_EVENT,
   DELETE_EVENT,
   SAVE_EVENT,
+  SET_USERS_EVENTS,
   UPDATE_EVENT,
 } from "../actions/events";
 import { EVENTS } from "../../data/dummy-data";
@@ -10,6 +11,7 @@ import { EVENTS } from "../../data/dummy-data";
 const initialState = {
   events: EVENTS,
   savedEvents: [],
+  usersEvents: [],
 };
 
 export default (state = initialState, action: any) => {
@@ -55,6 +57,10 @@ export default (state = initialState, action: any) => {
         ...state,
         // @ts-ignore
         savedEvents: state.savedEvents.concat(savedEvent),
+      };
+    case SET_USERS_EVENTS:
+      return {
+        usersEvents: action.usersEvents,
       };
     case UPDATE_EVENT:
       const eventIndex = state.savedEvents.findIndex(

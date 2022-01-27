@@ -34,6 +34,9 @@ export default function MapScreen() {
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
+  const usersEvents: Event[] = useSelector(
+    (state: any) => state.events.usersEvents
+  );
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -70,6 +73,34 @@ export default function MapScreen() {
       setIsLoading(false);
     });
   }, [dispatch, loadEvents]);
+
+  const loadUsersEvents: () => Promise<void> = useCallback(async () => {
+    setError("");
+    setIsLoading(true);
+
+    try {
+      dispatch(eventsActions.fetchUsersEvents());
+    } catch (err) {
+      if (err instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "We couldn't load users events, sorry.\nTry to reload TamoTam!",
+          [{ text: "Okay" }]
+        );
+
+        setError(err.message);
+      }
+    }
+    setIsLoading(false);
+  }, [dispatch, setError, setIsLoading]);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    loadUsersEvents().then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch, loadUsersEvents]);
 
   const saveEventHandler: (event: Event) => void = (event: Event) => {
     setError("");
@@ -117,7 +148,7 @@ export default function MapScreen() {
         style={styles.map}
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
-        {events.map((event: Event) => {
+        {/* {events.map((event: Event) => {
           return (
             <Marker
               coordinate={{
@@ -168,6 +199,80 @@ export default function MapScreen() {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
+                </StyledText>
+                <Button
+                  color={
+                    colorScheme === "dark"
+                      ? Colors.dark.text
+                      : Colors.light.text
+                  }
+                  icon="check-circle-outline"
+                >
+                  Save
+                </Button>
+              </Callout>
+            </Marker>
+          );
+        })} */}
+        {usersEvents.map((event: any) => {
+          return (
+            <Marker
+              coordinate={{
+                latitude: event.coordinate.latitude,
+                longitude: event.coordinate.longitude,
+              }}
+            >
+              <Callout
+                onPress={() => saveEventHandler(event)}
+                style={[
+                  styles.locationButtonCallout,
+                  {
+                    backgroundColor:
+                      colorScheme === "dark"
+                        ? Colors.dark.background
+                        : Colors.light.background,
+                    borderColor:
+                      colorScheme === "dark"
+                        ? Colors.dark.text
+                        : Colors.light.text,
+                    shadowColor:
+                      colorScheme === "dark"
+                        ? Colors.dark.text
+                        : Colors.light.text,
+                  },
+                ]}
+                tooltip
+              >
+                <StyledText style={styles.title}>
+                  {event.title ? event.title : "No information about title."}
+                </StyledText>
+                <Image
+                  source={{
+                    uri: !event.imageUrl
+                      ? "https://picsum.photos/700"
+                      : event.imageUrl,
+                  }}
+                  style={styles.image}
+                />
+                <StyledText style={styles.description}>
+                  {event.description
+                    ? event.description
+                    : "No information about description."}
+                </StyledText>
+                <StyledText style={styles.description}>
+                  🗓️{" "}
+                  {event.date
+                    ? event.date.toLocaleDateString()
+                    : "No information about date."}
+                </StyledText>
+                <StyledText style={styles.description}>
+                  🕒{" "}
+                  {event.date
+                    ? event.date.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : "No information about time."}
                 </StyledText>
                 <Button
                   color={

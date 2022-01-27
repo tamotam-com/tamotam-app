@@ -1,8 +1,10 @@
 import * as Localization from "expo-localization";
 import axios from "axios";
+import firestore from "@react-native-firebase/firestore";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
 import {
+  FIRESTORE_COLLECTION,
   PREDICTHQ_ACCESS_TOKEN,
   PREDICTHQ_CATEGORIES,
   PREDICTHQ_LIMIT,
@@ -13,6 +15,7 @@ export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
 export const SAVE_EVENT = "SAVE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
+export const SET_USERS_EVENTS = "SET_USERS_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
 
 export const fetchEvents = () => {
@@ -49,6 +52,39 @@ export const fetchEvents = () => {
       }
 
       dispatch({ type: SET_EVENTS, events: loadedEvents });
+    } catch (err) {
+      if (err instanceof Error) {
+        console.log(err);
+        // Send to some analytics server.
+        throw err;
+      }
+    }
+  };
+};
+
+export const fetchUsersEvents = () => {
+  return async (dispatch: any) => {
+    try {
+      const loadedEvents: any[] = [];
+
+      await firestore()
+        .collection(FIRESTORE_COLLECTION)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((documentSnapshot) => {
+            loadedEvents.push({
+              key: documentSnapshot.id,
+              coordinate: {
+                latitude: documentSnapshot.data().coordinate.latitude,
+                longitude: documentSnapshot.data().coordinate.longitude,
+              },
+              description: documentSnapshot.data().description,
+              title: documentSnapshot.data().title,
+            });
+          });
+        });
+
+      dispatch({ type: SET_USERS_EVENTS, usersEvents: loadedEvents });
     } catch (err) {
       if (err instanceof Error) {
         console.log(err);
