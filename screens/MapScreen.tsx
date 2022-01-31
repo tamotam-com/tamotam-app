@@ -12,6 +12,7 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
+import { createSelector } from "reselect";
 import { saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -39,6 +40,16 @@ export default function MapScreen() {
   );
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const selectValue = createSelector(
+    (state: any) => state.events.events,
+    (state: any) => state.events.usersEvents,
+    (events: Event[], usersEvents: Event[]) => {
+      const combined = { ...events, ...usersEvents };
+      console.log(combined);
+      return combined;
+    }
+  );
+  const allInAll: Event[] = useSelector(selectValue);
 
   useEffect(() => {
     if (error) {
@@ -214,7 +225,7 @@ export default function MapScreen() {
             </Marker>
           );
         })} */}
-        {usersEvents.map((event: any) => {
+        {events.map((event: any) => {
           return (
             <Marker
               coordinate={{

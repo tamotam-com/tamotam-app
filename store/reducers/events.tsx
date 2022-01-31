@@ -60,6 +60,7 @@ export default (state = initialState, action: any) => {
       };
     case SET_USERS_EVENTS:
       return {
+        ...state, // TODO: Let see if this is needed later when we'll have working state.
         usersEvents: action.usersEvents,
       };
     case UPDATE_EVENT:
