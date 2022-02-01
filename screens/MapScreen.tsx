@@ -12,7 +12,7 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
-import { createSelector } from "reselect";
+import { createSelector, OutputSelectorFields } from "reselect";
 import { saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -40,16 +40,30 @@ export default function MapScreen() {
   );
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const selectValue = createSelector(
+  const allEvents: ((state: {}) => Event[]) &
+    OutputSelectorFields<
+      (
+        args_0: any,
+        args_1: any
+      ) => Event[] & {
+        clearCache: () => void;
+      }
+    > & {
+      clearCache: () => void;
+    } = createSelector(
     (state: any) => state.events.events,
     (state: any) => state.events.usersEvents,
-    (events: Event[], usersEvents: Event[]) => {
-      const combined = { ...events, ...usersEvents };
-      console.log(combined);
+    () => {
+      console.log("...events", ...events);
+      console.log("...usersEvents", ...usersEvents);
+      // const combined = { ...usersEvents, ...events };
+      // const combined = { ...events };
+      const combined = Object.assign(usersEvents, events);
+      console.log("combined", combined);
       return combined;
     }
   );
-  const allInAll: Event[] = useSelector(selectValue);
+  const combinedEvents: Event[] = useSelector(allEvents);
 
   useEffect(() => {
     if (error) {
@@ -225,7 +239,7 @@ export default function MapScreen() {
             </Marker>
           );
         })} */}
-        {events.map((event: any) => {
+        {combinedEvents.map((event: any) => {
           return (
             <Marker
               coordinate={{

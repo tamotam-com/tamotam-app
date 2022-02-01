@@ -73,12 +73,14 @@ export const fetchUsersEvents = () => {
         .then((querySnapshot) => {
           querySnapshot.forEach((documentSnapshot) => {
             loadedEvents.push({
-              key: documentSnapshot.id,
               coordinate: {
                 latitude: documentSnapshot.data().coordinate.latitude,
                 longitude: documentSnapshot.data().coordinate.longitude,
               },
+              date: new Date(documentSnapshot.data().date.seconds * 1000),
               description: documentSnapshot.data().description,
+              id: documentSnapshot.id,
+              imageUrl: "https://picsum.photos/700",
               title: documentSnapshot.data().title,
             });
           });
