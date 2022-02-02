@@ -12,7 +12,7 @@ import { EVENTS2 } from "../../data/dummy-data2";
 const initialState = {
   events: [],
   savedEvents: [],
-  usersEvents: EVENTS.concat(EVENTS2),
+  usersEvents: [],
 };
 
 export default (state = initialState, action: any) => {
@@ -61,7 +61,7 @@ export default (state = initialState, action: any) => {
       };
     case SET_USERS_EVENTS:
       return {
-        ...state, // TODO: Let see if this is needed later when we'll have working state.
+        events: action.events,
       };
     case UPDATE_EVENT:
       const eventIndex = state.savedEvents.findIndex(

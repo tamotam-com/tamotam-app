@@ -10,6 +10,7 @@ import {
   PREDICTHQ_LIMIT,
   // @ts-ignore
 } from "@env";
+import { EVENTS } from "../../data/dummy-data"; // TODO: Delete when PredictHQ will start working.
 
 export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
@@ -67,7 +68,7 @@ export const fetchUsersEvents = () => {
     try {
       const loadedEvents: any[] = [];
 
-      await firestore()
+      const promise1 = await firestore()
         .collection(FIRESTORE_COLLECTION)
         .get()
         .then((querySnapshot) => {
@@ -86,7 +87,10 @@ export const fetchUsersEvents = () => {
           });
         });
 
-      dispatch({ type: SET_USERS_EVENTS, usersEvents: loadedEvents });
+      Promise.race([promise1]).then(() => {
+        const finalEvents = [...loadedEvents, ...EVENTS];
+        dispatch({ type: SET_USERS_EVENTS, events: finalEvents });
+      });
     } catch (err) {
       if (err instanceof Error) {
         console.log(err);

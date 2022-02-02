@@ -54,13 +54,13 @@ export default function MapScreen() {
     (state: any) => state.events.events,
     (state: any) => state.events.usersEvents,
     () => {
-      console.log("...events", ...events);
-      console.log("...usersEvents", ...usersEvents);
+      // console.log("...events", ...events);
+      // console.log("...usersEvents", ...usersEvents);
       // const combined = { ...usersEvents, ...events };
       // const combined = { ...events };
-      const combined = Object.assign(usersEvents, events);
-      console.log("combined", combined);
-      return combined;
+      // const combined = Object.assign(usersEvents, events);
+      // console.log("combined", combined);
+      // return combined;
     }
   );
   const combinedEvents: Event[] = useSelector(allEvents);
@@ -239,7 +239,7 @@ export default function MapScreen() {
             </Marker>
           );
         })} */}
-        {combinedEvents.map((event: any) => {
+        {events.map((event: Event) => {
           return (
             <Marker
               coordinate={{
