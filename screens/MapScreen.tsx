@@ -12,7 +12,6 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
-import { createSelector, OutputSelectorFields } from "reselect";
 import { saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -35,35 +34,8 @@ export default function MapScreen() {
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
-  const usersEvents: Event[] = useSelector(
-    (state: any) => state.events.usersEvents
-  );
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const allEvents: ((state: {}) => Event[]) &
-    OutputSelectorFields<
-      (
-        args_0: any,
-        args_1: any
-      ) => Event[] & {
-        clearCache: () => void;
-      }
-    > & {
-      clearCache: () => void;
-    } = createSelector(
-    (state: any) => state.events.events,
-    (state: any) => state.events.usersEvents,
-    () => {
-      // console.log("...events", ...events);
-      // console.log("...usersEvents", ...usersEvents);
-      // const combined = { ...usersEvents, ...events };
-      // const combined = { ...events };
-      // const combined = Object.assign(usersEvents, events);
-      // console.log("combined", combined);
-      // return combined;
-    }
-  );
-  const combinedEvents: Event[] = useSelector(allEvents);
 
   useEffect(() => {
     if (error) {
@@ -173,72 +145,6 @@ export default function MapScreen() {
         style={styles.map}
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
-        {/* {events.map((event: Event) => {
-          return (
-            <Marker
-              coordinate={{
-                latitude: event.coordinate.latitude,
-                longitude: event.coordinate.longitude,
-              }}
-            >
-              <Callout
-                onPress={() => saveEventHandler(event)}
-                style={[
-                  styles.locationButtonCallout,
-                  {
-                    backgroundColor:
-                      colorScheme === "dark"
-                        ? Colors.dark.background
-                        : Colors.light.background,
-                    borderColor:
-                      colorScheme === "dark"
-                        ? Colors.dark.text
-                        : Colors.light.text,
-                    shadowColor:
-                      colorScheme === "dark"
-                        ? Colors.dark.text
-                        : Colors.light.text,
-                  },
-                ]}
-                tooltip
-              >
-                <StyledText style={styles.title}>{event.title}</StyledText>
-                <Image
-                  source={{
-                    uri:
-                      event.imageUrl === ""
-                        ? "https://picsum.photos/700"
-                        : event.imageUrl,
-                  }}
-                  style={styles.image}
-                />
-                <StyledText style={styles.description}>
-                  {event.description}
-                </StyledText>
-                <StyledText style={styles.description}>
-                  🗓️ {event.date.toLocaleDateString()}
-                </StyledText>
-                <StyledText style={styles.description}>
-                  🕒{" "}
-                  {event.date.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </StyledText>
-                <Button
-                  color={
-                    colorScheme === "dark"
-                      ? Colors.dark.text
-                      : Colors.light.text
-                  }
-                  icon="check-circle-outline"
-                >
-                  Save
-                </Button>
-              </Callout>
-            </Marker>
-          );
-        })} */}
         {events.map((event: Event) => {
           return (
             <Marker

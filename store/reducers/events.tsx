@@ -6,13 +6,10 @@ import {
   SET_USERS_EVENTS,
   UPDATE_EVENT,
 } from "../actions/events";
-import { EVENTS } from "../../data/dummy-data";
-import { EVENTS2 } from "../../data/dummy-data2";
 
 const initialState = {
   events: [],
   savedEvents: [],
-  usersEvents: [],
 };
 
 export default (state = initialState, action: any) => {
