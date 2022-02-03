@@ -106,7 +106,7 @@ export const addEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -137,7 +137,7 @@ export const deleteEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -168,7 +168,7 @@ export const saveEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -199,7 +199,7 @@ export const updateEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
