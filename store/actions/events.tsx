@@ -16,64 +16,20 @@ export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
 export const SAVE_EVENT = "SAVE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
-export const SET_USERS_EVENTS = "SET_USERS_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
 
 export const fetchEvents = () => {
   return async (dispatch: any) => {
     try {
-      const response: any = await axios({
-        headers: {
-          Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
-          Accept: "application/json",
-        },
-        method: "GET",
-        params: {
-          category: PREDICTHQ_CATEGORIES,
-          country: Localization.region,
-          limit: PREDICTHQ_LIMIT,
-        },
-        url: "https://api.predicthq.com/v1/events/",
-      });
-
-      if (!response.ok) {
-        throw new Error("Error with fetching events");
-      }
-
-      const loadedEvents: any[] = [];
-
-      for (const key in response) {
-        loadedEvents.push({
-          key,
-          description: response.data.results[key].description,
-          latitude: response.data.results[key].location[1],
-          longitude: response.data.results[key].location[0],
-          title: response.data.results[key].title,
-        });
-      }
-
-      dispatch({ type: SET_EVENTS, events: loadedEvents });
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err);
-        // Send to some analytics server.
-        throw err;
-      }
-    }
-  };
-};
-
-export const fetchUsersEvents = () => {
-  return async (dispatch: any) => {
-    try {
-      const loadedEvents: any[] = [];
+      const usersEvents: any[] = [];
+      const loadedEvents2: any[] = [];
 
       const promise1 = await firestore()
         .collection(FIRESTORE_COLLECTION)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((documentSnapshot) => {
-            loadedEvents.push({
+            usersEvents.push({
               id: documentSnapshot.data().id,
               coordinate: {
                 latitude: documentSnapshot.data().coordinate.latitude,
@@ -87,9 +43,42 @@ export const fetchUsersEvents = () => {
           });
         });
 
+      // if (!promise1.ok) {
+      //   throw new Error("Error with fetching users events");
+      // }
+
+      // const response: any = await axios({
+      //   headers: {
+      //     Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
+      //     Accept: "application/json",
+      //   },
+      //   method: "GET",
+      //   params: {
+      //     category: PREDICTHQ_CATEGORIES,
+      //     country: Localization.region,
+      //     limit: PREDICTHQ_LIMIT,
+      //   },
+      //   url: "https://api.predicthq.com/v1/events/",
+      // });
+
+      // if (!response.ok) {
+      //   throw new Error("Error with fetching PredictHQ events");
+      // }
+
+      // for (const key in response) {
+      //   loadedEvents2.push({
+      //     key,
+      //     description: response.data.results[key].description,
+      //     latitude: response.data.results[key].location[1],
+      //     longitude: response.data.results[key].location[0],
+      //     title: response.data.results[key].title,
+      //   });
+      // }
+
+      // TODO: When PredictHQ will be unblocked order the whole code and ideally 'allSettled' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) should've been used.
       Promise.race([promise1]).then(() => {
-        const finalEvents = [...loadedEvents, ...EVENTS];
-        dispatch({ type: SET_USERS_EVENTS, events: finalEvents });
+        const finalEvents = [...usersEvents, ...EVENTS, ...loadedEvents2];
+        dispatch({ type: SET_EVENTS, events: finalEvents });
       });
     } catch (err) {
       if (err instanceof Error) {

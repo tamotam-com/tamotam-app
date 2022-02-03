@@ -3,7 +3,7 @@ import {
   ADD_EVENT,
   DELETE_EVENT,
   SAVE_EVENT,
-  SET_USERS_EVENTS,
+  SET_EVENTS,
   UPDATE_EVENT,
 } from "../actions/events";
 
@@ -56,7 +56,7 @@ export default (state = initialState, action: any) => {
         // @ts-ignore
         savedEvents: state.savedEvents.concat(savedEvent),
       };
-    case SET_USERS_EVENTS:
+    case SET_EVENTS:
       return {
         events: action.events,
       };
