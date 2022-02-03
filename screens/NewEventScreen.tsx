@@ -135,7 +135,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
     try {
       const newEvent: Event = {
-        id: events.length + 1, // TODO: That's a temporarly solution, later it has to go from the database.
+        id: Math.random() * 1000000000000,
         coordinate: {
           latitude: selectedLocation.latitude,
           longitude: selectedLocation.longitude,

@@ -1,7 +1,7 @@
 import { Coordinate } from "./coordinate";
 
 export interface Event {
-  id: number | string;
+  id: number;
   coordinate: Coordinate;
   date: Date;
   description: string;

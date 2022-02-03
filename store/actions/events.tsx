@@ -74,13 +74,13 @@ export const fetchUsersEvents = () => {
         .then((querySnapshot) => {
           querySnapshot.forEach((documentSnapshot) => {
             loadedEvents.push({
+              id: documentSnapshot.data().id,
               coordinate: {
                 latitude: documentSnapshot.data().coordinate.latitude,
                 longitude: documentSnapshot.data().coordinate.longitude,
               },
               date: new Date(documentSnapshot.data().date.seconds * 1000),
               description: documentSnapshot.data().description,
-              id: documentSnapshot.id,
               imageUrl: "https://picsum.photos/700",
               title: documentSnapshot.data().title,
             });
@@ -106,7 +106,7 @@ export const addEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number | string;
+        id: number;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -137,7 +137,7 @@ export const deleteEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number | string;
+        id: number;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -168,7 +168,7 @@ export const saveEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number | string;
+        id: number;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -199,7 +199,7 @@ export const updateEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number | string;
+        id: number;
         coordinate: Coordinate;
         date: Date;
         description: string;
