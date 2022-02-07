@@ -1,5 +1,5 @@
 import * as Localization from "expo-localization";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import firestore from "@react-native-firebase/firestore";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
@@ -21,10 +21,42 @@ export const UPDATE_EVENT = "UPDATE_EVENT";
 export const fetchEvents = () => {
   return async (dispatch: any) => {
     try {
+      const predictHqEvents: any[] = [];
       const usersEvents: any[] = [];
-      const loadedEvents2: any[] = [];
 
-      const promise1 = await firestore()
+      const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
+        await axios({
+          headers: {
+            Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
+            Accept: "application/json",
+          },
+          method: "GET",
+          params: {
+            category: PREDICTHQ_CATEGORIES,
+            country: Localization.region,
+            limit: PREDICTHQ_LIMIT,
+          },
+          url: "https://api.predicthq.com/v1/events/",
+        }).catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error(
+              "Error with fetching PredictHQ events, details: ",
+              error
+            );
+          }
+        });
+
+      for (const key in promisePredictHqEvents) {
+        predictHqEvents.push({
+          key,
+          description: promisePredictHqEvents.data.results[key].description,
+          latitude: promisePredictHqEvents.data.results[key].location[1],
+          longitude: promisePredictHqEvents.data.results[key].location[0],
+          title: promisePredictHqEvents.data.results[key].title,
+        });
+      }
+
+      const promiseUsersEvents: void = await firestore()
         .collection(FIRESTORE_COLLECTION)
         .get()
         .then((querySnapshot) => {
@@ -41,50 +73,27 @@ export const fetchEvents = () => {
               title: documentSnapshot.data().title,
             });
           });
+        })
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error(
+              `Error with fetching ${FIRESTORE_COLLECTION}, details: `,
+              error
+            );
+          }
         });
 
-      // if (!promise1.ok) {
-      //   throw new Error("Error with fetching users events");
-      // }
-
-      // const response: any = await axios({
-      //   headers: {
-      //     Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
-      //     Accept: "application/json",
-      //   },
-      //   method: "GET",
-      //   params: {
-      //     category: PREDICTHQ_CATEGORIES,
-      //     country: Localization.region,
-      //     limit: PREDICTHQ_LIMIT,
-      //   },
-      //   url: "https://api.predicthq.com/v1/events/",
-      // });
-
-      // if (!response.ok) {
-      //   throw new Error("Error with fetching PredictHQ events");
-      // }
-
-      // for (const key in response) {
-      //   loadedEvents2.push({
-      //     key,
-      //     description: response.data.results[key].description,
-      //     latitude: response.data.results[key].location[1],
-      //     longitude: response.data.results[key].location[0],
-      //     title: response.data.results[key].title,
-      //   });
-      // }
-
       // TODO: When PredictHQ will be unblocked order the whole code and ideally 'allSettled' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) should've been used.
-      Promise.race([promise1]).then(() => {
-        const finalEvents = [...usersEvents, ...EVENTS, ...loadedEvents2];
+      Promise.race([promiseUsersEvents, promisePredictHqEvents]).then(() => {
+        const finalEvents = [...predictHqEvents, ...usersEvents, ...EVENTS];
         dispatch({ type: SET_EVENTS, events: finalEvents });
       });
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err);
-        // Send to some analytics server.
-        throw err;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(
+          "Error with executing try block for fetching events, details:",
+          error
+        );
       }
     }
   };
