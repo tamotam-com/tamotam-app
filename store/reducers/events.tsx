@@ -29,6 +29,7 @@ export default (state = initialState, action: any) => {
 
       return {
         ...state,
+        // @ts-ignore
         events: state.events.concat(newEvent),
       };
     case DELETE_EVENT:
