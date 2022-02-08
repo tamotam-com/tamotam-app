@@ -236,6 +236,10 @@ export default function NewEventScreen({ navigation, route }: any) {
           />
           <DateTimePicker
             display="spinner"
+            maximumDate={
+              new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+            }
+            minimumDate={new Date()}
             mode="date"
             onChange={onDateChange}
             testID="datePicker"
