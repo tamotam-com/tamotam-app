@@ -38,7 +38,6 @@ import { FIRESTORE_COLLECTION } from "@env";
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const events: Event[] = useSelector((state: any) => state.events.events);
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<string>("");
