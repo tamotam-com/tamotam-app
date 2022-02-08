@@ -49,7 +49,6 @@ export default function MapScreen() {
 
     try {
       dispatch(eventsActions.fetchEvents());
-      console.log(events);
     } catch (err) {
       if (err instanceof Error) {
         Alert.alert(
