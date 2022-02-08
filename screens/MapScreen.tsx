@@ -118,7 +118,7 @@ export default function MapScreen() {
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
         {events.map((event: Event) => {
-          return (
+          return new Date().getTime() < new Date(event.date).getTime() ? (
             <Marker
               coordinate={{
                 latitude: event.coordinate.latitude,
@@ -189,7 +189,7 @@ export default function MapScreen() {
                 </Button>
               </Callout>
             </Marker>
-          );
+          ) : null;
         })}
       </MapView>
     </View>

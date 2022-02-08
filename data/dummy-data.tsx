@@ -12,7 +12,7 @@ export const EVENTS: Event[] = [
   {
     id: 2,
     coordinate: { latitude: 52.23123, longitude: 5.921321 },
-    date: new Date(),
+    date: new Date(2021, 1, 30),
     description: "Description2",
     imageUrl: "https://picsum.photos/700",
     title: "Title2",
@@ -20,7 +20,7 @@ export const EVENTS: Event[] = [
   {
     id: 3,
     coordinate: { latitude: 53.23123, longitude: 6.921321 },
-    date: new Date(),
+    date: new Date(2023, 1, 30),
     description: "Description3",
     imageUrl: "https://picsum.photos/700",
     title: "Title3",
