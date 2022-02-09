@@ -34,6 +34,6 @@
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["@react-native-firebase/app"]
+    "plugins": ["@react-native-firebase/app", "@react-native-firebase/perf"]
   }
 }

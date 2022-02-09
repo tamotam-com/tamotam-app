@@ -16,6 +16,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^14.2.4",
     "@react-native-firebase/firestore": "^14.2.4",
+    "@react-native-firebase/perf": "^14.3.1",
     "@react-navigation/bottom-tabs": "6.0.9",
     "@react-navigation/material-bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
