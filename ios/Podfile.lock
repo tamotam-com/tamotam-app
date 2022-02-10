@@ -393,6 +393,9 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.64.3)
   - Firebase/CoreOnly (8.11.0):
     - FirebaseCore (= 8.11.0)
+  - Firebase/Crashlytics (8.11.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 8.11.0)
   - Firebase/Firestore (8.11.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.11.0)
@@ -410,6 +413,13 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
+  - FirebaseCrashlytics (8.11.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.1)
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
   - FirebaseFirestore (8.11.0):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
@@ -757,6 +767,10 @@ PODS:
   - RNFBApp (14.2.4):
     - Firebase/CoreOnly (= 8.11.0)
     - React-Core
+  - RNFBCrashlytics (14.3.2):
+    - Firebase/Crashlytics (= 8.11.0)
+    - React-Core
+    - RNFBApp
   - RNFBFirestore (14.2.4):
     - Firebase/Firestore (= 8.11.0)
     - React-Core
@@ -852,6 +866,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -868,6 +883,7 @@ SPEC REPOS:
     - FirebaseABTesting
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
     - FirebaseFirestore
     - FirebaseInstallations
     - FirebasePerformance
@@ -979,6 +995,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
+  RNFBCrashlytics:
+    :path: "../node_modules/@react-native-firebase/crashlytics"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNFBPerf:
@@ -1020,6 +1038,7 @@ SPEC CHECKSUMS:
   FirebaseABTesting: 1b05c92327b3f0a9545cea3bab4d93e82550e29b
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
   FirebaseCoreDiagnostics: 64d9709d804a6c25bd77841371c1fcfd909d5601
+  FirebaseCrashlytics: 62268addefae79601057818156e8bc69d71fee41
   FirebaseFirestore: 3b2e4b532c68809b3df5f8d39d28b3398ffc196b
   FirebaseInstallations: 25764cf322e77f99449395870a65b2bef88e1545
   FirebasePerformance: c40a3bfe5ed9e91f2ab4851d1aa8e0f2f3ca19cf
@@ -1060,6 +1079,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDateTimePicker: 2224ee77a86b7123377597a015502435e2e49957
   RNFBApp: 7777c22386149f3845f1b0ca74e3d69a574559c5
+  RNFBCrashlytics: ab74c8fc25acb288bb401a2523d52e254345ef1a
   RNFBFirestore: 446dbd0d8ad5c9db0ffadd9e0014bf127692fca0
   RNFBPerf: 7ca58e6f84f7e081b4f90af16fd67f3cd1761cdf
   RNGestureHandler: e1ad51d31a580755079d5124d3ab66f0fcaa8311
