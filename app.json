@@ -2,7 +2,7 @@
   "expo": {
     "name": "tamotamApp",
     "slug": "tamotamApp",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tamotam.app",
-      "buildNumber": "0.1.1",
+      "buildNumber": "0.1.2",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
