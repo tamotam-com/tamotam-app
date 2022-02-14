@@ -77,7 +77,9 @@ export default function MapScreen() {
 
     try {
       if (savedEvents.some((savedEvent: Event) => savedEvent.id === event.id)) {
-        Alert.alert("Duplicated saved event", error, [{ text: "Okay" }]);
+        Alert.alert("This event is already in your Saved events.", error, [
+          { text: "Okay" },
+        ]);
         setIsLoading(false);
         return;
       }

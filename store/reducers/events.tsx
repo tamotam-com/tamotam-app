@@ -60,6 +60,7 @@ export default (state = initialState, action: any) => {
     case SET_EVENTS:
       return {
         events: action.events,
+        savedEvents: action.savedEvents,
       };
     case UPDATE_EVENT:
       const eventIndex = state.savedEvents.findIndex(

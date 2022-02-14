@@ -86,7 +86,11 @@ export const fetchEvents = () => {
       // TODO: When PredictHQ will be unblocked order the whole code and ideally 'allSettled' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) should've been used.
       Promise.race([promiseUsersEvents, promisePredictHqEvents]).then(() => {
         const finalEvents = [...predictHqEvents, ...usersEvents, ...EVENTS];
-        dispatch({ type: SET_EVENTS, events: finalEvents });
+        dispatch({
+          type: SET_EVENTS,
+          events: finalEvents,
+          savedEvents: [],
+        });
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
