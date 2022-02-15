@@ -1,3 +1,4 @@
+import analytics from "@react-native-firebase/analytics";
 import firestore from "@react-native-firebase/firestore";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
@@ -149,13 +150,15 @@ export default function NewEventScreen({ navigation, route }: any) {
         .collection(FIRESTORE_COLLECTION)
         .add(newEvent)
         .then(() => {
-          console.log("User's event added: ", newEvent);
+          analytics().logEvent("User's event added: ", newEvent);
         })
         .catch(() => {
-          console.log("Problem with adding user's event: ", newEvent);
+          analytics().logEvent("Problem with adding user's event: ", newEvent);
         })
         .finally(() => {
-          console.log(`Firestore ${FIRESTORE_COLLECTION} stopped executing`);
+          analytics().logEvent(
+            `Firestore ${FIRESTORE_COLLECTION} stopped executing`
+          );
         });
       dispatch(addEvent(newEvent));
     } catch (err) {
