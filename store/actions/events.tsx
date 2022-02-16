@@ -8,6 +8,8 @@ import {
   PREDICTHQ_ACCESS_TOKEN,
   PREDICTHQ_CATEGORIES,
   PREDICTHQ_LIMIT,
+  SEATGEEK_CLIENT_ID,
+  SEATGEEK_SECRET,
   // @ts-ignore
 } from "@env";
 import { EVENTS } from "../../data/dummy-data"; // TODO: Delete when PredictHQ will start working.
@@ -22,6 +24,7 @@ export const fetchEvents = () => {
   return async (dispatch: any) => {
     try {
       const predictHqEvents: any[] = [];
+      const seatGeekEvents: any[] = [];
       const usersEvents: any[] = [];
 
       const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
@@ -56,6 +59,35 @@ export const fetchEvents = () => {
         });
       }
 
+      const promiseSeatGeekEvents: void | AxiosResponse<any, any> | any =
+        await axios({
+          method: "GET",
+          url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}`,
+        })
+          .then((response: AxiosResponse<any, any>) => {
+            for (const id in response.data.events) {
+              seatGeekEvents.push({
+                id,
+                coordinate: {
+                  latitude: response.data.events[id].venue.location.lat,
+                  longitude: response.data.events[id].venue.location.lon,
+                },
+                date: new Date(response.data.events[id].datetime_local),
+                description: response.data.events[id].description,
+                imageUrl: response.data.events[id].performers[0].image,
+                title: response.data.events[id].title,
+              });
+            }
+          })
+          .catch((error: unknown) => {
+            if (error instanceof Error) {
+              console.error(
+                "Error with fetching SeatGeek events, details: ",
+                error
+              );
+            }
+          });
+
       const promiseUsersEvents: void = await firestore()
         .collection(FIRESTORE_COLLECTION)
         .get()
@@ -84,8 +116,17 @@ export const fetchEvents = () => {
         });
 
       // TODO: When PredictHQ will be unblocked order the whole code and ideally 'allSettled' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) should've been used.
-      Promise.race([promiseUsersEvents, promisePredictHqEvents]).then(() => {
-        const finalEvents = [...predictHqEvents, ...usersEvents, ...EVENTS];
+      Promise.race([
+        promiseUsersEvents,
+        promisePredictHqEvents,
+        promiseSeatGeekEvents,
+      ]).then(() => {
+        const finalEvents = [
+          ...predictHqEvents,
+          ...seatGeekEvents,
+          ...usersEvents,
+          ...EVENTS,
+        ];
         dispatch({
           type: SET_EVENTS,
           events: finalEvents,
