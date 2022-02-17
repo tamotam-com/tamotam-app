@@ -10,6 +10,7 @@ import {
   PREDICTHQ_LIMIT,
   SEATGEEK_CLIENT_ID,
   SEATGEEK_SECRET,
+  TICKETMASTER_API_KEY,
   // @ts-ignore
 } from "@env";
 import { EVENTS } from "../../data/dummy-data"; // TODO: Delete when PredictHQ will start working.
@@ -25,6 +26,7 @@ export const fetchEvents = () => {
     try {
       const predictHqEvents: any[] = [];
       const seatGeekEvents: any[] = [];
+      const ticketmasterEvents: any[] = [];
       const usersEvents: any[] = [];
 
       const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
@@ -88,6 +90,42 @@ export const fetchEvents = () => {
             }
           });
 
+      const promiseTicketmasterEvents: void | AxiosResponse<any, any> | any =
+        await axios({
+          method: "GET",
+          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${TICKETMASTER_API_KEY}`,
+        })
+          .then((response: AxiosResponse<any, any>) => {
+            for (const id in response.data._embedded.events) {
+              ticketmasterEvents.push({
+                id,
+                coordinate: {
+                  latitude:
+                    response.data._embedded.events[id]._embedded.venues[0]
+                      .location.latitude,
+                  longitude:
+                    response.data._embedded.events[id]._embedded.venues[0]
+                      .location.longitude,
+                },
+                date: new Date(
+                  response.data._embedded.events[id].dates.start.localDate
+                ),
+                description:
+                  response.data._embedded.events[id]._embedded.venues[0].name,
+                imageUrl: response.data._embedded.events[id].images[0].url,
+                title: response.data._embedded.events[id].name,
+              });
+            }
+          })
+          .catch((error: unknown) => {
+            if (error instanceof Error) {
+              console.error(
+                "Error with fetching Ticketmaster events, details: ",
+                error
+              );
+            }
+          });
+
       const promiseUsersEvents: void = await firestore()
         .collection(FIRESTORE_COLLECTION)
         .get()
@@ -117,13 +155,15 @@ export const fetchEvents = () => {
 
       // TODO: When PredictHQ will be unblocked order the whole code and ideally 'allSettled' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) should've been used.
       Promise.race([
-        promiseUsersEvents,
         promisePredictHqEvents,
         promiseSeatGeekEvents,
+        promiseUsersEvents,
+        promiseTicketmasterEvents,
       ]).then(() => {
         const finalEvents = [
           ...predictHqEvents,
           ...seatGeekEvents,
+          ...ticketmasterEvents,
           ...usersEvents,
           ...EVENTS,
         ];
