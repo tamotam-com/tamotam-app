@@ -9,8 +9,10 @@ import {
   PREDICTHQ_CATEGORIES,
   PREDICTHQ_LIMIT,
   SEATGEEK_CLIENT_ID,
+  SEATGEEK_PAGE_SIZE,
   SEATGEEK_SECRET,
   TICKETMASTER_API_KEY,
+  TICKETMASTER_SIZE,
   // @ts-ignore
 } from "@env";
 import { EVENTS } from "../../data/dummy-data"; // TODO: Delete when PredictHQ will start working.
@@ -64,10 +66,11 @@ export const fetchEvents = () => {
       const promiseSeatGeekEvents: void | AxiosResponse<any, any> | any =
         await axios({
           method: "GET",
-          url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}`,
+          url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}?per_page=${SEATGEEK_PAGE_SIZE}`,
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const id in response.data.events) {
+              console.log(id);
               seatGeekEvents.push({
                 id,
                 coordinate: {
@@ -93,7 +96,7 @@ export const fetchEvents = () => {
       const promiseTicketmasterEvents: void | AxiosResponse<any, any> | any =
         await axios({
           method: "GET",
-          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${TICKETMASTER_API_KEY}`,
+          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}`,
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const id in response.data._embedded.events) {
