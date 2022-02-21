@@ -346,42 +346,42 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
   - DoubleConversion (1.1.6)
-  - EXApplication (4.0.1):
+  - EXApplication (4.0.2):
     - ExpoModulesCore
-  - EXConstants (13.0.1):
+  - EXConstants (13.0.2):
     - ExpoModulesCore
-  - EXErrorRecovery (3.0.4):
+  - EXErrorRecovery (3.0.5):
     - ExpoModulesCore
-  - EXFileSystem (13.1.2):
+  - EXFileSystem (13.1.4):
     - ExpoModulesCore
-  - EXFont (10.0.4):
+  - EXFont (10.0.5):
     - ExpoModulesCore
-  - EXImagePicker (12.0.1):
+  - EXImagePicker (12.0.2):
     - ExpoModulesCore
-  - EXJSONUtils (0.2.0)
-  - EXKeepAwake (10.0.1):
+  - EXJSONUtils (0.2.1)
+  - EXKeepAwake (10.0.2):
     - ExpoModulesCore
-  - EXManifests (0.2.2):
+  - EXManifests (0.2.4):
     - EXJSONUtils
-  - Expo (44.0.5):
+  - Expo (44.0.6):
     - ExpoModulesCore
-  - ExpoLocalization (12.0.0):
+  - ExpoLocalization (12.0.1):
     - ExpoModulesCore
-  - ExpoModulesCore (0.6.4):
+  - ExpoModulesCore (0.6.5):
     - React-Core
     - ReactCommon/turbomodule/core
-  - EXSplashScreen (0.14.1):
+  - EXSplashScreen (0.14.2):
     - ExpoModulesCore
     - React-Core
-  - EXStructuredHeaders (2.1.0)
+  - EXStructuredHeaders (2.1.1)
   - EXUpdates (0.11.6):
     - EXManifests
     - ExpoModulesCore
     - EXStructuredHeaders
     - EXUpdatesInterface
     - React-Core
-  - EXUpdatesInterface (0.5.0)
-  - EXWebBrowser (10.1.0):
+  - EXUpdatesInterface (0.5.1)
+  - EXWebBrowser (10.1.1):
     - ExpoModulesCore
   - FBLazyVector (0.64.3)
   - FBReactNativeSpec (0.64.3):
@@ -391,26 +391,26 @@ PODS:
     - React-Core (= 0.64.3)
     - React-jsi (= 0.64.3)
     - ReactCommon/turbomodule/core (= 0.64.3)
-  - Firebase/Analytics (8.11.0):
+  - Firebase/Analytics (8.12.1):
     - Firebase/Core
-  - Firebase/Core (8.11.0):
+  - Firebase/Core (8.12.1):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 8.11.0)
-  - Firebase/CoreOnly (8.11.0):
-    - FirebaseCore (= 8.11.0)
-  - Firebase/Crashlytics (8.11.0):
+    - FirebaseAnalytics (~> 8.12.0)
+  - Firebase/CoreOnly (8.12.1):
+    - FirebaseCore (= 8.12.1)
+  - Firebase/Crashlytics (8.12.1):
     - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 8.11.0)
-  - Firebase/Firestore (8.11.0):
+    - FirebaseCrashlytics (~> 8.12.0)
+  - Firebase/Firestore (8.12.1):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 8.11.0)
-  - Firebase/Performance (8.11.0):
+    - FirebaseFirestore (~> 8.12.1)
+  - Firebase/Performance (8.12.1):
     - Firebase/CoreOnly
-    - FirebasePerformance (~> 8.11.0)
+    - FirebasePerformance (~> 8.12.0)
   - FirebaseABTesting (8.12.0):
     - FirebaseCore (~> 8.0)
-  - FirebaseAnalytics (8.11.0):
-    - FirebaseAnalytics/AdIdSupport (= 8.11.0)
+  - FirebaseAnalytics (8.12.0):
+    - FirebaseAnalytics/AdIdSupport (= 8.12.0)
     - FirebaseCore (~> 8.0)
     - FirebaseInstallations (~> 8.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
@@ -418,32 +418,32 @@ PODS:
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (~> 2.30908.0)
-  - FirebaseAnalytics/AdIdSupport (8.11.0):
+  - FirebaseAnalytics/AdIdSupport (8.12.0):
     - FirebaseCore (~> 8.0)
     - FirebaseInstallations (~> 8.0)
-    - GoogleAppMeasurement (= 8.11.0)
+    - GoogleAppMeasurement (= 8.12.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (~> 2.30908.0)
-  - FirebaseCore (8.11.0):
+  - FirebaseCore (8.12.1):
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.11.0):
+  - FirebaseCoreDiagnostics (8.12.0):
     - GoogleDataTransport (~> 9.1)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
-  - FirebaseCrashlytics (8.11.0):
+  - FirebaseCrashlytics (8.12.0):
     - FirebaseCore (~> 8.0)
     - FirebaseInstallations (~> 8.0)
     - GoogleDataTransport (~> 9.1)
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - FirebaseFirestore (8.11.0):
+  - FirebaseFirestore (8.12.1):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
     - abseil/container/flat_hash_map (= 0.20200225.0)
@@ -461,7 +461,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
     - PromisesObjC (< 3.0, >= 1.2)
-  - FirebasePerformance (8.11.0):
+  - FirebasePerformance (8.12.0):
     - FirebaseCore (~> 8.0)
     - FirebaseInstallations (~> 8.0)
     - FirebaseRemoteConfig (~> 8.0)
@@ -477,21 +477,21 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
   - glog (0.3.5)
-  - GoogleAppMeasurement (8.11.0):
-    - GoogleAppMeasurement/AdIdSupport (= 8.11.0)
+  - GoogleAppMeasurement (8.12.0):
+    - GoogleAppMeasurement/AdIdSupport (= 8.12.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (8.11.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.11.0)
+  - GoogleAppMeasurement/AdIdSupport (8.12.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.12.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (8.11.0):
+  - GoogleAppMeasurement/WithoutAdIdSupport (8.12.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
@@ -817,28 +817,28 @@ PODS:
     - React
   - RNDateTimePicker (4.0.0):
     - React-Core
-  - RNFBAnalytics (14.3.2):
-    - Firebase/Analytics (= 8.11.0)
+  - RNFBAnalytics (14.5.0):
+    - Firebase/Analytics (= 8.12.1)
     - React-Core
     - RNFBApp
-  - RNFBApp (14.2.4):
-    - Firebase/CoreOnly (= 8.11.0)
+  - RNFBApp (14.5.0):
+    - Firebase/CoreOnly (= 8.12.1)
     - React-Core
-  - RNFBCrashlytics (14.3.2):
-    - Firebase/Crashlytics (= 8.11.0)
-    - React-Core
-    - RNFBApp
-  - RNFBFirestore (14.2.4):
-    - Firebase/Firestore (= 8.11.0)
+  - RNFBCrashlytics (14.5.0):
+    - Firebase/Crashlytics (= 8.12.1)
     - React-Core
     - RNFBApp
-  - RNFBPerf (14.3.1):
-    - Firebase/Performance (= 8.11.0)
+  - RNFBFirestore (14.5.0):
+    - Firebase/Firestore (= 8.12.1)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.1.1):
+  - RNFBPerf (14.5.0):
+    - Firebase/Performance (= 8.12.1)
     - React-Core
-  - RNReanimated (2.3.1):
+    - RNFBApp
+  - RNGestureHandler (2.1.2):
+    - React-Core
+  - RNReanimated (2.3.2):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -1077,37 +1077,37 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
-  EXApplication: bdc8dc27713235565da1029a34385229f31b8e08
-  EXConstants: 6966f4fa7a22770dd240a66d029819ff94c748c9
-  EXErrorRecovery: deea88a01d38f8b1c1181b4e1d179b0ba0e4bb5b
-  EXFileSystem: e8013deaa114cab168a6f53be956b9334c3d02cf
-  EXFont: 1fb13af43dc517c01c0ff21a6e32f9f9bf2ea602
-  EXImagePicker: 91337b8d57a0a8f56800b9ac0f2b2f10aecf88ce
-  EXJSONUtils: f515cf71710855d7ba5bfc6752af3b9a6f6aad01
-  EXKeepAwake: b571c2ad8323b2fced6e907766e2549f75119471
-  EXManifests: 50e42e01335df4e54109dee7be5a91bfd37347db
-  Expo: 337c72b7e9314e93023af79c875930db8e008275
-  ExpoLocalization: 83582a967db52987a8479490b056d5eb9fd70552
-  ExpoModulesCore: 64abda7af7cf659d2fa092934e29c6f4ea7e849f
-  EXSplashScreen: 7872675b95bb07c25f922b3d3dfae70c76fb5a00
-  EXStructuredHeaders: 2ce79a3770bd3795bade1aab215ada70deae8bbc
+  EXApplication: 54fe5bd6268d697771645e8f1aef8b806a65247a
+  EXConstants: 88bf79622fbd9b476c96d8ec57fe97ca44fe8e3c
+  EXErrorRecovery: b0d7582714a2cc896e94a2308a356f94dbf14ef7
+  EXFileSystem: 08a3033ac372b6346becf07839e1ccef26fb1058
+  EXFont: 2597c10ac85a69d348d44d7873eccf5a7576ef5e
+  EXImagePicker: bf4d62532cc2bf217edbe4abbb0014e73e079eac
+  EXJSONUtils: 5ee0d5cf76da70ad86f0be1a41cc70f47d69e06f
+  EXKeepAwake: bf48d7f740a5cd2befed6cf9a49911d385c6c47d
+  EXManifests: d3464cd2278f4a19cd80c1aa673231570b534c11
+  Expo: 534e51e607aba8229293297da5585f4b26f50fa1
+  ExpoLocalization: 72b4524c167da6c4e2a0bbe09176ff8b2c4eddbe
+  ExpoModulesCore: 32c0ccb47f477d330ee93db72505380adf0de09a
+  EXSplashScreen: 21669e598804ee810547dbb6692c8deb5dd8dbf3
+  EXStructuredHeaders: 4993087b2010dbcc510f5d92555b36f523425e8d
   EXUpdates: bd5fa64f02685ed3e96be86b5ca350cdc2cd8d02
-  EXUpdatesInterface: f459b515151bd73fff7a35366eace34a6c6a0d3f
-  EXWebBrowser: 37388663fa51cbfc883de2244931a5182d948e5f
+  EXUpdatesInterface: a9814f422d3cd6e7cfd260d13c27786148ece20e
+  EXWebBrowser: f1573262c5de753987ed526c630076eda130804d
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
   FBReactNativeSpec: e9f21d999318300d4e4362f461e813541eccff49
-  Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
+  Firebase: 580d09e8edafc3073ebf09c03fd42e4d80d35fe9
   FirebaseABTesting: 1b05c92327b3f0a9545cea3bab4d93e82550e29b
-  FirebaseAnalytics: 4e4b13031034e6561ed3bd1d47b6fdabbd6487c6
-  FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
-  FirebaseCoreDiagnostics: 64d9709d804a6c25bd77841371c1fcfd909d5601
-  FirebaseCrashlytics: 62268addefae79601057818156e8bc69d71fee41
-  FirebaseFirestore: 3b2e4b532c68809b3df5f8d39d28b3398ffc196b
+  FirebaseAnalytics: bd10d7706ba8d6e01ea2816f8fe9e9b881cb0918
+  FirebaseCore: 8138de860a90ca7eec5e324da5788fb0ebf1d93c
+  FirebaseCoreDiagnostics: 3b40dfadef5b90433a60ae01f01e90fe87aa76aa
+  FirebaseCrashlytics: 7952ffd988006128325510664b99dc8ca5851dff
+  FirebaseFirestore: dfeb58916ee3ae0ef2453d4849a683672705920c
   FirebaseInstallations: 25764cf322e77f99449395870a65b2bef88e1545
-  FirebasePerformance: c40a3bfe5ed9e91f2ab4851d1aa8e0f2f3ca19cf
+  FirebasePerformance: 2e8861c96657ba16d6512f23a1bc43a7e4aa891e
   FirebaseRemoteConfig: f174a7091ac8e69bf6d0de2bae2212edb922a0ab
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
-  GoogleAppMeasurement: aa3cb422fab2b05d2efac543a5720d1a85b9dea5
+  GoogleAppMeasurement: ae033c3aad67e68294369373056b4d74cc8ae0d6
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
@@ -1142,13 +1142,13 @@ SPEC CHECKSUMS:
   ReactCommon: 8fea6422328e2fc093e25c9fac67adbcf0f04fb4
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDateTimePicker: 2224ee77a86b7123377597a015502435e2e49957
-  RNFBAnalytics: 13c94be578f902be22857926026bdec38e71f619
-  RNFBApp: 7777c22386149f3845f1b0ca74e3d69a574559c5
-  RNFBCrashlytics: ab74c8fc25acb288bb401a2523d52e254345ef1a
-  RNFBFirestore: 446dbd0d8ad5c9db0ffadd9e0014bf127692fca0
-  RNFBPerf: 7ca58e6f84f7e081b4f90af16fd67f3cd1761cdf
-  RNGestureHandler: e1ad51d31a580755079d5124d3ab66f0fcaa8311
-  RNReanimated: 7f143675d94978c3555345d5bfa8ed6ae800c5d3
+  RNFBAnalytics: afd361a31db57b61853ef321a872a132df0f4519
+  RNFBApp: 06c8447270d295edc431bccd55970d8711a07a42
+  RNFBCrashlytics: 0cfb53fcd558969ee498eb7030ee7065c7dacf8d
+  RNFBFirestore: 7e4fe3b009a193d2f2fb0a19d1d6ab06355d4a09
+  RNFBPerf: 15708e8e7b9c64add98e0244baa8f055fe6422a6
+  RNGestureHandler: 392653c717564ab35d6b322d7b56b10a54d88dbd
+  RNReanimated: db6fc1362254dfd18b4ef5f921af9bb72b2e42d0
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
 
