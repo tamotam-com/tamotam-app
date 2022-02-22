@@ -15,7 +15,6 @@ import {
   TICKETMASTER_SIZE,
   // @ts-ignore
 } from "@env";
-import { EVENTS } from "../../data/dummy-data"; // TODO: Delete when PredictHQ will start working.
 
 export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
