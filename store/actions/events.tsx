@@ -257,7 +257,6 @@ export const fetchEvents = () => {
           ...skiRegEvents,
           ...ticketmasterEvents,
           ...usersEvents,
-          ...EVENTS,
         ];
         dispatch({
           type: SET_EVENTS,
