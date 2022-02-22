@@ -29,6 +29,7 @@ export const fetchEvents = () => {
       const predictHqEvents: any[] = [];
       const runRegEvents: any[] = [];
       const seatGeekEvents: any[] = [];
+      const skiRegEvents: any[] = [];
       const ticketmasterEvents: any[] = [];
       const usersEvents: any[] = [];
 
@@ -89,6 +90,48 @@ export const fetchEvents = () => {
             if (error instanceof Error) {
               console.error(
                 "Error with fetching SeatGeek events, details: ",
+                error
+              );
+            }
+          });
+
+      const promiseSkiRegEvents: void | AxiosResponse<any, any> | any =
+        await axios({
+          method: "GET",
+          url: "https://www.skireg.com/api/search",
+        })
+          .then((response: AxiosResponse<any, any>) => {
+            for (const EventId in response.data.MatchingEvents) {
+              const arrayByDashSignDivider =
+                response.data.MatchingEvents[EventId].EventDate.match(/\d+/g);
+              const checkForDash = /-/.test(
+                response.data.MatchingEvents[EventId].EventDate
+              )
+                ? -1
+                : +1;
+              const dateInMilliseconds =
+                +arrayByDashSignDivider[0] +
+                checkForDash *
+                  (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                    arrayByDashSignDivider[1].slice(-2) * 6e4);
+
+              skiRegEvents.push({
+                id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
+                coordinate: {
+                  latitude: response.data.MatchingEvents[EventId].Latitude,
+                  longitude: response.data.MatchingEvents[EventId].Longitude,
+                },
+                date: new Date(dateInMilliseconds), // TODO: Double check the time.
+                description: response.data.MatchingEvents[EventId].PresentedBy,
+                imageUrl: "https://picsum.photos/700",
+                title: response.data.MatchingEvents[EventId].EventName,
+              });
+            }
+          })
+          .catch((error: unknown) => {
+            if (error instanceof Error) {
+              console.error(
+                "Error with fetching SkiReg events, details: ",
                 error
               );
             }
@@ -204,6 +247,7 @@ export const fetchEvents = () => {
         promisePredictHqEvents,
         promiseRunRegEvents,
         promiseSeatGeekEvents,
+        promiseSkiRegEvents,
         promiseUsersEvents,
         promiseTicketmasterEvents,
       ]).then(() => {
@@ -211,6 +255,7 @@ export const fetchEvents = () => {
           ...predictHqEvents,
           ...runRegEvents,
           ...seatGeekEvents,
+          ...skiRegEvents,
           ...ticketmasterEvents,
           ...usersEvents,
           ...EVENTS,
