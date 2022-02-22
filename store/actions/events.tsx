@@ -27,6 +27,7 @@ export const fetchEvents = () => {
   return async (dispatch: any) => {
     try {
       const predictHqEvents: any[] = [];
+      const runRegEvents: any[] = [];
       const seatGeekEvents: any[] = [];
       const ticketmasterEvents: any[] = [];
       const usersEvents: any[] = [];
@@ -88,6 +89,48 @@ export const fetchEvents = () => {
             if (error instanceof Error) {
               console.error(
                 "Error with fetching SeatGeek events, details: ",
+                error
+              );
+            }
+          });
+
+      const promiseRunRegEvents: void | AxiosResponse<any, any> | any =
+        await axios({
+          method: "GET",
+          url: "https://www.runreg.com/api/search",
+        })
+          .then((response: AxiosResponse<any, any>) => {
+            for (const EventId in response.data.MatchingEvents) {
+              const arrayByDashSignDivider =
+                response.data.MatchingEvents[EventId].EventDate.match(/\d+/g);
+              const checkForDash = /-/.test(
+                response.data.MatchingEvents[EventId].EventDate
+              )
+                ? -1
+                : +1;
+              const dateInMilliseconds =
+                +arrayByDashSignDivider[0] +
+                checkForDash *
+                  (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                    arrayByDashSignDivider[1].slice(-2) * 6e4);
+
+              runRegEvents.push({
+                id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
+                coordinate: {
+                  latitude: response.data.MatchingEvents[EventId].Latitude,
+                  longitude: response.data.MatchingEvents[EventId].Longitude,
+                },
+                date: new Date(dateInMilliseconds), // TODO: Double check the time.
+                description: response.data.MatchingEvents[EventId].PresentedBy,
+                imageUrl: "https://picsum.photos/700",
+                title: response.data.MatchingEvents[EventId].EventName,
+              });
+            }
+          })
+          .catch((error: unknown) => {
+            if (error instanceof Error) {
+              console.error(
+                "Error with fetching RunReg events, details: ",
                 error
               );
             }
@@ -159,12 +202,14 @@ export const fetchEvents = () => {
       // TODO: When PredictHQ will be unblocked order the whole code and ideally 'allSettled' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) should've been used.
       Promise.race([
         promisePredictHqEvents,
+        promiseRunRegEvents,
         promiseSeatGeekEvents,
         promiseUsersEvents,
         promiseTicketmasterEvents,
       ]).then(() => {
         const finalEvents = [
           ...predictHqEvents,
+          ...runRegEvents,
           ...seatGeekEvents,
           ...ticketmasterEvents,
           ...usersEvents,
