@@ -31,6 +31,7 @@ export const fetchEvents = () => {
       const seatGeekEvents: any[] = [];
       const skiRegEvents: any[] = [];
       const ticketmasterEvents: any[] = [];
+      const triRegEvents: any[] = [];
       const usersEvents: any[] = [];
 
       const promiseBikeRegEvents: void | AxiosResponse<any, any> | any =
@@ -257,6 +258,54 @@ export const fetchEvents = () => {
             }
           });
 
+      const promiseTriRegEvents: void | AxiosResponse<any, any> | any =
+        await axios({
+          method: "GET",
+          url: "https://www.trireg.com/api/search",
+        })
+          .then((response: AxiosResponse<any, any>) => {
+            // console.log(response.data.MatchingEvents);
+            for (const EventId in response.data.MatchingEvents) {
+              const arrayByDashSignDivider =
+                response.data.MatchingEvents[EventId].EventDate.match(/\d+/g);
+              const checkForDash = /-/.test(
+                response.data.MatchingEvents[EventId].EventDate
+              )
+                ? -1
+                : +1;
+              const dateInMilliseconds =
+                +arrayByDashSignDivider[0] +
+                checkForDash *
+                  (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                    arrayByDashSignDivider[1].slice(-2) * 6e4);
+
+              triRegEvents.push({
+                id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
+                coordinate: {
+                  // TODO: That's the only case such a check is required. Let's see if it shouldn't be done on the MapScreen side.
+                  latitude: response.data.MatchingEvents[EventId].Latitude
+                    ? response.data.MatchingEvents[EventId].Latitude
+                    : 32.2332,
+                  longitude: response.data.MatchingEvents[EventId].Longitude
+                    ? response.data.MatchingEvents[EventId].Longitude
+                    : 5.213,
+                },
+                date: new Date(dateInMilliseconds), // TODO: Double check the time.
+                description: response.data.MatchingEvents[EventId].PresentedBy,
+                imageUrl: "https://picsum.photos/700",
+                title: response.data.MatchingEvents[EventId].EventName,
+              });
+            }
+          })
+          .catch((error: unknown) => {
+            if (error instanceof Error) {
+              console.error(
+                "Error with fetching TriReg events, details: ",
+                error
+              );
+            }
+          });
+
       const promiseUsersEvents: void = await firestore()
         .collection(FIRESTORE_COLLECTION)
         .get()
@@ -293,6 +342,7 @@ export const fetchEvents = () => {
         promiseSkiRegEvents,
         promiseUsersEvents,
         promiseTicketmasterEvents,
+        promiseTriRegEvents,
       ]).then(() => {
         const finalEvents = [
           ...bikeRegEvents,
@@ -301,6 +351,7 @@ export const fetchEvents = () => {
           ...seatGeekEvents,
           ...skiRegEvents,
           ...ticketmasterEvents,
+          ...triRegEvents,
           ...usersEvents,
         ];
         dispatch({
