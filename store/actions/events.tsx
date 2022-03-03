@@ -10,9 +10,10 @@ import {
   PREDICTHQ_LIMIT,
   SEATGEEK_CLIENT_ID,
   SEATGEEK_PAGE_SIZE,
+  SEATGEEK_NUMBER_OF_PAGES,
   SEATGEEK_SECRET,
   TICKETMASTER_API_KEY,
-  TICKETMASTER_PAGES,
+  TICKETMASTER_NUMBER_OF_PAGES,
   TICKETMASTER_SIZE,
   // @ts-ignore
 } from "@env";
@@ -109,8 +110,9 @@ export const fetchEvents = () => {
         });
       }
 
-      const promiseSeatGeekEvents: void | AxiosResponse<any, any> | any =
-        await axios({
+      let promiseSeatGeekEvents: void | AxiosResponse<any, any> | any;
+      for (let page = 0; page < SEATGEEK_NUMBER_OF_PAGES; page++) {
+        promiseSeatGeekEvents = await axios({
           method: "GET",
           url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}?per_page=${SEATGEEK_PAGE_SIZE}`,
         })
@@ -138,6 +140,8 @@ export const fetchEvents = () => {
               );
             }
           });
+        console.log(seatGeekEvents.length);
+      }
 
       const promiseSkiRegEvents: void | AxiosResponse<any, any> | any =
         await axios({
@@ -224,7 +228,7 @@ export const fetchEvents = () => {
           });
 
       let promiseTicketmasterEvents: void | AxiosResponse<any, any> | any;
-      for (let page = 0; page < TICKETMASTER_PAGES; page++) {
+      for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
         promiseTicketmasterEvents = await axios({
           method: "GET",
           url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}`,
