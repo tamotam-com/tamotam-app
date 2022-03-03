@@ -12,6 +12,7 @@ import {
   SEATGEEK_PAGE_SIZE,
   SEATGEEK_SECRET,
   TICKETMASTER_API_KEY,
+  TICKETMASTER_PAGES,
   TICKETMASTER_SIZE,
   // @ts-ignore
 } from "@env";
@@ -222,8 +223,9 @@ export const fetchEvents = () => {
             }
           });
 
-      const promiseTicketmasterEvents: void | AxiosResponse<any, any> | any =
-        await axios({
+      let promiseTicketmasterEvents: void | AxiosResponse<any, any> | any;
+      for (let page = 0; page < TICKETMASTER_PAGES; page++) {
+        promiseTicketmasterEvents = await axios({
           method: "GET",
           url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}`,
         })
@@ -257,6 +259,7 @@ export const fetchEvents = () => {
               );
             }
           });
+      }
 
       const promiseTriRegEvents: void | AxiosResponse<any, any> | any =
         await axios({
