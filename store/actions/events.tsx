@@ -343,7 +343,6 @@ export const fetchEvents = () => {
           }
         });
 
-      // TODO: When PredictHQ will be unblocked order the whole code and ideally 'allSettled' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) should've been used.
       Promise.race([
         promiseBikeRegEvents,
         promisePredictHqEvents,
