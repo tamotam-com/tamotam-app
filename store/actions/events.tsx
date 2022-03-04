@@ -4,6 +4,7 @@ import firestore from "@react-native-firebase/firestore";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
 import {
+  BIKEREG_NUMBER_OF_PAGES,
   FIRESTORE_COLLECTION,
   PREDICTHQ_ACCESS_TOKEN,
   PREDICTHQ_CATEGORIES,
@@ -36,10 +37,11 @@ export const fetchEvents = () => {
       const triRegEvents: any[] = [];
       const usersEvents: any[] = [];
 
-      const promiseBikeRegEvents: void | AxiosResponse<any, any> | any =
-        await axios({
+      let promiseBikeRegEvents: void | AxiosResponse<any, any> | any;
+      for (let page = 1; page < BIKEREG_NUMBER_OF_PAGES; page++) {
+        promiseBikeRegEvents = await axios({
           method: "GET",
-          url: "https://www.bikereg.com/api/search",
+          url: `https://www.bikereg.com/api/search?startpage=${page}`,
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const EventId in response.data.MatchingEvents) {
@@ -77,6 +79,7 @@ export const fetchEvents = () => {
               );
             }
           });
+      }
 
       const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
         await axios({
