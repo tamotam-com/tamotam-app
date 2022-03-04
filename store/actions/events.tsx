@@ -81,6 +81,7 @@ export const fetchEvents = () => {
           });
       }
 
+      // TODO: Delete PredictHQ after temporarily access will be granted, because it's too expensive after that.
       const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
         await axios({
           headers: {
