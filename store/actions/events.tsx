@@ -9,6 +9,7 @@ import {
   PREDICTHQ_ACCESS_TOKEN,
   PREDICTHQ_CATEGORIES,
   PREDICTHQ_LIMIT,
+  RUNREG_NUMBER_OF_PAGES,
   SEATGEEK_CLIENT_ID,
   SEATGEEK_PAGE_SIZE,
   SEATGEEK_NUMBER_OF_PAGES,
@@ -189,10 +190,11 @@ export const fetchEvents = () => {
             }
           });
 
-      const promiseRunRegEvents: void | AxiosResponse<any, any> | any =
-        await axios({
+      let promiseRunRegEvents: void | AxiosResponse<any, any> | any;
+      for (let page = 1; page < RUNREG_NUMBER_OF_PAGES; page++) {
+        promiseRunRegEvents = await axios({
           method: "GET",
-          url: "https://www.runreg.com/api/search",
+          url: `https://www.runreg.com/api/search?startpage=${page}`,
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const EventId in response.data.MatchingEvents) {
@@ -230,6 +232,7 @@ export const fetchEvents = () => {
               );
             }
           });
+      }
 
       let promiseTicketmasterEvents: void | AxiosResponse<any, any> | any;
       for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
@@ -350,9 +353,9 @@ export const fetchEvents = () => {
         promiseRunRegEvents,
         promiseSeatGeekEvents,
         promiseSkiRegEvents,
-        promiseUsersEvents,
         promiseTicketmasterEvents,
         promiseTriRegEvents,
+        promiseUsersEvents,
       ]).then(() => {
         const finalEvents = [
           ...bikeRegEvents,
