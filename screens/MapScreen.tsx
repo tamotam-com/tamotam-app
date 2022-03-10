@@ -128,6 +128,7 @@ export default function MapScreen() {
                 latitude: event.coordinate.latitude,
                 longitude: event.coordinate.longitude,
               }}
+              tracksViewChanges={false}
             >
               <Callout
                 onPress={() => saveEventHandler(event)}
