@@ -6,14 +6,14 @@ import { Event } from "../../interfaces/event";
 import {
   BIKEREG_NUMBER_OF_PAGES,
   FIRESTORE_COLLECTION,
-  PREDICTHQ_ACCESS_TOKEN,
-  PREDICTHQ_CATEGORIES,
-  PREDICTHQ_LIMIT,
+  // PREDICTHQ_ACCESS_TOKEN,
+  // PREDICTHQ_CATEGORIES,
+  // PREDICTHQ_LIMIT,
   RUNREG_NUMBER_OF_PAGES,
-  SEATGEEK_CLIENT_ID,
-  SEATGEEK_PAGE_SIZE,
-  SEATGEEK_NUMBER_OF_PAGES,
-  SEATGEEK_SECRET,
+  // SEATGEEK_CLIENT_ID,
+  // SEATGEEK_PAGE_SIZE,
+  // SEATGEEK_NUMBER_OF_PAGES,
+  // SEATGEEK_SECRET,
   TICKETMASTER_API_KEY,
   TICKETMASTER_NUMBER_OF_PAGES,
   TICKETMASTER_SIZE,
@@ -30,9 +30,9 @@ export const fetchEvents = () => {
   return async (dispatch: any) => {
     try {
       const bikeRegEvents: any[] = [];
-      const predictHqEvents: any[] = [];
+      // const predictHqEvents: any[] = [];
       const runRegEvents: any[] = [];
-      const seatGeekEvents: any[] = [];
+      // const seatGeekEvents: any[] = [];
       const skiRegEvents: any[] = [];
       const ticketmasterEvents: any[] = [];
       const triRegEvents: any[] = [];
@@ -83,70 +83,70 @@ export const fetchEvents = () => {
       }
 
       // TODO: Delete PredictHQ after temporarily access will be granted, because it's too expensive after that.
-      const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
-        await axios({
-          headers: {
-            Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
-            Accept: "application/json",
-          },
-          method: "GET",
-          params: {
-            category: PREDICTHQ_CATEGORIES,
-            country: Localization.region,
-            limit: PREDICTHQ_LIMIT,
-          },
-          url: "https://api.predicthq.com/v1/events/",
-        }).catch((error: unknown) => {
-          if (error instanceof Error) {
-            console.error(
-              "Error with fetching PredictHQ events, details: ",
-              error
-            );
-          }
-        });
+      // const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
+      //   await axios({
+      //     headers: {
+      //       Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
+      //       Accept: "application/json",
+      //     },
+      //     method: "GET",
+      //     params: {
+      //       category: PREDICTHQ_CATEGORIES,
+      //       country: Localization.region,
+      //       limit: PREDICTHQ_LIMIT,
+      //     },
+      //     url: "https://api.predicthq.com/v1/events/",
+      //   }).catch((error: unknown) => {
+      //     if (error instanceof Error) {
+      //       console.error(
+      //         "Error with fetching PredictHQ events, details: ",
+      //         error
+      //       );
+      //     }
+      //   });
 
-      for (const key in promisePredictHqEvents) {
-        predictHqEvents.push({
-          key,
-          description: promisePredictHqEvents.data.results[key].description,
-          latitude: promisePredictHqEvents.data.results[key].location[1],
-          longitude: promisePredictHqEvents.data.results[key].location[0],
-          title: promisePredictHqEvents.data.results[key].title,
-        });
-      }
+      // for (const key in promisePredictHqEvents) {
+      //   predictHqEvents.push({
+      //     key,
+      //     description: promisePredictHqEvents.data.results[key].description,
+      //     latitude: promisePredictHqEvents.data.results[key].location[1],
+      //     longitude: promisePredictHqEvents.data.results[key].location[0],
+      //     title: promisePredictHqEvents.data.results[key].title,
+      //   });
+      // }
 
-      let promiseSeatGeekEvents: void | AxiosResponse<any, any> | any;
-      for (let page = 0; page < SEATGEEK_NUMBER_OF_PAGES; page++) {
-        promiseSeatGeekEvents = await axios({
-          method: "GET",
-          url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}?per_page=${SEATGEEK_PAGE_SIZE}`,
-        })
-          .then((response: AxiosResponse<any, any>) => {
-            for (const id in response.data.events) {
-              console.log(id);
-              seatGeekEvents.push({
-                id,
-                coordinate: {
-                  latitude: response.data.events[id].venue.location.lat,
-                  longitude: response.data.events[id].venue.location.lon,
-                },
-                date: new Date(response.data.events[id].datetime_local),
-                description: response.data.events[id].description,
-                imageUrl: response.data.events[id].performers[0].image,
-                title: response.data.events[id].title,
-              });
-            }
-          })
-          .catch((error: unknown) => {
-            if (error instanceof Error) {
-              console.error(
-                "Error with fetching SeatGeek events, details: ",
-                error
-              );
-            }
-          });
-        console.log(seatGeekEvents.length);
-      }
+      // let promiseSeatGeekEvents: void | AxiosResponse<any, any> | any;
+      // for (let page = 0; page < SEATGEEK_NUMBER_OF_PAGES; page++) {
+      //   promiseSeatGeekEvents = await axios({
+      //     method: "GET",
+      //     url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}?per_page=${SEATGEEK_PAGE_SIZE}`,
+      //   })
+      //     .then((response: AxiosResponse<any, any>) => {
+      //       for (const id in response.data.events) {
+      //         console.log(id);
+      //         seatGeekEvents.push({
+      //           id,
+      //           coordinate: {
+      //             latitude: response.data.events[id].venue.location.lat,
+      //             longitude: response.data.events[id].venue.location.lon,
+      //           },
+      //           date: new Date(response.data.events[id].datetime_local),
+      //           description: response.data.events[id].description,
+      //           imageUrl: response.data.events[id].performers[0].image,
+      //           title: response.data.events[id].title,
+      //         });
+      //       }
+      //     })
+      //     .catch((error: unknown) => {
+      //       if (error instanceof Error) {
+      //         console.error(
+      //           "Error with fetching SeatGeek events, details: ",
+      //           error
+      //         );
+      //       }
+      //     });
+      //   console.log(seatGeekEvents.length);
+      // }
 
       const promiseSkiRegEvents: void | AxiosResponse<any, any> | any =
         await axios({
@@ -349,9 +349,9 @@ export const fetchEvents = () => {
 
       Promise.race([
         promiseBikeRegEvents,
-        promisePredictHqEvents,
+        // promisePredictHqEvents,
         promiseRunRegEvents,
-        promiseSeatGeekEvents,
+        // promiseSeatGeekEvents,
         promiseSkiRegEvents,
         promiseTicketmasterEvents,
         promiseTriRegEvents,
@@ -359,9 +359,9 @@ export const fetchEvents = () => {
       ]).then(() => {
         const finalEvents = [
           ...bikeRegEvents,
-          ...predictHqEvents,
+          // ...predictHqEvents,
           ...runRegEvents,
-          ...seatGeekEvents,
+          // ...seatGeekEvents,
           ...skiRegEvents,
           ...ticketmasterEvents,
           ...triRegEvents,
