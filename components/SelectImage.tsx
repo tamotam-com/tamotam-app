@@ -54,9 +54,7 @@ const SelectImage = (props: {
         ) : (
           <Image
             style={styles.image}
-            source={{
-              uri: pickedImage ? pickedImage : props.existingImageUrl,
-            }}
+            source={pickedImage ? pickedImage : props.existingImageUrl}
           />
         )}
       </View>

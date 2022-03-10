@@ -154,11 +154,11 @@ export default function MapScreen() {
                   {event.title ? event.title : "No information about title."}
                 </StyledText>
                 <Image
-                  source={{
-                    uri: !event.imageUrl
-                      ? "https://picsum.photos/700"
-                      : event.imageUrl,
-                  }}
+                  source={
+                    event.imageUrl === ""
+                      ? require("../assets/images/no-image.jpeg")
+                      : event.imageUrl
+                  }
                   style={styles.image}
                 />
                 <StyledText style={styles.description}>

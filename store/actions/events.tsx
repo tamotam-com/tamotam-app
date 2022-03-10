@@ -67,7 +67,7 @@ export const fetchEvents = () => {
                 },
                 date: new Date(dateInMilliseconds), // TODO: Double check the time.
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: "https://picsum.photos/700",
+                imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -176,7 +176,7 @@ export const fetchEvents = () => {
                 },
                 date: new Date(dateInMilliseconds), // TODO: Double check the time.
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: "https://picsum.photos/700",
+                imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -219,7 +219,7 @@ export const fetchEvents = () => {
                 },
                 date: new Date(dateInMilliseconds), // TODO: Double check the time.
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: "https://picsum.photos/700",
+                imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -238,7 +238,7 @@ export const fetchEvents = () => {
       for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
         promiseTicketmasterEvents = await axios({
           method: "GET",
-          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}`,
+          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=DE&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}`,
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const id in response.data._embedded.events) {
@@ -306,7 +306,7 @@ export const fetchEvents = () => {
                 },
                 date: new Date(dateInMilliseconds), // TODO: Double check the time.
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: "https://picsum.photos/700",
+                imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -333,7 +333,7 @@ export const fetchEvents = () => {
               },
               date: new Date(documentSnapshot.data().date.seconds * 1000),
               description: documentSnapshot.data().description,
-              imageUrl: "https://picsum.photos/700",
+              imageUrl: require("../../assets/images/no-image.jpeg"),
               title: documentSnapshot.data().title,
             });
           });

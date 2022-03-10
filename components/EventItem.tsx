@@ -71,7 +71,7 @@ const EventItem = (props: any) => {
           })}
         </Paragraph>
       </Card.Content>
-      <Card.Cover source={{ uri: props.imageUrl }} />
+      <Card.Cover source={props.imageUrl} />
       <Card.Actions>
         <Button>{props.children}</Button>
       </Card.Actions>

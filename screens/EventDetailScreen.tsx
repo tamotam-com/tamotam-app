@@ -92,12 +92,11 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
           })}
         </StyledText>
         <Image
-          source={{
-            uri:
-              selectedEvent.imageUrl === ""
-                ? "https://picsum.photos/700"
-                : selectedEvent.imageUrl,
-          }}
+          source={
+            selectedEvent.imageUrl === ""
+              ? require("../assets/images/no-image.jpeg")
+              : selectedEvent.imageUrl
+          }
           style={styles.image}
         />
         <Map />

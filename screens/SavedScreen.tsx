@@ -107,7 +107,7 @@ export default function SavedScreen({ navigation, route }: any) {
           description={eventData.item.description}
           imageUrl={
             eventData.item.imageUrl === ""
-              ? "https://picsum.photos/700"
+              ? require("../assets/images/no-image.jpeg")
               : eventData.item.imageUrl
           }
           time={eventData.item.time}

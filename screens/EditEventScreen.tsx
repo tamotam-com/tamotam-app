@@ -254,7 +254,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           <SelectImage
             existingImageUrl={
               selectedEvent.imageUrl === ""
-                ? "https://picsum.photos/700"
+                ? require("../assets/images/no-image.jpeg")
                 : selectedEvent.imageUrl
             }
             onImageTaken={onImageChange}
