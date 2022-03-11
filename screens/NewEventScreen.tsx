@@ -182,7 +182,9 @@ export default function NewEventScreen({ navigation, route }: any) {
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         onPress={onLocationChange}
-        onLongPress={async (e) => await getAddressFromCoordinate(e)}
+        onRegionChange={async (region) =>
+          await getAddressFromCoordinate(mapRef, region)
+        }
         ref={mapRef}
         style={styles.map}
       >
