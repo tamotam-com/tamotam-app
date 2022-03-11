@@ -39,6 +39,7 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-gesture-handler": "~2.1.0",
+    "react-native-map-clustering": "^3.4.2",
     "react-native-maps": "0.29.4",
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "~2.3.1",

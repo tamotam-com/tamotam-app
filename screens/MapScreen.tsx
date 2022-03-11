@@ -2,7 +2,7 @@ import * as eventsActions from "../store/actions/events";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
-import MapView, { Callout } from "react-native-maps";
+import MapView from "react-native-map-clustering";
 import React, {
   useCallback,
   useEffect,
@@ -22,6 +22,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Button } from "react-native-paper";
+import { Callout } from "react-native-maps";
 import { Event } from "../interfaces/event";
 import { Marker } from "react-native-maps";
 import { View } from "../components/Themed";
@@ -30,6 +31,12 @@ export default function MapScreen() {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const events: Event[] = useSelector((state: any) => state.events.events);
+  const initial_region = {
+    latitude: 52.5,
+    longitude: 19.2,
+    latitudeDelta: 8.5,
+    longitudeDelta: 8.5,
+  };
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -114,10 +121,22 @@ export default function MapScreen() {
     <View style={styles.container}>
       {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
+        clusterColor={
+          colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+        }
+        clusterFontFamily={"boiling-demo"}
+        clusterTextColor={
+          colorScheme === "dark"
+            ? Colors.dark.background
+            : Colors.light.background
+        }
+        followsUserLocation={true}
+        initialRegion={initial_region}
         // onRegionChange={async (region) =>
         //   await getAddressFromCoordinate(mapRef, region)
         // }
         ref={mapRef}
+        showsUserLocation={true}
         style={styles.map}
       >
         {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
