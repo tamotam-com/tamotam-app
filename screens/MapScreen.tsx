@@ -132,9 +132,9 @@ export default function MapScreen() {
         }
         followsUserLocation={true}
         initialRegion={initial_region}
-        // onRegionChange={async (region) =>
-        //   await getAddressFromCoordinate(mapRef, region)
-        // }
+        onRegionChange={async (region) =>
+          await getAddressFromCoordinate(mapRef, region)
+        }
         ref={mapRef}
         showsUserLocation={true}
         style={styles.map}
