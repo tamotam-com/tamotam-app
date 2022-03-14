@@ -2,6 +2,7 @@ import * as eventsActions from "../store/actions/events";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
+import CustomMapStyles from "../constants/CustomMapStyles";
 import MapView from "react-native-map-clustering";
 import React, {
   useCallback,
@@ -22,9 +23,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { Button } from "react-native-paper";
-import { Callout } from "react-native-maps";
+import { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Event } from "../interfaces/event";
-import { Marker } from "react-native-maps";
 import { View } from "../components/Themed";
 
 export default function MapScreen() {
@@ -119,22 +119,23 @@ export default function MapScreen() {
 
   const Map: () => JSX.Element = () => (
     <View style={styles.container}>
-      {/* TODO: Generate custom map styles based on https://mapstyle.withgoogle.com with Retro theme. */}
       <MapView
         clusterColor={
-          colorScheme === "dark" ? Colors.dark.text : Colors.light.text
-        }
-        clusterFontFamily={"boiling-demo"}
-        clusterTextColor={
           colorScheme === "dark"
             ? Colors.dark.background
             : Colors.light.background
         }
+        clusterFontFamily={"boiling-demo"}
+        clusterTextColor={
+          colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+        }
+        customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
         initialRegion={initial_region}
         onRegionChange={async (region) =>
           await getAddressFromCoordinate(mapRef, region)
         }
+        provider={PROVIDER_GOOGLE}
         ref={mapRef}
         showsUserLocation={true}
         style={styles.map}
