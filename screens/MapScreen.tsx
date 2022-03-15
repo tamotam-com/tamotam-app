@@ -148,6 +148,8 @@ export default function MapScreen() {
                 latitude: event.coordinate.latitude,
                 longitude: event.coordinate.longitude,
               }}
+              icon={require("../assets/images/icon-map.png")}
+              key={event.id}
               tracksViewChanges={false}
             >
               <Callout
