@@ -3,8 +3,9 @@ import firestore from "@react-native-firebase/firestore";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
+import CustomMapStyles from "../constants/CustomMapStyles";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, {
   useEffect,
@@ -39,6 +40,12 @@ import { FIRESTORE_COLLECTION } from "@env";
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
+  const initial_region = {
+    latitude: 52.5,
+    longitude: 19.2,
+    latitudeDelta: 8.5,
+    longitudeDelta: 8.5,
+  };
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -180,16 +187,23 @@ export default function NewEventScreen({ navigation, route }: any) {
   const Map: () => JSX.Element = () => (
     <View style={styles.container}>
       <MapView
+        customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
+        followsUserLocation={true}
+        initialRegion={initial_region}
         onPress={onLocationChange}
         onRegionChange={async (region) =>
           await getAddressFromCoordinate(mapRef, region)
         }
+        provider={PROVIDER_GOOGLE}
         ref={mapRef}
+        showsUserLocation={true}
         style={styles.map}
       >
         {markerCoordinates && (
           <Marker
             coordinate={markerCoordinates}
+            icon={require("../assets/images/icon-map.png")}
+            tracksViewChanges={false}
             title="Picked Location"
           ></Marker>
         )}

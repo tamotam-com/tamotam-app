@@ -1,9 +1,10 @@
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
+import CustomMapStyles from "../constants/CustomMapStyles";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import SelectImage from "../components/SelectImage";
 import React, {
   useEffect,
@@ -36,6 +37,12 @@ export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const eventId: number = route.params.eventId;
+  const initial_region = {
+    latitude: 52.5,
+    longitude: 19.2,
+    latitudeDelta: 8.5,
+    longitudeDelta: 8.5,
+  };
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
@@ -175,16 +182,23 @@ export default function EditEventScreen({ navigation, route }: any) {
   const Map: () => JSX.Element = () => (
     <View style={styles.container}>
       <MapView
+        customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
+        followsUserLocation={true}
+        initialRegion={initial_region}
         onPress={onLocationChange}
         onRegionChange={async (region) =>
           await getAddressFromCoordinate(mapRef, region)
         }
+        provider={PROVIDER_GOOGLE}
         ref={mapRef}
+        showsUserLocation={true}
         style={styles.map}
       >
         {markerCoordinates && (
           <Marker
             coordinate={markerCoordinates}
+            icon={require("../assets/images/icon-map.png")}
+            tracksViewChanges={false}
             title="Picked Location"
           ></Marker>
         )}
