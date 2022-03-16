@@ -1,4 +1,5 @@
 import * as eventsActions from "../store/actions/events";
+import * as Location from "expo-location";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -31,18 +32,18 @@ export default function MapScreen() {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const events: Event[] = useSelector((state: any) => state.events.events);
-  const initial_region = {
-    latitude: 52.5,
-    longitude: 19.2,
-    latitudeDelta: 8.5,
-    longitudeDelta: 8.5,
-  };
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [initialRegionValue, setInitialRegionValue] = useState<{
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  }>({ latitude: 0, longitude: 0, latitudeDelta: 0, longitudeDelta: 0 });
 
   useEffect(() => {
     if (error) {
@@ -77,6 +78,39 @@ export default function MapScreen() {
       setIsLoading(false);
     });
   }, [dispatch, loadEvents]);
+
+  const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const location = await Location.getCurrentPositionAsync({});
+
+      setInitialRegionValue({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 10,
+        longitudeDelta: 10,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "We couldn't fetch your location.\nPlease give us the permissions, and it's essential to use TamoTam!",
+          [{ text: "Okay" }]
+        );
+
+        setError(error.message);
+      }
+    }
+    setIsLoading(false);
+  }, [dispatch, setError, setIsLoading]);
+
+  useEffect(() => {
+    getUserLocationHandler().then(() => {
+      setIsLoading(false);
+    });
+  }, [getUserLocationHandler]);
 
   const saveEventHandler: (event: Event) => void = (event: Event) => {
     setError("");
@@ -131,7 +165,7 @@ export default function MapScreen() {
         }
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
-        initialRegion={initial_region}
+        initialRegion={initialRegionValue}
         onRegionChange={async (region) =>
           await getAddressFromCoordinate(mapRef, region)
         }
