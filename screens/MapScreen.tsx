@@ -247,11 +247,10 @@ const styles = StyleSheet.create({
   locationButtonCallout: {
     borderRadius: 10,
     borderWidth: 1,
-    height: 300,
-    overflow: "scroll",
+    height: 400,
     padding: 10,
     shadowRadius: 15,
-    width: 300,
+    width: 350,
   },
   map: {
     height: Dimensions.get("window").height,
