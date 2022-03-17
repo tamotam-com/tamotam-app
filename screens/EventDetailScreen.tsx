@@ -21,7 +21,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
-  const selectedEvent: Event = useSelector((state: any) =>
+  const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
   const initialRegionValue: Region = {

@@ -55,10 +55,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     selectedEvent.date
   );
   const [selectedImage, setSelectedImage] = useState<string>("");
-  const [selectedLocation, setSelectedLocation] = useState<Coordinate>({
-    latitude: 0,
-    longitude: 0,
-  });
+  const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
   const [titleValue, setTitleValue] = useState<string>("");
   let markerCoordinates: Coordinate = {
     latitude: selectedEvent.coordinate.latitude,
