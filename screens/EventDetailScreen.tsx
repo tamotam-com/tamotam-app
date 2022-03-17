@@ -16,12 +16,6 @@ import { View } from "../components/Themed";
 export default function PlaceDetailScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const eventId: number = route.params.eventId;
-  const initial_region = {
-    latitude: 52.5,
-    longitude: 19.2,
-    latitudeDelta: 8.5,
-    longitudeDelta: 8.5,
-  };
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -29,6 +23,17 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
   const selectedEvent: Event = useSelector((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
+  const initialRegionValue: {
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  } = {
+    latitude: selectedEvent.coordinate.latitude,
+    longitude: selectedEvent.coordinate.longitude,
+    latitudeDelta: 10,
+    longitudeDelta: 10,
+  };
   let markerCoordinates: Coordinate = {
     latitude: selectedEvent.coordinate.latitude,
     longitude: selectedEvent.coordinate.longitude,
@@ -68,7 +73,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
       <MapView
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
-        initialRegion={initial_region}
+        initialRegion={initialRegionValue}
         onRegionChange={async (region) => {
           await getAddressFromCoordinate(mapRef, region);
         }}

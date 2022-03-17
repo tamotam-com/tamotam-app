@@ -1,3 +1,4 @@
+import * as Location from "expo-location";
 import analytics from "@react-native-firebase/analytics";
 import firestore from "@react-native-firebase/firestore";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
@@ -8,6 +9,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -40,15 +42,15 @@ import { FIRESTORE_COLLECTION } from "@env";
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const initial_region = {
-    latitude: 52.5,
-    longitude: 19.2,
-    latitudeDelta: 8.5,
-    longitudeDelta: 8.5,
-  };
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [initialRegionValue, setInitialRegionValue] = useState<{
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  }>({ latitude: 0, longitude: 0, latitudeDelta: 0, longitudeDelta: 0 });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<any | Date>(new Date());
   const [selectedImage, setSelectedImage] = useState<string>("");
@@ -83,6 +85,39 @@ export default function NewEventScreen({ navigation, route }: any) {
       ),
     });
   }, [navigation]);
+
+  const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const location = await Location.getCurrentPositionAsync({});
+
+      setInitialRegionValue({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 10,
+        longitudeDelta: 10,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "We couldn't fetch your location.\nPlease give us the permissions, and it's essential to use TamoTam!",
+          [{ text: "Okay" }]
+        );
+
+        setError(error.message);
+      }
+    }
+    setIsLoading(false);
+  }, [dispatch, setError, setIsLoading]);
+
+  useEffect(() => {
+    getUserLocationHandler().then(() => {
+      setIsLoading(false);
+    });
+  }, [getUserLocationHandler]);
 
   if (isLoading) {
     return (
@@ -189,7 +224,7 @@ export default function NewEventScreen({ navigation, route }: any) {
       <MapView
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
-        initialRegion={initial_region}
+        initialRegion={initialRegionValue}
         onPress={onLocationChange}
         onRegionChange={async (region) =>
           await getAddressFromCoordinate(mapRef, region)

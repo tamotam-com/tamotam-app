@@ -37,16 +37,21 @@ export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const eventId: number = route.params.eventId;
-  const initial_region = {
-    latitude: 52.5,
-    longitude: 19.2,
-    latitudeDelta: 8.5,
-    longitudeDelta: 8.5,
-  };
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
+  const initialRegionValue: {
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  } = {
+    latitude: selectedEvent.coordinate.latitude,
+    longitude: selectedEvent.coordinate.longitude,
+    latitudeDelta: 10,
+    longitudeDelta: 10,
+  };
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -184,7 +189,7 @@ export default function EditEventScreen({ navigation, route }: any) {
       <MapView
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
-        initialRegion={initial_region}
+        initialRegion={initialRegionValue}
         onPress={onLocationChange}
         onRegionChange={async (region) =>
           await getAddressFromCoordinate(mapRef, region)
