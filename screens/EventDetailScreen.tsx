@@ -11,6 +11,7 @@ import { Coordinate } from "../interfaces/coordinate";
 import { Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 
 export default function PlaceDetailScreen({ navigation, route }: any) {
@@ -23,12 +24,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
   const selectedEvent: Event = useSelector((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
-  const initialRegionValue: {
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  } = {
+  const initialRegionValue: Region = {
     latitude: selectedEvent.coordinate.latitude,
     longitude: selectedEvent.coordinate.longitude,
     latitudeDelta: 10,

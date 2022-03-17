@@ -26,6 +26,7 @@ import {
 import { Button } from "react-native-paper";
 import { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Event } from "../interfaces/event";
+import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 
 export default function MapScreen() {
@@ -38,12 +39,12 @@ export default function MapScreen() {
   );
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [initialRegionValue, setInitialRegionValue] = useState<{
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  }>({ latitude: 0, longitude: 0, latitudeDelta: 0, longitudeDelta: 0 });
+  const [initialRegionValue, setInitialRegionValue] = useState<Region>({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0,
+    longitudeDelta: 0,
+  });
 
   useEffect(() => {
     if (error) {

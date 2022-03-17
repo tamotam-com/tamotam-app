@@ -35,6 +35,7 @@ import { Button } from "react-native-paper";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 // @ts-ignore
 import { FIRESTORE_COLLECTION } from "@env";
@@ -45,12 +46,12 @@ export default function NewEventScreen({ navigation, route }: any) {
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [initialRegionValue, setInitialRegionValue] = useState<{
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  }>({ latitude: 0, longitude: 0, latitudeDelta: 0, longitudeDelta: 0 });
+  const [initialRegionValue, setInitialRegionValue] = useState<Region>({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0,
+    longitudeDelta: 0,
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<any | Date>(new Date());
   const [selectedImage, setSelectedImage] = useState<string>("");
