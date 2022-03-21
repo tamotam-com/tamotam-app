@@ -1,6 +1,8 @@
+import * as FileSystem from "expo-file-system";
 import * as Localization from "expo-localization";
 import axios, { AxiosResponse } from "axios";
 import firestore from "@react-native-firebase/firestore";
+import { fetchSavedEvents, insertSavedEvent } from "../../helpers/db";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
 import {
@@ -24,6 +26,7 @@ export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
 export const SAVE_EVENT = "SAVE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
+export const SET_SAVED_EVENTS = "SET_SAVED_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
 
 export const fetchEvents = () => {
@@ -384,6 +387,23 @@ export const fetchEvents = () => {
   };
 };
 
+export const loadSavedEvents = () => {
+  return async (
+    dispatch: (arg0: { savedEvents: any; type: string }) => void
+  ) => {
+    try {
+      const dbResult = await fetchSavedEvents();
+      console.log(dbResult);
+      dispatch({ savedEvents: dbResult.rows._array, type: SET_SAVED_EVENTS });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        throw error;
+      }
+    }
+  };
+};
+
 export const addEvent = (event: Event) => {
   return async (
     dispatch: (arg0: {
@@ -460,20 +480,44 @@ export const saveEvent = (event: Event) => {
       };
     }) => void
   ) => {
-    dispatch({
-      type: SAVE_EVENT,
-      eventData: {
-        id: event.id,
-        coordinate: {
-          latitude: event.coordinate.latitude,
-          longitude: event.coordinate.longitude,
+    const fileName = event.imageUrl.split("/").pop();
+    // @ts-ignore
+    const newPath = FileSystem.documentDirectory + fileName;
+
+    try {
+      await FileSystem.moveAsync({
+        from: event.imageUrl,
+        to: newPath,
+      });
+      const dbResult = await insertSavedEvent(
+        event.coordinate,
+        event.date,
+        event.description,
+        newPath,
+        event.title
+      );
+      console.log(dbResult);
+
+      dispatch({
+        type: SAVE_EVENT,
+        eventData: {
+          id: event.id,
+          coordinate: {
+            latitude: event.coordinate.latitude,
+            longitude: event.coordinate.longitude,
+          },
+          date: event.date,
+          description: event.description,
+          imageUrl: event.imageUrl,
+          title: event.title,
         },
-        date: event.date,
-        description: event.description,
-        imageUrl: event.imageUrl,
-        title: event.title,
-      },
-    });
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        throw error;
+      }
+    }
   };
 };
 
