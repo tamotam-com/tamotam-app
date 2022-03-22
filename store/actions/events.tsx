@@ -373,7 +373,6 @@ export const fetchEvents = () => {
         dispatch({
           type: SET_EVENTS,
           events: finalEvents,
-          savedEvents: [],
         });
       });
     } catch (error: unknown) {
@@ -480,20 +479,23 @@ export const saveEvent = (event: Event) => {
       };
     }) => void
   ) => {
-    const fileName = event.imageUrl.split("/").pop();
-    // @ts-ignore
-    const newPath = FileSystem.documentDirectory + fileName;
+    // const newPath = "";
+    // if (event.imageUrl !== "") {
+    //   const fileName = event.imageUrl.split("/").pop();
+    //   // @ts-ignore
+    //   newPath = FileSystem.documentDirectory + fileName;
+    // }
 
     try {
-      await FileSystem.moveAsync({
-        from: event.imageUrl,
-        to: newPath,
-      });
+      // await FileSystem.moveAsync({
+      //   from: event.imageUrl,
+      //   to: newPath,
+      // });
       const dbResult = await insertSavedEvent(
         event.coordinate,
         event.date,
         event.description,
-        newPath,
+        event.imageUrl,
         event.title
       );
       console.log(dbResult);

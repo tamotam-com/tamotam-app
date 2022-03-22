@@ -4,6 +4,7 @@ import {
   DELETE_EVENT,
   SAVE_EVENT,
   SET_EVENTS,
+  SET_SAVED_EVENTS,
   UPDATE_EVENT,
 } from "../actions/events";
 
@@ -59,7 +60,12 @@ export default (state = initialState, action: any) => {
       };
     case SET_EVENTS:
       return {
+        ...state,
         events: action.events,
+      };
+    case SET_SAVED_EVENTS:
+      return {
+        ...state,
         savedEvents: action.savedEvents,
       };
     case UPDATE_EVENT:
