@@ -54,7 +54,8 @@ const EventItem = (props: any) => {
                 : Colors.light.text,
           }}
         >
-          🗓️ {props.date.toLocaleDateString()}
+          {/* 🗓️ {props.date.toLocaleDateString()} */}
+          🗓️ {new Date().toLocaleDateString()}
         </Paragraph>
         <Paragraph
           style={{
@@ -65,7 +66,11 @@ const EventItem = (props: any) => {
           }}
         >
           🕒{" "}
-          {props.date.toLocaleTimeString([], {
+          {/* {props.date.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })} */}
+          {new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           })}

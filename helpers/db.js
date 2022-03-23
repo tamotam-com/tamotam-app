@@ -33,9 +33,11 @@ export const insertSavedEvent = (
         `INSERT INTO savedEvents (coordinate, date, description, imageUrl, title) VALUES (?, ?, ?, ?, ?);`,
         [coordinate, date, description, imageUrl, title],
         (_, result) => {
+          alert("ok");
           resolve(result);
         },
         (_, err) => {
+          alert("err");
           reject(err);
         }
       );
@@ -51,9 +53,13 @@ export const fetchSavedEvents = () => {
         "SELECT * FROM savedEvents",
         [],
         (_, result) => {
+          console.log("ok saved");
+          console.log(result);
           resolve(result);
         },
         (_, err) => {
+          alert("err saved");
+          console.log(err);
           reject(err);
         }
       );
