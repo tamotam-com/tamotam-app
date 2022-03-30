@@ -55,9 +55,9 @@ const EventItem = (props: any) => {
           }}
         >
           🗓️{" "}
-          {props.date !== Date
+          {isNaN(props.date)
             ? "No information"
-            : props.date.toLocaleDateString()}
+            : new Date(props.date * 1000).toLocaleDateString()}
         </Paragraph>
         <Paragraph
           style={{
@@ -68,9 +68,9 @@ const EventItem = (props: any) => {
           }}
         >
           🕒{" "}
-          {props.date !== Date
+          {isNaN(props.date)
             ? "No information"
-            : props.date.toLocaleTimeString([], {
+            : new Date(props.date * 1000).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
