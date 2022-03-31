@@ -254,18 +254,18 @@ export default function MapScreen() {
                 </StyledText>
                 <StyledText style={styles.description}>
                   🗓️{" "}
-                  {event.date
-                    ? event.date.toLocaleDateString()
-                    : "No information about date."}
+                  {isNaN(Number(event.date))
+                    ? "No information"
+                    : event.date.toLocaleDateString()}
                 </StyledText>
                 <StyledText style={styles.description}>
                   🕒{" "}
-                  {event.date
-                    ? event.date.toLocaleTimeString([], {
+                  {isNaN(Number(event.date))
+                    ? "No information"
+                    : event.date.toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
-                      })
-                    : "No information about time."}
+                      })}
                 </StyledText>
                 <Button
                   color={

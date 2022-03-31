@@ -98,14 +98,22 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
           {selectedEvent.description}
         </StyledText>
         <StyledText style={styles.description}>
-          🗓️ {selectedEvent.date.toLocaleDateString()}
+          🗓️{" "}
+          {isNaN(Number(selectedEvent.date))
+            ? "No information"
+            : new Date(Number(selectedEvent.date) * 1000).toLocaleDateString()}
         </StyledText>
         <StyledText style={styles.description}>
           🕒{" "}
-          {selectedEvent.date.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
+          {isNaN(Number(selectedEvent.date))
+            ? "No information"
+            : new Date(Number(selectedEvent.date) * 1000).toLocaleTimeString(
+                [],
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              )}
         </StyledText>
         <Image
           source={

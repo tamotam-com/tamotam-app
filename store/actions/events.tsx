@@ -68,7 +68,7 @@ export const fetchEvents = () => {
                   latitude: response.data.MatchingEvents[EventId].Latitude,
                   longitude: response.data.MatchingEvents[EventId].Longitude,
                 },
-                date: new Date(dateInMilliseconds), // TODO: Double check the time.
+                date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,
@@ -177,7 +177,7 @@ export const fetchEvents = () => {
                   latitude: response.data.MatchingEvents[EventId].Latitude,
                   longitude: response.data.MatchingEvents[EventId].Longitude,
                 },
-                date: new Date(dateInMilliseconds), // TODO: Double check the time.
+                date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,
@@ -220,7 +220,7 @@ export const fetchEvents = () => {
                   latitude: response.data.MatchingEvents[EventId].Latitude,
                   longitude: response.data.MatchingEvents[EventId].Longitude,
                 },
-                date: new Date(dateInMilliseconds), // TODO: Double check the time.
+                date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,
@@ -307,7 +307,7 @@ export const fetchEvents = () => {
                     ? response.data.MatchingEvents[EventId].Longitude
                     : 5.213,
                 },
-                date: new Date(dateInMilliseconds), // TODO: Double check the time.
+                date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
                 title: response.data.MatchingEvents[EventId].EventName,

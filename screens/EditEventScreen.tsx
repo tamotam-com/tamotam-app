@@ -52,7 +52,9 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<any | Date>(
-    selectedEvent.date
+    isNaN(Number(selectedEvent.date))
+      ? new Date()
+      : new Date(Number(selectedEvent.date) * 1000)
   );
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
