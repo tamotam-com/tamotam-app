@@ -479,23 +479,21 @@ export const saveEvent = (event: Event) => {
       };
     }) => void
   ) => {
-    // const newPath = "";
-    // if (event.imageUrl !== "") {
-    //   const fileName = event.imageUrl.split("/").pop();
-    //   // @ts-ignore
-    //   newPath = FileSystem.documentDirectory + fileName;
-    // }
+    // const { StorageAccessFramework } = FileSystem;
+    // const fileName: string | undefined = event.imageUrl.split("/").pop();
+    // const newPathImage: string = FileSystem.documentDirectory! + fileName;
+    // alert(newPathImage);
 
     try {
-      // await FileSystem.moveAsync({
+      // await StorageAccessFramework.moveAsync({
       //   from: event.imageUrl,
-      //   to: newPath,
+      //   to: FileSystem.documentDirectory! + event.imageUrl,
       // });
       const dbResult = await insertSavedEvent(
         event.coordinate,
         event.date,
         event.description,
-        event.imageUrl,
+        FileSystem.documentDirectory! + event.imageUrl,
         event.title
       );
       console.log(dbResult);
@@ -516,7 +514,7 @@ export const saveEvent = (event: Event) => {
       });
     } catch (error) {
       if (error instanceof Error) {
-        console.error(error);
+        alert(error);
         throw error;
       }
     }
