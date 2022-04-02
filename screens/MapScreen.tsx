@@ -241,9 +241,9 @@ export default function MapScreen() {
                 </StyledText>
                 <Image
                   source={
-                    event.imageUrl === ""
-                      ? require("../assets/images/no-image.jpeg")
-                      : event.imageUrl
+                    typeof event.imageUrl === "string" && event.imageUrl !== ""
+                      ? { uri: event.imageUrl }
+                      : require("../assets/images/no-image.jpeg")
                   }
                   style={styles.image}
                 />
