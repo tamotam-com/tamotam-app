@@ -117,9 +117,10 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
         </StyledText>
         <Image
           source={
-            selectedEvent.imageUrl === ""
-              ? require("../assets/images/no-image.jpeg")
-              : selectedEvent.imageUrl
+            typeof selectedEvent.imageUrl === "string" &&
+            selectedEvent.imageUrl !== ""
+              ? selectedEvent.imageUrl
+              : require("../assets/images/no-image.jpeg")
           }
           style={styles.image}
         />

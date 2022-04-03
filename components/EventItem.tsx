@@ -76,7 +76,13 @@ const EventItem = (props: any) => {
               })}
         </Paragraph>
       </Card.Content>
-      <Card.Cover source={props.imageUrl} />
+      <Card.Cover
+        source={
+          typeof props.imageUrl === "string" && props.imageUrl !== ""
+            ? props.imageUrl
+            : require("../assets/images/no-image.jpeg")
+        }
+      />
       <Card.Actions>
         <Button>{props.children}</Button>
       </Card.Actions>
