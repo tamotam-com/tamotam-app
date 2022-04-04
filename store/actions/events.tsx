@@ -1,4 +1,3 @@
-import * as FileSystem from "expo-file-system";
 import * as Localization from "expo-localization";
 import axios, { AxiosResponse } from "axios";
 import firestore from "@react-native-firebase/firestore";
