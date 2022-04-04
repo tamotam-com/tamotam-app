@@ -29,6 +29,12 @@
           <string>com.tamotam.app</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.618411022473-0elk57md5t0p4q1cc70b27r52gt5vgdb</string>
+        </array>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
     <string>0.1.2</string>

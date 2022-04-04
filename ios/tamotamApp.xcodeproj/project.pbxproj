@@ -11,11 +11,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		4F6B4BFE1466401FBDCCB434 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 810ADA3088B343469B91153D /* GoogleService-Info.plist */; };
-		5CF98581454541F991C34E65 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EEA7E2572346BAA5CEBA8F /* noop-file.swift */; };
 		96905EF65AED1B983A6B3ABC /* libPods-tamotamApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-tamotamApp.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		C002B8E6FFCD488380F961DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F2D314A2E047F99AB0DD60 /* GoogleService-Info.plist */; };
+		DF31314B9E2343EB98461402 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFD8AA999604F50B2D051CC /* noop-file.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,16 +26,16 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = tamotamApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tamotamApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = tamotamApp/main.m; sourceTree = "<group>"; };
+		294DBA432AA74830AFC213A0 /* tamotamApp-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "tamotamApp-Bridging-Header.h"; path = "tamotamApp/tamotamApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-tamotamApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tamotamApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58F2D314A2E047F99AB0DD60 /* GoogleService-Info.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "tamotamApp/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-tamotamApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tamotamApp.debug.xcconfig"; path = "Target Support Files/Pods-tamotamApp/Pods-tamotamApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-tamotamApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tamotamApp.release.xcconfig"; path = "Target Support Files/Pods-tamotamApp/Pods-tamotamApp.release.xcconfig"; sourceTree = "<group>"; };
-		810ADA3088B343469B91153D /* GoogleService-Info.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "tamotamApp/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		8FE6276DC6864FDC96968F76 /* tamotamApp-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "tamotamApp-Bridging-Header.h"; path = "tamotamApp/tamotamApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		95EEA7E2572346BAA5CEBA8F /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "tamotamApp/noop-file.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = tamotamApp/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-tamotamApp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		FFFD8AA999604F50B2D051CC /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "tamotamApp/noop-file.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,9 +61,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				810ADA3088B343469B91153D /* GoogleService-Info.plist */,
-				95EEA7E2572346BAA5CEBA8F /* noop-file.swift */,
-				8FE6276DC6864FDC96968F76 /* tamotamApp-Bridging-Header.h */,
+				58F2D314A2E047F99AB0DD60 /* GoogleService-Info.plist */,
+				FFFD8AA999604F50B2D051CC /* noop-file.swift */,
+				294DBA432AA74830AFC213A0 /* tamotamApp-Bridging-Header.h */,
 			);
 			name = tamotamApp;
 			sourceTree = "<group>";
@@ -155,8 +155,8 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				C96F9BCED0A84D514A26674C /* [CP-User] [RNFB] Core Configuration */,
-				501C98F0B761FEAB881405C8 /* [CP-User] [RNFB] Crashlytics Configuration */,
+				F1A06FA441211926A233AA88 /* [CP-User] [RNFB] Core Configuration */,
+				5120744FC11C7A1AA1E6B9B1 /* [CP-User] [RNFB] Crashlytics Configuration */,
 			);
 			buildRules = (
 			);
@@ -206,7 +206,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				4F6B4BFE1466401FBDCCB434 /* GoogleService-Info.plist in Resources */,
+				C002B8E6FFCD488380F961DA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +249,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		501C98F0B761FEAB881405C8 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
+		5120744FC11C7A1AA1E6B9B1 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -289,7 +289,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tamotamApp/Pods-tamotamApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C96F9BCED0A84D514A26674C /* [CP-User] [RNFB] Core Configuration */ = {
+		F1A06FA441211926A233AA88 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -331,7 +331,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				5CF98581454541F991C34E65 /* noop-file.swift in Sources */,
+				DF31314B9E2343EB98461402 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

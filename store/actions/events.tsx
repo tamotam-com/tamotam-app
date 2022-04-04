@@ -2,7 +2,7 @@ import * as FileSystem from "expo-file-system";
 import * as Localization from "expo-localization";
 import axios, { AxiosResponse } from "axios";
 import firestore from "@react-native-firebase/firestore";
-import { fetchSavedEvents, insertSavedEvent } from "../../helpers/db";
+import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/db";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
 import {
@@ -449,20 +449,29 @@ export const deleteEvent = (event: Event) => {
       };
     }) => void
   ) => {
-    dispatch({
-      type: DELETE_EVENT,
-      eventData: {
-        id: event.id,
-        coordinate: {
-          latitude: event.coordinate.latitude,
-          longitude: event.coordinate.longitude,
+    try {
+      deleteSavedEvent(event.id);
+
+      dispatch({
+        type: DELETE_EVENT,
+        eventData: {
+          id: event.id,
+          coordinate: {
+            latitude: event.coordinate.latitude,
+            longitude: event.coordinate.longitude,
+          },
+          date: event.date,
+          description: event.description,
+          imageUrl: event.imageUrl,
+          title: event.title,
         },
-        date: event.date,
-        description: event.description,
-        imageUrl: event.imageUrl,
-        title: event.title,
-      },
-    });
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        throw error;
+      }
+    }
   };
 };
 
@@ -507,7 +516,7 @@ export const saveEvent = (event: Event) => {
       });
     } catch (error) {
       if (error instanceof Error) {
-        alert(error);
+        console.error(error);
         throw error;
       }
     }
