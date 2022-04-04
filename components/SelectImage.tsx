@@ -49,12 +49,15 @@ const SelectImage = (props: {
     <View style={styles.selectImage}>
       <View style={styles.imagePreview}>
         {!pickedImage &&
-        (!props.existingImageUrl || props.existingImageUrl === "") ? (
+          (!props.existingImageUrl || props.existingImageUrl === "") ? (
           <Text>No image picked yet.</Text>
         ) : (
           <Image
             style={styles.image}
-            source={pickedImage ? pickedImage : props.existingImageUrl}
+            source={pickedImage ? pickedImage : typeof props.existingImageUrl === "string" &&
+              props.existingImageUrl !== ""
+              ? { uri: props.existingImageUrl }
+              : require("../assets/images/no-image.jpeg")}
           />
         )}
       </View>

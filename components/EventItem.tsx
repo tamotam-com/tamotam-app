@@ -71,15 +71,15 @@ const EventItem = (props: any) => {
           {isNaN(props.date)
             ? "No information"
             : new Date(props.date * 1000).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
         </Paragraph>
       </Card.Content>
       <Card.Cover
         source={
           typeof props.imageUrl === "string" && props.imageUrl !== ""
-            ? props.imageUrl
+            ? { uri: props.imageUrl }
             : require("../assets/images/no-image.jpeg")
         }
       />

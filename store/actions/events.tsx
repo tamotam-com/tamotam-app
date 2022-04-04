@@ -59,8 +59,8 @@ export const fetchEvents = () => {
               const dateInMilliseconds =
                 +arrayByDashSignDivider[0] +
                 checkForDash *
-                  (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
-                    arrayByDashSignDivider[1].slice(-2) * 6e4);
+                (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                  arrayByDashSignDivider[1].slice(-2) * 6e4);
 
               bikeRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
@@ -168,8 +168,8 @@ export const fetchEvents = () => {
               const dateInMilliseconds =
                 +arrayByDashSignDivider[0] +
                 checkForDash *
-                  (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
-                    arrayByDashSignDivider[1].slice(-2) * 6e4);
+                (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                  arrayByDashSignDivider[1].slice(-2) * 6e4);
 
               skiRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
@@ -211,8 +211,8 @@ export const fetchEvents = () => {
               const dateInMilliseconds =
                 +arrayByDashSignDivider[0] +
                 checkForDash *
-                  (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
-                    arrayByDashSignDivider[1].slice(-2) * 6e4);
+                (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                  arrayByDashSignDivider[1].slice(-2) * 6e4);
 
               runRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
@@ -258,8 +258,9 @@ export const fetchEvents = () => {
                 date: new Date(
                   response.data._embedded.events[id].dates.start.localDate
                 ),
-                description:
-                  response.data._embedded.events[id]._embedded.venues[0].name,
+                description: response.data._embedded.events[id].name, // TODO: Temporarly solution.
+                // description:
+                //   response.data._embedded.events[id]._embedded.venues[0].name,
                 imageUrl: response.data._embedded.events[id].images[0].url,
                 title: response.data._embedded.events[id].name,
               });
@@ -293,8 +294,8 @@ export const fetchEvents = () => {
               const dateInMilliseconds =
                 +arrayByDashSignDivider[0] +
                 checkForDash *
-                  (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
-                    arrayByDashSignDivider[1].slice(-2) * 6e4);
+                (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                  arrayByDashSignDivider[1].slice(-2) * 6e4);
 
               triRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
@@ -479,21 +480,13 @@ export const saveEvent = (event: Event) => {
       };
     }) => void
   ) => {
-    // const { StorageAccessFramework } = FileSystem;
-    // const fileName: string | undefined = event.imageUrl.split("/").pop();
-    // const newPathImage: string = FileSystem.documentDirectory! + fileName;
-    // alert(newPathImage);
 
     try {
-      // await StorageAccessFramework.moveAsync({
-      //   from: event.imageUrl,
-      //   to: FileSystem.documentDirectory! + event.imageUrl,
-      // });
       const dbResult = await insertSavedEvent(
         event.coordinate,
         event.date,
         event.description,
-        FileSystem.documentDirectory! + event.imageUrl,
+        event.imageUrl,
         event.title
       );
       console.log(dbResult);
