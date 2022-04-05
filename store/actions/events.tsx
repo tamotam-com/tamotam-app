@@ -36,9 +36,9 @@ export const fetchEvents = () => {
       const runRegEvents: any[] = [];
       const seatGeekEvents: any[] = [];
       const skiRegEvents: any[] = [];
-      const ticketmasterEvents: any[] = [];
       const triRegEvents: any[] = [];
       const usersEvents: any[] = [];
+      let ticketmasterEvents: any[] = [];
 
       let promiseBikeRegEvents: void | AxiosResponse<any, any> | any;
       for (let page = 1; page < BIKEREG_NUMBER_OF_PAGES; page++) {
@@ -244,7 +244,8 @@ export const fetchEvents = () => {
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const id in response.data._embedded.events) {
-              ticketmasterEvents.push({
+              // "JSON.stringify" is needed to achieve unique Set of Objects.
+              ticketmasterEvents.push(JSON.stringify({
                 id,
                 coordinate: {
                   latitude:
@@ -262,8 +263,29 @@ export const fetchEvents = () => {
                 //   response.data._embedded.events[id]._embedded.venues[0].name,
                 imageUrl: response.data._embedded.events[id].images[0].url,
                 title: response.data._embedded.events[id].name,
-              });
+              }));
             }
+
+            const ticketmasterEventsSet: Set<any> = new Set(ticketmasterEvents)
+            const list: any[] = Array.from(ticketmasterEventsSet);
+
+            ticketmasterEvents = [];
+            list.forEach((eventStringified: string) => {
+              JSON.parse(eventStringified);
+              ticketmasterEvents.push(JSON.parse(eventStringified));
+            });
+
+            ticketmasterEvents.forEach((eventStringified: any, index: number) => {
+              ticketmasterEvents[index].id = Number(eventStringified.id);
+              ticketmasterEvents[index].coordinate = {
+                latitude: Number(eventStringified.coordinate.latitude),
+                longitude: Number(eventStringified.coordinate.longitude),
+              };
+              ticketmasterEvents[index].date = new Date(eventStringified.date);
+              ticketmasterEvents[index].description = eventStringified.description;
+              ticketmasterEvents[index].imageUrl = eventStringified.imageUrl;
+              ticketmasterEvents[index].title = eventStringified.title;
+            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {

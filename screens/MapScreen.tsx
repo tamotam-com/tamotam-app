@@ -263,9 +263,9 @@ export default function MapScreen() {
                   {isNaN(Number(event.date))
                     ? "No information"
                     : event.date.toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                 </StyledText>
                 <Button
                   color={
