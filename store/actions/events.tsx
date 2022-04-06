@@ -258,9 +258,7 @@ export const fetchEvents = () => {
                 date: new Date(
                   response.data._embedded.events[id].dates.start.dateTime
                 ),
-                description: response.data._embedded.events[id].name, // TODO: Temporarly solution.
-                // description:
-                //   response.data._embedded.events[id]._embedded.venues[0].name,
+                description: response.data._embedded.events[id]._embedded.venues[0].city.name,
                 imageUrl: response.data._embedded.events[id].images[0].url,
                 title: response.data._embedded.events[id].name,
               }));
