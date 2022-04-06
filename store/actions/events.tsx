@@ -256,7 +256,7 @@ export const fetchEvents = () => {
                       .location.longitude,
                 },
                 date: new Date(
-                  response.data._embedded.events[id].dates.start.localDate
+                  response.data._embedded.events[id].dates.start.dateTime
                 ),
                 description: response.data._embedded.events[id].name, // TODO: Temporarly solution.
                 // description:
