@@ -26,14 +26,19 @@ static void InitializeFlipper(UIApplication *application) {
 }
 #endif
 
+#import "ReactNativeConfig.h"
+#import <GoogleMaps/GoogleMaps.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+NSString *mapsApiKey = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API"];
+[GMSServices provideAPIKey:mapsApiKey];
 #if defined(FB_SONARKIT_ENABLED) && __has_include(<FlipperKit/FlipperClient.h>)
   InitializeFlipper(application);
 #endif
-  
+
 // @generated begin @react-native-firebase/app-didFinishLaunchingWithOptions - expo prebuild (DO NOT MODIFY) sync-ecd111c37e49fdd1ed6354203cd6b1e2a38cccda
 [FIRApp configure];
 // @generated end @react-native-firebase/app-didFinishLaunchingWithOptions
