@@ -54,7 +54,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [selectedDate, setSelectedDate] = useState<any | Date>(
     isNaN(Number(selectedEvent.date))
       ? new Date()
-      : new Date(Number(selectedEvent.date) * 1000)
+      : new Date(Number(selectedEvent.date))
   );
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
@@ -269,7 +269,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           <SelectImage
             existingImageUrl={
               typeof selectedEvent.imageUrl === "string" &&
-              selectedEvent.imageUrl !== ""
+                selectedEvent.imageUrl !== ""
                 ? selectedEvent.imageUrl
                 : require("../assets/images/no-image.jpeg")
             }

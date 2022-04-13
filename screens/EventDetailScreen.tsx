@@ -101,13 +101,13 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
           🗓️{" "}
           {isNaN(Number(selectedEvent.date))
             ? "No information"
-            : new Date(Number(selectedEvent.date) * 1000).toLocaleDateString()}
+            : new Date(Number(selectedEvent.date)).toLocaleDateString()}
         </StyledText>
         <StyledText style={styles.description}>
           🕒{" "}
           {isNaN(Number(selectedEvent.date))
             ? "No information"
-            : new Date(Number(selectedEvent.date) * 1000).toLocaleTimeString(
+            : new Date(Number(selectedEvent.date)).toLocaleTimeString(
               [],
               {
                 hour: "2-digit",
