@@ -6,5 +6,6 @@ export interface Event {
   date: Date;
   description: string;
   imageUrl: string;
+  isUserEvent: boolean;
   title: string;
 }

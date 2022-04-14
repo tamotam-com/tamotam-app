@@ -211,7 +211,7 @@ export default function MapScreen() {
                 latitude: event.coordinate.latitude,
                 longitude: event.coordinate.longitude,
               }}
-              icon={require("../assets/images/icon-map.png")}
+              icon={event.isUserEvent ? require("../assets/images/icon-map-user-event.png") : require("../assets/images/icon-map-tamotam-event.png")}
               key={event.id}
               tracksViewChanges={false}
             >

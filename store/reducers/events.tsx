@@ -25,6 +25,7 @@ export default (state = initialState, action: any) => {
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
+        isUserEvent: action.eventData.isUserEvent,
         title: action.eventData.title,
       };
 
@@ -50,6 +51,7 @@ export default (state = initialState, action: any) => {
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
+        isUserEvent: action.eventData.isUserEvent,
         title: action.eventData.title,
       };
 
@@ -82,6 +84,7 @@ export default (state = initialState, action: any) => {
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
+        isUserEvent: action.eventData.isUserEvent,
         title: action.eventData.title,
       };
 

@@ -81,7 +81,7 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
         {markerCoordinates && (
           <Marker
             coordinate={markerCoordinates}
-            icon={require("../assets/images/icon-map.png")}
+            icon={selectedEvent.isUserEvent ? require("../assets/images/icon-map-user-event.png") : require("../assets/images/icon-map-tamotam-event.png")}
             tracksViewChanges={false}
             title="Event's Location"
           ></Marker>

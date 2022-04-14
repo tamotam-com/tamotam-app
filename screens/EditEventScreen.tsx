@@ -159,6 +159,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           ? descriptionValue
           : selectedEvent.description,
         imageUrl: selectedImage === "" ? selectedEvent.imageUrl : selectedImage,
+        isUserEvent: selectedEvent.isUserEvent,
         title: titleValue ? titleValue : selectedEvent.title,
       };
 
@@ -197,7 +198,7 @@ export default function EditEventScreen({ navigation, route }: any) {
         {markerCoordinates && (
           <Marker
             coordinate={markerCoordinates}
-            icon={require("../assets/images/icon-map.png")}
+            icon={selectedEvent.isUserEvent ? require("../assets/images/icon-map-user-event.png") : require("../assets/images/icon-map-tamotam-event.png")}
             tracksViewChanges={false}
             title="Picked Location"
           ></Marker>

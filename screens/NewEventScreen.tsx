@@ -186,6 +186,7 @@ export default function NewEventScreen({ navigation, route }: any) {
         date: selectedDate,
         description: descriptionValue,
         imageUrl: selectedImage,
+        isUserEvent: true,
         title: titleValue,
       };
 
@@ -238,7 +239,7 @@ export default function NewEventScreen({ navigation, route }: any) {
         {markerCoordinates && (
           <Marker
             coordinate={markerCoordinates}
-            icon={require("../assets/images/icon-map.png")}
+            icon={require("../assets/images/icon-map-user-event.png")}
             tracksViewChanges={false}
             title="Picked Location"
           ></Marker>

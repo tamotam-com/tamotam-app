@@ -70,6 +70,7 @@ export const fetchEvents = () => {
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
+                isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -135,6 +136,7 @@ export const fetchEvents = () => {
                 date: new Date(response.data.events[id].datetime_local),
                 description: response.data.events[id].description,
                 imageUrl: response.data.events[id].performers[0].image,
+                isUserEvent: false,
                 title: response.data.events[id].title,
               });
             }
@@ -179,6 +181,7 @@ export const fetchEvents = () => {
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
+                isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -222,6 +225,7 @@ export const fetchEvents = () => {
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
+                isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -260,6 +264,7 @@ export const fetchEvents = () => {
                 ),
                 description: response.data._embedded.events[id]._embedded.venues[0].city.name,
                 imageUrl: response.data._embedded.events[id].images[0].url,
+                isUserEvent: false,
                 title: response.data._embedded.events[id].name,
               }));
             }
@@ -330,6 +335,7 @@ export const fetchEvents = () => {
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: require("../../assets/images/no-image.jpeg"),
+                isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -357,6 +363,7 @@ export const fetchEvents = () => {
               date: new Date(documentSnapshot.data().date.seconds * 1000),
               description: documentSnapshot.data().description,
               imageUrl: require("../../assets/images/no-image.jpeg"),
+              isUserEvent: documentSnapshot.data().isUserEvent,
               title: documentSnapshot.data().title,
             });
           });
@@ -433,6 +440,7 @@ export const addEvent = (event: Event) => {
         date: Date;
         description: string;
         imageUrl: string;
+        isUserEvent: boolean;
         title: string;
       };
     }) => void
@@ -448,6 +456,7 @@ export const addEvent = (event: Event) => {
         date: event.date,
         description: event.description,
         imageUrl: event.imageUrl,
+        isUserEvent: event.isUserEvent,
         title: event.title,
       },
     });
@@ -464,6 +473,7 @@ export const deleteEvent = (event: Event) => {
         date: Date;
         description: string;
         imageUrl: string;
+        isUserEvent: boolean;
         title: string;
       };
     }) => void
@@ -482,6 +492,7 @@ export const deleteEvent = (event: Event) => {
           date: event.date,
           description: event.description,
           imageUrl: event.imageUrl,
+          isUserEvent: event.isUserEvent,
           title: event.title,
         },
       });
@@ -504,6 +515,7 @@ export const saveEvent = (event: Event) => {
         date: Date;
         description: string;
         imageUrl: string;
+        isUserEvent: boolean;
         title: string;
       };
     }) => void
@@ -515,6 +527,7 @@ export const saveEvent = (event: Event) => {
         event.date,
         event.description,
         event.imageUrl,
+        event.isUserEvent,
         event.title
       );
       console.log(dbResult);
@@ -530,6 +543,7 @@ export const saveEvent = (event: Event) => {
           date: event.date,
           description: event.description,
           imageUrl: event.imageUrl,
+          isUserEvent: event.isUserEvent,
           title: event.title,
         },
       });
@@ -552,6 +566,7 @@ export const updateEvent = (event: Event) => {
         date: Date;
         description: string;
         imageUrl: string;
+        isUserEvent: boolean;
         title: string;
       };
     }) => void
@@ -567,6 +582,7 @@ export const updateEvent = (event: Event) => {
         date: event.date,
         description: event.description,
         imageUrl: event.imageUrl,
+        isUserEvent: event.isUserEvent,
         title: event.title,
       },
     });
