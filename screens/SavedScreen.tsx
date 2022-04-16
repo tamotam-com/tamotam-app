@@ -107,7 +107,7 @@ export default function SavedScreen({ navigation, route }: any) {
           description={eventData.item.description}
           imageUrl={
             typeof eventData.item.imageUrl === "string" &&
-            eventData.item.imageUrl !== ""
+              eventData.item.imageUrl !== ""
               ? eventData.item.imageUrl
               : require("../assets/images/no-image.jpeg")
           }
@@ -131,6 +131,7 @@ export default function SavedScreen({ navigation, route }: any) {
             color={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
+            disabled={!eventData.item.isUserEvent}
             icon="lead-pencil"
             onPress={() =>
               navigation.navigate("EditEvent", { eventId: eventData.item.id })
