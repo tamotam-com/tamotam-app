@@ -133,6 +133,7 @@ android {
 
     defaultConfig {
         applicationId 'com.tamotam.app'
+        manifestPlaceholders = [GOOGLE_MAPS_API: "$System.env.GOOGLE_MAPS_API"]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -236,7 +237,7 @@ dependencies {
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
-    from configurations.compile
+    from configurations.implementation
     into 'libs'
 }
 
