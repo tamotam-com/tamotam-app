@@ -24,6 +24,7 @@ const SelectImage = (props: {
             "Sorry, we need camera roll permissions to make this work!",
             [{ text: "Okay" }]
           );
+          return;
         }
       }
     })();

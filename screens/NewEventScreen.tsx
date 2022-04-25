@@ -27,6 +27,7 @@ import {
   Alert,
   Dimensions,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -90,6 +91,19 @@ export default function NewEventScreen({ navigation, route }: any) {
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
     setError("");
     setIsLoading(true);
+
+    if (Platform.OS !== "web") {
+      const { status } =
+        await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Insufficient permissions!",
+          "Sorry, we need location permissions to make this work!",
+          [{ text: "Okay" }]
+        );
+        return;
+      }
+    }
 
     try {
       const location = await Location.getCurrentPositionAsync({});
