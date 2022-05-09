@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tamotam.app">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tamotam.mainApp">
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
   <uses-permission android:name="android.permission.CAMERA"/>
@@ -17,7 +17,7 @@
     </intent>
   </queries>
   <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="true" android:theme="@style/AppTheme" android:usesCleartextTraffic="true">
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="${GOOGLE_MAPS_API}"/>
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/GOOGLE_MAPS_API"/>
     <meta-data android:name="expo.modules.updates.ENABLED" android:value="true"/>
     <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="44.0.0"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS"/>
@@ -33,7 +33,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="myapp"/>
-        <data android:scheme="com.tamotam.app"/>
+        <data android:scheme="com.tamotam.mainApp"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>

@@ -6,3 +6,17 @@
 - 🥺 Missing the preCOVID social vibes?
 - 💻 Mostly connecting with real people via virtual platforms?
 - 📱 Have you noticed that most interaction comes via chats and an indefinite number of applications with virtual communication?
+
+## Launch
+
+### Android Simulator
+
+1. Run on `Android Studio`
+2. `yarn start`
+3. `adb reverse tcp:8081 tcp:8081`
+
+### iOS Simulator
+
+1. Build using `Xcode`, if the application isn't installed on the simulator
+2. `yarn start`
+3. `i`

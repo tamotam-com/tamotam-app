@@ -1,5 +1,4 @@
-package com.tamotam.app;
-
+package com.tamotam.mainApp;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -19,6 +18,7 @@ import com.facebook.react.bridge.JSIModulePackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(
@@ -35,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
+      new ReactNativeConfigPackage();
       return packages;
     }
 
@@ -79,7 +80,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.tamotam.app.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.tamotam.mainApp.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

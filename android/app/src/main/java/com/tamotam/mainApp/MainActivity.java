@@ -1,4 +1,4 @@
-package com.tamotam.app;
+package com.tamotam.mainApp;
 
 import android.os.Build;
 import android.os.Bundle;
