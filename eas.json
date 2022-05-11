@@ -18,7 +18,11 @@
         "simulator": true
       }
     },
-    "production": {}
+    "production": {
+      "android": {
+        "image": "latest"
+      }
+    }
   },
   "submit": {
     "production": {}

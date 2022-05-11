@@ -5,7 +5,9 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "release:android": "react-native run-android --variant=release",
+    "release:ios": "react-native run-ios --configuration Release"
   },
   "jest": {
     "preset": "jest-expo"
