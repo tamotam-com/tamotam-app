@@ -31,7 +31,7 @@
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.tamotam.mainApp",
-      "versionCode": 18
+      "versionCode": 19
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

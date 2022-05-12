@@ -15,6 +15,10 @@
 2. `yarn start`
 3. `adb reverse tcp:8081 tcp:8081`
 
+#### Kill Android Simulator
+
+`adb -s emulator-5554 emu kill`, where `emulator-5554` is the emulator name.
+
 ### iOS Simulator
 
 1. Build using `Xcode`, if the application isn't installed on the simulator
