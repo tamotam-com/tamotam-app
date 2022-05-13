@@ -1105,7 +1105,7 @@
     xcode "^3.0.1"
     xml2js "0.4.23"
 
-"@expo/config-plugins@4.1.4", "@expo/config-plugins@^4.0.2", "@expo/config-plugins@^4.1.1":
+"@expo/config-plugins@4.1.4", "@expo/config-plugins@^4.0.2", "@expo/config-plugins@^4.1.4":
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.1.4.tgz#08e1a6314dc0f96cd165a748b5997b5ec75a84d0"
   integrity sha512-fkOjXnSieQfVSWVLKhst0DnCAyeHksvWky1CldFCQllhDB1HHBiP09Z8pamVB783n3qr/1HNZiSp6k2iUcaSoA==
@@ -1631,39 +1631,39 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
   integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
 
-"@react-native-firebase/analytics@^14.3.2":
-  version "14.9.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-14.9.1.tgz#0f756da8a90f4c1a296b9e73803cf8dc9aa00be8"
-  integrity sha512-FlvzqSoDNcrtH2ZYIMi3Wq70dXJtJrf4WcUpHFyNVijIdEWRnI2zuCzXCnnXstPogwdUBqoQs4qboi9K4toSUQ==
+"@react-native-firebase/analytics@^14.9.3":
+  version "14.9.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-14.9.3.tgz#f558325dfd0529666cdc03b89507998248dee14f"
+  integrity sha512-KAL2ss7TF6eWV/wTfQNeuAr3AVNpUmuYNqC+PwDRtAJUcfiwwCc+gcsXp8UzA7ELC+JWLO4kDc+1LkdFr7p81g==
 
-"@react-native-firebase/app@^14.2.4":
-  version "14.9.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.9.1.tgz#8a40af4dcea88a1c41d8c1a9b179e8260999bdb0"
-  integrity sha512-EmBFJnlpG8uhJhAwh624Q/1Ta+bvoKZjFckpt7uuJZ51wH3CzYudt+DmLbV6E/Frc1z2ogmcZnET7ELSxr6BOg==
+"@react-native-firebase/app@^14.9.3":
+  version "14.9.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.9.3.tgz#112e63ad25b6bdfaca9dfdf1ebc89292a067a569"
+  integrity sha512-ipCVqj3MmK2O7se78ykjgPZdb4bBjME0Qqc07L/cKZTI6P9pNWRwYmT1R6kFF7aPirjcBxSIoJneotdRqIzaSQ==
   dependencies:
-    "@expo/config-plugins" "^4.1.1"
+    "@expo/config-plugins" "^4.1.4"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/crashlytics@^14.3.2":
-  version "14.9.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-14.9.1.tgz#4aae9352fc2594e770cb9f2f5bec36826557d630"
-  integrity sha512-0oJSROBZG8kq9iL5xLaKuuZj3/SCw/eLeAsjuFIo7pHzdslH9I/a3XiiAHQmJSX3zvKJOmS982rlWMWajKlWkQ==
+"@react-native-firebase/crashlytics@^14.9.3":
+  version "14.9.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-14.9.3.tgz#44987580a85d1a5f57e4c25100dbe3a1cd471c5d"
+  integrity sha512-+0HDSxSAS5RcTjT7t9xYrdsGnRieP90MKeMtdb/4ejx8c5JgoGTb8/BR1QIwHyMbEq6UsJxZtjLEcnMuDgAKtA==
   dependencies:
-    "@expo/config-plugins" "^4.1.1"
+    "@expo/config-plugins" "^4.1.4"
     stacktrace-js "^2.0.0"
 
-"@react-native-firebase/firestore@^14.2.4":
-  version "14.9.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.9.1.tgz#1dee9c1a31204194d3feae1f9a6e83384c2481e0"
-  integrity sha512-ZrrO0oy1XWZUn6ShtVJABy/SUs90io/faKP3mJ6iE1hq99OJy8NjtEFQUelGVzZ4dRTTv3kRH8En8KKopdvgHw==
+"@react-native-firebase/firestore@^14.9.3":
+  version "14.9.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.9.3.tgz#03e1fed1fac49205d0046fca1cdd48fe3773a967"
+  integrity sha512-uxv4n/6G9y3j7lEkTf88y56pSmYGWVYPAlMNBABcHVPhGnIqBCI6qquwWojaHBWS/BZRCXowab8eQswLg+VEcA==
 
-"@react-native-firebase/perf@^14.3.1":
-  version "14.9.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-14.9.1.tgz#f7b59ba1249ab0db067ff5fe912db84a88460fe7"
-  integrity sha512-9W60KU8dEvk6Rs44c9FwUZD+rhSdXGwoZ8yoSewq99b1euZykW5faHLw5mKZTvxnjNsXYMlFrdr7HEvXPGkVVA==
+"@react-native-firebase/perf@^14.9.3":
+  version "14.9.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-14.9.3.tgz#669e745140f88e425b6bf323b0388997f2f4725c"
+  integrity sha512-LQgH4cudKHMX228TzWa+RbpU8FQnhiAVHY+WN+z1Og78lcxFF35vvflShVSjjuJ9hTxTMRdXh44iBprWmEQHUA==
   dependencies:
-    "@expo/config-plugins" "^4.1.1"
+    "@expo/config-plugins" "^4.1.4"
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
