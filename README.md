@@ -15,6 +15,8 @@
 2. `yarn start`
 3. `adb reverse tcp:8081 tcp:8081`
 
+Alternatively, `expo run:android --variant release`, for production version.
+
 #### Kill Android Simulator
 
 `adb -s emulator-5554 emu kill`, where `emulator-5554` is the emulator name.
@@ -24,3 +26,9 @@
 1. Build using `Xcode`, if the application isn't installed on the simulator
 2. `yarn start`
 3. `i`
+
+Alternatively, `expo run:ios --configuration Release`, for production version.
+
+## Release
+
+1. `eas build -p android`

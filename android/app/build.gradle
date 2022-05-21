@@ -133,10 +133,11 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.tamotam.mainApp'
+        applicationId 'com.tamotam.application'
         minSdkVersion rootProject.ext.minSdkVersion
-        resValue "string", "build_config_package", "com.tamotam.mainApp"
+        resValue "string", "build_config_package", "com.tamotam.application"
         targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 25
     }
     splits {
         abi {

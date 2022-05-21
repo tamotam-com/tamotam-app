@@ -8,4 +8,4 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
--keep class com.tamotam.mainApp.BuildConfig { *; }
+-keep class com.tamotam.application.BuildConfig { *; }

@@ -26,7 +26,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>myapp</string>
-          <string>com.tamotam.mainApp</string>
+          <string>com.tamotam.application</string>
         </array>
       </dict>
       <dict>

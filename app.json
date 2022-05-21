@@ -20,7 +20,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tamotam.mainApp",
+      "bundleIdentifier": "com.tamotam.application",
       "buildNumber": "0.2.5",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
@@ -30,8 +30,8 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.tamotam.mainApp",
-      "versionCode": 21
+      "package": "com.tamotam.application",
+      "versionCode": 25
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
