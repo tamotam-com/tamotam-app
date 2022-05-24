@@ -45,6 +45,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
+  const [dateTimeMode, setDateTimeMode] = useState<string>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
@@ -60,6 +61,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     latitude: 0,
     longitude: 0,
   });
+  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
   let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
 
@@ -158,11 +160,17 @@ export default function NewEventScreen({ navigation, route }: any) {
     setDescriptionValue(text);
   };
 
-  const onDateChange: (
+  const onDateTimeChange: (
     _event: any,
     selectedValueDate: Date | undefined
   ) => void = (_event: any, selectedValueDate: Date | undefined) => {
+    if (_event.type === "dismissed") {
+      setShowDatepicker(false);
+      return;
+    }
+
     setSelectedDate(selectedValueDate);
+    setShowDatepicker(false);
   };
 
   const onImageChange: (imagePath: string) => void = (imagePath: string) => {
@@ -180,10 +188,23 @@ export default function NewEventScreen({ navigation, route }: any) {
     });
   };
 
+  const onShowDatePicker: () => void = () => {
+    showDateTimeMode('date');
+  };
+
+  const onShowTimePicker: () => void = () => {
+    showDateTimeMode('time');
+  };
+
   const onTitleChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
     setTitleValue(text);
+  };
+
+  const showDateTimeMode: (currentMode: string) => void = (currentMode: string) => {
+    setShowDatepicker(true);
+    setDateTimeMode(currentMode);
   };
 
   const addEventHandler: () => Promise<void> = async () => {
@@ -302,30 +323,45 @@ export default function NewEventScreen({ navigation, route }: any) {
             onChangeText={onDescriptionChange}
             value={descriptionValue}
           />
-          <DateTimePicker
-            display="spinner"
-            maximumDate={
-              new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-            }
-            minimumDate={new Date()}
-            mode="date"
-            onChange={onDateChange}
-            testID="datePicker"
-            textColor={
+          <Button
+            color={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
-            value={selectedDate}
-          />
-          <DateTimePicker
-            display="spinner"
-            mode="time"
-            onChange={onDateChange}
-            testID="timePicker"
-            textColor={
+            icon="calendar-edit"
+            mode="outlined"
+            onPress={onShowDatePicker}
+            style={styles.addEventButton}
+          >
+            Pick date
+          </Button>
+          <Button
+            color={
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
-            value={selectedDate}
-          />
+            icon="clock-outline"
+            mode="outlined"
+            onPress={onShowTimePicker}
+            style={styles.addEventButton}
+          >
+            Pick time
+          </Button>
+          {showDatepicker && (
+            <DateTimePicker
+              display="spinner"
+              is24Hour={true}
+              maximumDate={
+                new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+              }
+              minimumDate={new Date()}
+              mode={dateTimeMode}
+              onChange={onDateTimeChange}
+              testID="dateTimePicker"
+              textColor={
+                colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+              }
+              value={selectedDate}
+            />
+          )}
           <SelectImage onImageTaken={onImageChange} />
           <Button
             color={
