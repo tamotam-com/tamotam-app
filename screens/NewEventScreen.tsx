@@ -323,28 +323,32 @@ export default function NewEventScreen({ navigation, route }: any) {
             onChangeText={onDescriptionChange}
             value={descriptionValue}
           />
-          <Button
-            color={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
-            }
-            icon="calendar-edit"
-            mode="outlined"
-            onPress={onShowDatePicker}
-            style={styles.addEventButton}
-          >
-            Pick date
-          </Button>
-          <Button
-            color={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
-            }
-            icon="clock-outline"
-            mode="outlined"
-            onPress={onShowTimePicker}
-            style={styles.addEventButton}
-          >
-            Pick time
-          </Button>
+          <View style={styles.dateTimeButtonsContainer}>
+            <View>
+              <Button
+                color={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
+                icon="calendar-edit"
+                mode="text"
+                onPress={onShowDatePicker}
+              >
+                Pick date
+              </Button>
+            </View>
+            <View>
+              <Button
+                color={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
+                icon="clock-outline"
+                mode="text"
+                onPress={onShowTimePicker}
+              >
+                Pick time
+              </Button>
+            </View>
+          </View>
           {showDatepicker && (
             <DateTimePicker
               display="spinner"
@@ -368,9 +372,9 @@ export default function NewEventScreen({ navigation, route }: any) {
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
             icon="plus-box"
-            mode="outlined"
+            mode="contained"
             onPress={addEventHandler}
-            style={styles.addEventButton}
+            style={[styles.addEventButton, { borderColor: colorScheme === "dark" ? "#ffffff" : "#000000" },]}
           >
             Add Event
           </Button>
@@ -382,7 +386,6 @@ export default function NewEventScreen({ navigation, route }: any) {
 
 const styles = StyleSheet.create({
   addEventButton: {
-    borderColor: "#ffffff",
     borderRadius: 50,
     marginBottom: 50,
   },
@@ -395,6 +398,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
+  },
+  dateTimeButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 20,
   },
   form: {
     marginHorizontal: 30,
