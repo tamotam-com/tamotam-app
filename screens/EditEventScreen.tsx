@@ -174,10 +174,11 @@ export default function EditEventScreen({ navigation, route }: any) {
 
         setError(err.message);
       }
+    } finally {
+      setIsLoading(false);
     }
 
     navigation.goBack();
-    setIsLoading(false);
   };
 
   const Map: () => JSX.Element = () => (

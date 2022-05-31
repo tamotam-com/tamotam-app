@@ -126,14 +126,13 @@ export default function NewEventScreen({ navigation, route }: any) {
 
         setError(error.message);
       }
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
-    getUserLocationHandler().then(() => {
-      setIsLoading(false);
-    });
+    getUserLocationHandler();
   }, [getUserLocationHandler]);
 
   if (isLoading) {
@@ -250,10 +249,11 @@ export default function NewEventScreen({ navigation, route }: any) {
 
         setError(err.message);
       }
+    } finally {
+      setIsLoading(false);
     }
 
     navigation.goBack();
-    setIsLoading(false);
   };
 
   const Map: () => JSX.Element = () => (

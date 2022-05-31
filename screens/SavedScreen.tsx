@@ -89,9 +89,9 @@ export default function SavedScreen({ navigation, route }: any) {
 
               setError(err.message);
             }
+          } finally {
+            setIsLoading(false);
           }
-
-          setIsLoading(false);
         },
       },
     ]);

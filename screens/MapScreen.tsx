@@ -69,16 +69,13 @@ export default function MapScreen() {
 
         setError(err.message);
       }
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    loadEvents().then(() => {
-      setIsLoading(false);
-    });
+    loadEvents();
   }, [dispatch, loadEvents]);
 
   const loadSavedEvents: () => Promise<void> = useCallback(async () => {
@@ -102,11 +99,7 @@ export default function MapScreen() {
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    loadSavedEvents().then(() => {
-      setIsLoading(false);
-    });
+    loadSavedEvents();
   }, [dispatch, loadSavedEvents]);
 
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
@@ -145,14 +138,13 @@ export default function MapScreen() {
 
         setError(error.message);
       }
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
-    getUserLocationHandler().then(() => {
-      setIsLoading(false);
-    });
+    getUserLocationHandler();
   }, [getUserLocationHandler]);
 
   const saveEventHandler: (event: Event) => void = (event: Event) => {
@@ -164,7 +156,6 @@ export default function MapScreen() {
         Alert.alert("This event is already in your Saved events.", error, [
           { text: "Okay" },
         ]);
-        setIsLoading(false);
         return;
       }
       dispatch(saveEvent(event));
@@ -178,9 +169,9 @@ export default function MapScreen() {
 
         setError(err.message);
       }
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   if (isLoading) {
