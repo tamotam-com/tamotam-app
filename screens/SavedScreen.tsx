@@ -1,9 +1,10 @@
+import * as eventsActions from "../store/actions/events";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import EventItem from "../components/EventItem";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
-import React, { useEffect, useLayoutEffect, useState, Dispatch } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useState, Dispatch } from "react";
 import { deleteEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
@@ -45,6 +46,31 @@ export default function SavedScreen({ navigation, route }: any) {
       ),
     });
   }, [navigation]);
+
+  const loadSavedEvents: () => Promise<void> = useCallback(async () => {
+    setError("");
+    setIsLoading(true);
+
+    try {
+      dispatch(eventsActions.loadSavedEvents());
+    } catch (err) {
+      if (err instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "We couldn't load saved events, sorry.\nTry to reload TamoTam!",
+          [{ text: "Okay" }]
+        );
+
+        setError(err.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [dispatch, setError, setIsLoading]);
+
+  useEffect(() => {
+    loadSavedEvents();
+  }, [loadSavedEvents]);
 
   if (isLoading) {
     return (

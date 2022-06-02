@@ -76,31 +76,7 @@ export default function MapScreen() {
 
   useEffect(() => {
     loadEvents();
-  }, [dispatch, loadEvents]);
-
-  const loadSavedEvents: () => Promise<void> = useCallback(async () => {
-    setError("");
-    setIsLoading(true);
-
-    try {
-      dispatch(eventsActions.loadSavedEvents());
-    } catch (err) {
-      if (err instanceof Error) {
-        Alert.alert(
-          "An error occurred ❌",
-          "We couldn't load saved events, sorry.\nTry to reload TamoTam!",
-          [{ text: "Okay" }]
-        );
-
-        setError(err.message);
-      }
-    }
-    setIsLoading(false);
-  }, [dispatch, setError, setIsLoading]);
-
-  useEffect(() => {
-    loadSavedEvents();
-  }, [dispatch, loadSavedEvents]);
+  }, [loadEvents]);
 
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
     setError("");
