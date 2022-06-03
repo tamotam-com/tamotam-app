@@ -31,14 +31,14 @@ export const UPDATE_EVENT = "UPDATE_EVENT";
 export const fetchEvents = () => {
   return async (dispatch: any) => {
     try {
-      const bikeRegEvents: any[] = [];
-      const predictHqEvents: any[] = [];
-      const runRegEvents: any[] = [];
-      const seatGeekEvents: any[] = [];
-      const skiRegEvents: any[] = [];
-      const triRegEvents: any[] = [];
-      const usersEvents: any[] = [];
+      let bikeRegEvents: any[] = [];
+      let predictHqEvents: any[] = [];
+      let runRegEvents: any[] = [];
+      let seatGeekEvents: any[] = [];
+      let skiRegEvents: any[] = [];
       let ticketmasterEvents: any[] = [];
+      let triRegEvents: any[] = [];
+      let usersEvents: any[] = [];
 
       let promiseBikeRegEvents: void | AxiosResponse<any, any> | any;
       for (let page = 1; page < BIKEREG_NUMBER_OF_PAGES; page++) {
@@ -74,6 +74,11 @@ export const fetchEvents = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            dispatch({
+              type: SET_EVENTS,
+              events: bikeRegEvents,
+            });
+            bikeRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -185,6 +190,11 @@ export const fetchEvents = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            dispatch({
+              type: SET_EVENTS,
+              events: skiRegEvents,
+            });
+            skiRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -229,6 +239,11 @@ export const fetchEvents = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            dispatch({
+              type: SET_EVENTS,
+              events: runRegEvents,
+            });
+            runRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -339,6 +354,11 @@ export const fetchEvents = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            dispatch({
+              type: SET_EVENTS,
+              events: triRegEvents,
+            });
+            triRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -367,6 +387,11 @@ export const fetchEvents = () => {
               title: documentSnapshot.data().title,
             });
           });
+          dispatch({
+            type: SET_EVENTS,
+            events: usersEvents,
+          });
+          usersEvents = [];
         })
         .catch((error: unknown) => {
           if (error instanceof Error) {
@@ -377,31 +402,31 @@ export const fetchEvents = () => {
           }
         });
 
-      Promise.race([
-        promiseBikeRegEvents,
-        promisePredictHqEvents,
-        promiseRunRegEvents,
-        promiseSeatGeekEvents,
-        promiseSkiRegEvents,
-        promiseTicketmasterEvents,
-        promiseTriRegEvents,
-        promiseUsersEvents,
-      ]).then(() => {
-        const finalEvents = [
-          ...bikeRegEvents,
-          ...predictHqEvents,
-          ...runRegEvents,
-          ...seatGeekEvents,
-          ...skiRegEvents,
-          ...ticketmasterEvents,
-          ...triRegEvents,
-          ...usersEvents,
-        ];
-        dispatch({
-          type: SET_EVENTS,
-          events: finalEvents,
-        });
-      });
+      // Promise.race([
+      //   promiseBikeRegEvents,
+      // promisePredictHqEvents,
+      // promiseRunRegEvents,
+      // promiseSeatGeekEvents,
+      // promiseSkiRegEvents,
+      // promiseTicketmasterEvents,
+      // promiseTriRegEvents,
+      // promiseUsersEvents,
+      // ]).then(() => {
+      //   const finalEvents = [
+      //     ...bikeRegEvents,
+      // ...predictHqEvents,
+      // ...runRegEvents,
+      // ...seatGeekEvents,
+      // ...skiRegEvents,
+      // ...ticketmasterEvents,
+      // ...triRegEvents,
+      // ...usersEvents,
+      // ];
+      // dispatch({
+      //   type: SET_EVENTS,
+      //   events: [...bikeRegEvents],
+      // });
+      // });
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(

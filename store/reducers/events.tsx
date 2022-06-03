@@ -63,7 +63,7 @@ export default (state = initialState, action: any) => {
     case SET_EVENTS:
       return {
         ...state,
-        events: action.events,
+        events: [...state.events, ...action.events],
       };
     case SET_SAVED_EVENTS:
       return {
