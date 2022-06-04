@@ -137,7 +137,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         resValue "string", "build_config_package", "com.tamotam.application"
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 30
+        versionCode 40
     }
     splits {
         abi {
