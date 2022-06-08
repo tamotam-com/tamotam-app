@@ -10,9 +10,8 @@ podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {
 target 'TamoTam' do
   use_expo_modules!
 
-  # React Native Maps dependencies
-  rn_maps_path = '../node_modules/react-native-maps'
-  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
   config = use_native_modules!
 

@@ -2,6 +2,7 @@ import * as eventsActions from "../store/actions/events";
 import * as Location from "expo-location";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
 import MapView from "react-native-map-clustering";
@@ -14,7 +15,7 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
-import { saveEvent } from "../store/actions/events";
+import { readItemFromStorage, saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ActivityIndicator,
@@ -58,6 +59,13 @@ export default function MapScreen() {
     setIsLoading(true);
 
     try {
+      const itemJSON: any = await AsyncStorage.getItem("EVENTS_ASYNC_STORAGE");
+
+      if (itemJSON) {
+        dispatch(readItemFromStorage(JSON.parse(itemJSON)));
+        return;
+      }
+
       dispatch(eventsActions.fetchEvents());
     } catch (err) {
       if (err instanceof Error) {

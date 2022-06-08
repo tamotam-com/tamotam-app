@@ -1,6 +1,7 @@
 import * as Localization from "expo-localization";
 import axios, { AxiosResponse } from "axios";
 import firestore from "@react-native-firebase/firestore";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/db";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
@@ -27,6 +28,34 @@ export const SAVE_EVENT = "SAVE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
 export const SET_SAVED_EVENTS = "SET_SAVED_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
+
+export const readItemFromStorage = (eventsFromAsyncStorage: Event[]) => {
+  return async (dispatch: any) => {
+    try {
+      dispatch({
+        type: SET_EVENTS,
+        events: eventsFromAsyncStorage,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('useAsyncStorage getItem error:', error);
+      }
+    }
+  }
+};
+
+export const writeItemToStorage = async (eventsToAsyncStorage: Event[]) => {
+  return async () => {
+    try {
+      const itemJSON: string = JSON.stringify(eventsToAsyncStorage);
+      await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", itemJSON);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('useAsyncStorage getItem error:', error);
+      }
+    }
+  }
+};
 
 export const fetchEvents = () => {
   return async (dispatch: any) => {
@@ -402,31 +431,29 @@ export const fetchEvents = () => {
           }
         });
 
-      // Promise.race([
-      //   promiseBikeRegEvents,
-      // promisePredictHqEvents,
-      // promiseRunRegEvents,
-      // promiseSeatGeekEvents,
-      // promiseSkiRegEvents,
-      // promiseTicketmasterEvents,
-      // promiseTriRegEvents,
-      // promiseUsersEvents,
-      // ]).then(() => {
-      //   const finalEvents = [
-      //     ...bikeRegEvents,
-      // ...predictHqEvents,
-      // ...runRegEvents,
-      // ...seatGeekEvents,
-      // ...skiRegEvents,
-      // ...ticketmasterEvents,
-      // ...triRegEvents,
-      // ...usersEvents,
-      // ];
-      // dispatch({
-      //   type: SET_EVENTS,
-      //   events: [...bikeRegEvents],
-      // });
-      // });
+      Promise.race([
+        promiseBikeRegEvents,
+        promisePredictHqEvents,
+        promiseRunRegEvents,
+        promiseSeatGeekEvents,
+        promiseSkiRegEvents,
+        promiseTicketmasterEvents,
+        promiseTriRegEvents,
+        promiseUsersEvents,
+      ]).then(async () => {
+        const finalEvents = [
+          ...bikeRegEvents,
+          ...predictHqEvents,
+          ...runRegEvents,
+          ...seatGeekEvents,
+          ...skiRegEvents,
+          ...ticketmasterEvents,
+          ...triRegEvents,
+          ...usersEvents,
+        ];
+
+        dispatch(writeItemToStorage(finalEvents));
+      });
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(
