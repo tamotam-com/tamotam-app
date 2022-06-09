@@ -58,11 +58,23 @@ export default function MapScreen() {
     setIsLoading(true);
 
     try {
-      const itemJSON: any = await AsyncStorage.getItem("EVENTS_ASYNC_STORAGE");
+      const cacheExpiryTime: Date = new Date();
+      const cacheIntervalInHours: number = 24 * 7; // Fetch data from API's once a week.
+      const lastEventsAPIRequest: any = await AsyncStorage.getItem("LAST_EVENTS_API_REQUEST");
 
-      if (itemJSON) {
-        dispatch(readItemFromStorage(JSON.parse(itemJSON)));
-        return;
+      cacheExpiryTime.setHours(cacheExpiryTime.getHours() + cacheIntervalInHours);
+
+      if (!lastEventsAPIRequest || new Date(lastEventsAPIRequest).getTime() > cacheExpiryTime.getTime()) {
+        const eventsInJSONString: string | null = await AsyncStorage.getItem("EVENTS_ASYNC_STORAGE");
+
+        if (eventsInJSONString) {
+          const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
+
+          AsyncStorage.setItem("LAST_EVENTS_API_REQUEST", String(new Date()));
+          dispatch(readItemFromStorage(eventsParsed));
+
+          return;
+        }
       }
 
       dispatch(fetchEvents());

@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import firestore from "@react-native-firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/db";
+import { Alert } from "react-native";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
 import {
@@ -29,7 +30,7 @@ export const SET_EVENTS = "SET_EVENTS";
 export const SET_SAVED_EVENTS = "SET_SAVED_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
 
-export const readItemFromStorage = (eventsFromAsyncStorage: Event[]) => {
+export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => (dispatch: any) => Promise<void> = (eventsFromAsyncStorage: Event[]) => {
   return async (dispatch: any) => {
     try {
       dispatch({
@@ -44,11 +45,11 @@ export const readItemFromStorage = (eventsFromAsyncStorage: Event[]) => {
   }
 };
 
-export const writeItemToStorage = async (eventsToAsyncStorage: Event[]) => {
+export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<() => Promise<void>> = async (eventsToAsyncStorage: Event[]) => {
   return async () => {
     try {
-      const itemJSON: string = JSON.stringify(eventsToAsyncStorage);
-      await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", itemJSON);
+      const eventsInJSONString: string = JSON.stringify(eventsToAsyncStorage);
+      await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", eventsInJSONString);
     } catch (error) {
       if (error instanceof Error) {
         console.error('useAsyncStorage getItem error:', error);
@@ -461,6 +462,12 @@ export const fetchEvents = () => {
           error
         );
       }
+    } finally {
+      Alert.alert(
+        "Events loaded ✅",
+        "Once a week, TamoTam will make such a big load of external events.",
+        [{ text: "Okay" }]
+      );
     }
   };
 };
@@ -478,6 +485,12 @@ export const fetchUsersSavedEvents = () => {
         console.error(error);
         throw error;
       }
+    } finally {
+      Alert.alert(
+        "Saved events loaded ✅",
+        "These are stored on your local device as long as you won't explicitly clear the data or uninstall TamoTam.",
+        [{ text: "Okay" }]
+      );
     }
   };
 };
