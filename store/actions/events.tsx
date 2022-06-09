@@ -465,7 +465,7 @@ export const fetchEvents = () => {
   };
 };
 
-export const loadSavedEvents = () => {
+export const fetchUsersSavedEvents = () => {
   return async (
     dispatch: (arg0: { savedEvents: any; type: string }) => void
   ) => {

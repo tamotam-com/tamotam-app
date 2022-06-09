@@ -1,4 +1,3 @@
-import * as eventsActions from "../store/actions/events";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import EventItem from "../components/EventItem";
@@ -6,6 +5,7 @@ import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import StyledText from "../components/StyledText";
 import React, { useCallback, useEffect, useLayoutEffect, useState, Dispatch } from "react";
 import { deleteEvent } from "../store/actions/events";
+import { fetchUsersSavedEvents } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
@@ -52,7 +52,7 @@ export default function SavedScreen({ navigation, route }: any) {
     setIsLoading(true);
 
     try {
-      dispatch(eventsActions.loadSavedEvents());
+      dispatch(fetchUsersSavedEvents());
     } catch (err) {
       if (err instanceof Error) {
         Alert.alert(

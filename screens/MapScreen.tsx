@@ -1,4 +1,3 @@
-import * as eventsActions from "../store/actions/events";
 import * as Location from "expo-location";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
@@ -15,7 +14,7 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
-import { readItemFromStorage, saveEvent } from "../store/actions/events";
+import { fetchEvents, readItemFromStorage, saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ActivityIndicator,
@@ -66,7 +65,7 @@ export default function MapScreen() {
         return;
       }
 
-      dispatch(eventsActions.fetchEvents());
+      dispatch(fetchEvents());
     } catch (err) {
       if (err instanceof Error) {
         Alert.alert(
