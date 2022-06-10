@@ -30,7 +30,7 @@ export const SET_EVENTS = "SET_EVENTS";
 export const SET_SAVED_EVENTS = "SET_SAVED_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
 
-export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => (dispatch: any) => Promise<void> = (eventsFromAsyncStorage: Event[]) => {
+export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (eventsFromAsyncStorage: Event[]) => {
   return async (dispatch: any) => {
     try {
       dispatch({
@@ -41,36 +41,48 @@ export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => (dispatch
       if (error instanceof Error) {
         console.error('useAsyncStorage getItem error:', error);
       }
+    } finally {
+      alert("finally");
     }
   }
 };
 
-export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<() => Promise<void>> = async (eventsToAsyncStorage: Event[]) => {
-  return async () => {
-    try {
-      const eventsInJSONString: string = JSON.stringify(eventsToAsyncStorage);
-      await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", eventsInJSONString);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('useAsyncStorage getItem error:', error);
-      }
+export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<void> = async (eventsToAsyncStorage: Event[]) => {
+  const eventsInJSONString: string = JSON.stringify(eventsToAsyncStorage);
+  try {
+    await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", eventsInJSONString);
+  } catch (error) {
+    alert("ERROR");
+    if (error instanceof Error) {
+      console.error('useAsyncStorage getItem error:', error);
     }
+  } finally {
+    alert("FINALLY write");
   }
 };
 
-export const fetchEvents = () => {
+export const fetchEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
-    try {
-      let bikeRegEvents: any[] = [];
-      let predictHqEvents: any[] = [];
-      let runRegEvents: any[] = [];
-      let seatGeekEvents: any[] = [];
-      let skiRegEvents: any[] = [];
-      let ticketmasterEvents: any[] = [];
-      let triRegEvents: any[] = [];
-      let usersEvents: any[] = [];
+    let bikeRegEvents: Event[] = [];
+    let predictHqEvents: Event[] = [];
+    let runRegEvents: Event[] = [];
+    let seatGeekEvents: Event[] = [];
+    let skiRegEvents: Event[] = [];
+    let ticketmasterEvents: any[] = [];
+    let triRegEvents: Event[] = [];
+    let usersEvents: Event[] = [];
+    let eventsFinal: Event[] = [];
 
-      let promiseBikeRegEvents: void | AxiosResponse<any, any> | any;
+    let promiseBikeRegEvents: void | AxiosResponse<any, any> | any;
+    let promisePredictHqEvents: void | AxiosResponse<any, any> | any;
+    let promiseSeatGeekEvents: void | AxiosResponse<any, any> | any;
+    let promiseSkiRegEvents: void | AxiosResponse<any, any> | any;
+    let promiseRunRegEvents: void | AxiosResponse<any, any> | any;
+    let promiseTicketmasterEvents: void | AxiosResponse<any, any> | any;
+    let promiseTriRegEvents: void | AxiosResponse<any, any> | any;
+    let promiseUsersEvents: void;
+
+    try {
       for (let page = 1; page < BIKEREG_NUMBER_OF_PAGES; page++) {
         promiseBikeRegEvents = await axios({
           method: "GET",
@@ -121,7 +133,7 @@ export const fetchEvents = () => {
       }
 
       // TODO: Delete PredictHQ after temporarily access will be granted, because it's too expensive after that.
-      const promisePredictHqEvents: void | AxiosResponse<any, any> | any =
+      promisePredictHqEvents =
         await axios({
           headers: {
             Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
@@ -153,7 +165,6 @@ export const fetchEvents = () => {
         });
       }
 
-      let promiseSeatGeekEvents: void | AxiosResponse<any, any> | any;
       for (let page = 0; page < SEATGEEK_NUMBER_OF_PAGES; page++) {
         promiseSeatGeekEvents = await axios({
           method: "GET",
@@ -187,7 +198,7 @@ export const fetchEvents = () => {
         console.log(seatGeekEvents.length);
       }
 
-      const promiseSkiRegEvents: void | AxiosResponse<any, any> | any =
+      promiseSkiRegEvents =
         await axios({
           method: "GET",
           url: "https://www.skireg.com/api/search",
@@ -235,7 +246,6 @@ export const fetchEvents = () => {
             }
           });
 
-      let promiseRunRegEvents: void | AxiosResponse<any, any> | any;
       for (let page = 1; page < RUNREG_NUMBER_OF_PAGES; page++) {
         promiseRunRegEvents = await axios({
           method: "GET",
@@ -285,7 +295,6 @@ export const fetchEvents = () => {
           });
       }
 
-      let promiseTicketmasterEvents: void | AxiosResponse<any, any> | any;
       for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
         promiseTicketmasterEvents = await axios({
           method: "GET",
@@ -345,7 +354,7 @@ export const fetchEvents = () => {
           });
       }
 
-      const promiseTriRegEvents: void | AxiosResponse<any, any> | any =
+      promiseTriRegEvents =
         await axios({
           method: "GET",
           url: "https://www.trireg.com/api/search",
@@ -399,7 +408,7 @@ export const fetchEvents = () => {
             }
           });
 
-      const promiseUsersEvents: void = await firestore()
+      promiseUsersEvents = await firestore()
         .collection(FIRESTORE_COLLECTION)
         .get()
         .then((querySnapshot) => {
@@ -431,7 +440,14 @@ export const fetchEvents = () => {
             );
           }
         });
-
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(
+          "Error with executing try block for fetching events, details:",
+          error
+        );
+      }
+    } finally {
       Promise.race([
         promiseBikeRegEvents,
         promisePredictHqEvents,
@@ -441,8 +457,8 @@ export const fetchEvents = () => {
         promiseTicketmasterEvents,
         promiseTriRegEvents,
         promiseUsersEvents,
-      ]).then(async () => {
-        const finalEvents = [
+      ]).then(() => {
+        eventsFinal = [
           ...bikeRegEvents,
           ...predictHqEvents,
           ...runRegEvents,
@@ -452,17 +468,9 @@ export const fetchEvents = () => {
           ...triRegEvents,
           ...usersEvents,
         ];
-
-        dispatch(writeItemToStorage(finalEvents));
+        alert(eventsFinal.length);
+        writeItemToStorage(eventsFinal);
       });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(
-          "Error with executing try block for fetching events, details:",
-          error
-        );
-      }
-    } finally {
       Alert.alert(
         "Events loaded ✅",
         "Once a week, TamoTam will make such a big load of external events.",

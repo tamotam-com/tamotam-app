@@ -59,25 +59,51 @@ export default function MapScreen() {
 
     try {
       const cacheExpiryTime: Date = new Date();
-      const cacheIntervalInHours: number = 24 * 7; // Fetch data from API's once a week.
-      const lastEventsAPIRequest: any = await AsyncStorage.getItem("LAST_EVENTS_API_REQUEST");
-
-      cacheExpiryTime.setHours(cacheExpiryTime.getHours() + cacheIntervalInHours);
-
-      if (!lastEventsAPIRequest || new Date(lastEventsAPIRequest).getTime() > cacheExpiryTime.getTime()) {
-        const eventsInJSONString: string | null = await AsyncStorage.getItem("EVENTS_ASYNC_STORAGE");
-
-        if (eventsInJSONString) {
-          const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
-
-          AsyncStorage.setItem("LAST_EVENTS_API_REQUEST", String(new Date()));
-          dispatch(readItemFromStorage(eventsParsed));
-
-          return;
+      const cacheIntervalInHours: number = 24 * 7;
+      const eventsInJSONString: any = await AsyncStorage.getItem("EVENTS_ASYNC_STORAGE");
+      let yaya: any;
+      let yayaParsed: any;
+      try {
+        yaya = await AsyncStorage.getItem("yayaya");
+        yayaParsed = new Date(JSON.parse(yaya));
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(
+            "Error with executing try block for fetching events, details:",
+            error
+          );
+        }
+      } finally {
+        // alert(new Date().getTime() >= yayaParsed.getTime() || eventsInJSONString === null);
+      }
+      if (!yaya) {
+        // Next time, fetch data from API's in a week from now.
+        cacheExpiryTime.setHours(cacheExpiryTime.getHours() + cacheIntervalInHours);
+        const cacheExpiryTimeInJSONString: string = JSON.stringify(cacheExpiryTime);
+        try {
+          await AsyncStorage.setItem("yayaya", cacheExpiryTimeInJSONString);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            console.error(
+              "Error with executing try block for fetching events, details:",
+              error
+            );
+          }
         }
       }
+      const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
 
-      dispatch(fetchEvents());
+
+      console.log('yaya', yaya);
+      console.log('yayaParsed', yayaParsed);
+      console.log('yayaParsed.getTime()', yayaParsed.getTime());
+      alert(new Date().getTime() >= yayaParsed.getTime() || eventsInJSONString === null);
+      if (new Date().getTime() >= yayaParsed.getTime() || eventsInJSONString === null) {
+        dispatch(fetchEvents());
+        return;
+      }
+
+      dispatch(readItemFromStorage(eventsParsed));
     } catch (err) {
       if (err instanceof Error) {
         Alert.alert(
