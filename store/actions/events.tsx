@@ -120,7 +120,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               type: SET_EVENTS,
               events: bikeRegEvents,
             });
-            bikeRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -235,7 +234,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               type: SET_EVENTS,
               events: skiRegEvents,
             });
-            skiRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -283,7 +281,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               type: SET_EVENTS,
               events: runRegEvents,
             });
-            runRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -397,7 +394,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               type: SET_EVENTS,
               events: triRegEvents,
             });
-            triRegEvents = [];
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -430,7 +426,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
             type: SET_EVENTS,
             events: usersEvents,
           });
-          usersEvents = [];
         })
         .catch((error: unknown) => {
           if (error instanceof Error) {
