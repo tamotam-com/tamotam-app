@@ -116,10 +116,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
-            dispatch({
-              type: SET_EVENTS,
-              events: bikeRegEvents,
-            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -130,6 +126,10 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
             }
           });
       }
+      dispatch({
+        type: SET_EVENTS,
+        events: bikeRegEvents,
+      });
 
       // TODO: Delete PredictHQ after temporarily access will be granted, because it's too expensive after that.
       promisePredictHqEvents =
@@ -230,10 +230,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
-            dispatch({
-              type: SET_EVENTS,
-              events: skiRegEvents,
-            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -242,6 +238,11 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 error
               );
             }
+          }).finally(() => {
+            dispatch({
+              type: SET_EVENTS,
+              events: skiRegEvents,
+            });
           });
 
       for (let page = 1; page < RUNREG_NUMBER_OF_PAGES; page++) {
@@ -277,10 +278,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
-            dispatch({
-              type: SET_EVENTS,
-              events: runRegEvents,
-            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -291,6 +288,10 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
             }
           });
       }
+      dispatch({
+        type: SET_EVENTS,
+        events: runRegEvents,
+      });
 
       for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
         promiseTicketmasterEvents = await axios({
@@ -390,10 +391,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
-            dispatch({
-              type: SET_EVENTS,
-              events: triRegEvents,
-            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -402,6 +399,11 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 error
               );
             }
+          }).finally(() => {
+            dispatch({
+              type: SET_EVENTS,
+              events: triRegEvents,
+            });
           });
 
       promiseUsersEvents = await firestore()
@@ -422,10 +424,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               title: documentSnapshot.data().title,
             });
           });
-          dispatch({
-            type: SET_EVENTS,
-            events: usersEvents,
-          });
         })
         .catch((error: unknown) => {
           if (error instanceof Error) {
@@ -434,6 +432,11 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               error
             );
           }
+        }).finally(() => {
+          dispatch({
+            type: SET_EVENTS,
+            events: usersEvents,
+          });
         });
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -463,7 +466,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
           ...triRegEvents,
           ...usersEvents,
         ];
-        alert(eventsFinal.length);
         writeItemToStorage(eventsFinal);
       });
       Alert.alert(
