@@ -351,6 +351,10 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
             }
           });
       }
+      dispatch({
+        type: SET_EVENTS,
+        events: ticketmasterEvents,
+      });
 
       promiseTriRegEvents =
         await axios({
