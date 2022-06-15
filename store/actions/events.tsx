@@ -293,7 +293,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
         events: runRegEvents,
       });
 
-      const myArray = ['AT', 'AU', 'BE', 'CA', 'DE', 'ES', 'GB', 'IE', 'LU', 'MX', 'NL', 'PL', 'SE', 'US'];
+      const myArray = ['AT', 'AU', 'BE', 'CA', 'CH', 'CZ', 'DE', 'DK', 'ES', 'FI', 'GB', 'IE', 'LU', 'MX', 'NO', 'NL', 'PL', 'PT', 'SE', 'US'];
       for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
         promiseTicketmasterEvents = await axios({
           method: "GET",
