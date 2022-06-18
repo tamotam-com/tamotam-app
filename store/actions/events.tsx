@@ -297,7 +297,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
       for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
         promiseTicketmasterEvents = await axios({
           method: "GET",
-          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=DE&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}`,
+          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=DE&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}&page=${page}`,
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const id in response.data._embedded.events) {
@@ -321,27 +321,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data._embedded.events[id].name,
               }));
             }
-
-            const ticketmasterEventsSet: Set<any> = new Set(ticketmasterEvents)
-            const list: any[] = Array.from(ticketmasterEventsSet);
-
-            ticketmasterEvents = [];
-            list.forEach((eventStringified: string) => {
-              JSON.parse(eventStringified);
-              ticketmasterEvents.push(JSON.parse(eventStringified));
-            });
-
-            ticketmasterEvents.forEach((eventStringified: any, index: number) => {
-              ticketmasterEvents[index].id = Number(eventStringified.id);
-              ticketmasterEvents[index].coordinate = {
-                latitude: Number(eventStringified.coordinate.latitude),
-                longitude: Number(eventStringified.coordinate.longitude),
-              };
-              ticketmasterEvents[index].date = new Date(eventStringified.date);
-              ticketmasterEvents[index].description = eventStringified.description;
-              ticketmasterEvents[index].imageUrl = eventStringified.imageUrl;
-              ticketmasterEvents[index].title = eventStringified.title;
-            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
@@ -352,6 +331,26 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
             }
           });
       }
+      const ticketmasterEventsSet: Set<any> = new Set(ticketmasterEvents)
+      const list: any[] = Array.from(ticketmasterEventsSet);
+
+      ticketmasterEvents = [];
+      list.forEach((eventStringified: string) => {
+        JSON.parse(eventStringified);
+        ticketmasterEvents.push(JSON.parse(eventStringified));
+      });
+
+      ticketmasterEvents.forEach((eventStringified: any, index: number) => {
+        ticketmasterEvents[index].id = Number(eventStringified.id);
+        ticketmasterEvents[index].coordinate = {
+          latitude: Number(eventStringified.coordinate.latitude),
+          longitude: Number(eventStringified.coordinate.longitude),
+        };
+        ticketmasterEvents[index].date = new Date(eventStringified.date);
+        ticketmasterEvents[index].description = eventStringified.description;
+        ticketmasterEvents[index].imageUrl = eventStringified.imageUrl;
+        ticketmasterEvents[index].title = eventStringified.title;
+      });
       alert('ticketmasterEvents.length: ' + ticketmasterEvents.length);
       dispatch({
         type: SET_EVENTS,
