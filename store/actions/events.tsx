@@ -293,43 +293,46 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
         events: runRegEvents,
       });
 
-      const myArray = ['AT', 'AU', 'BE', 'CA', 'CH', 'CZ', 'DE', 'DK', 'ES', 'FI', 'GB', 'IE', 'LU', 'MX', 'NO', 'NL', 'PL', 'PT', 'SE', 'US'];
-      for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
-        promiseTicketmasterEvents = await axios({
-          method: "GET",
-          url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=DE&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}&page=${page}`,
-        })
-          .then((response: AxiosResponse<any, any>) => {
-            for (const id in response.data._embedded.events) {
-              // "JSON.stringify" is needed to achieve unique Set of Objects.
-              ticketmasterEvents.push(JSON.stringify({
-                id,
-                coordinate: {
-                  latitude:
-                    response.data._embedded.events[id]._embedded.venues[0]
-                      .location.latitude,
-                  longitude:
-                    response.data._embedded.events[id]._embedded.venues[0]
-                      .location.longitude,
-                },
-                date: new Date(
-                  response.data._embedded.events[id].dates.start.dateTime
-                ),
-                description: response.data._embedded.events[id]._embedded.venues[0].city.name,
-                imageUrl: response.data._embedded.events[id].images[0].url,
-                isUserEvent: false,
-                title: response.data._embedded.events[id].name,
-              }));
-            }
+      const myArray: string[] = ['AT', 'AU', 'BE', 'CA', 'CH', 'CZ', 'DE', 'DK', 'ES', 'FI', 'GB', 'IE', 'LU', 'MX', 'NO', 'NL', 'PL', 'PT', 'SE', 'US'];
+      for (const country of myArray) {
+        alert('country:' + country);
+        for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
+          promiseTicketmasterEvents = await axios({
+            method: "GET",
+            url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=${country}&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}&page=${page}`,
           })
-          .catch((error: unknown) => {
-            if (error instanceof Error) {
-              console.error(
-                "Error with fetching Ticketmaster events, details: ",
-                error
-              );
-            }
-          });
+            .then((response: AxiosResponse<any, any>) => {
+              for (const id in response.data._embedded.events) {
+                // "JSON.stringify" is needed to achieve unique Set of Objects.
+                ticketmasterEvents.push(JSON.stringify({
+                  id,
+                  coordinate: {
+                    latitude:
+                      response.data._embedded.events[id]._embedded.venues[0]
+                        .location.latitude,
+                    longitude:
+                      response.data._embedded.events[id]._embedded.venues[0]
+                        .location.longitude,
+                  },
+                  date: new Date(
+                    response.data._embedded.events[id].dates.start.dateTime
+                  ),
+                  description: response.data._embedded.events[id]._embedded.venues[0].city.name,
+                  imageUrl: response.data._embedded.events[id].images[0].url,
+                  isUserEvent: false,
+                  title: response.data._embedded.events[id].name,
+                }));
+              }
+            })
+            .catch((error: unknown) => {
+              if (error instanceof Error) {
+                console.error(
+                  "Error with fetching Ticketmaster events, details: ",
+                  error
+                );
+              }
+            });
+        }
       }
       const ticketmasterEventsSet: Set<any> = new Set(ticketmasterEvents)
       const list: any[] = Array.from(ticketmasterEventsSet);
