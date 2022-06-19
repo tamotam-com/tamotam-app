@@ -52,7 +52,6 @@ export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<void
   try {
     await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", eventsInJSONString);
   } catch (error) {
-    alert("ERROR");
     if (error instanceof Error) {
       console.error('useAsyncStorage getItem error:', error);
     }
@@ -295,7 +294,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
 
       const myArray: string[] = ['AT', 'AU', 'BE', 'CA', 'CH', 'CZ', 'DE', 'DK', 'ES', 'FI', 'GB', 'IE', 'LU', 'MX', 'NO', 'NL', 'PL', 'PT', 'SE', 'US'];
       for (const country of myArray) {
-        alert('country:' + country);
         for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
           promiseTicketmasterEvents = await axios({
             method: "GET",
@@ -354,7 +352,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
         ticketmasterEvents[index].imageUrl = eventStringified.imageUrl;
         ticketmasterEvents[index].title = eventStringified.title;
       });
-      alert('ticketmasterEvents.length: ' + ticketmasterEvents.length);
       dispatch({
         type: SET_EVENTS,
         events: ticketmasterEvents,
