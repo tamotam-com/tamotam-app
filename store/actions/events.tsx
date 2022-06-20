@@ -1,7 +1,7 @@
 import * as Localization from "expo-localization";
 import axios, { AxiosResponse } from "axios";
 import firestore from "@react-native-firebase/firestore";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import writeItemToStorage from "../../common/writeItemToStorage";
 import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/db";
 import { Alert } from "react-native";
 import { Coordinate } from "../../interfaces/coordinate";
@@ -29,36 +29,6 @@ export const SAVE_EVENT = "SAVE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
 export const SET_SAVED_EVENTS = "SET_SAVED_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
-
-export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (eventsFromAsyncStorage: Event[]) => {
-  return async (dispatch: any) => {
-    try {
-      dispatch({
-        type: SET_EVENTS,
-        events: eventsFromAsyncStorage,
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('useAsyncStorage getItem error:', error);
-      }
-    } finally {
-      alert("finally");
-    }
-  }
-};
-
-export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<void> = async (eventsToAsyncStorage: Event[]) => {
-  const eventsInJSONString: string = JSON.stringify(eventsToAsyncStorage);
-  try {
-    await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", eventsInJSONString);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error('useAsyncStorage getItem error:', error);
-    }
-  } finally {
-    alert("FINALLY write");
-  }
-};
 
 export const fetchEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
@@ -473,34 +443,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
         ];
         writeItemToStorage(eventsFinal);
       });
-      Alert.alert(
-        "Events loaded ✅",
-        "Once a week, TamoTam will make such a big load of external events.",
-        [{ text: "Okay" }]
-      );
-    }
-  };
-};
-
-export const fetchUsersSavedEvents = () => {
-  return async (
-    dispatch: (arg0: { savedEvents: any; type: string }) => void
-  ) => {
-    try {
-      const dbResult = await fetchSavedEvents();
-      console.log(dbResult);
-      dispatch({ savedEvents: dbResult.rows._array, type: SET_SAVED_EVENTS });
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(error);
-        throw error;
-      }
-    } finally {
-      Alert.alert(
-        "Saved events loaded ✅",
-        "These are stored on your local device as long as you won't explicitly clear the data or uninstall TamoTam.",
-        [{ text: "Okay" }]
-      );
     }
   };
 };
@@ -578,6 +520,50 @@ export const deleteEvent = (event: Event) => {
       }
     }
   };
+};
+
+export const fetchUsersSavedEvents = () => {
+  return async (
+    dispatch: (arg0: { savedEvents: any; type: string }) => void
+  ) => {
+    try {
+      const dbResult = await fetchSavedEvents();
+      console.log(dbResult);
+      dispatch({ savedEvents: dbResult.rows._array, type: SET_SAVED_EVENTS });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        throw error;
+      }
+    } finally {
+      Alert.alert(
+        "Saved events loaded ✅",
+        "These are stored on your local device as long as you won't explicitly clear the data or uninstall TamoTam.",
+        [{ text: "Okay" }]
+      );
+    }
+  };
+};
+
+export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (eventsFromAsyncStorage: Event[]) => {
+  return async (dispatch: any) => {
+    try {
+      dispatch({
+        type: SET_EVENTS,
+        events: eventsFromAsyncStorage,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('useAsyncStorage getItem error:', error);
+      }
+    } finally {
+      Alert.alert(
+        "Events loaded ✅",
+        "These are stored for a week on your local device as long as you won't explicitly clear the data or uninstall TamoTam.",
+        [{ text: "Okay" }]
+      );
+    }
+  }
 };
 
 export const saveEvent = (event: Event) => {

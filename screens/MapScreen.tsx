@@ -61,11 +61,12 @@ export default function MapScreen() {
       const cacheExpiryTime: Date = new Date();
       const cacheIntervalInHours: number = 24 * 7;
       const eventsInJSONString: any = await AsyncStorage.getItem("EVENTS_ASYNC_STORAGE");
-      let yaya: any;
-      let yayaParsed: any;
+      let expirationEventsDate: any;
+      let expirationEventsDateParsed: any;
+
       try {
-        yaya = await AsyncStorage.getItem("yayaya");
-        yayaParsed = new Date(JSON.parse(yaya));
+        expirationEventsDate = await AsyncStorage.getItem("EXPIRATION_DATE_ASYNC_STORAGE");
+        expirationEventsDateParsed = new Date(JSON.parse(expirationEventsDate));
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error(
@@ -74,14 +75,19 @@ export default function MapScreen() {
           );
         }
       } finally {
-        // alert(new Date().getTime() >= yayaParsed.getTime() || eventsInJSONString === null);
+        Alert.alert(
+          "Loading ℹ️",
+          "If it's your first time, it might take a while. If not, it should be quick.",
+          [{ text: "Okay" }]
+        );
       }
-      if (!yaya) {
+
+      if (!expirationEventsDate) {
         // Next time, fetch data from API's in a week from now.
         cacheExpiryTime.setHours(cacheExpiryTime.getHours() + cacheIntervalInHours);
         const cacheExpiryTimeInJSONString: string = JSON.stringify(cacheExpiryTime);
         try {
-          await AsyncStorage.setItem("yayaya", cacheExpiryTimeInJSONString);
+          await AsyncStorage.setItem("EXPIRATION_DATE_ASYNC_STORAGE", cacheExpiryTimeInJSONString);
         } catch (error: unknown) {
           if (error instanceof Error) {
             console.error(
@@ -89,16 +95,17 @@ export default function MapScreen() {
               error
             );
           }
+        } finally {
+          Alert.alert(
+            "Still loading ℹ️",
+            "Events will be shown gradually; once the process is completed, you'll see a notification. Almost there, a bit of patience 🙏",
+            [{ text: "Okay" }]
+          );
         }
       }
+
       const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
-
-
-      console.log('yaya', yaya);
-      console.log('yayaParsed', yayaParsed);
-      console.log('yayaParsed.getTime()', yayaParsed.getTime());
-      alert(new Date().getTime() >= yayaParsed.getTime() || eventsInJSONString === null);
-      if (new Date().getTime() >= yayaParsed.getTime() || eventsInJSONString === null) {
+      if (new Date().getTime() >= expirationEventsDateParsed.getTime() || eventsInJSONString === null) {
         dispatch(fetchEvents());
         return;
       }
