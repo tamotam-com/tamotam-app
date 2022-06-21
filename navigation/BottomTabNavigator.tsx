@@ -97,8 +97,9 @@ function MapNavigator() {
         component={MapScreen}
         name="MapScreen"
         options={{
-          headerTitleStyle: { fontFamily: "boiling-demo" },
           headerShown: true,
+          headerTitle: "Map",
+          headerTitleStyle: { fontFamily: "boiling-demo" },
         }}
       />
     </MapStack.Navigator>
