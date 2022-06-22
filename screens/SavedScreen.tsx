@@ -94,7 +94,7 @@ export default function SavedScreen({ navigation, route }: any) {
   }
 
   const deleteHandler: (event: Event) => void = (event: Event) => {
-    Alert.alert("Are you sure?", "Do you really want to delete this item?", [
+    Alert.alert("⚠️ Delete saved event ⚠️", "Do you want to do this irreversible deletion?", [
       { text: "No", style: "default" },
       {
         text: "Yes",

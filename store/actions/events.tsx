@@ -33,6 +33,7 @@ export const UPDATE_EVENT = "UPDATE_EVENT";
 export const fetchEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let bikeRegEvents: Event[] = [];
+    let eventsFinal: Event[] = [];
     let predictHqEvents: Event[] = [];
     let runRegEvents: Event[] = [];
     let seatGeekEvents: Event[] = [];
@@ -40,7 +41,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
     let ticketmasterEvents: any[] = [];
     let triRegEvents: Event[] = [];
     let usersEvents: Event[] = [];
-    let eventsFinal: Event[] = [];
 
     let promiseBikeRegEvents: void | AxiosResponse<any, any> | any;
     let promisePredictHqEvents: void | AxiosResponse<any, any> | any;
@@ -518,6 +518,12 @@ export const deleteEvent = (event: Event) => {
         console.error(error);
         throw error;
       }
+    } finally {
+      Alert.alert(
+        "Saved event deleted ✅",
+        "You have successfully deleted this saved event, and it will no longer be visible.",
+        [{ text: "Okay" }]
+      );
     }
   };
 };
@@ -532,6 +538,11 @@ export const fetchUsersSavedEvents = () => {
       dispatch({ savedEvents: dbResult.rows._array, type: SET_SAVED_EVENTS });
     } catch (error) {
       if (error instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "TamoTam couldn't fetch your saved events.",
+          [{ text: "Okay" }]
+        );
         console.error(error);
         throw error;
       }
@@ -610,9 +621,20 @@ export const saveEvent = (event: Event) => {
       });
     } catch (error) {
       if (error instanceof Error) {
+        Alert.alert(
+          "An error occurred ❌",
+          "TamoTam couldn't save your event",
+          [{ text: "Okay" }]
+        );
         console.error(error);
         throw error;
       }
+    } finally {
+      Alert.alert(
+        "Event saved ✅",
+        "It will be visible in your Saved tab till you don't delete it.",
+        [{ text: "Okay" }]
+      );
     }
   };
 };

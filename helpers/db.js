@@ -17,6 +17,7 @@ export const init = () => {
       );
     });
   });
+
   return promise;
 };
 
@@ -30,7 +31,6 @@ export const deleteSavedEvent = (
       resolve(result);
     },
       (_, err) => {
-        alert("err saved");
         console.log(err);
         reject(err);
       })
@@ -51,16 +51,15 @@ export const insertSavedEvent = (
         `INSERT INTO savedEvents (coordinate, date, description, imageUrl, isUserEvent, title) VALUES (?, ?, ?, ?, ?, ?);`,
         [coordinate, date, description, imageUrl, isUserEvent, title],
         (_, result) => {
-          alert("ok");
           resolve(result);
         },
         (_, err) => {
-          alert("err");
           reject(err);
         }
       );
     });
   });
+
   return promise;
 };
 
@@ -71,17 +70,16 @@ export const fetchSavedEvents = () => {
         "SELECT * FROM savedEvents",
         [],
         (_, result) => {
-          console.log("ok saved");
           console.log(result);
           resolve(result);
         },
         (_, err) => {
-          alert("err saved");
           console.log(err);
           reject(err);
         }
       );
     });
   });
+
   return promise;
 };
