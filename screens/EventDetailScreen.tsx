@@ -70,9 +70,9 @@ export default function PlaceDetailScreen({ navigation, route }: any) {
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
         initialRegion={initialRegionValue}
-        onRegionChange={async (region) => {
-          await getAddressFromCoordinate(mapRef, region);
-        }}
+        // onRegionChange={async (region) => {
+        //   await getAddressFromCoordinate(mapRef, region);
+        // }}
         provider={PROVIDER_GOOGLE}
         ref={mapRef}
         showsUserLocation={true}

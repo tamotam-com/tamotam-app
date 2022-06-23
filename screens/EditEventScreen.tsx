@@ -188,9 +188,9 @@ export default function EditEventScreen({ navigation, route }: any) {
         followsUserLocation={true}
         initialRegion={initialRegionValue}
         onPress={onLocationChange}
-        onRegionChange={async (region) =>
-          await getAddressFromCoordinate(mapRef, region)
-        }
+        // onRegionChange={async (region) =>
+        //   await getAddressFromCoordinate(mapRef, region)
+        // }
         provider={PROVIDER_GOOGLE}
         ref={mapRef}
         showsUserLocation={true}
