@@ -24,17 +24,21 @@ export const init = () => {
 export const deleteSavedEvent = (
   id
 ) => {
-  db.transaction((tx) => {
-    tx.executeSql(`DELETE FROM savedEvents WHERE id = ?;`, [id], (_, result) => {
-      console.log("ok saved");
-      console.log(result);
-      resolve(result);
-    },
-      (_, err) => {
-        console.log(err);
-        reject(err);
-      })
-  })
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(`DELETE FROM savedEvents WHERE id = ?;`, [id], (_, result) => {
+        console.log("ok saved");
+        console.log(result);
+        resolve(result);
+      },
+        (_, err) => {
+          console.log(err);
+          reject(err);
+        })
+    })
+  });
+
+  return promise;
 };
 
 export const insertSavedEvent = (
