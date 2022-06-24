@@ -45,9 +45,9 @@ function RootNavigator() {
         name="NotFound"
         options={{
           headerShown: true,
+          headerTitle: "Oops!",
           headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
-          title: "Oops!",
         }}
       />
       <Stack.Screen
@@ -55,9 +55,9 @@ function RootNavigator() {
         name="EditEvent"
         options={{
           headerShown: true,
+          headerTitle: "Edit Event",
           headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
-          title: "Edit Event",
         }}
       />
       <Stack.Screen
@@ -65,9 +65,9 @@ function RootNavigator() {
         name="NewEvent"
         options={{
           headerShown: true,
+          headerTitle: "New Event",
           headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
-          title: "New Event",
         }}
       />
       <Stack.Screen
@@ -75,9 +75,9 @@ function RootNavigator() {
         name="EventDetail"
         options={{
           headerShown: true,
+          headerTitle: "Event Detail",
           headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
-          title: "Event Detail",
         }}
       />
     </Stack.Navigator>
