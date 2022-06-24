@@ -45,6 +45,7 @@ function RootNavigator() {
         name="NotFound"
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "Oops!",
         }}
@@ -54,6 +55,7 @@ function RootNavigator() {
         name="EditEvent"
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "Edit Event",
         }}
@@ -63,6 +65,7 @@ function RootNavigator() {
         name="NewEvent"
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "New Event",
         }}
@@ -72,6 +75,7 @@ function RootNavigator() {
         name="EventDetail"
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
           title: "Event Detail",
         }}

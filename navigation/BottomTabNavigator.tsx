@@ -99,6 +99,7 @@ function MapNavigator() {
         options={{
           headerShown: true,
           headerTitle: "Map",
+          headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
         }}
       />
@@ -116,6 +117,7 @@ function SavedNavigator() {
         options={{
           headerShown: true,
           headerTitle: "Saved",
+          headerTitleAlign: "center",
           headerTitleStyle: { fontFamily: "boiling-demo" },
         }}
       />
