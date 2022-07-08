@@ -14,6 +14,7 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
+import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
 import { fetchEvents, readItemFromStorage, saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -34,6 +35,7 @@ export default function MapScreen() {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const events: Event[] = useSelector((state: any) => state.events.events);
+  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -52,6 +54,16 @@ export default function MapScreen() {
       Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need internet connection for TamoTam to run properly.",
+        [{ text: "Okay" }]
+      );
+    }
+  }, [isConnected])
 
   const loadEvents: () => Promise<void> = useCallback(async () => {
     setError("");
