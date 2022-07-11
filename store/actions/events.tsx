@@ -513,7 +513,7 @@ export const deleteEvent = (event: Event) => {
           title: event.title,
         },
       });
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error);
         throw error;
@@ -536,10 +536,10 @@ export const fetchUsersSavedEvents = () => {
       const dbResult = await fetchSavedEvents();
       console.log(dbResult);
       dispatch({ savedEvents: dbResult.rows._array, type: SET_SAVED_EVENTS });
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "TamoTam couldn't fetch your saved events.",
           [{ text: "Okay" }]
         );
@@ -563,7 +563,7 @@ export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (e
         type: SET_EVENTS,
         events: eventsFromAsyncStorage,
       });
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         console.error('useAsyncStorage getItem error:', error);
       }
@@ -619,10 +619,10 @@ export const saveEvent = (event: Event) => {
           title: event.title,
         },
       });
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "TamoTam couldn't save your event",
           [{ text: "Okay" }]
         );

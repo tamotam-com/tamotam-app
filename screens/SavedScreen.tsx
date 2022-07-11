@@ -1,3 +1,5 @@
+import analytics from "@react-native-firebase/analytics";
+import crashlytics from "@react-native-firebase/crashlytics";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import EventItem from "../components/EventItem";
@@ -19,12 +21,20 @@ export default function SavedScreen({ navigation, route }: any) {
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<Error>(new Error());
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    if (error.message !== "") {
+      Alert.alert(
+        "Unknown Error ❌",
+        "Please report this error by sending an email to us at feedback@tamotam.com. It will help us 🙏\nError details: " + error.message + "\nDate: " + new Date(),
+        [{ text: "Okay" }]
+      );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: SavedScreen -> useEffect[error], error: " + error,
+      });
+      crashlytics().recordError(error);
     }
   }, [error]);
 
@@ -48,27 +58,43 @@ export default function SavedScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const loadSavedEvents: () => Promise<void> = useCallback(async () => {
-    setError("");
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: SavedScreen -> loadSavedEvents",
+    });
+    setError(new Error());
     setIsLoading(true);
 
     try {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: SavedScreen -> loadSavedEvents -> try",
+      });
       dispatch(fetchUsersSavedEvents());
-    } catch (err) {
-      if (err instanceof Error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "We couldn't load saved events, sorry.\nTry to reload TamoTam!",
           [{ text: "Okay" }]
         );
 
-        setError(err.message);
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: SavedScreen -> loadSavedEvents -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: SavedScreen -> loadSavedEvents -> finally",
+      });
       setIsLoading(false);
     }
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: SavedScreen -> useEffect[loadSavedEvents]",
+    });
     loadSavedEvents();
   }, [loadSavedEvents]);
 
@@ -94,28 +120,41 @@ export default function SavedScreen({ navigation, route }: any) {
   }
 
   const deleteHandler: (event: Event) => void = (event: Event) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: SavedScreen -> deleteHandler",
+    });
     Alert.alert("⚠️ Delete saved event ⚠️", "Do you want to perform this irreversible deletion?", [
       { text: "No", style: "default" },
       {
         text: "Yes",
         style: "destructive",
         onPress: () => {
-          setError("");
+          setError(new Error());
           setIsLoading(true);
 
           try {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: SavedScreen -> deleteHandler -> try, event: " + event,
+            });
             dispatch(deleteEvent(event));
-          } catch (err) {
-            if (err instanceof Error) {
+          } catch (error: unknown) {
+            if (error instanceof Error) {
               Alert.alert(
-                "An error occurred ❌",
+                "Error ❌",
                 "TamoTam couldn't save this event.\nTry one more time!",
                 [{ text: "Okay" }]
               );
 
-              setError(err.message);
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: SavedScreen -> deleteHandler -> catch, error: " + error,
+              });
+              crashlytics().recordError(error);
+              setError(new Error(error.message));
             }
           } finally {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: SavedScreen -> deleteHandler -> finally",
+            });
             setIsLoading(false);
           }
         },

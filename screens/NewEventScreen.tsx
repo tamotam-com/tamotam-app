@@ -1,5 +1,6 @@
 import * as Location from "expo-location";
 import analytics from "@react-native-firebase/analytics";
+import crashlytics from "@react-native-firebase/crashlytics";
 import firestore from "@react-native-firebase/firestore";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
@@ -21,7 +22,7 @@ import React, {
 import SelectImage from "../components/SelectImage";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   ActivityIndicator,
   Alert,
@@ -47,7 +48,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [dateTimeMode, setDateTimeMode] = useState<string>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<Error>(new Error(""));
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
     latitude: 0,
     longitude: 0,
@@ -66,8 +67,16 @@ export default function NewEventScreen({ navigation, route }: any) {
   let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
 
   useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    if (error.message !== "") {
+      Alert.alert(
+        "Unknown Error ❌",
+        "Please report this error by sending an email to us at feedback@tamotam.com. It will help us 🙏\nError details: " + error.message + "\nDate: " + new Date(),
+        [{ text: "Okay" }]
+      );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: NewEventScreen -> useEffect[error], error: " + error,
+      });
+      crashlytics().recordError(error);
     }
   }, [error]);
 
@@ -91,15 +100,25 @@ export default function NewEventScreen({ navigation, route }: any) {
   }, [navigation]);
 
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
-    setError("");
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> getUserLocationHandler",
+    });
+    setError(new Error(""));
     setIsLoading(true);
 
     if (Platform.OS !== "web") {
       const { status } =
         await Location.requestForegroundPermissionsAsync();
+
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: NewEventScreen -> getUserLocationHandler, status: " + status,
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: NewEventScreen -> getUserLocationHandler, , Platform.OS: " + Platform.OS,
+      });
       if (status !== "granted") {
         Alert.alert(
-          "Insufficient permissions!",
+          "⚠️ Insufficient permissions! ⚠️",
           "Sorry, we need location permissions to make this work!",
           [{ text: "Okay" }]
         );
@@ -110,28 +129,41 @@ export default function NewEventScreen({ navigation, route }: any) {
     try {
       const location = await Location.getCurrentPositionAsync({});
 
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: NewEventScreen -> getUserLocationHandler -> try, location: " + location,
+      });
       setInitialRegionValue({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 10,
         longitudeDelta: 10,
       });
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "We couldn't fetch your location.\nPlease give us the permissions, and it's essential to use TamoTam!",
           [{ text: "Okay" }]
         );
 
-        setError(error.message);
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: NewEventScreen -> getUserLocationHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: NewEventScreen -> getUserLocationHandler -> finally",
+      });
       setIsLoading(false);
     }
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> useEffect[getUserLocationHandler]",
+    });
     getUserLocationHandler();
   }, [getUserLocationHandler]);
 
@@ -156,6 +188,9 @@ export default function NewEventScreen({ navigation, route }: any) {
   const onDescriptionChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onDescriptionChange, text: " + text,
+    });
     setDescriptionValue(text);
   };
 
@@ -168,11 +203,20 @@ export default function NewEventScreen({ navigation, route }: any) {
       return;
     }
 
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onDateTimeChange, _event: " + _event,
+    });
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onDateTimeChange, selectedValueDate: " + selectedValueDate,
+    });
     setSelectedDate(selectedValueDate);
     setShowDatepicker(false);
   };
 
   const onImageChange: (imagePath: string) => void = (imagePath: string) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onImageChange, imagePath: " + imagePath,
+    });
     setSelectedImage(imagePath);
   };
 
@@ -181,6 +225,9 @@ export default function NewEventScreen({ navigation, route }: any) {
       coordinate: Coordinate;
     };
   }) => void = (e: { nativeEvent: { coordinate: Coordinate } }) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
+    });
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
@@ -188,26 +235,41 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const onShowDatePicker: () => void = () => {
-    showDateTimeMode('date');
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onShowDatePicker, text: ",
+    });
+    showDateTimeMode("date");
   };
 
   const onShowTimePicker: () => void = () => {
-    showDateTimeMode('time');
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onShowTimePicker, text: ",
+    });
+    showDateTimeMode("time");
   };
 
   const onTitleChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> onTitleChange, text: " + text,
+    });
     setTitleValue(text);
   };
 
   const showDateTimeMode: (currentMode: string) => void = (currentMode: string) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> showDateTimeMode, currentMode: " + currentMode,
+    });
     setShowDatepicker(true);
     setDateTimeMode(currentMode);
   };
 
   const addEventHandler: () => Promise<void> = async () => {
-    setError("");
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: NewEventScreen -> addEventHandler",
+    });
+    setError(new Error(""));
     setIsLoading(true);
 
     try {
@@ -228,28 +290,43 @@ export default function NewEventScreen({ navigation, route }: any) {
         .collection(FIRESTORE_COLLECTION)
         .add(newEvent)
         .then(() => {
-          analytics().logEvent("User's event added: ", newEvent);
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
+          });
         })
-        .catch(() => {
-          analytics().logEvent("Problem with adding user's event: ", newEvent);
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: NewEventScreen -> addEventHandler -> try -> catch, error: " + error,
+            });
+            crashlytics().recordError(error);
+            setError(new Error(error.message));
+          }
         })
         .finally(() => {
-          analytics().logEvent(
-            `Firestore ${FIRESTORE_COLLECTION} stopped executing`
-          );
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: NewEventScreen -> addEventHandler -> finally",
+          });
         });
       dispatch(addEvent(newEvent));
-    } catch (err) {
-      if (err instanceof Error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "TamoTam couldn't create an event.\nTry one more time!",
           [{ text: "Okay" }]
         );
 
-        setError(err.message);
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: NewEventScreen -> addEventHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: NewEventScreen -> addEventHandler -> finally",
+      });
       setIsLoading(false);
     }
 

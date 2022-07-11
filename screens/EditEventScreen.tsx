@@ -1,3 +1,6 @@
+import * as Location from "expo-location";
+import analytics from "@react-native-firebase/analytics";
+import crashlytics from "@react-native-firebase/crashlytics";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -7,6 +10,7 @@ import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import SelectImage from "../components/SelectImage";
 import React, {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -23,6 +27,7 @@ import {
   Alert,
   Dimensions,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -42,14 +47,14 @@ export default function EditEventScreen({ navigation, route }: any) {
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
-  const initialRegionValue: Region = {
+  const [descriptionValue, setDescriptionValue] = useState<string>("");
+  const [error, setError] = useState<Error>(new Error());
+  const [initialRegionValue, setInitialRegionValue] = useState<Region>({
     latitude: selectedEvent.coordinate.latitude,
     longitude: selectedEvent.coordinate.longitude,
     latitudeDelta: 10,
     longitudeDelta: 10,
-  };
-  const [descriptionValue, setDescriptionValue] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<any | Date>(
     isNaN(Number(selectedEvent.date))
@@ -65,8 +70,16 @@ export default function EditEventScreen({ navigation, route }: any) {
   };
 
   useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    if (error.message !== "") {
+      Alert.alert(
+        "Unknown Error ❌",
+        "Please report this error by sending an email to us at feedback@tamotam.com. It will help us 🙏\nError details: " + error.message + "\nDate: " + new Date(),
+        [{ text: "Okay" }]
+      );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: EditEventScreen -> useEffect[error], error: " + error,
+      });
+      crashlytics().recordError(error);
     }
   }, [error]);
 
@@ -81,15 +94,81 @@ export default function EditEventScreen({ navigation, route }: any) {
             iconName={
               route.params && route.params.showIcon ? "arrow-back" : undefined
             }
-            onPress={() => {
-              navigation.goBack();
-            }}
+            onPress={() => navigation.goBack()}
             title="back"
           />
         </HeaderButtons>
       ),
     });
   }, [navigation]);
+
+  const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> getUserLocationHandler",
+    });
+    setError(new Error(""));
+    setIsLoading(true);
+
+    if (Platform.OS !== "web") {
+      const { status } =
+        await Location.requestForegroundPermissionsAsync();
+
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: EditEventScreen -> getUserLocationHandler, status: " + status,
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: EditEventScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
+      });
+      if (status !== "granted") {
+        Alert.alert(
+          "⚠️ Insufficient permissions! ⚠️",
+          "Sorry, we need location permissions to make this work!",
+          [{ text: "Okay" }]
+        );
+        return;
+      }
+    }
+
+    try {
+      const location = await Location.getCurrentPositionAsync({});
+
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: EditEventScreen -> getUserLocationHandler -> try, location: " + location,
+      });
+      setInitialRegionValue({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 10,
+        longitudeDelta: 10,
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Alert.alert(
+          "Error ❌",
+          "We couldn't fetch your location.\nPlease give us the permissions, and it's essential to use TamoTam!",
+          [{ text: "Okay" }]
+        );
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: EditEventScreen -> getUserLocationHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
+      }
+    } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: EditEventScreen -> getUserLocationHandler -> finally",
+      });
+      setIsLoading(false);
+    }
+  }, [dispatch, setError, setIsLoading]);
+
+  useEffect(() => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> useEffect[getUserLocationHandler]",
+    });
+    getUserLocationHandler();
+  }, [getUserLocationHandler]);
 
   if (isLoading) {
     return (
@@ -112,6 +191,9 @@ export default function EditEventScreen({ navigation, route }: any) {
   const onDescriptionChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> onDescriptionChange, text: " + text,
+    });
     setDescriptionValue(text);
   };
 
@@ -119,10 +201,16 @@ export default function EditEventScreen({ navigation, route }: any) {
     _event: any,
     selectedValueDate: Date | undefined
   ) => void = (_event: any, selectedValueDate: Date | undefined) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> onDateChange, selectedValueDate: " + selectedValueDate,
+    });
     setSelectedDate(selectedValueDate);
   };
 
   const onImageChange: (imagePath: string) => void = (imagePath: string) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> onImageChange, imagePath: " + imagePath,
+    });
     setSelectedImage(imagePath);
   };
 
@@ -131,6 +219,9 @@ export default function EditEventScreen({ navigation, route }: any) {
       coordinate: Coordinate;
     };
   }) => void = (e: { nativeEvent: { coordinate: Coordinate } }) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
+    });
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
@@ -140,11 +231,17 @@ export default function EditEventScreen({ navigation, route }: any) {
   const onTitleChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> onTitleChange, text: " + text,
+    });
     setTitleValue(text);
   };
 
   const onSaveHandler: () => void = () => {
-    setError("");
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: EditEventScreen -> onSaveHandler",
+    });
+    setError(new Error(""));
     setIsLoading(true);
 
     try {
@@ -163,18 +260,28 @@ export default function EditEventScreen({ navigation, route }: any) {
         title: titleValue ? titleValue : selectedEvent.title,
       };
 
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: EditEventScreen -> onSaveHandler -> try, newEvent: " + newEvent,
+      });
       dispatch(updateEvent(newEvent));
-    } catch (err) {
-      if (err instanceof Error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "TamoTam couldn't save the changes.\nTry one more time!",
           [{ text: "Okay" }]
         );
 
-        setError(err.message);
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: EditEventScreen -> onSaveHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: EditEventScreen -> onSaveHandler -> finally",
+      });
       setIsLoading(false);
     }
 

@@ -7,7 +7,7 @@ export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<void
 
   try {
     await AsyncStorage.setItem("EVENTS_ASYNC_STORAGE", eventsInJSONString);
-  } catch (error) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('useAsyncStorage getItem error:', error);
     }

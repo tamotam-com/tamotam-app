@@ -1,3 +1,4 @@
+import analytics from "@react-native-firebase/analytics";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -14,7 +15,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 
-export default function PlaceDetailScreen({ navigation, route }: any) {
+export default function EventDetailScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const eventId: number = route.params.eventId;
   const mapRef: MutableRefObject<null> = useRef<null>(null);

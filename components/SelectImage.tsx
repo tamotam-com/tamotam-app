@@ -20,7 +20,7 @@ const SelectImage = (props: {
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
           Alert.alert(
-            "Insufficient permissions!",
+            "⚠️ Insufficient permissions! ⚠️",
             "Sorry, we need camera roll permissions to make this work!",
             [{ text: "Okay" }]
           );

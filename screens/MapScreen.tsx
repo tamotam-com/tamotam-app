@@ -1,7 +1,9 @@
 import * as Location from "expo-location";
+import analytics from "@react-native-firebase/analytics";
+import crashlytics from "@react-native-firebase/crashlytics";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
 import MapView from "react-native-map-clustering";
@@ -40,7 +42,7 @@ export default function MapScreen() {
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<Error>(new Error);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
     latitude: 0,
@@ -50,9 +52,17 @@ export default function MapScreen() {
   });
 
   useEffect(() => {
-    if (error) {
-      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    if (error.message !== "") {
+      Alert.alert(
+        "Unknown Error ❌",
+        "Please report this error by sending an email to us at feedback@tamotam.com. It will help us 🙏\nError details: " + error.message + "\nDate: " + new Date(),
+        [{ text: "Okay" }]
+      );
     }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: MapScreen -> useEffect[error], error: " + error,
+    });
+    crashlytics().recordError(error);
   }, [error]);
 
   useEffect(() => {
@@ -63,10 +73,16 @@ export default function MapScreen() {
         [{ text: "Okay" }]
       );
     }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: MapScreen -> useEffect[isConnected], isConnected: " + isConnected,
+    });
   }, [isConnected])
 
   const loadEvents: () => Promise<void> = useCallback(async () => {
-    setError("");
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: MapScreen -> loadEvents",
+    });
+    setError(new Error(""));
     setIsLoading(true);
 
     try {
@@ -76,22 +92,31 @@ export default function MapScreen() {
       let expirationEventsDate: any;
       let expirationEventsDateParsed: any;
 
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> loadEvents -> try, eventsInJSONString: " + eventsInJSONString,
+      });
       try {
         expirationEventsDate = await AsyncStorage.getItem("EXPIRATION_DATE_ASYNC_STORAGE");
         expirationEventsDateParsed = new Date(JSON.parse(expirationEventsDate));
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: MapScreen -> loadEvents -> try -> try1, expirationEventsDate: " + expirationEventsDate,
+        });
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: MapScreen -> loadEvents -> try -> try1, expirationEventsDateParsed: " + expirationEventsDateParsed,
+        });
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.error(
-            "Error with executing try block for fetching events, details:",
-            error
-          );
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: MapScreen -> loadEvents -> try -> catch1, error: " + error,
+          });
+          crashlytics().recordError(error);
+          setError(new Error(error.message));
         }
       } finally {
-        Alert.alert(
-          "Loading ℹ️",
-          "If it's your first time, it might take a while. If not, it should be quick.",
-          [{ text: "Okay" }]
-        );
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: MapScreen -> loadEvents -> try -> finally1",
+        });
       }
 
       if (!expirationEventsDate) {
@@ -100,19 +125,27 @@ export default function MapScreen() {
         const cacheExpiryTimeInJSONString: string = JSON.stringify(cacheExpiryTime);
         try {
           await AsyncStorage.setItem("EXPIRATION_DATE_ASYNC_STORAGE", cacheExpiryTimeInJSONString);
+
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: MapScreen -> loadEvents -> try -> try2, cacheExpiryTimeInJSONString: " + cacheExpiryTimeInJSONString,
+          });
         } catch (error: unknown) {
           if (error instanceof Error) {
-            console.error(
-              "Error with executing try block for fetching events, details:",
-              error
-            );
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: MapScreen -> loadEvents -> try -> catch2, error: " + error,
+            });
+            crashlytics().recordError(error);
+            setError(new Error(error.message));
           }
         } finally {
           Alert.alert(
-            "Still loading ℹ️",
-            "Events will be shown gradually; once the process is completed, you'll see a notification. Almost there, a bit of patience 🙏",
+            "Loading ℹ️",
+            "If it's your first time, it might take a while. If not, it should be quick. Events will be shown gradually; once the process is completed, you will see a notification. Almost there, a bit of patience 🙏",
             [{ text: "Okay" }]
           );
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: MapScreen -> loadEvents -> try -> finally2",
+          });
         }
       }
 
@@ -121,37 +154,62 @@ export default function MapScreen() {
         dispatch(fetchEvents());
         return;
       }
-
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> loadEvents -> try, new Date().getTime(): " + new Date().getTime(),
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> loadEvents -> try, eventsParsed: " + eventsParsed,
+      });
       dispatch(readItemFromStorage(eventsParsed));
-    } catch (err) {
-      if (err instanceof Error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "We couldn't load events, sorry.\nTry to reload TamoTam!",
           [{ text: "Okay" }]
         );
 
-        setError(err.message);
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: MapScreen -> loadEvents -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> loadEvents -> finally",
+      });
       setIsLoading(false);
     }
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: MapScreen -> useEffect[loadEvents]",
+    });
     loadEvents();
   }, [loadEvents]);
 
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
-    setError("");
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: MapScreen -> getUserLocationHandler",
+    });
+    setError(new Error(""));
     setIsLoading(true);
 
     if (Platform.OS !== "web") {
       const { status } =
         await Location.requestForegroundPermissionsAsync();
+
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> getUserLocationHandler, status: " + status,
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
+      });
       if (status !== "granted") {
         Alert.alert(
-          "Insufficient permissions!",
+          "⚠️ Insufficient permissions! ⚠️",
           "Sorry, we need location permissions to make this work!",
           [{ text: "Okay" }]
         );
@@ -162,54 +220,84 @@ export default function MapScreen() {
     try {
       const location = await Location.getCurrentPositionAsync({});
 
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> getUserLocationHandler -> try, location: " + location,
+      });
       setInitialRegionValue({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 10,
         longitudeDelta: 10,
       });
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "We couldn't fetch your location.\nPlease give us the permissions, and it's essential to use TamoTam!",
           [{ text: "Okay" }]
         );
 
-        setError(error.message);
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: MapScreen -> getUserLocationHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> getUserLocationHandler -> finally",
+      });
       setIsLoading(false);
     }
   }, [dispatch, setError, setIsLoading]);
 
   useEffect(() => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: MapScreen -> useEffect[getUserLocationHandler]",
+    });
     getUserLocationHandler();
   }, [getUserLocationHandler]);
 
   const saveEventHandler: (event: Event) => void = (event: Event) => {
-    setError("");
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: MapScreen -> saveEventHandler",
+    });
+    setError(new Error(""));
     setIsLoading(true);
 
     try {
       if (savedEvents.some((savedEvent: Event) => savedEvent.id === event.id)) {
-        Alert.alert("This event is already in your Saved events.", error, [
+        Alert.alert("Error ❌", "This event is already in your Saved events.", [
           { text: "Okay" },
         ]);
         return;
       }
+
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> saveEventHandler -> try, savedEvent: " + savedEvents,
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> saveEventHandler -> try, event: " + event,
+      });
       dispatch(saveEvent(event));
-    } catch (err) {
-      if (err instanceof Error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         Alert.alert(
-          "An error occurred ❌",
+          "Error ❌",
           "TamoTam couldn't save this event.\nTry one more time!",
           [{ text: "Okay" }]
         );
 
-        setError(err.message);
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: MapScreen -> saveEventHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: MapScreen -> saveEventHandler -> finally",
+      });
       setIsLoading(false);
     }
   };
