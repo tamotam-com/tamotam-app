@@ -1,7 +1,6 @@
 import * as Location from "expo-location";
 import analytics from "@react-native-firebase/analytics";
 import crashlytics from "@react-native-firebase/crashlytics";
-import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
@@ -325,9 +324,6 @@ export default function MapScreen() {
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
         initialRegion={initialRegionValue}
-        // onRegionChange={async (region) =>
-        //   await getAddressFromCoordinate(mapRef, region)
-        // }
         provider={PROVIDER_GOOGLE}
         ref={mapRef}
         showsUserLocation={true}

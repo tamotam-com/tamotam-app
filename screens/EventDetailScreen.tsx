@@ -1,15 +1,14 @@
-import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useLayoutEffect, useRef, MutableRefObject } from "react";
+import React, { useLayoutEffect, useRef, MutableRefObject, useEffect } from "react";
 import StyledText from "../components/StyledText";
 import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
 import { useSelector } from "react-redux";
 import { Coordinate } from "../interfaces/coordinate";
-import { Dimensions, Image, ScrollView, StyleSheet } from "react-native";
+import { Alert, Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Region } from "../interfaces/region";
@@ -82,9 +81,6 @@ export default function EventDetailScreen({ navigation, route }: any) {
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
         initialRegion={initialRegionValue}
-        // onRegionChange={async (region) => {
-        //   await getAddressFromCoordinate(mapRef, region);
-        // }}
         provider={PROVIDER_GOOGLE}
         ref={mapRef}
         showsUserLocation={true}
