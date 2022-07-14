@@ -22,6 +22,7 @@ import React, {
 import SelectImage from "../components/SelectImage";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
+import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
 import { useDispatch } from "react-redux";
 import {
   ActivityIndicator,
@@ -45,6 +46,7 @@ import { FIRESTORE_COLLECTION } from "@env";
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
+  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [dateTimeMode, setDateTimeMode] = useState<string>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
@@ -79,6 +81,16 @@ export default function NewEventScreen({ navigation, route }: any) {
       crashlytics().recordError(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need internet connection for TamoTam to run properly.",
+        [{ text: "Okay" }]
+      );
+    }
+  }, [isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

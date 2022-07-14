@@ -1,4 +1,3 @@
-import analytics from "@react-native-firebase/analytics";
 import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
@@ -7,6 +6,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useLayoutEffect, useRef, MutableRefObject } from "react";
 import StyledText from "../components/StyledText";
+import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
 import { useSelector } from "react-redux";
 import { Coordinate } from "../interfaces/coordinate";
 import { Dimensions, Image, ScrollView, StyleSheet } from "react-native";
@@ -18,6 +18,7 @@ import { View } from "../components/Themed";
 export default function EventDetailScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const eventId: number = route.params.eventId;
+  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -35,6 +36,16 @@ export default function EventDetailScreen({ navigation, route }: any) {
     latitude: selectedEvent.coordinate.latitude,
     longitude: selectedEvent.coordinate.longitude,
   };
+
+  useEffect(() => {
+    if (!isConnected) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need internet connection for TamoTam to run properly.",
+        [{ text: "Okay" }]
+      );
+    }
+  }, [isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -20,6 +20,7 @@ import React, {
   SetStateAction,
 } from "react";
 import StyledText from "../components/StyledText";
+import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
 import { updateEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -43,6 +44,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const eventId: number = route.params.eventId;
+  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
@@ -82,6 +84,16 @@ export default function EditEventScreen({ navigation, route }: any) {
       crashlytics().recordError(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need internet connection for TamoTam to run properly.",
+        [{ text: "Okay" }]
+      );
+    }
+  }, [isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

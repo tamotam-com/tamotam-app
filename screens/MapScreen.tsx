@@ -73,7 +73,7 @@ export default function MapScreen() {
         [{ text: "Okay" }]
       );
     }
-  }, [isConnected])
+  }, [isConnected]);
 
   const loadEvents: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {

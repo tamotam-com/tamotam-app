@@ -8,6 +8,7 @@ import StyledText from "../components/StyledText";
 import React, { useCallback, useEffect, useLayoutEffect, useState, Dispatch } from "react";
 import { deleteEvent } from "../store/actions/events";
 import { fetchUsersSavedEvents } from "../store/actions/events";
+import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
@@ -18,6 +19,7 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
+  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
@@ -37,6 +39,16 @@ export default function SavedScreen({ navigation, route }: any) {
       crashlytics().recordError(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need internet connection for TamoTam to run properly.",
+        [{ text: "Okay" }]
+      );
+    }
+  }, [isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
