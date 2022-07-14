@@ -1,4 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
+import analytics from "@react-native-firebase/analytics";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import React, { useEffect, useState } from "react";
@@ -18,6 +19,13 @@ const SelectImage = (props: {
       if (Platform.OS !== "web") {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: components -> SelectImage -> useEffect[], status: " + status,
+        });
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: components -> SelectImage -> useEffect[], Platform.OS: " + Platform.OS,
+        });
         if (status !== "granted") {
           Alert.alert(
             "⚠️ Insufficient permissions! ⚠️",
@@ -44,6 +52,9 @@ const SelectImage = (props: {
       setPickedImage(image.uri);
       props.onImageTaken(image.uri);
     }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: components -> SelectImage -> selectImageHandler, image: " + image,
+    });
   };
 
   return (

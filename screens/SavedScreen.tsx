@@ -32,7 +32,7 @@ export default function SavedScreen({ navigation, route }: any) {
         [{ text: "Okay" }]
       );
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: SavedScreen -> useEffect[error], error: " + error,
+        description: "--- Analytics: screens -> SavedScreen -> useEffect[error], error: " + error,
       });
       crashlytics().recordError(error);
     }
@@ -59,14 +59,14 @@ export default function SavedScreen({ navigation, route }: any) {
 
   const loadSavedEvents: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: SavedScreen -> loadSavedEvents",
+      description: "--- Analytics: screens -> SavedScreen -> loadSavedEvents",
     });
     setError(new Error());
     setIsLoading(true);
 
     try {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: SavedScreen -> loadSavedEvents -> try",
+        description: "--- Analytics: screens -> SavedScreen -> loadSavedEvents -> try",
       });
       dispatch(fetchUsersSavedEvents());
     } catch (error: unknown) {
@@ -78,14 +78,14 @@ export default function SavedScreen({ navigation, route }: any) {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: SavedScreen -> loadSavedEvents -> catch, error: " + error,
+          description: "--- Analytics: screens -> SavedScreen -> loadSavedEvents -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: SavedScreen -> loadSavedEvents -> finally",
+        description: "--- Analytics: screens -> SavedScreen -> loadSavedEvents -> finally",
       });
       setIsLoading(false);
     }
@@ -93,7 +93,7 @@ export default function SavedScreen({ navigation, route }: any) {
 
   useEffect(() => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: SavedScreen -> useEffect[loadSavedEvents]",
+      description: "--- Analytics: screens -> SavedScreen -> useEffect[loadSavedEvents]",
     });
     loadSavedEvents();
   }, [loadSavedEvents]);
@@ -121,7 +121,7 @@ export default function SavedScreen({ navigation, route }: any) {
 
   const deleteHandler: (event: Event) => void = (event: Event) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: SavedScreen -> deleteHandler",
+      description: "--- Analytics: screens -> SavedScreen -> deleteHandler",
     });
     Alert.alert("⚠️ Delete saved event ⚠️", "Do you want to perform this irreversible deletion?", [
       { text: "No", style: "default" },
@@ -134,7 +134,7 @@ export default function SavedScreen({ navigation, route }: any) {
 
           try {
             analytics().logEvent("custom_log", {
-              description: "--- Analytics: SavedScreen -> deleteHandler -> try, event: " + event,
+              description: "--- Analytics: screens -> SavedScreen -> deleteHandler -> try, event: " + event,
             });
             dispatch(deleteEvent(event));
           } catch (error: unknown) {
@@ -146,14 +146,14 @@ export default function SavedScreen({ navigation, route }: any) {
               );
 
               analytics().logEvent("custom_log", {
-                description: "--- Analytics: SavedScreen -> deleteHandler -> catch, error: " + error,
+                description: "--- Analytics: screens -> SavedScreen -> deleteHandler -> catch, error: " + error,
               });
               crashlytics().recordError(error);
               setError(new Error(error.message));
             }
           } finally {
             analytics().logEvent("custom_log", {
-              description: "--- Analytics: SavedScreen -> deleteHandler -> finally",
+              description: "--- Analytics: screens -> SavedScreen -> deleteHandler -> finally",
             });
             setIsLoading(false);
           }

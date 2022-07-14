@@ -1,7 +1,7 @@
 import * as Location from "expo-location";
 import analytics from "@react-native-firebase/analytics";
 import crashlytics from "@react-native-firebase/crashlytics";
-import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
+// import getAddressFromCoordinate from "../common/getAddressFromCoordinate";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
@@ -77,7 +77,7 @@ export default function EditEventScreen({ navigation, route }: any) {
         [{ text: "Okay" }]
       );
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: EditEventScreen -> useEffect[error], error: " + error,
+        description: "--- Analytics: screens -> EditEventScreen -> useEffect[error], error: " + error,
       });
       crashlytics().recordError(error);
     }
@@ -104,7 +104,7 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> getUserLocationHandler",
+      description: "--- Analytics: screens -> EditEventScreen -> getUserLocationHandler",
     });
     setError(new Error(""));
     setIsLoading(true);
@@ -114,10 +114,10 @@ export default function EditEventScreen({ navigation, route }: any) {
         await Location.requestForegroundPermissionsAsync();
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: EditEventScreen -> getUserLocationHandler, status: " + status,
+        description: "--- Analytics: screens -> EditEventScreen -> getUserLocationHandler, status: " + status,
       });
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: EditEventScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
+        description: "--- Analytics: screens -> EditEventScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
       });
       if (status !== "granted") {
         Alert.alert(
@@ -133,7 +133,7 @@ export default function EditEventScreen({ navigation, route }: any) {
       const location = await Location.getCurrentPositionAsync({});
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: EditEventScreen -> getUserLocationHandler -> try, location: " + location,
+        description: "--- Analytics: screens -> EditEventScreen -> getUserLocationHandler -> try, location: " + location,
       });
       setInitialRegionValue({
         latitude: location.coords.latitude,
@@ -150,14 +150,14 @@ export default function EditEventScreen({ navigation, route }: any) {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: EditEventScreen -> getUserLocationHandler -> catch, error: " + error,
+          description: "--- Analytics: screens -> EditEventScreen -> getUserLocationHandler -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: EditEventScreen -> getUserLocationHandler -> finally",
+        description: "--- Analytics: screens -> EditEventScreen -> getUserLocationHandler -> finally",
       });
       setIsLoading(false);
     }
@@ -165,7 +165,7 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   useEffect(() => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> useEffect[getUserLocationHandler]",
+      description: "--- Analytics: screens -> EditEventScreen -> useEffect[getUserLocationHandler]",
     });
     getUserLocationHandler();
   }, [getUserLocationHandler]);
@@ -192,7 +192,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     text: SetStateAction<string>
   ) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> onDescriptionChange, text: " + text,
+      description: "--- Analytics: screens -> EditEventScreen -> onDescriptionChange, text: " + text,
     });
     setDescriptionValue(text);
   };
@@ -202,14 +202,14 @@ export default function EditEventScreen({ navigation, route }: any) {
     selectedValueDate: Date | undefined
   ) => void = (_event: any, selectedValueDate: Date | undefined) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> onDateChange, selectedValueDate: " + selectedValueDate,
+      description: "--- Analytics: screens -> EditEventScreen -> onDateChange, selectedValueDate: " + selectedValueDate,
     });
     setSelectedDate(selectedValueDate);
   };
 
   const onImageChange: (imagePath: string) => void = (imagePath: string) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> onImageChange, imagePath: " + imagePath,
+      description: "--- Analytics: screens -> EditEventScreen -> onImageChange, imagePath: " + imagePath,
     });
     setSelectedImage(imagePath);
   };
@@ -220,7 +220,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     };
   }) => void = (e: { nativeEvent: { coordinate: Coordinate } }) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
+      description: "--- Analytics: screens -> EditEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
     });
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
@@ -232,14 +232,14 @@ export default function EditEventScreen({ navigation, route }: any) {
     text: SetStateAction<string>
   ) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> onTitleChange, text: " + text,
+      description: "--- Analytics: screens -> EditEventScreen -> onTitleChange, text: " + text,
     });
     setTitleValue(text);
   };
 
   const onSaveHandler: () => void = () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: EditEventScreen -> onSaveHandler",
+      description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler",
     });
     setError(new Error(""));
     setIsLoading(true);
@@ -261,7 +261,7 @@ export default function EditEventScreen({ navigation, route }: any) {
       };
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: EditEventScreen -> onSaveHandler -> try, newEvent: " + newEvent,
+        description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try, newEvent: " + newEvent,
       });
       dispatch(updateEvent(newEvent));
     } catch (error: unknown) {
@@ -273,14 +273,14 @@ export default function EditEventScreen({ navigation, route }: any) {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: EditEventScreen -> onSaveHandler -> catch, error: " + error,
+          description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: EditEventScreen -> onSaveHandler -> finally",
+        description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> finally",
       });
       setIsLoading(false);
     }

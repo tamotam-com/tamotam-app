@@ -74,7 +74,7 @@ export default function NewEventScreen({ navigation, route }: any) {
         [{ text: "Okay" }]
       );
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: NewEventScreen -> useEffect[error], error: " + error,
+        description: "--- Analytics: screens -> NewEventScreen -> useEffect[error], error: " + error,
       });
       crashlytics().recordError(error);
     }
@@ -101,7 +101,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> getUserLocationHandler",
+      description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler",
     });
     setError(new Error(""));
     setIsLoading(true);
@@ -111,10 +111,10 @@ export default function NewEventScreen({ navigation, route }: any) {
         await Location.requestForegroundPermissionsAsync();
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: NewEventScreen -> getUserLocationHandler, status: " + status,
+        description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler, status: " + status,
       });
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: NewEventScreen -> getUserLocationHandler, , Platform.OS: " + Platform.OS,
+        description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
       });
       if (status !== "granted") {
         Alert.alert(
@@ -130,7 +130,7 @@ export default function NewEventScreen({ navigation, route }: any) {
       const location = await Location.getCurrentPositionAsync({});
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: NewEventScreen -> getUserLocationHandler -> try, location: " + location,
+        description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler -> try, location: " + location,
       });
       setInitialRegionValue({
         latitude: location.coords.latitude,
@@ -147,14 +147,14 @@ export default function NewEventScreen({ navigation, route }: any) {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: NewEventScreen -> getUserLocationHandler -> catch, error: " + error,
+          description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: NewEventScreen -> getUserLocationHandler -> finally",
+        description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler -> finally",
       });
       setIsLoading(false);
     }
@@ -162,7 +162,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   useEffect(() => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> useEffect[getUserLocationHandler]",
+      description: "--- Analytics: screens -> NewEventScreen -> useEffect[getUserLocationHandler]",
     });
     getUserLocationHandler();
   }, [getUserLocationHandler]);
@@ -189,7 +189,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     text: SetStateAction<string>
   ) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onDescriptionChange, text: " + text,
+      description: "--- Analytics: screens -> NewEventScreen -> onDescriptionChange, text: " + text,
     });
     setDescriptionValue(text);
   };
@@ -204,10 +204,10 @@ export default function NewEventScreen({ navigation, route }: any) {
     }
 
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onDateTimeChange, _event: " + _event,
+      description: "--- Analytics: screens -> NewEventScreen -> onDateTimeChange, _event: " + _event,
     });
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onDateTimeChange, selectedValueDate: " + selectedValueDate,
+      description: "--- Analytics: screens -> NewEventScreen -> onDateTimeChange, selectedValueDate: " + selectedValueDate,
     });
     setSelectedDate(selectedValueDate);
     setShowDatepicker(false);
@@ -215,7 +215,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const onImageChange: (imagePath: string) => void = (imagePath: string) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onImageChange, imagePath: " + imagePath,
+      description: "--- Analytics: screens -> NewEventScreen -> onImageChange, imagePath: " + imagePath,
     });
     setSelectedImage(imagePath);
   };
@@ -226,7 +226,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     };
   }) => void = (e: { nativeEvent: { coordinate: Coordinate } }) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
+      description: "--- Analytics: screens -> NewEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
     });
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
@@ -236,14 +236,14 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const onShowDatePicker: () => void = () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onShowDatePicker, text: ",
+      description: "--- Analytics: screens -> NewEventScreen -> onShowDatePicker, text: ",
     });
     showDateTimeMode("date");
   };
 
   const onShowTimePicker: () => void = () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onShowTimePicker, text: ",
+      description: "--- Analytics: screens -> NewEventScreen -> onShowTimePicker, text: ",
     });
     showDateTimeMode("time");
   };
@@ -252,14 +252,14 @@ export default function NewEventScreen({ navigation, route }: any) {
     text: SetStateAction<string>
   ) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> onTitleChange, text: " + text,
+      description: "--- Analytics: screens -> NewEventScreen -> onTitleChange, text: " + text,
     });
     setTitleValue(text);
   };
 
   const showDateTimeMode: (currentMode: string) => void = (currentMode: string) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> showDateTimeMode, currentMode: " + currentMode,
+      description: "--- Analytics: screens -> NewEventScreen -> showDateTimeMode, currentMode: " + currentMode,
     });
     setShowDatepicker(true);
     setDateTimeMode(currentMode);
@@ -267,7 +267,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const addEventHandler: () => Promise<void> = async () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: NewEventScreen -> addEventHandler",
+      description: "--- Analytics: screens -> NewEventScreen -> addEventHandler",
     });
     setError(new Error(""));
     setIsLoading(true);
@@ -291,13 +291,13 @@ export default function NewEventScreen({ navigation, route }: any) {
         .add(newEvent)
         .then(() => {
           analytics().logEvent("custom_log", {
-            description: "--- Analytics: NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
+            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
           });
         })
         .catch((error: unknown) => {
           if (error instanceof Error) {
             analytics().logEvent("custom_log", {
-              description: "--- Analytics: NewEventScreen -> addEventHandler -> try -> catch, error: " + error,
+              description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> catch, error: " + error,
             });
             crashlytics().recordError(error);
             setError(new Error(error.message));
@@ -305,7 +305,7 @@ export default function NewEventScreen({ navigation, route }: any) {
         })
         .finally(() => {
           analytics().logEvent("custom_log", {
-            description: "--- Analytics: NewEventScreen -> addEventHandler -> finally",
+            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
           });
         });
       dispatch(addEvent(newEvent));
@@ -318,14 +318,14 @@ export default function NewEventScreen({ navigation, route }: any) {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: NewEventScreen -> addEventHandler -> catch, error: " + error,
+          description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: NewEventScreen -> addEventHandler -> finally",
+        description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
       });
       setIsLoading(false);
     }

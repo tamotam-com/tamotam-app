@@ -60,7 +60,7 @@ export default function MapScreen() {
       );
     }
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: MapScreen -> useEffect[error], error: " + error,
+      description: "--- Analytics: screens -> MapScreen -> useEffect[error], error: " + error,
     });
     crashlytics().recordError(error);
   }, [error]);
@@ -73,14 +73,11 @@ export default function MapScreen() {
         [{ text: "Okay" }]
       );
     }
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: MapScreen -> useEffect[isConnected], isConnected: " + isConnected,
-    });
   }, [isConnected])
 
   const loadEvents: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: MapScreen -> loadEvents",
+      description: "--- Analytics: screens -> MapScreen -> loadEvents",
     });
     setError(new Error(""));
     setIsLoading(true);
@@ -93,29 +90,29 @@ export default function MapScreen() {
       let expirationEventsDateParsed: any;
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> loadEvents -> try, eventsInJSONString: " + eventsInJSONString,
+        description: "--- Analytics: screens -> MapScreen -> loadEvents -> try, eventsInJSONString: " + eventsInJSONString,
       });
       try {
         expirationEventsDate = await AsyncStorage.getItem("EXPIRATION_DATE_ASYNC_STORAGE");
         expirationEventsDateParsed = new Date(JSON.parse(expirationEventsDate));
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: MapScreen -> loadEvents -> try -> try1, expirationEventsDate: " + expirationEventsDate,
+          description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> try1, expirationEventsDate: " + expirationEventsDate,
         });
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: MapScreen -> loadEvents -> try -> try1, expirationEventsDateParsed: " + expirationEventsDateParsed,
+          description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> try1, expirationEventsDateParsed: " + expirationEventsDateParsed,
         });
       } catch (error: unknown) {
         if (error instanceof Error) {
           analytics().logEvent("custom_log", {
-            description: "--- Analytics: MapScreen -> loadEvents -> try -> catch1, error: " + error,
+            description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> catch1, error: " + error,
           });
           crashlytics().recordError(error);
           setError(new Error(error.message));
         }
       } finally {
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: MapScreen -> loadEvents -> try -> finally1",
+          description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> finally1",
         });
       }
 
@@ -127,12 +124,12 @@ export default function MapScreen() {
           await AsyncStorage.setItem("EXPIRATION_DATE_ASYNC_STORAGE", cacheExpiryTimeInJSONString);
 
           analytics().logEvent("custom_log", {
-            description: "--- Analytics: MapScreen -> loadEvents -> try -> try2, cacheExpiryTimeInJSONString: " + cacheExpiryTimeInJSONString,
+            description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> try2, cacheExpiryTimeInJSONString: " + cacheExpiryTimeInJSONString,
           });
         } catch (error: unknown) {
           if (error instanceof Error) {
             analytics().logEvent("custom_log", {
-              description: "--- Analytics: MapScreen -> loadEvents -> try -> catch2, error: " + error,
+              description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> catch2, error: " + error,
             });
             crashlytics().recordError(error);
             setError(new Error(error.message));
@@ -144,7 +141,7 @@ export default function MapScreen() {
             [{ text: "Okay" }]
           );
           analytics().logEvent("custom_log", {
-            description: "--- Analytics: MapScreen -> loadEvents -> try -> finally2",
+            description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> finally2",
           });
         }
       }
@@ -155,10 +152,10 @@ export default function MapScreen() {
         return;
       }
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> loadEvents -> try, new Date().getTime(): " + new Date().getTime(),
+        description: "--- Analytics: screens -> MapScreen -> loadEvents -> try, new Date().getTime(): " + new Date().getTime(),
       });
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> loadEvents -> try, eventsParsed: " + eventsParsed,
+        description: "--- Analytics: screens -> MapScreen -> loadEvents -> try, eventsParsed: " + eventsParsed,
       });
       dispatch(readItemFromStorage(eventsParsed));
     } catch (error: unknown) {
@@ -170,14 +167,14 @@ export default function MapScreen() {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: MapScreen -> loadEvents -> catch, error: " + error,
+          description: "--- Analytics: screens -> MapScreen -> loadEvents -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> loadEvents -> finally",
+        description: "--- Analytics: screens -> MapScreen -> loadEvents -> finally",
       });
       setIsLoading(false);
     }
@@ -185,14 +182,14 @@ export default function MapScreen() {
 
   useEffect(() => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: MapScreen -> useEffect[loadEvents]",
+      description: "--- Analytics: screens -> MapScreen -> useEffect[loadEvents]",
     });
     loadEvents();
   }, [loadEvents]);
 
   const getUserLocationHandler: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: MapScreen -> getUserLocationHandler",
+      description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler",
     });
     setError(new Error(""));
     setIsLoading(true);
@@ -202,10 +199,10 @@ export default function MapScreen() {
         await Location.requestForegroundPermissionsAsync();
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> getUserLocationHandler, status: " + status,
+        description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler, status: " + status,
       });
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
+        description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
       });
       if (status !== "granted") {
         Alert.alert(
@@ -221,7 +218,7 @@ export default function MapScreen() {
       const location = await Location.getCurrentPositionAsync({});
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> getUserLocationHandler -> try, location: " + location,
+        description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler -> try, location.coords.latitude: " + location.coords.latitude.toString,
       });
       setInitialRegionValue({
         latitude: location.coords.latitude,
@@ -238,14 +235,14 @@ export default function MapScreen() {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: MapScreen -> getUserLocationHandler -> catch, error: " + error,
+          description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> getUserLocationHandler -> finally",
+        description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler -> finally",
       });
       setIsLoading(false);
     }
@@ -253,14 +250,14 @@ export default function MapScreen() {
 
   useEffect(() => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: MapScreen -> useEffect[getUserLocationHandler]",
+      description: "--- Analytics: screens -> MapScreen -> useEffect[getUserLocationHandler]",
     });
     getUserLocationHandler();
   }, [getUserLocationHandler]);
 
   const saveEventHandler: (event: Event) => void = (event: Event) => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: MapScreen -> saveEventHandler",
+      description: "--- Analytics: screens -> MapScreen -> saveEventHandler",
     });
     setError(new Error(""));
     setIsLoading(true);
@@ -274,10 +271,10 @@ export default function MapScreen() {
       }
 
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> saveEventHandler -> try, savedEvent: " + savedEvents,
+        description: "--- Analytics: screens -> MapScreen -> saveEventHandler -> try, savedEvent: " + savedEvents,
       });
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> saveEventHandler -> try, event: " + event,
+        description: "--- Analytics: screens -> MapScreen -> saveEventHandler -> try, event: " + event,
       });
       dispatch(saveEvent(event));
     } catch (error: unknown) {
@@ -289,14 +286,14 @@ export default function MapScreen() {
         );
 
         analytics().logEvent("custom_log", {
-          description: "--- Analytics: MapScreen -> saveEventHandler -> catch, error: " + error,
+          description: "--- Analytics: screens -> MapScreen -> saveEventHandler -> catch, error: " + error,
         });
         crashlytics().recordError(error);
         setError(new Error(error.message));
       }
     } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: MapScreen -> saveEventHandler -> finally",
+        description: "--- Analytics: screens -> MapScreen -> saveEventHandler -> finally",
       });
       setIsLoading(false);
     }

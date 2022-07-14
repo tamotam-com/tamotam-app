@@ -1,8 +1,10 @@
 import * as Localization from "expo-localization";
+import analytics from "@react-native-firebase/analytics";
 import axios, { AxiosResponse } from "axios";
+import crashlytics from "@react-native-firebase/crashlytics";
 import firestore from "@react-native-firebase/firestore";
 import writeItemToStorage from "../../common/writeItemToStorage";
-import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/db";
+import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/sqlite_db";
 import { Alert } from "react-native";
 import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
@@ -52,6 +54,10 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
     let promiseUsersEvents: void;
 
     try {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> fetchEvents -> try",
+      });
+
       for (let page = 1; page < BIKEREG_NUMBER_OF_PAGES; page++) {
         promiseBikeRegEvents = await axios({
           method: "GET",
@@ -85,14 +91,21 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseBikeRegEvents -> try, bikeRegEvents: " + bikeRegEvents,
+            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
-              console.error(
-                "Error with fetching BikeReg events, details: ",
-                error
-              );
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseBikeRegEvents -> catch, error: " + error,
+              });
+              crashlytics().recordError(error);
             }
+          }).finally(() => {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseBikeRegEvents -> finally",
+            });
           });
       }
       dispatch({
@@ -116,11 +129,15 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
           url: "https://api.predicthq.com/v1/events/",
         }).catch((error: unknown) => {
           if (error instanceof Error) {
-            console.error(
-              "Error with fetching PredictHQ events, details: ",
-              error
-            );
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> catch, error: " + error,
+            });
+            crashlytics().recordError(error);
           }
+        }).finally(() => {
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> finally",
+          });
         });
 
       for (const key in promisePredictHqEvents) {
@@ -140,7 +157,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
         })
           .then((response: AxiosResponse<any, any>) => {
             for (const id in response.data.events) {
-              console.log(id);
+              // console.log(id); // TODO: Debug what kind of ID is returned when access will be unblocked.
               seatGeekEvents.push({
                 id,
                 coordinate: {
@@ -154,16 +171,23 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.events[id].title,
               });
             }
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseSeatGeekEvents -> try, seatGeekEvents: " + seatGeekEvents,
+            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
-              console.error(
-                "Error with fetching SeatGeek events, details: ",
-                error
-              );
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseSeatGeekEvents -> catch, error: " + error,
+              });
+              crashlytics().recordError(error);
             }
+          }).finally(() => {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseSeatGeekEvents -> finally",
+            });
           });
-        console.log(seatGeekEvents.length);
+        // console.log(seatGeekEvents.length); // TODO: Debug what is returned when access will be unblocked.
       }
 
       promiseSkiRegEvents =
@@ -199,18 +223,24 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseSkiRegEvents -> try, skiRegEvents: " + skiRegEvents,
+            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
-              console.error(
-                "Error with fetching SkiReg events, details: ",
-                error
-              );
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseSkiRegEvents -> catch, error: " + error,
+              });
+              crashlytics().recordError(error);
             }
           }).finally(() => {
             dispatch({
               type: SET_EVENTS,
               events: skiRegEvents,
+            });
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseSkiRegEvents -> finally",
             });
           });
 
@@ -247,14 +277,21 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseRunRegEvents -> try, runRegEvents: " + runRegEvents,
+            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
-              console.error(
-                "Error with fetching RunReg events, details: ",
-                error
-              );
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseRunRegEvents -> catch, error: " + error,
+              });
+              crashlytics().recordError(error);
             }
+          }).finally(() => {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseRunRegEvents -> finally",
+            });
           });
       }
       dispatch({
@@ -291,14 +328,21 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                   title: response.data._embedded.events[id].name,
                 }));
               }
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseTicketmasterEvents -> try, ticketmasterEvents: " + ticketmasterEvents,
+              });
             })
             .catch((error: unknown) => {
               if (error instanceof Error) {
-                console.error(
-                  "Error with fetching Ticketmaster events, details: ",
-                  error
-                );
+                analytics().logEvent("custom_log", {
+                  description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseTicketmasterEvents -> catch, error: " + error,
+                });
+                crashlytics().recordError(error);
               }
+            }).finally(() => {
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseTicketmasterEvents -> finally",
+              });
             });
         }
       }
@@ -366,18 +410,24 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseTriRegEvents -> try, triRegEvents: " + triRegEvents,
+            });
           })
           .catch((error: unknown) => {
             if (error instanceof Error) {
-              console.error(
-                "Error with fetching TriReg events, details: ",
-                error
-              );
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseTriRegEvents -> catch, error: " + error,
+              });
+              crashlytics().recordError(error);
             }
           }).finally(() => {
             dispatch({
               type: SET_EVENTS,
               events: triRegEvents,
+            });
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseTriRegEvents -> finally",
             });
           });
 
@@ -399,28 +449,38 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               title: documentSnapshot.data().title,
             });
           });
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseUsersEvents -> then, usersEvents: " + usersEvents,
+          });
         })
         .catch((error: unknown) => {
           if (error instanceof Error) {
-            console.error(
-              `Error with fetching ${FIRESTORE_COLLECTION}, details: `,
-              error
-            );
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseUsersEvents -> catch, error: " + error,
+            });
+            crashlytics().recordError(error);
           }
         }).finally(() => {
           dispatch({
             type: SET_EVENTS,
             events: usersEvents,
           });
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: store -> actions -> events -> fetchEvents -> promiseUsersEvents -> finally",
+          });
         });
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error(
-          "Error with executing try block for fetching events, details:",
-          error
-        );
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> fetchEvents -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
       }
     } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> fetchEvents -> finally",
+      });
+
       Promise.race([
         promiseBikeRegEvents,
         promisePredictHqEvents,
@@ -441,7 +501,21 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
           ...triRegEvents,
           ...usersEvents,
         ];
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> fetchEvents -> finally -> Promise.race([...]) -> then, eventsFinal: " + eventsFinal,
+        });
         writeItemToStorage(eventsFinal);
+      }).catch((error: unknown) => {
+        if (error instanceof Error) {
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: store -> actions -> events -> fetchEvents -> finally -> Promise.race([...]) -> catch, error: " + error,
+          });
+          crashlytics().recordError(error);
+        }
+      }).finally(() => {
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> fetchEvents -> finally -> Promise.race([...]) -> finally",
+        });
       });
     }
   };
@@ -462,21 +536,48 @@ export const addEvent = (event: Event) => {
       };
     }) => void
   ) => {
-    dispatch({
-      type: ADD_EVENT,
-      eventData: {
-        id: event.id,
-        coordinate: {
-          latitude: event.coordinate.latitude,
-          longitude: event.coordinate.longitude,
+    try {
+      dispatch({
+        type: ADD_EVENT,
+        eventData: {
+          id: event.id,
+          coordinate: {
+            latitude: event.coordinate.latitude,
+            longitude: event.coordinate.longitude,
+          },
+          date: event.date,
+          description: event.description,
+          imageUrl: event.imageUrl,
+          isUserEvent: event.isUserEvent,
+          title: event.title,
         },
-        date: event.date,
-        description: event.description,
-        imageUrl: event.imageUrl,
-        isUserEvent: event.isUserEvent,
-        title: event.title,
-      },
-    });
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> addEvent -> try, event: " + event,
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Alert.alert(
+          "Error ❌",
+          "Adding an event has failed.",
+          [{ text: "Okay" }]
+        );
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> addEvent -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+      }
+    } finally {
+      Alert.alert(
+        "Event added ✅",
+        "You have successfully added this event.",
+        [{ text: "Okay" }]
+      );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> addEvent -> finally",
+      });
+    }
   };
 };
 
@@ -496,7 +597,7 @@ export const deleteEvent = (event: Event) => {
     }) => void
   ) => {
     try {
-      deleteSavedEvent(event.id);
+      const dbResult: any = await deleteSavedEvent(event.id);
 
       dispatch({
         type: DELETE_EVENT,
@@ -513,10 +614,24 @@ export const deleteEvent = (event: Event) => {
           title: event.title,
         },
       });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> deleteEvent -> try, dbResult: " + dbResult,
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> deleteEvent -> try, event: " + event,
+      });
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error(error);
-        throw error;
+        Alert.alert(
+          "Error ❌",
+          "Deleting a saved event has failed.",
+          [{ text: "Okay" }]
+        );
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> deleteEvent -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
       }
     } finally {
       Alert.alert(
@@ -524,6 +639,9 @@ export const deleteEvent = (event: Event) => {
         "You have successfully deleted this saved event, and it will no longer be visible.",
         [{ text: "Okay" }]
       );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> deleteEvent -> finally",
+      });
     }
   };
 };
@@ -533,9 +651,15 @@ export const fetchUsersSavedEvents = () => {
     dispatch: (arg0: { savedEvents: any; type: string }) => void
   ) => {
     try {
-      const dbResult = await fetchSavedEvents();
-      console.log(dbResult);
-      dispatch({ savedEvents: dbResult.rows._array, type: SET_SAVED_EVENTS });
+      const dbResult: any = await fetchSavedEvents();
+
+      dispatch({
+        savedEvents: dbResult.rows._array,
+        type: SET_SAVED_EVENTS
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> fetchUsersSavedEvents -> try, dbResult: " + dbResult,
+      });
     } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
@@ -543,8 +667,11 @@ export const fetchUsersSavedEvents = () => {
           "TamoTam couldn't fetch your saved events.",
           [{ text: "Okay" }]
         );
-        console.error(error);
-        throw error;
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> fetchUsersSavedEvents -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
       }
     } finally {
       Alert.alert(
@@ -552,6 +679,9 @@ export const fetchUsersSavedEvents = () => {
         "These are stored on your local device as long as you won't explicitly clear the data or uninstall TamoTam.",
         [{ text: "Okay" }]
       );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> fetchUsersSavedEvents -> finally",
+      });
     }
   };
 };
@@ -563,9 +693,21 @@ export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (e
         type: SET_EVENTS,
         events: eventsFromAsyncStorage,
       });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> readItemFromStorage -> try, eventsFromAsyncStorage: " + eventsFromAsyncStorage,
+      });
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error('useAsyncStorage getItem error:', error);
+        Alert.alert(
+          "Error ❌",
+          "Problem with loading events from a local device to avoid a big load during the next application launch.",
+          [{ text: "Okay" }]
+        );
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> readItemFromStorage -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
       }
     } finally {
       Alert.alert(
@@ -573,6 +715,9 @@ export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (e
         "These are stored for a week on your local device as long as you won't explicitly clear the data or uninstall TamoTam.",
         [{ text: "Okay" }]
       );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> readItemFromStorage -> finally",
+      });
     }
   }
 };
@@ -594,7 +739,7 @@ export const saveEvent = (event: Event) => {
   ) => {
 
     try {
-      const dbResult = await insertSavedEvent(
+      const dbResult: any = await insertSavedEvent(
         event.coordinate,
         event.date,
         event.description,
@@ -602,7 +747,6 @@ export const saveEvent = (event: Event) => {
         event.isUserEvent,
         event.title
       );
-      console.log(dbResult);
 
       dispatch({
         type: SAVE_EVENT,
@@ -619,22 +763,34 @@ export const saveEvent = (event: Event) => {
           title: event.title,
         },
       });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> saveEvent -> try, dbResult: " + dbResult,
+      });
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> saveEvent -> try, event: " + event,
+      });
     } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
           "Error ❌",
-          "TamoTam couldn't save your event",
+          "TamoTam couldn't save your event.",
           [{ text: "Okay" }]
         );
-        console.error(error);
-        throw error;
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> saveEvent -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
       }
     } finally {
       Alert.alert(
         "Event saved ✅",
-        "It will be visible in your Saved tab till you don't delete it.",
+        "It will be visible in your saved events till you don't delete it.",
         [{ text: "Okay" }]
       );
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> saveEvent -> finally",
+      });
     }
   };
 };
@@ -654,20 +810,46 @@ export const updateEvent = (event: Event) => {
       };
     }) => void
   ) => {
-    dispatch({
-      type: UPDATE_EVENT,
-      eventData: {
-        id: event.id,
-        coordinate: {
-          latitude: event.coordinate.latitude,
-          longitude: event.coordinate.longitude,
+    try {
+      dispatch({
+        type: UPDATE_EVENT,
+        eventData: {
+          id: event.id,
+          coordinate: {
+            latitude: event.coordinate.latitude,
+            longitude: event.coordinate.longitude,
+          },
+          date: event.date,
+          description: event.description,
+          imageUrl: event.imageUrl,
+          isUserEvent: event.isUserEvent,
+          title: event.title,
         },
-        date: event.date,
-        description: event.description,
-        imageUrl: event.imageUrl,
-        isUserEvent: event.isUserEvent,
-        title: event.title,
-      },
-    });
+      });
+
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: store -> actions -> events -> updateEvent -> try, event: " + event,
+      });
+    }
+    catch (error: unknown) {
+      if (error instanceof Error) {
+        Alert.alert(
+          "Error ❌",
+          "TamoTam couldn't update this event.",
+          [{ text: "Okay" }]
+        );
+
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: store -> actions -> events -> updateEvent -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+      }
+    } finally {
+      Alert.alert(
+        "Event updated ✅",
+        "It will be visible in your saved events till you don't delete it.",
+        [{ text: "Okay" }]
+      );
+    }
   };
 };
