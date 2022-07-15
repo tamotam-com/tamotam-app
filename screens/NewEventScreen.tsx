@@ -451,6 +451,13 @@ export default function NewEventScreen({ navigation, route }: any) {
               value={selectedDate}
             />
           )}
+          <View style={styles.centered}>
+            <StyledText>Date: {new Date(selectedDate).toLocaleDateString()}</StyledText>
+            <StyledText>Time: {new Date(selectedDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}</StyledText>
+          </View>
           <SelectImage onImageTaken={onImageChange} />
           <Button
             color={
