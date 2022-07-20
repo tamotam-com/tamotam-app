@@ -25,6 +25,7 @@ import {
   Image,
   Platform,
   StyleSheet,
+  Text,
 } from "react-native";
 import { Button } from "react-native-paper";
 import { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
@@ -365,14 +366,17 @@ export default function MapScreen() {
                 <StyledText style={styles.title}>
                   {event.title ? event.title : "No information about title."}
                 </StyledText>
-                <Image
-                  source={
-                    typeof event.imageUrl === "string" && event.imageUrl !== ""
-                      ? { uri: event.imageUrl }
-                      : require("../assets/images/no-image.jpeg")
-                  }
-                  style={styles.image}
-                />
+                <Text style={styles.imageWrapper}>
+                  <Image
+                    resizeMode="cover"
+                    source={
+                      typeof event.imageUrl === "string" && event.imageUrl !== ""
+                        ? { uri: event.imageUrl }
+                        : require("../assets/images/no-image.jpeg")
+                    }
+                    style={styles.image}
+                  />
+                </Text>
                 <StyledText style={styles.description}>
                   {event.description
                     ? event.description
@@ -430,8 +434,14 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
   image: {
-    height: "50%",
-    width: "100%",
+    height: 200,
+    width: 330,
+  },
+  imageWrapper: {
+    height: 200,
+    flex: 1,
+    marginTop: -85,
+    width: 330,
   },
   locationButtonCallout: {
     borderRadius: 10,
