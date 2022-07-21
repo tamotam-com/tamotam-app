@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import StyledText from "../components/StyledText";
 import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { RootStackParamList } from "../types";
@@ -7,20 +8,30 @@ import { StackScreenProps } from "@react-navigation/stack";
 export default function NotFoundScreen({
   navigation,
 }: StackScreenProps<RootStackParamList, "NotFound">) {
-  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
+  const isConnected: boolean | null = isInternetConnectionAvailable();
 
   useEffect(() => {
-    if (!isConnected._W) {
+    if (!isConnected === false) {
       Alert.alert(
         "No Internet! ❌",
-        "Sorry, we need internet connection for TamoTam to run properly.",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
         [{ text: "Okay" }]
       );
     }
   }, [isConnected]);
 
+  if (isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
+        </StyledText>
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
+    <View style={styles.centered}>
       <Text style={styles.title}>This screen doesn't exist.</Text>
       <TouchableOpacity
         onPress={() => navigation.replace("Root")}
@@ -33,16 +44,10 @@ export default function NotFoundScreen({
 }
 
 const styles = StyleSheet.create({
-  container: {
+  centered: {
     alignItems: "center",
-    backgroundColor: "#fff",
     flex: 1,
     justifyContent: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
   },
   link: {
     marginTop: 15,
@@ -51,5 +56,9 @@ const styles = StyleSheet.create({
   linkText: {
     color: "#2e78b7",
     fontSize: 14,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });

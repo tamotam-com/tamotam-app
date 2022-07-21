@@ -19,7 +19,7 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const isConnected: any = isInternetConnectionAvailable();
+  const isConnected: boolean | null = isInternetConnectionAvailable();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
@@ -41,14 +41,13 @@ export default function SavedScreen({ navigation, route }: any) {
   }, [error]);
 
   useEffect(() => {
-    if (!isConnected._W) {
+    if (!isConnected === false) {
       Alert.alert(
         "No Internet! ❌",
-        "Sorry, we need internet connection for TamoTam to run properly.",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
         [{ text: "Okay" }]
       );
     }
-    Alert.alert('Internet status', "Status " + isConnected._W, [{ text: "OKK" }]);
   }, [isConnected]);
 
   useLayoutEffect(() => {
@@ -124,9 +123,19 @@ export default function SavedScreen({ navigation, route }: any) {
 
   if (savedEvents.length === 0 || !savedEvents) {
     return (
-      <View style={styles.content}>
+      <View style={styles.centered}>
         <StyledText style={styles.title}>
           No saved events found. Start adding some!
+        </StyledText>
+      </View>
+    );
+  }
+
+  if (isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
         </StyledText>
       </View>
     );
@@ -234,16 +243,6 @@ export default function SavedScreen({ navigation, route }: any) {
 
 const styles = StyleSheet.create({
   centered: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-  content: {
     alignItems: "center",
     flex: 1,
     justifyContent: "center",

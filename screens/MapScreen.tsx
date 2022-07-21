@@ -37,7 +37,7 @@ export default function MapScreen() {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const events: Event[] = useSelector((state: any) => state.events.events);
-  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
+  const isConnected: boolean | null = isInternetConnectionAvailable();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -66,10 +66,10 @@ export default function MapScreen() {
   }, [error]);
 
   useEffect(() => {
-    if (!isConnected._W) {
+    if (isConnected === false) {
       Alert.alert(
         "No Internet! ❌",
-        "Sorry, we need internet connection for TamoTam to run properly.",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
         [{ text: "Okay" }]
       );
     }
@@ -310,8 +310,18 @@ export default function MapScreen() {
     );
   }
 
+  if (isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
+        </StyledText>
+      </View>
+    );
+  }
+
   const Map: () => JSX.Element = () => (
-    <View style={styles.container}>
+    <View style={styles.centered}>
       <MapView
         clusterColor={
           colorScheme === "dark"
@@ -427,11 +437,6 @@ export default function MapScreen() {
 
 const styles = StyleSheet.create({
   centered: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-  container: {
     alignItems: "center",
     flex: 1,
     justifyContent: "center",

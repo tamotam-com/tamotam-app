@@ -45,7 +45,7 @@ import { FIRESTORE_COLLECTION } from "@env";
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
+  const isConnected: boolean | null = isInternetConnectionAvailable();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [dateTimeMode, setDateTimeMode] = useState<string>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
@@ -82,10 +82,10 @@ export default function NewEventScreen({ navigation, route }: any) {
   }, [error]);
 
   useEffect(() => {
-    if (!isConnected._W) {
+    if (!isConnected === false) {
       Alert.alert(
         "No Internet! ❌",
-        "Sorry, we need internet connection for TamoTam to run properly.",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
         [{ text: "Okay" }]
       );
     }
@@ -185,6 +185,16 @@ export default function NewEventScreen({ navigation, route }: any) {
           color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
+      </View>
+    );
+  }
+
+  if (isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
+        </StyledText>
       </View>
     );
   }
@@ -345,7 +355,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const Map: () => JSX.Element = () => (
-    <View style={styles.container}>
+    <View style={styles.centered}>
       <MapView
         customMapStyle={CustomMapStyles.CUSTOM_MAP_STYLES}
         followsUserLocation={true}
@@ -486,11 +496,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
   dateTimeButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -516,5 +521,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 4,
     paddingHorizontal: 2,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });

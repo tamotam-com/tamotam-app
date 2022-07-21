@@ -17,7 +17,7 @@ import { View } from "../components/Themed";
 export default function EventDetailScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const eventId: number = route.params.eventId;
-  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
+  const isConnected: boolean | null = isInternetConnectionAvailable();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -37,10 +37,10 @@ export default function EventDetailScreen({ navigation, route }: any) {
   };
 
   useEffect(() => {
-    if (!isConnected._W) {
+    if (!isConnected === false) {
       Alert.alert(
         "No Internet! ❌",
-        "Sorry, we need internet connection for TamoTam to run properly.",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
         [{ text: "Okay" }]
       );
     }
@@ -65,11 +65,22 @@ export default function EventDetailScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
+  // TODO: Go to Trash? See styles.title also, and align.
   if (savedEvents.length === 0 || !savedEvents) {
     return (
-      <View style={styles.container}>
+      <View style={styles.centered}>
         <StyledText style={styles.title}>
           No saved events found. Start adding some!
+        </StyledText>
+      </View>
+    );
+  }
+
+  if (isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
         </StyledText>
       </View>
     );
@@ -139,6 +150,11 @@ export default function EventDetailScreen({ navigation, route }: any) {
 }
 
 const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   container: {
     alignItems: "center",
     flex: 1,
