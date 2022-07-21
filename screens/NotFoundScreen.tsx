@@ -10,7 +10,7 @@ export default function NotFoundScreen({
   const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
 
   useEffect(() => {
-    if (!isConnected) {
+    if (!isConnected._W) {
       Alert.alert(
         "No Internet! ❌",
         "Sorry, we need internet connection for TamoTam to run properly.",

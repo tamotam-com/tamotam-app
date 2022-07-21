@@ -19,7 +19,7 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const isConnected: Promise<boolean | null> = isInternetConnectionAvailable();
+  const isConnected: any = isInternetConnectionAvailable();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
@@ -41,13 +41,14 @@ export default function SavedScreen({ navigation, route }: any) {
   }, [error]);
 
   useEffect(() => {
-    if (!isConnected) {
+    if (!isConnected._W) {
       Alert.alert(
         "No Internet! ❌",
         "Sorry, we need internet connection for TamoTam to run properly.",
         [{ text: "Okay" }]
       );
     }
+    Alert.alert('Internet status', "Status " + isConnected._W, [{ text: "OKK" }]);
   }, [isConnected]);
 
   useLayoutEffect(() => {

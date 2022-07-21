@@ -85,7 +85,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   }, [error]);
 
   useEffect(() => {
-    if (!isConnected) {
+    if (!isConnected._W) {
       Alert.alert(
         "No Internet! ❌",
         "Sorry, we need internet connection for TamoTam to run properly.",
