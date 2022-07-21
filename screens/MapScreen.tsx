@@ -366,7 +366,7 @@ export default function MapScreen() {
                 <StyledText style={styles.title}>
                   {event.title ? event.title : "No information about title."}
                 </StyledText>
-                <Text style={styles.imageWrapper}>
+                {Platform.OS === "android" ? <Text style={styles.imageWrapperAndroid}>
                   <Image
                     resizeMode="cover"
                     source={
@@ -374,9 +374,16 @@ export default function MapScreen() {
                         ? { uri: event.imageUrl }
                         : require("../assets/images/no-image.jpeg")
                     }
-                    style={styles.image}
+                    style={styles.imageAndroid}
                   />
-                </Text>
+                </Text> : <Image
+                  source={
+                    typeof event.imageUrl === "string" && event.imageUrl !== ""
+                      ? { uri: event.imageUrl }
+                      : require("../assets/images/no-image.jpeg")
+                  }
+                  style={styles.imageIOS}
+                />}
                 <StyledText style={styles.description}>
                   {event.description
                     ? event.description
@@ -433,11 +440,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "justify",
   },
-  image: {
+  imageAndroid: {
     height: 200,
     width: 330,
   },
-  imageWrapper: {
+  imageIOS: {
+    height: "50%",
+    width: "100%",
+  },
+  imageWrapperAndroid: {
     height: 200,
     flex: 1,
     marginTop: -85,
