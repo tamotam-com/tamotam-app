@@ -1,7 +1,7 @@
 import analytics from "@react-native-firebase/analytics";
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
 
-let stateIsConnected: boolean | null;
+let stateIsConnected: boolean | null = null;
 export const isInternetConnectionAvailable: () => boolean | null = () => {
   NetInfo.addEventListener((state: NetInfoState) => {
     stateIsConnected = state.isConnected;
