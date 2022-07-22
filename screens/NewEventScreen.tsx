@@ -21,7 +21,6 @@ import React, {
 import SelectImage from "../components/SelectImage";
 import StyledText from "../components/StyledText";
 import { addEvent } from "../store/actions/events";
-import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { useDispatch } from "react-redux";
 import {
   ActivityIndicator,
@@ -45,7 +44,6 @@ import { FIRESTORE_COLLECTION } from "@env";
 export default function NewEventScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [dateTimeMode, setDateTimeMode] = useState<string>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
@@ -80,19 +78,6 @@ export default function NewEventScreen({ navigation, route }: any) {
       crashlytics().recordError(error);
     }
   }, [error]);
-
-  useEffect(() => {
-    if (internetState.isConnected === false) {
-      Alert.alert(
-        "No Internet! ❌",
-        "Sorry, we need an Internet connection for TamoTam to run correctly.",
-        [{ text: "Okay" }]
-      );
-    }
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> NewEventScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
-    });
-  }, [internetState.isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -188,16 +173,6 @@ export default function NewEventScreen({ navigation, route }: any) {
           color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
-      </View>
-    );
-  }
-
-  if (internetState.isConnected === false) {
-    return (
-      <View style={styles.centered}>
-        <StyledText style={styles.title}>
-          Please turn on the Internet to use TamoTam.
-        </StyledText>
       </View>
     );
   }
@@ -524,10 +499,5 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 4,
     paddingHorizontal: 2,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });

@@ -4,11 +4,9 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import EventItem from "../components/EventItem";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import StyledText from "../components/StyledText";
 import React, { useCallback, useEffect, useLayoutEffect, useState, Dispatch } from "react";
 import { deleteEvent } from "../store/actions/events";
 import { fetchUsersSavedEvents } from "../store/actions/events";
-import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
@@ -19,7 +17,6 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const internetState: NetInfoState = useNetInfo();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
@@ -39,19 +36,6 @@ export default function SavedScreen({ navigation, route }: any) {
       crashlytics().recordError(error);
     }
   }, [error]);
-
-  useEffect(() => {
-    if (internetState.isConnected === false) {
-      Alert.alert(
-        "No Internet! ❌",
-        "Sorry, we need an Internet connection for TamoTam to run correctly.",
-        [{ text: "Okay" }]
-      );
-    }
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> SavedScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
-    });
-  }, [internetState.isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -120,26 +104,6 @@ export default function SavedScreen({ navigation, route }: any) {
           color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
-      </View>
-    );
-  }
-
-  if (internetState.isConnected === true && (savedEvents.length === 0 || !savedEvents)) {
-    return (
-      <View style={styles.centered}>
-        <StyledText style={styles.title}>
-          No saved events found. Start adding some!
-        </StyledText>
-      </View>
-    );
-  }
-
-  if (internetState.isConnected === false) {
-    return (
-      <View style={styles.centered}>
-        <StyledText style={styles.title}>
-          Please turn on the Internet to use TamoTam.
-        </StyledText>
       </View>
     );
   }
@@ -249,10 +213,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });
