@@ -20,9 +20,6 @@ export default function EventDetailScreen({ navigation, route }: any) {
   const eventId: number = route.params.eventId;
   const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
-  const savedEvents: Event[] = useSelector(
-    (state: any) => state.events.savedEvents
-  );
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
