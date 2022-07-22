@@ -55,7 +55,7 @@ export default function App() {
       );
     }
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> EventDetailScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+      description: "--- Analytics: App -> useEffect[internetState.isConnected]: " + internetState.isConnected,
     });
   }, [internetState.isConnected]);
 
