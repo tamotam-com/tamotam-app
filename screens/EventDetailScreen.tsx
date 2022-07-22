@@ -69,17 +69,6 @@ export default function EventDetailScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  // TODO: Go to Trash?
-  if (savedEvents.length === 0 || !savedEvents) {
-    return (
-      <View style={styles.centered}>
-        <StyledText style={styles.title}>
-          No saved events found. Start adding some!
-        </StyledText>
-      </View>
-    );
-  }
-
   if (internetState.isConnected === false) {
     return (
       <View style={styles.centered}>
