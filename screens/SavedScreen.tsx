@@ -124,7 +124,7 @@ export default function SavedScreen({ navigation, route }: any) {
     );
   }
 
-  if (savedEvents.length === 0 || !savedEvents) {
+  if (internetState.isConnected === true && (savedEvents.length === 0 || !savedEvents)) {
     return (
       <View style={styles.centered}>
         <StyledText style={styles.title}>
