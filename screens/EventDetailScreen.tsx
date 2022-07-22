@@ -1,3 +1,4 @@
+import analytics from "@react-native-firebase/analytics";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
@@ -5,7 +6,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useLayoutEffect, useRef, MutableRefObject, useEffect } from "react";
 import StyledText from "../components/StyledText";
-import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
+import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { useSelector } from "react-redux";
 import { Coordinate } from "../interfaces/coordinate";
 import { Alert, Dimensions, Image, ScrollView, StyleSheet } from "react-native";
@@ -17,7 +18,7 @@ import { View } from "../components/Themed";
 export default function EventDetailScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const eventId: number = route.params.eventId;
-  const isConnected: boolean | null = isInternetConnectionAvailable();
+  const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -37,14 +38,17 @@ export default function EventDetailScreen({ navigation, route }: any) {
   };
 
   useEffect(() => {
-    if (!isConnected === false) {
+    if (internetState.isConnected === false) {
       Alert.alert(
         "No Internet! ❌",
         "Sorry, we need an Internet connection for TamoTam to run correctly.",
         [{ text: "Okay" }]
       );
     }
-  }, [isConnected]);
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EventDetailScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+    });
+  }, [internetState.isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -76,7 +80,7 @@ export default function EventDetailScreen({ navigation, route }: any) {
     );
   }
 
-  if (isConnected === false) {
+  if (internetState.isConnected === false) {
     return (
       <View style={styles.centered}>
         <StyledText style={styles.title}>

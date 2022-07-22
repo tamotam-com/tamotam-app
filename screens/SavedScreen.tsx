@@ -8,7 +8,7 @@ import StyledText from "../components/StyledText";
 import React, { useCallback, useEffect, useLayoutEffect, useState, Dispatch } from "react";
 import { deleteEvent } from "../store/actions/events";
 import { fetchUsersSavedEvents } from "../store/actions/events";
-import { isInternetConnectionAvailable } from "../common/isInternetConnectionAvailable";
+import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
@@ -19,7 +19,7 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme: "light" | "dark" = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
-  const isConnected: boolean | null = isInternetConnectionAvailable();
+  const internetState: NetInfoState = useNetInfo();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
@@ -41,14 +41,17 @@ export default function SavedScreen({ navigation, route }: any) {
   }, [error]);
 
   useEffect(() => {
-    if (!isConnected === false) {
+    if (internetState.isConnected === false) {
       Alert.alert(
         "No Internet! ❌",
         "Sorry, we need an Internet connection for TamoTam to run correctly.",
         [{ text: "Okay" }]
       );
     }
-  }, [isConnected]);
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> SavedScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+    });
+  }, [internetState.isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -131,7 +134,7 @@ export default function SavedScreen({ navigation, route }: any) {
     );
   }
 
-  if (isConnected === false) {
+  if (internetState.isConnected === false) {
     return (
       <View style={styles.centered}>
         <StyledText style={styles.title}>
