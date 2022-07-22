@@ -65,7 +65,7 @@ export default function EventDetailScreen({ navigation, route }: any) {
     });
   }, [navigation]);
 
-  // TODO: Go to Trash? See styles.title also, and align.
+  // TODO: Go to Trash?
   if (savedEvents.length === 0 || !savedEvents) {
     return (
       <View style={styles.centered}>
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    marginVertical: 15,
+    fontWeight: "bold",
     textAlign: "center",
   },
 });
