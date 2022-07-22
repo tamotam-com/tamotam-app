@@ -144,7 +144,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     }
 
     try {
-      const location = await Location.getCurrentPositionAsync({});
+      const location: Location.LocationObject = await Location.getCurrentPositionAsync({});
 
       analytics().logEvent("custom_log", {
         description: "--- Analytics: screens -> EditEventScreen -> getUserLocationHandler -> try, location: " + location,

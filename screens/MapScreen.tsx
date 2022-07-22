@@ -218,7 +218,7 @@ export default function MapScreen() {
     }
 
     try {
-      const location = await Location.getCurrentPositionAsync({});
+      const location: Location.LocationObject = await Location.getCurrentPositionAsync({});
 
       analytics().logEvent("custom_log", {
         description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler -> try, location.coords.latitude: " + location.coords.latitude.toString,
