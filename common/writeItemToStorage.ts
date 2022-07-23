@@ -29,7 +29,7 @@ export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<void
   } finally {
     Alert.alert(
       "Events locally saved ✅",
-      "Once a week, TamoTam will make such a big load of external events.",
+      "Once a week, TamoTam will make such a big load of events.",
       [{ text: "Okay" }]
     );
     analytics().logEvent("custom_log", {
