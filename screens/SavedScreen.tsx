@@ -5,6 +5,7 @@ import Colors from "../constants/Colors";
 import EventItem from "../components/EventItem";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useCallback, useEffect, useLayoutEffect, useState, Dispatch } from "react";
+import StyledText from "../components/StyledText";
 import { deleteEvent } from "../store/actions/events";
 import { fetchUsersSavedEvents } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +56,16 @@ export default function SavedScreen({ navigation, route }: any) {
       ),
     });
   }, [navigation]);
+
+  if (savedEvents.length === 0 || !savedEvents) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          No saved events found. Start adding some!
+        </StyledText>
+      </View>
+    );
+  }
 
   const loadSavedEvents: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
@@ -213,5 +224,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
