@@ -4,6 +4,7 @@ import crashlytics from "@react-native-firebase/crashlytics";
 import eventsReducer from "./store/reducers/events";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
+import Colors from "./constants/Colors";
 import React, { useEffect } from "react";
 import Navigation from "./navigation";
 import ReduxThunk from "redux-thunk";
@@ -64,8 +65,16 @@ export default function App() {
   } else {
     if (internetState.isConnected === false) {
       return (
-        <View style={styles.centered}>
-          <StyledText style={styles.title}>
+        <View style={[styles.centered, {
+          backgroundColor:
+            colorScheme === "dark"
+              ? Colors.dark.background
+              : Colors.light.background,
+        }]}>
+          <StyledText style={[styles.title, {
+            color:
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+          }]}>
             Please turn on the Internet to use TamoTam.
           </StyledText>
         </View>
@@ -88,6 +97,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
+    marginHorizontal: 10,
+    marginBottom: 20,
   },
   title: {
     fontSize: 20,
