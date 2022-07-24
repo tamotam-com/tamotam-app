@@ -9,14 +9,14 @@ import StyledText from "../components/StyledText";
 import { deleteEvent } from "../store/actions/events";
 import { fetchUsersSavedEvents } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
-import { ActivityIndicator, Alert, FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator, Alert, ColorSchemeName, FlatList, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { View } from "../components/Themed";
 
 export default function SavedScreen({ navigation, route }: any) {
-  const colorScheme: "light" | "dark" = useColorScheme();
+  const colorScheme: ColorSchemeName = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents

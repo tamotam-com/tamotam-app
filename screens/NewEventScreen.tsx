@@ -25,6 +25,7 @@ import { useDispatch } from "react-redux";
 import {
   ActivityIndicator,
   Alert,
+  ColorSchemeName,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
@@ -42,7 +43,7 @@ import { View } from "../components/Themed";
 import { FIRESTORE_COLLECTION } from "@env";
 
 export default function NewEventScreen({ navigation, route }: any) {
-  const colorScheme: "light" | "dark" = useColorScheme();
+  const colorScheme: ColorSchemeName = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const [dateTimeMode, setDateTimeMode] = useState<string>("");

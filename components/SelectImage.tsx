@@ -3,7 +3,7 @@ import analytics from "@react-native-firebase/analytics";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import React, { useEffect, useState } from "react";
-import { Alert, Image, Platform, StyleSheet } from "react-native";
+import { Alert, ColorSchemeName, Image, Platform, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { Text, View } from "./Themed";
 
@@ -11,7 +11,7 @@ const SelectImage = (props: {
   existingImageUrl?: string;
   onImageTaken: (arg0: string) => void;
 }) => {
-  const colorScheme: "light" | "dark" = useColorScheme();
+  const colorScheme: ColorSchemeName = useColorScheme();
   const [pickedImage, setPickedImage] = useState("");
 
   useEffect(() => {

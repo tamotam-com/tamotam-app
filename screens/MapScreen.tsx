@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   ActivityIndicator,
   Alert,
+  ColorSchemeName,
   Dimensions,
   Image,
   Platform,
@@ -33,7 +34,7 @@ import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 
 export default function MapScreen() {
-  const colorScheme: "light" | "dark" = useColorScheme();
+  const colorScheme: ColorSchemeName = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const events: Event[] = useSelector((state: any) => state.events.events);
   const mapRef: MutableRefObject<null> = useRef<null>(null);

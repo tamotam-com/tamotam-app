@@ -6,15 +6,15 @@ import MaterialHeaderButton from "../components/MaterialHeaderButton";
 import React, { useLayoutEffect, useRef, MutableRefObject } from "react";
 import StyledText from "../components/StyledText";
 import { useSelector } from "react-redux";
+import { ColorSchemeName, Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Coordinate } from "../interfaces/coordinate";
-import { Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 
 export default function EventDetailScreen({ navigation, route }: any) {
-  const colorScheme: "light" | "dark" = useColorScheme();
+  const colorScheme: ColorSchemeName = useColorScheme();
   const eventId: number = route.params.eventId;
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const selectedEvent: Event = useSelector<any, any>((state: any) =>

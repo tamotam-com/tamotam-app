@@ -11,7 +11,7 @@ import StyledText from "./components/StyledText";
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import { init } from "./helpers/sqlite_db";
 import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, ColorSchemeName, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Provider as PaperProvider } from "react-native-paper";
 import { Provider as StoreProvider } from "react-redux";
@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
-  const colorScheme: "light" | "dark" = useColorScheme(); // TODO: This type might be an interface.
+  const colorScheme: ColorSchemeName = useColorScheme();
   const internetState: NetInfoState = useNetInfo();
   const isLoadingComplete: boolean = useCachedResources();
 

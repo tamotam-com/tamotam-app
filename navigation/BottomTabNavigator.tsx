@@ -8,12 +8,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { useIsFocused } from "@react-navigation/native";
 import { BottomTabParamList, MapParamList, SavedParamList } from "../types";
+import { ColorSchemeName } from "react-native";
 import { FAB, Portal } from "react-native-paper";
 
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator({ navigation }: any) {
-  const colorScheme: "light" | "dark" = useColorScheme();
+  const colorScheme: ColorSchemeName = useColorScheme();
   const isFocused: boolean = useIsFocused();
 
   return (

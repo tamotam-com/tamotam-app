@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   ActivityIndicator,
   Alert,
+  ColorSchemeName,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
@@ -39,7 +40,7 @@ import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 
 export default function EditEventScreen({ navigation, route }: any) {
-  const colorScheme: "light" | "dark" = useColorScheme();
+  const colorScheme: ColorSchemeName = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const eventId: number = route.params.eventId;
   const mapRef: MutableRefObject<null> = useRef<null>(null);
