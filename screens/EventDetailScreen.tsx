@@ -1,12 +1,14 @@
+import analytics from "@react-native-firebase/analytics";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MaterialHeaderButton from "../components/MaterialHeaderButton";
-import React, { useLayoutEffect, useRef, MutableRefObject } from "react";
+import React, { useLayoutEffect, useRef, MutableRefObject, useEffect } from "react";
 import StyledText from "../components/StyledText";
+import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { useSelector } from "react-redux";
-import { ColorSchemeName, Dimensions, Image, ScrollView, StyleSheet } from "react-native";
+import { Alert, ColorSchemeName, Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -16,6 +18,7 @@ import { View } from "../components/Themed";
 export default function EventDetailScreen({ navigation, route }: any) {
   const colorScheme: ColorSchemeName = useColorScheme();
   const eventId: number = route.params.eventId;
+  const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
@@ -30,6 +33,19 @@ export default function EventDetailScreen({ navigation, route }: any) {
     latitude: selectedEvent.coordinate.latitude,
     longitude: selectedEvent.coordinate.longitude,
   };
+
+  useEffect(() => {
+    if (internetState.isConnected === false) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
+        [{ text: "Okay" }]
+      );
+    }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EventDetailScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+    });
+  }, [internetState.isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,6 +65,16 @@ export default function EventDetailScreen({ navigation, route }: any) {
       ),
     });
   }, [navigation]);
+
+  if (internetState.isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
+        </StyledText>
+      </View>
+    );
+  }
 
   const Map: () => JSX.Element = () => (
     <View style={styles.container}>
@@ -114,6 +140,11 @@ export default function EventDetailScreen({ navigation, route }: any) {
 }
 
 const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   container: {
     alignItems: "center",
     flex: 1,

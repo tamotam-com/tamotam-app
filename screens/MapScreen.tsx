@@ -17,6 +17,7 @@ import React, {
 import StyledText from "../components/StyledText";
 import { fetchEvents, readItemFromStorage, saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
+import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import {
   ActivityIndicator,
   Alert,
@@ -37,6 +38,7 @@ export default function MapScreen() {
   const colorScheme: ColorSchemeName = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const events: Event[] = useSelector((state: any) => state.events.events);
+  const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
@@ -63,6 +65,19 @@ export default function MapScreen() {
     });
     crashlytics().recordError(error);
   }, [error]);
+
+  useEffect(() => {
+    if (internetState.isConnected === false) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
+        [{ text: "Okay" }]
+      );
+    }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> MapScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+    });
+  }, [internetState.isConnected]);
 
   const loadEvents: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
@@ -295,6 +310,16 @@ export default function MapScreen() {
           color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
+      </View>
+    );
+  }
+
+  if (internetState.isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
+        </StyledText>
       </View>
     );
   }

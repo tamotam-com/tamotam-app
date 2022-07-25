@@ -9,6 +9,7 @@ import StyledText from "../components/StyledText";
 import { deleteEvent } from "../store/actions/events";
 import { fetchUsersSavedEvents } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
+import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { ActivityIndicator, Alert, ColorSchemeName, FlatList, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { Event } from "../interfaces/event";
@@ -18,6 +19,7 @@ import { View } from "../components/Themed";
 export default function SavedScreen({ navigation, route }: any) {
   const colorScheme: ColorSchemeName = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
+  const internetState: NetInfoState = useNetInfo();
   const savedEvents: Event[] = useSelector(
     (state: any) => state.events.savedEvents
   );
@@ -38,6 +40,19 @@ export default function SavedScreen({ navigation, route }: any) {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (internetState.isConnected === false) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
+        [{ text: "Okay" }]
+      );
+    }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> SavedScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+    });
+  }, [internetState.isConnected]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -56,16 +71,6 @@ export default function SavedScreen({ navigation, route }: any) {
       ),
     });
   }, [navigation]);
-
-  if (savedEvents.length === 0 || !savedEvents) {
-    return (
-      <View style={styles.centered}>
-        <StyledText style={styles.title}>
-          No saved events found. Start adding some!
-        </StyledText>
-      </View>
-    );
-  }
 
   const loadSavedEvents: () => Promise<void> = useCallback(async () => {
     analytics().logEvent("custom_log", {
@@ -115,6 +120,26 @@ export default function SavedScreen({ navigation, route }: any) {
           color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
+      </View>
+    );
+  }
+
+  if (internetState.isConnected === true && (savedEvents.length === 0 || !savedEvents)) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          No saved events found. Start adding some!
+        </StyledText>
+      </View>
+    );
+  }
+
+  if (internetState.isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
+        </StyledText>
       </View>
     );
   }

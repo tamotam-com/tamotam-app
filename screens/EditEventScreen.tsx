@@ -21,6 +21,7 @@ import React, {
 import StyledText from "../components/StyledText";
 import { updateEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
+import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import {
   ActivityIndicator,
   Alert,
@@ -43,6 +44,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme: ColorSchemeName = useColorScheme();
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const eventId: number = route.params.eventId;
+  const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
@@ -82,6 +84,19 @@ export default function EditEventScreen({ navigation, route }: any) {
       crashlytics().recordError(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (internetState.isConnected === false) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
+        [{ text: "Okay" }]
+      );
+    }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EditEventScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+    });
+  }, [internetState.isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -177,6 +192,16 @@ export default function EditEventScreen({ navigation, route }: any) {
           color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
           size="large"
         />
+      </View>
+    );
+  }
+
+  if (internetState.isConnected === false) {
+    return (
+      <View style={styles.centered}>
+        <StyledText style={styles.title}>
+          Please turn on the Internet to use TamoTam.
+        </StyledText>
       </View>
     );
   }
@@ -426,5 +451,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 4,
     paddingHorizontal: 2,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

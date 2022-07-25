@@ -1,17 +1,13 @@
 import analytics from "@react-native-firebase/analytics";
 import BottomTabNavigator from "./BottomTabNavigator";
-import Colors from "../constants/Colors";
 import EditEventScreen from "../screens/EditEventScreen";
 import EventDetailScreen from "../screens/EventDetailScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
 import NewEventScreen from "../screens/NewEventScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
-import React, { useEffect, useRef } from "react";
-import StyledText from "../components/StyledText";
+import React, { useRef } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import useColorScheme from "../hooks/useColorScheme";
-import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
-import { Alert, ColorSchemeName, StyleSheet, View } from "react-native";
+import { ColorSchemeName } from "react-native";
 import {
   DarkTheme,
   DefaultTheme,
@@ -55,40 +51,6 @@ export default function Navigation({
 
 const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
-  const colorScheme: ColorSchemeName = useColorScheme();
-  const internetState: NetInfoState = useNetInfo();
-
-  useEffect(() => {
-    if (internetState.isConnected === false) {
-      Alert.alert(
-        "No Internet! ❌",
-        "Sorry, we need an Internet connection for TamoTam to run correctly.",
-        [{ text: "Okay" }]
-      );
-    }
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: navigation -> index -> useEffect[internetState.isConnected]: " + internetState.isConnected,
-    });
-  }, [internetState.isConnected]);
-
-  if (internetState.isConnected === false) {
-    return (
-      <View style={[styles.centered, {
-        backgroundColor:
-          colorScheme === "dark"
-            ? Colors.dark.background
-            : Colors.light.background,
-      }]}>
-        <StyledText style={[styles.title, {
-          color:
-            colorScheme === "dark" ? Colors.dark.text : Colors.light.text
-        }]}>
-          Please turn on the Internet to use TamoTam.
-        </StyledText>
-      </View>
-    );
-  }
-
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -141,18 +103,3 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  centered: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    paddingBottom: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});
