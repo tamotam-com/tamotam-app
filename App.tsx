@@ -4,11 +4,13 @@ import crashlytics from "@react-native-firebase/crashlytics";
 import eventsReducer from "./store/reducers/events";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
-import React from "react";
+import React, { useEffect } from "react";
 import Navigation from "./navigation";
 import ReduxThunk from "redux-thunk";
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import { init } from "./helpers/sqlite_db";
+import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
+import { Alert } from "react-native";
 import { ColorSchemeName } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Provider as PaperProvider } from "react-native-paper";
@@ -41,7 +43,21 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
   const colorScheme: ColorSchemeName = useColorScheme();
+  const internetState: NetInfoState = useNetInfo();
   const isLoadingComplete: boolean = useCachedResources();
+
+  useEffect(() => {
+    if (internetState.isConnected === false) {
+      Alert.alert(
+        "No Internet! ❌",
+        "Sorry, we need an Internet connection for TamoTam to run correctly.",
+        [{ text: "Okay" }]
+      );
+    }
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: App -> useEffect[internetState.isConnected]: " + internetState.isConnected,
+    });
+  }, [internetState.isConnected]);
 
   if (!isLoadingComplete) {
     return null;

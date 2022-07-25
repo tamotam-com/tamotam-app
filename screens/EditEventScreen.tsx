@@ -85,19 +85,6 @@ export default function EditEventScreen({ navigation, route }: any) {
     }
   }, [error]);
 
-  useEffect(() => {
-    if (internetState.isConnected === false) {
-      Alert.alert(
-        "No Internet! ❌",
-        "Sorry, we need an Internet connection for TamoTam to run correctly.",
-        [{ text: "Okay" }]
-      );
-    }
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> EditEventScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
-    });
-  }, [internetState.isConnected]);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (

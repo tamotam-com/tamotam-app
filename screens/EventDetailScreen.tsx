@@ -8,7 +8,7 @@ import React, { useLayoutEffect, useRef, MutableRefObject, useEffect } from "rea
 import StyledText from "../components/StyledText";
 import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { useSelector } from "react-redux";
-import { Alert, ColorSchemeName, Dimensions, Image, ScrollView, StyleSheet } from "react-native";
+import { ColorSchemeName, Dimensions, Image, ScrollView, StyleSheet } from "react-native";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -33,19 +33,6 @@ export default function EventDetailScreen({ navigation, route }: any) {
     latitude: selectedEvent.coordinate.latitude,
     longitude: selectedEvent.coordinate.longitude,
   };
-
-  useEffect(() => {
-    if (internetState.isConnected === false) {
-      Alert.alert(
-        "No Internet! ❌",
-        "Sorry, we need an Internet connection for TamoTam to run correctly.",
-        [{ text: "Okay" }]
-      );
-    }
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> EventDetailScreen -> useEffect[internetState.isConnected]: " + internetState.isConnected,
-    });
-  }, [internetState.isConnected]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
