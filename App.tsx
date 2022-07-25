@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    marginHorizontal: 10,
-    marginBottom: 20,
+    paddingHorizontal: 10,
+    paddingBottom: 20,
   },
   title: {
     fontSize: 20,
