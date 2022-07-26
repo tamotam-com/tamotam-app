@@ -341,11 +341,11 @@ export default function MapScreen() {
               }}
               icon={event.isUserEvent ? require("../assets/images/icon-map-user-event.png") : require("../assets/images/icon-map-tamotam-event.png")}
               key={event.id}
-              onCalloutPress={() => saveEventHandler(event)}
+              onCalloutPress={() => saveEventHandler(event)} // For Android.
               tracksViewChanges={false}
             >
               <Callout
-                onPress={() => saveEventHandler(event)}
+                onPress={() => saveEventHandler(event)} // For iOS.
                 style={[
                   styles.locationButtonCallout,
                   {
