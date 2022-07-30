@@ -526,7 +526,7 @@ export const addEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -586,7 +586,7 @@ export const deleteEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -648,7 +648,7 @@ export const deleteEvent = (event: Event) => {
 
 export const fetchUsersSavedEvents = () => {
   return async (
-    dispatch: (arg0: { savedEvents: any; type: string }) => void
+    dispatch: (arg0: { savedEvents: Event[]; type: string }) => void
   ) => {
     try {
       const dbResult: any = await fetchSavedEvents();
@@ -687,7 +687,9 @@ export const fetchUsersSavedEvents = () => {
 };
 
 export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (eventsFromAsyncStorage: Event[]) => {
-  return async (dispatch: any) => {
+  return async (
+    dispatch: (arg0: { events: Event[]; type: string }) => void
+  ) => {
     try {
       dispatch({
         type: SET_EVENTS,
@@ -727,7 +729,7 @@ export const saveEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
@@ -737,7 +739,6 @@ export const saveEvent = (event: Event) => {
       };
     }) => void
   ) => {
-
     try {
       const dbResult: any = await insertSavedEvent(
         event.coordinate,
@@ -800,7 +801,7 @@ export const updateEvent = (event: Event) => {
     dispatch: (arg0: {
       type: string;
       eventData: {
-        id: number;
+        id: number | string;
         coordinate: Coordinate;
         date: Date;
         description: string;
