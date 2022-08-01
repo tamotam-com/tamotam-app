@@ -372,7 +372,7 @@ export default function MapScreen() {
                   <Image
                     resizeMode="cover"
                     source={
-                      typeof event.imageUrl === "string" && event.imageUrl !== ""
+                      event.imageUrl
                         ? { uri: event.imageUrl }
                         : require("../assets/images/no-image.jpeg")
                     }

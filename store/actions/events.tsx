@@ -86,7 +86,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 },
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: require("../../assets/images/no-image.jpeg"),
+                imageUrl: "",
                 isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
@@ -218,7 +218,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 },
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: require("../../assets/images/no-image.jpeg"),
+                imageUrl: "",
                 isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
@@ -272,7 +272,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 },
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: require("../../assets/images/no-image.jpeg"),
+                imageUrl: "",
                 isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
@@ -405,7 +405,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 },
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
-                imageUrl: require("../../assets/images/no-image.jpeg"),
+                imageUrl: "",
                 isUserEvent: false,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
@@ -444,7 +444,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               },
               date: new Date(documentSnapshot.data().date.seconds * 1000),
               description: documentSnapshot.data().description,
-              imageUrl: require("../../assets/images/no-image.jpeg"),
+              imageUrl: "",
               isUserEvent: documentSnapshot.data().isUserEvent,
               title: documentSnapshot.data().title,
             });
