@@ -78,7 +78,7 @@ const EventItem = (props: any) => {
       </Card.Content>
       <Card.Cover
         source={
-          typeof props.imageUrl === "string" && props.imageUrl !== ""
+          props.imageUrl
             ? { uri: props.imageUrl }
             : require("../assets/images/no-image.jpeg")
         }

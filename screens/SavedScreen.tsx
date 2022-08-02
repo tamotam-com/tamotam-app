@@ -183,8 +183,7 @@ export default function SavedScreen({ navigation, route }: any) {
           date={eventData.item.date}
           description={eventData.item.description}
           imageUrl={
-            typeof eventData.item.imageUrl === "string" &&
-              eventData.item.imageUrl !== ""
+            eventData.item.imageUrl
               ? eventData.item.imageUrl
               : require("../assets/images/no-image.jpeg")
           }

@@ -113,8 +113,7 @@ export default function EventDetailScreen({ navigation, route }: any) {
         </StyledText>
         <Image
           source={
-            typeof selectedEvent.imageUrl === "string" &&
-              selectedEvent.imageUrl !== ""
+            selectedEvent.imageUrl
               ? { uri: selectedEvent.imageUrl }
               : require("../assets/images/no-image.jpeg")
           }

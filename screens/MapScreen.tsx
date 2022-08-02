@@ -380,7 +380,7 @@ export default function MapScreen() {
                   />
                 </Text> : <Image
                   source={
-                    typeof event.imageUrl === "string" && event.imageUrl !== ""
+                    event.imageUrl
                       ? { uri: event.imageUrl }
                       : require("../assets/images/no-image.jpeg")
                   }

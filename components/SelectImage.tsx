@@ -66,8 +66,7 @@ const SelectImage = (props: {
         ) : (
           <Image
             style={styles.image}
-            source={pickedImage ? pickedImage : typeof props.existingImageUrl === "string" &&
-              props.existingImageUrl !== ""
+            source={pickedImage ? pickedImage : props.existingImageUrl
               ? { uri: props.existingImageUrl }
               : require("../assets/images/no-image.jpeg")}
           />

@@ -390,8 +390,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           />
           <SelectImage
             existingImageUrl={
-              typeof selectedEvent.imageUrl === "string" &&
-                selectedEvent.imageUrl !== ""
+              selectedEvent.imageUrl
                 ? selectedEvent.imageUrl
                 : require("../assets/images/no-image.jpeg")
             }
