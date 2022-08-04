@@ -66,9 +66,11 @@ const SelectImage = (props: {
         ) : (
           <Image
             style={styles.image}
-            source={pickedImage ? pickedImage : props.existingImageUrl
-              ? { uri: props.existingImageUrl }
-              : require("../assets/images/no-image.jpeg")}
+            source={{
+              uri: pickedImage
+                ? pickedImage
+                : props.existingImageUrl
+            }}
           />
         )}
       </View>
