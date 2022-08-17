@@ -1,4 +1,3 @@
-import analytics from "@react-native-firebase/analytics";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
@@ -113,7 +112,7 @@ export default function EventDetailScreen({ navigation, route }: any) {
         </StyledText>
         <Image
           source={
-            selectedEvent.imageUrl
+            selectedEvent.imageUrl && typeof selectedEvent.imageUrl === "string"
               ? { uri: selectedEvent.imageUrl }
               : require("../assets/images/no-image.jpeg")
           }

@@ -61,7 +61,7 @@ const SelectImage = (props: {
     <View style={styles.selectImage}>
       <View style={styles.imagePreview}>
         {!pickedImage &&
-          (!props.existingImageUrl || props.existingImageUrl === "") ? (
+          (!props.existingImageUrl || typeof props.existingImageUrl !== "string") ? (
           <Text>No image picked yet.</Text>
         ) : (
           <Image

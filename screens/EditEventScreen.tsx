@@ -267,7 +267,7 @@ export default function EditEventScreen({ navigation, route }: any) {
         description: descriptionValue
           ? descriptionValue
           : selectedEvent.description,
-        imageUrl: selectedImage === "" ? selectedEvent.imageUrl : selectedImage,
+        imageUrl: selectedImage ? selectedImage : selectedEvent.imageUrl,
         isUserEvent: selectedEvent.isUserEvent,
         title: titleValue ? titleValue : selectedEvent.title,
       };
@@ -390,7 +390,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           />
           <SelectImage
             existingImageUrl={
-              selectedEvent.imageUrl
+              selectedEvent.imageUrl && typeof selectedEvent.imageUrl === "string"
                 ? selectedEvent.imageUrl
                 : require("../assets/images/no-image.jpeg")
             }
