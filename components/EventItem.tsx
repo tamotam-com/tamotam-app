@@ -84,7 +84,7 @@ const EventItem = (props: any) => {
         }
       />
       <Card.Actions>
-        <Button>{props.children}</Button>
+        {props.children}
       </Card.Actions>
     </Card>
   );
