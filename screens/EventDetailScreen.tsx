@@ -23,14 +23,14 @@ export default function EventDetailScreen({ navigation, route }: any) {
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
   const initialRegionValue: Region = {
-    latitude: selectedEvent.coordinate.latitude,
-    longitude: selectedEvent.coordinate.longitude,
+    latitude: selectedEvent.latitude,
+    longitude: selectedEvent.longitude,
     latitudeDelta: 10,
     longitudeDelta: 10,
   };
   let markerCoordinates: Coordinate = {
-    latitude: selectedEvent.coordinate.latitude,
-    longitude: selectedEvent.coordinate.longitude,
+    latitude: selectedEvent.latitude,
+    longitude: selectedEvent.longitude,
   };
 
   useLayoutEffect(() => {

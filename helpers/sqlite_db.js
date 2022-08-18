@@ -8,7 +8,7 @@ export const init = () => {
   const promise = new Promise((resolve, reject) => {
     sqlite_db.transaction((SQLiteTransaction) => {
       SQLiteTransaction.executeSql(
-        `CREATE TABLE IF NOT EXISTS savedEvents (id INTEGER PRIMARY KEY NOT NULL, coordinate REAL, date REAL NOT NULL, description TEXT, imageUrl TEXT, isUserEvent INTEGER NOT NULL, title)`,
+        `CREATE TABLE IF NOT EXISTS savedEvents (id INTEGER PRIMARY KEY NOT NULL, date REAL NOT NULL, description TEXT, imageUrl TEXT, isUserEvent INTEGER NOT NULL, latitude REAL NOT NULL, longitude REAL NOT NULL, title)`,
         [],
         (transaction, result) => {
           resolve(result);
@@ -20,7 +20,6 @@ export const init = () => {
           });
         },
         (transaction, error) => {
-          console.log(`error`, error);
           reject(error);
           analytics().logEvent("custom_log", {
             description: "--- Analytics: helpers -> sqlite_db -> init -> (transaction, error), transaction: " + transaction,
@@ -69,19 +68,19 @@ export const deleteSavedEvent = (
 };
 
 export const insertSavedEvent = (
-  coordinate,
   date,
   description,
   imageUrl,
   isUserEvent,
+  latitude,
+  longitude,
   title
 ) => {
   const promise = new Promise((resolve, reject) => {
-    console.log(coordinate);
     sqlite_db.transaction((SQLiteTransaction) => {
       SQLiteTransaction.executeSql(
-        `INSERT INTO savedEvents (coordinate, date, description, imageUrl, isUserEvent, title) VALUES (?, ?, ?, ?, ?, ?);`,
-        [coordinate, date, description, imageUrl, isUserEvent, title],
+        `INSERT INTO savedEvents (date, description, imageUrl, isUserEvent, latitude, longitude, title) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [date, description, imageUrl, isUserEvent, latitude, longitude, title],
         (transaction, result) => {
           resolve(result);
           analytics().logEvent("custom_log", {

@@ -52,8 +52,8 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error());
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
-    latitude: selectedEvent.coordinate.latitude,
-    longitude: selectedEvent.coordinate.longitude,
+    latitude: selectedEvent.latitude,
+    longitude: selectedEvent.longitude,
     latitudeDelta: 10,
     longitudeDelta: 10,
   });
@@ -67,8 +67,8 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
   const [titleValue, setTitleValue] = useState<string>("");
   let markerCoordinates: Coordinate = {
-    latitude: selectedEvent.coordinate.latitude,
-    longitude: selectedEvent.coordinate.longitude,
+    latitude: selectedEvent.latitude,
+    longitude: selectedEvent.longitude,
   };
 
   useEffect(() => {
@@ -259,16 +259,14 @@ export default function EditEventScreen({ navigation, route }: any) {
     try {
       const newEvent: Event = {
         id: eventId,
-        coordinate: {
-          latitude: markerCoordinates.latitude,
-          longitude: markerCoordinates.longitude,
-        },
         date: selectedDate,
         description: descriptionValue
           ? descriptionValue
           : selectedEvent.description,
         imageUrl: selectedImage ? selectedImage : selectedEvent.imageUrl,
         isUserEvent: selectedEvent.isUserEvent,
+        latitude: markerCoordinates.latitude,
+        longitude: markerCoordinates.longitude,
         title: titleValue ? titleValue : selectedEvent.title,
       };
 

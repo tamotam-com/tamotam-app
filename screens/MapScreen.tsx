@@ -336,8 +336,8 @@ export default function MapScreen() {
           return new Date().getTime() < new Date(event.date).getTime() ? (
             <Marker
               coordinate={{
-                latitude: event.coordinate.latitude,
-                longitude: event.coordinate.longitude,
+                latitude: event.latitude,
+                longitude: event.longitude,
               }}
               icon={event.isUserEvent ? require("../assets/images/icon-map-user-event.png") : require("../assets/images/icon-map-tamotam-event.png")}
               key={event.id}

@@ -6,7 +6,6 @@ import firestore from "@react-native-firebase/firestore";
 import writeItemToStorage from "../../common/writeItemToStorage";
 import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/sqlite_db";
 import { Alert } from "react-native";
-import { Coordinate } from "../../interfaces/coordinate";
 import { Event } from "../../interfaces/event";
 import {
   BIKEREG_NUMBER_OF_PAGES,
@@ -80,14 +79,12 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
 
               bikeRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
-                coordinate: {
-                  latitude: response.data.MatchingEvents[EventId].Latitude,
-                  longitude: response.data.MatchingEvents[EventId].Longitude,
-                },
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: "",
                 isUserEvent: false,
+                latitude: response.data.MatchingEvents[EventId].Latitude,
+                longitude: response.data.MatchingEvents[EventId].Longitude,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -160,13 +157,11 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               // console.log(id); // TODO: Debug what kind of ID is returned when access will be unblocked.
               seatGeekEvents.push({
                 id,
-                coordinate: {
-                  latitude: response.data.events[id].venue.location.lat,
-                  longitude: response.data.events[id].venue.location.lon,
-                },
                 date: new Date(response.data.events[id].datetime_local),
                 description: response.data.events[id].description,
                 imageUrl: response.data.events[id].performers[0].image,
+                latitude: response.data.events[id].venue.location.lat,
+                longitude: response.data.events[id].venue.location.lon,
                 isUserEvent: false,
                 title: response.data.events[id].title,
               });
@@ -212,14 +207,12 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
 
               skiRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
-                coordinate: {
-                  latitude: response.data.MatchingEvents[EventId].Latitude,
-                  longitude: response.data.MatchingEvents[EventId].Longitude,
-                },
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: "",
                 isUserEvent: false,
+                latitude: response.data.MatchingEvents[EventId].Latitude,
+                longitude: response.data.MatchingEvents[EventId].Longitude,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -266,14 +259,12 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
 
               runRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
-                coordinate: {
-                  latitude: response.data.MatchingEvents[EventId].Latitude,
-                  longitude: response.data.MatchingEvents[EventId].Longitude,
-                },
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: "",
                 isUserEvent: false,
+                latitude: response.data.MatchingEvents[EventId].Latitude,
+                longitude: response.data.MatchingEvents[EventId].Longitude,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -311,20 +302,18 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
                 // "JSON.stringify" is needed to achieve unique Set of Objects.
                 ticketmasterEvents.push(JSON.stringify({
                   id,
-                  coordinate: {
-                    latitude:
-                      response.data._embedded.events[id]._embedded.venues[0]
-                        .location.latitude,
-                    longitude:
-                      response.data._embedded.events[id]._embedded.venues[0]
-                        .location.longitude,
-                  },
                   date: new Date(
                     response.data._embedded.events[id].dates.start.dateTime
                   ),
                   description: response.data._embedded.events[id]._embedded.venues[0].city.name,
                   imageUrl: response.data._embedded.events[id].images[0].url,
                   isUserEvent: false,
+                  latitude:
+                    response.data._embedded.events[id]._embedded.venues[0]
+                      .location.latitude,
+                  longitude:
+                    response.data._embedded.events[id]._embedded.venues[0]
+                      .location.longitude,
                   title: response.data._embedded.events[id].name,
                 }));
               }
@@ -357,13 +346,11 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
 
       ticketmasterEvents.forEach((eventStringified: any, index: number) => {
         ticketmasterEvents[index].id = Number(eventStringified.id);
-        ticketmasterEvents[index].coordinate = {
-          latitude: Number(eventStringified.coordinate.latitude),
-          longitude: Number(eventStringified.coordinate.longitude),
-        };
         ticketmasterEvents[index].date = new Date(eventStringified.date);
         ticketmasterEvents[index].description = eventStringified.description;
         ticketmasterEvents[index].imageUrl = eventStringified.imageUrl;
+        ticketmasterEvents[index].latitude = Number(eventStringified.latitude);
+        ticketmasterEvents[index].longitude = Number(eventStringified.longitude);
         ticketmasterEvents[index].title = eventStringified.title;
       });
       dispatch({
@@ -394,19 +381,17 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
 
               triRegEvents.push({
                 id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
-                coordinate: {
-                  // TODO: That's the only case such a check is required. Let's see if it shouldn't be done on the MapScreen side.
-                  latitude: response.data.MatchingEvents[EventId].Latitude
-                    ? response.data.MatchingEvents[EventId].Latitude
-                    : 32.2332,
-                  longitude: response.data.MatchingEvents[EventId].Longitude
-                    ? response.data.MatchingEvents[EventId].Longitude
-                    : 5.213,
-                },
+                // TODO: That's the only case such a check is required. Let's see if it shouldn't be done on the MapScreen side.
                 date: new Date(dateInMilliseconds),
                 description: response.data.MatchingEvents[EventId].PresentedBy,
                 imageUrl: "",
                 isUserEvent: false,
+                latitude: response.data.MatchingEvents[EventId].Latitude
+                  ? response.data.MatchingEvents[EventId].Latitude
+                  : 32.2332,
+                longitude: response.data.MatchingEvents[EventId].Longitude
+                  ? response.data.MatchingEvents[EventId].Longitude
+                  : 5.213,
                 title: response.data.MatchingEvents[EventId].EventName,
               });
             }
@@ -438,14 +423,12 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
           querySnapshot.forEach((documentSnapshot) => {
             usersEvents.push({
               id: documentSnapshot.data().id,
-              coordinate: {
-                latitude: documentSnapshot.data().coordinate.latitude,
-                longitude: documentSnapshot.data().coordinate.longitude,
-              },
               date: new Date(documentSnapshot.data().date.seconds * 1000),
               description: documentSnapshot.data().description,
               imageUrl: "",
               isUserEvent: documentSnapshot.data().isUserEvent,
+              latitude: documentSnapshot.data().coordinate.latitude,
+              longitude: documentSnapshot.data().coordinate.longitude,
               title: documentSnapshot.data().title,
             });
           });
@@ -527,11 +510,12 @@ export const addEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number | string;
-        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;
         isUserEvent: boolean;
+        latitude: number;
+        longitude: number;
         title: string;
       };
     }) => void
@@ -541,14 +525,12 @@ export const addEvent = (event: Event) => {
         type: ADD_EVENT,
         eventData: {
           id: event.id,
-          coordinate: {
-            latitude: event.coordinate.latitude,
-            longitude: event.coordinate.longitude,
-          },
           date: event.date,
           description: event.description,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
+          latitude: event.latitude,
+          longitude: event.longitude,
           title: event.title,
         },
       });
@@ -587,11 +569,12 @@ export const deleteEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number | string;
-        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;
         isUserEvent: boolean;
+        latitude: number;
+        longitude: number;
         title: string;
       };
     }) => void
@@ -603,14 +586,12 @@ export const deleteEvent = (event: Event) => {
         type: DELETE_EVENT,
         eventData: {
           id: event.id,
-          coordinate: {
-            latitude: event.coordinate.latitude,
-            longitude: event.coordinate.longitude,
-          },
           date: event.date,
           description: event.description,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
+          latitude: event.latitude,
+          longitude: event.longitude,
           title: event.title,
         },
       });
@@ -730,22 +711,24 @@ export const saveEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number | string;
-        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;
         isUserEvent: boolean;
+        latitude: number;
+        longitude: number;
         title: string;
       };
     }) => void
   ) => {
     try {
       const dbResult: any = await insertSavedEvent(
-        event.coordinate,
         event.date,
         event.description,
         event.imageUrl,
         event.isUserEvent,
+        event.latitude,
+        event.longitude,
         event.title
       );
 
@@ -753,14 +736,12 @@ export const saveEvent = (event: Event) => {
         type: SAVE_EVENT,
         eventData: {
           id: event.id,
-          coordinate: {
-            latitude: event.coordinate.latitude,
-            longitude: event.coordinate.longitude,
-          },
           date: event.date,
           description: event.description,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
+          latitude: event.latitude,
+          longitude: event.longitude,
           title: event.title,
         },
       });
@@ -802,11 +783,12 @@ export const updateEvent = (event: Event) => {
       type: string;
       eventData: {
         id: number | string;
-        coordinate: Coordinate;
         date: Date;
         description: string;
         imageUrl: string;
         isUserEvent: boolean;
+        latitude: number;
+        longitude: number;
         title: string;
       };
     }) => void
@@ -816,14 +798,12 @@ export const updateEvent = (event: Event) => {
         type: UPDATE_EVENT,
         eventData: {
           id: event.id,
-          coordinate: {
-            latitude: event.coordinate.latitude,
-            longitude: event.coordinate.longitude,
-          },
           date: event.date,
           description: event.description,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
+          latitude: event.latitude,
+          longitude: event.longitude,
           title: event.title,
         },
       });

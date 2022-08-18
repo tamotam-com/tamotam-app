@@ -18,14 +18,12 @@ export default (state = initialState, action: any) => {
     case ADD_EVENT:
       const newEvent: Event = {
         id: action.eventData.id,
-        coordinate: {
-          latitude: action.eventData.coordinate.latitude,
-          longitude: action.eventData.coordinate.longitude,
-        },
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
         isUserEvent: action.eventData.isUserEvent,
+        latitude: action.eventData.latitude,
+        longitude: action.eventData.longitude,
         title: action.eventData.title,
       };
 
@@ -44,14 +42,12 @@ export default (state = initialState, action: any) => {
     case SAVE_EVENT:
       const savedEvent: Event = {
         id: action.eventData.id,
-        coordinate: {
-          latitude: action.eventData.coordinate.latitude,
-          longitude: action.eventData.coordinate.longitude,
-        },
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
         isUserEvent: action.eventData.isUserEvent,
+        latitude: action.eventData.latitude,
+        longitude: action.eventData.longitude,
         title: action.eventData.title,
       };
 
@@ -77,14 +73,12 @@ export default (state = initialState, action: any) => {
 
       const updatedEvent: Event = {
         id: action.eventData.id,
-        coordinate: {
-          latitude: action.eventData.coordinate.latitude,
-          longitude: action.eventData.coordinate.longitude,
-        },
         date: action.eventData.date,
         description: action.eventData.description,
         imageUrl: action.eventData.imageUrl,
         isUserEvent: action.eventData.isUserEvent,
+        latitude: action.eventData.latitude,
+        longitude: action.eventData.longitude,
         title: action.eventData.title,
       };
 

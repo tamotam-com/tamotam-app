@@ -287,14 +287,12 @@ export default function NewEventScreen({ navigation, route }: any) {
     try {
       const newEvent: Event = {
         id: Math.random() * 100000000000000000,
-        coordinate: {
-          latitude: selectedLocation.latitude,
-          longitude: selectedLocation.longitude,
-        },
         date: selectedDate,
         description: descriptionValue,
         imageUrl: selectedImage,
         isUserEvent: true,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
         title: titleValue,
       };
 
