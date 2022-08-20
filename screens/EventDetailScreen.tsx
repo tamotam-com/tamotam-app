@@ -118,7 +118,13 @@ export default function EventDetailScreen({ navigation, route }: any) {
           }
           style={styles.image}
         />
-        <Map />
+        {!selectedEvent.latitude || !selectedEvent.longitude ?
+          <View style={styles.centered}>
+            <StyledText style={styles.title}>
+              Problem with obtaining coordinates.
+            </StyledText>
+          </View> :
+          <Map />}
       </View>
     </ScrollView>
   );

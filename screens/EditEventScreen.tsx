@@ -336,7 +336,14 @@ export default function EditEventScreen({ navigation, route }: any) {
       ]}
     >
       <ScrollView>
-        <Map />
+        {!selectedEvent.latitude || !selectedEvent.longitude ?
+          <View style={styles.centered}>
+            <StyledText style={styles.title}>
+              Problem with obtaining coordinates.
+            </StyledText>
+          </View> :
+          <Map />
+        }
         <View style={styles.form}>
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
