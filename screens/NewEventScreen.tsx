@@ -291,8 +291,8 @@ export default function NewEventScreen({ navigation, route }: any) {
         description: descriptionValue,
         imageUrl: selectedImage,
         isUserEvent: true,
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
+        latitude: selectedLocation.latitude ? selectedLocation.latitude : 0,
+        longitude: selectedLocation.longitude ? selectedLocation.longitude : 0,
         title: titleValue,
       };
 

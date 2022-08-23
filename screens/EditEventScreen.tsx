@@ -298,8 +298,8 @@ export default function EditEventScreen({ navigation, route }: any) {
           : selectedEvent.description,
         imageUrl: selectedImage ? selectedImage : selectedEvent.imageUrl,
         isUserEvent: selectedEvent.isUserEvent,
-        latitude: markerCoordinates.latitude,
-        longitude: markerCoordinates.longitude,
+        latitude: markerCoordinates.latitude ? markerCoordinates.latitude : 0,
+        longitude: markerCoordinates.longitude ? markerCoordinates.longitude : 0,
         title: titleValue ? titleValue : selectedEvent.title,
       };
 
