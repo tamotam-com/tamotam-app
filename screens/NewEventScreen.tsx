@@ -48,7 +48,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
-  const [dateTimeMode, setDateTimeMode] = useState<string>("");
+  const [dateTimeMode, setDateTimeMode] = useState<string | any>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error(""));
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({

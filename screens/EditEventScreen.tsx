@@ -49,7 +49,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
-  const [dateTimeMode, setDateTimeMode] = useState<string>("");
+  const [dateTimeMode, setDateTimeMode] = useState<string | any>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error());
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
