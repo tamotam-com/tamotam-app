@@ -55,9 +55,11 @@ const EventItem = (props: any) => {
           }}
         >
           🗓️{" "}
-          {isNaN(Number(props.date))
-            ? "No information"
-            : new Date(props.date).toLocaleDateString()}
+          {
+            new Date(props.date) instanceof Date
+              ? new Date(props.date).toLocaleDateString()
+              : "No information"
+          }
         </Paragraph>
         <Paragraph
           style={{
@@ -68,12 +70,14 @@ const EventItem = (props: any) => {
           }}
         >
           🕒{" "}
-          {isNaN(Number(props.date))
-            ? "No information"
-            : new Date(props.date).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
+          {
+            new Date(props.date) instanceof Date
+              ? new Date(props.date).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+              : "No information"
+          }
         </Paragraph>
       </Card.Content>
       <Card.Cover

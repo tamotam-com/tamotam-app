@@ -94,21 +94,22 @@ export default function EventDetailScreen({ navigation, route }: any) {
         </StyledText>
         <StyledText style={styles.description}>
           🗓️{" "}
-          {isNaN(Number(selectedEvent.date))
-            ? "No information"
-            : new Date(Number(selectedEvent.date)).toLocaleDateString()}
+          {
+            new Date(selectedEvent.date) instanceof Date
+              ? new Date(selectedEvent.date).toLocaleDateString()
+              : "No information"
+          }
         </StyledText>
         <StyledText style={styles.description}>
           🕒{" "}
-          {isNaN(Number(selectedEvent.date))
-            ? "No information"
-            : new Date(Number(selectedEvent.date)).toLocaleTimeString(
-              [],
-              {
+          {
+            new Date(selectedEvent.date) instanceof Date
+              ? new Date(selectedEvent.date).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
-              }
-            )}
+              })
+              : "No information"
+          }
         </StyledText>
         <Image
           source={

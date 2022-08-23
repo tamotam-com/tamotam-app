@@ -138,6 +138,7 @@ export default function MapScreen() {
       }
 
       const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
+      console.log('---- eventsParsed', eventsParsed);
       if (new Date().getTime() >= expirationEventsDateParsed.getTime() || eventsInJSONString === null) {
         dispatch(fetchEvents());
         return;
@@ -393,18 +394,22 @@ export default function MapScreen() {
                 </StyledText>
                 <StyledText style={styles.description}>
                   🗓️{" "}
-                  {isNaN(Number(event.date))
-                    ? "No information"
-                    : event.date.toLocaleDateString()}
+                  {
+                    new Date(event.date) instanceof Date
+                      ? new Date(event.date).toLocaleDateString()
+                      : "No information"
+                  }
                 </StyledText>
                 <StyledText style={styles.description}>
                   🕒{" "}
-                  {isNaN(Number(event.date))
-                    ? "No information"
-                    : event.date.toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                  {
+                    new Date(event.date) instanceof Date
+                      ? new Date(event.date).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                      : "No information"
+                  }
                 </StyledText>
                 <Button
                   color={
