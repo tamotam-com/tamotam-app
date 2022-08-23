@@ -69,8 +69,8 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
   let markerCoordinates: Coordinate = {
-    latitude: selectedEvent.latitude,
-    longitude: selectedEvent.longitude,
+    latitude: selectedEvent.latitude ? selectedEvent.latitude : 0,
+    longitude: selectedEvent.longitude ? selectedEvent.longitude : 0,
   };
 
   useEffect(() => {
@@ -298,8 +298,8 @@ export default function EditEventScreen({ navigation, route }: any) {
           : selectedEvent.description,
         imageUrl: selectedImage ? selectedImage : selectedEvent.imageUrl,
         isUserEvent: selectedEvent.isUserEvent,
-        latitude: markerCoordinates.latitude ? markerCoordinates.latitude : 0,
-        longitude: markerCoordinates.longitude ? markerCoordinates.longitude : 0,
+        latitude: markerCoordinates.latitude,
+        longitude: markerCoordinates.longitude,
         title: titleValue ? titleValue : selectedEvent.title,
       };
 

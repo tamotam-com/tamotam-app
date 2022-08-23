@@ -29,8 +29,8 @@ export default function EventDetailScreen({ navigation, route }: any) {
     longitudeDelta: 10,
   };
   let markerCoordinates: Coordinate = {
-    latitude: selectedEvent.latitude,
-    longitude: selectedEvent.longitude,
+    latitude: selectedEvent.latitude ? selectedEvent.latitude : 0,
+    longitude: selectedEvent.longitude ? selectedEvent.latitude : 0,
   };
 
   useLayoutEffect(() => {
