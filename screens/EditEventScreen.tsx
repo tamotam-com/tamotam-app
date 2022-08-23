@@ -49,6 +49,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
+  const [dateTimeMode, setDateTimeMode] = useState<string>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error());
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
@@ -65,6 +66,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   );
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
+  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
   let markerCoordinates: Coordinate = {
     latitude: selectedEvent.latitude,
@@ -209,14 +211,23 @@ export default function EditEventScreen({ navigation, route }: any) {
     setDescriptionValue(text);
   };
 
-  const onDateChange: (
+  const onDateTimeChange: (
     _event: any,
     selectedValueDate: Date | undefined
   ) => void = (_event: any, selectedValueDate: Date | undefined) => {
+    if (_event.type === "dismissed") {
+      setShowDatepicker(false);
+      return;
+    }
+
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> EditEventScreen -> onDateChange, selectedValueDate: " + selectedValueDate,
+      description: "--- Analytics: screens -> EditEventScreen -> onDateTimeChange, _event: " + _event,
+    });
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EditEventScreen -> onDateTimeChange, selectedValueDate: " + selectedValueDate,
     });
     setSelectedDate(selectedValueDate);
+    setShowDatepicker(false);
   };
 
   const onImageChange: (imagePath: string) => void = (imagePath: string) => {
@@ -240,6 +251,20 @@ export default function EditEventScreen({ navigation, route }: any) {
     });
   };
 
+  const onShowDatePicker: () => void = () => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EditEventScreen -> onShowDatePicker, text: ",
+    });
+    showDateTimeMode("date");
+  };
+
+  const onShowTimePicker: () => void = () => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EditEventScreen -> onShowTimePicker, text: ",
+    });
+    showDateTimeMode("time");
+  };
+
   const onTitleChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
@@ -247,6 +272,14 @@ export default function EditEventScreen({ navigation, route }: any) {
       description: "--- Analytics: screens -> EditEventScreen -> onTitleChange, text: " + text,
     });
     setTitleValue(text);
+  };
+
+  const showDateTimeMode: (currentMode: string) => void = (currentMode: string) => {
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EditEventScreen -> showDateTimeMode, currentMode: " + currentMode,
+    });
+    setShowDatepicker(true);
+    setDateTimeMode(currentMode);
   };
 
   const onSaveHandler: () => void = () => {
@@ -369,30 +402,56 @@ export default function EditEventScreen({ navigation, route }: any) {
               },
             ]}
           />
-          <DateTimePicker
-            display="spinner"
-            maximumDate={
-              new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-            }
-            minimumDate={new Date()}
-            mode="date"
-            onChange={onDateChange}
-            testID="datePicker"
-            textColor={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
-            }
-            value={selectedDate}
-          />
-          <DateTimePicker
-            display="spinner"
-            mode="time"
-            onChange={onDateChange}
-            testID="timePicker"
-            textColor={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
-            }
-            value={selectedDate}
-          />
+          <View style={styles.dateTimeButtonsContainer}>
+            <View>
+              <Button
+                color={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
+                icon="calendar-edit"
+                mode="text"
+                onPress={onShowDatePicker}
+              >
+                Pick date
+              </Button>
+            </View>
+            <View>
+              <Button
+                color={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
+                icon="clock-outline"
+                mode="text"
+                onPress={onShowTimePicker}
+              >
+                Pick time
+              </Button>
+            </View>
+          </View>
+          {showDatepicker && (
+            <DateTimePicker
+              display="spinner"
+              is24Hour={true}
+              maximumDate={
+                new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+              }
+              minimumDate={new Date()}
+              mode={dateTimeMode}
+              onChange={onDateTimeChange}
+              testID="dateTimePicker"
+              textColor={
+                colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+              }
+              value={selectedDate}
+            />
+          )}
+          <View style={styles.centered}>
+            <StyledText>Date: {new Date(selectedDate).toLocaleDateString()}</StyledText>
+            <StyledText>Time: {new Date(selectedDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}</StyledText>
+          </View>
           <SelectImage
             existingImageUrl={
               selectedEvent.imageUrl && typeof selectedEvent.imageUrl === "string"
@@ -421,6 +480,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
+  },
+  dateTimeButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 20,
   },
   form: {
     marginHorizontal: 30,
