@@ -138,7 +138,6 @@ export default function MapScreen() {
       }
 
       const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
-      console.log('---- eventsParsed', eventsParsed);
       if (new Date().getTime() >= expirationEventsDateParsed.getTime() || eventsInJSONString === null) {
         dispatch(fetchEvents());
         return;
