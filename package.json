@@ -70,6 +70,6 @@
   "resolutions": {
     "@types/react": "^17.0.38"
   },
-  "version": "0.6.2",
+  "version": "0.6.3",
   "name": "TamoTam"
 }
