@@ -40,6 +40,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
     let seatGeekEvents: Event[] = [];
     let skiRegEvents: Event[] = [];
     let ticketmasterEvents: any[] = [];
+    let ticketmasterEventsCountry: any[] = [];
     let triRegEvents: Event[] = [];
     let usersEvents: Event[] = [];
 
@@ -290,8 +291,8 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
         events: runRegEvents,
       });
 
-      const myArray: string[] = ['AT', 'AU', 'BE', 'CA', 'CH', 'CZ', 'DE', 'DK', 'ES', 'FI', 'GB', 'IE', 'LU', 'MX', 'NO', 'NL', 'PL', 'PT', 'SE', 'US'];
-      for (const country of myArray) {
+      const ticketmasterCountries: string[] = ['AT', 'AU', 'BE', 'CA', 'CH', 'CZ', 'DE', 'DK', 'ES', 'FI', 'GB', 'IE', 'LU', 'MX', 'NO', 'NL', 'PL', 'PT', 'SE', 'US'];
+      for (const country of ticketmasterCountries) {
         for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
           promiseTicketmasterEvents = await axios({
             method: "GET",
@@ -300,7 +301,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
             .then((response: AxiosResponse<any, any>) => {
               for (const id in response.data._embedded.events) {
                 // "JSON.stringify" is needed to achieve unique Set of Objects.
-                ticketmasterEvents.push(JSON.stringify({
+                ticketmasterEventsCountry.push(JSON.stringify({
                   id,
                   date: new Date(
                     response.data._embedded.events[id].dates.start.dateTime
@@ -334,16 +335,30 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
               });
             });
         }
+        const ticketmasterEventsSet: Set<any> = new Set(ticketmasterEventsCountry)
+        const list: any[] = Array.from(ticketmasterEventsSet);
+
+        list.forEach((eventStringified: string) => {
+          JSON.parse(eventStringified);
+          ticketmasterEvents.push(JSON.parse(eventStringified));
+          ticketmasterEventsCountry.push(JSON.parse(eventStringified));
+        });
+
+        ticketmasterEventsCountry.forEach((eventStringified: any, index: number) => {
+          ticketmasterEventsCountry[index].id = Number(eventStringified.id);
+          ticketmasterEventsCountry[index].date = new Date(eventStringified.date);
+          ticketmasterEventsCountry[index].description = eventStringified.description;
+          ticketmasterEventsCountry[index].imageUrl = eventStringified.imageUrl;
+          ticketmasterEventsCountry[index].latitude = Number(eventStringified.latitude);
+          ticketmasterEventsCountry[index].longitude = Number(eventStringified.longitude);
+          ticketmasterEventsCountry[index].title = eventStringified.title;
+        });
+        dispatch({
+          type: SET_EVENTS,
+          events: ticketmasterEventsCountry,
+        });
+        ticketmasterEventsCountry = [];
       }
-      const ticketmasterEventsSet: Set<any> = new Set(ticketmasterEvents)
-      const list: any[] = Array.from(ticketmasterEventsSet);
-
-      ticketmasterEvents = [];
-      list.forEach((eventStringified: string) => {
-        JSON.parse(eventStringified);
-        ticketmasterEvents.push(JSON.parse(eventStringified));
-      });
-
       ticketmasterEvents.forEach((eventStringified: any, index: number) => {
         ticketmasterEvents[index].id = Number(eventStringified.id);
         ticketmasterEvents[index].date = new Date(eventStringified.date);
@@ -352,10 +367,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
         ticketmasterEvents[index].latitude = Number(eventStringified.latitude);
         ticketmasterEvents[index].longitude = Number(eventStringified.longitude);
         ticketmasterEvents[index].title = eventStringified.title;
-      });
-      dispatch({
-        type: SET_EVENTS,
-        events: ticketmasterEvents,
       });
 
       promiseTriRegEvents =
