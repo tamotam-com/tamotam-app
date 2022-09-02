@@ -82,7 +82,7 @@ export const insertSavedEvent:
       sqlite_db.transaction((SQLiteTransaction: SQLTransaction) => {
         SQLiteTransaction.executeSql(
           `INSERT INTO savedEvents (date, description, imageUrl, isUserEvent, latitude, longitude, title) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-          [String(date), description, imageUrl, String(isUserEvent), latitude, longitude, title],
+          [String(date), description, imageUrl, Number(isUserEvent), latitude, longitude, title],
           (transaction: SQLTransaction, result: SQLResultSet) => {
             resolve(result);
             analytics().logEvent("custom_log", {
