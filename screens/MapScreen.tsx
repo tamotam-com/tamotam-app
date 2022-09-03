@@ -31,6 +31,7 @@ import {
 import { Button } from "react-native-paper";
 import { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Event } from "../interfaces/event";
+import { MaterialIcons } from '@expo/vector-icons';
 import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 
@@ -410,16 +411,34 @@ export default function MapScreen() {
                       : "No information"
                   }
                 </StyledText>
-                <Button
-                  color={
-                    colorScheme === "dark"
-                      ? Colors.dark.text
-                      : Colors.light.text
-                  }
-                  icon="check-circle-outline"
-                >
-                  Save
-                </Button>
+                {Platform.OS === "android" ?
+                  <StyledText
+                    style={[styles.saveButtonAndroid, {
+                      backgroundColor:
+                        colorScheme === "dark"
+                          ? Colors.dark.text
+                          : Colors.light.text,
+                      color: colorScheme === "dark"
+                        ? Colors.dark.background
+                        : Colors.light.background
+                    },]}>
+                    <MaterialIcons color={
+                      colorScheme === "dark"
+                        ? Colors.dark.background
+                        : Colors.light.background
+                    }
+                      name="check-circle-outline"
+                      size={16} /> SAVE</StyledText>
+                  : <Button
+                    color={
+                      colorScheme === "dark"
+                        ? Colors.dark.text
+                        : Colors.light.text
+                    }
+                    icon="check-circle-outline"
+                    labelStyle={{ fontSize: 16 }}
+                    mode="contained"
+                  >Save</Button>}
               </Callout>
             </Marker>
           ) : null;
@@ -466,6 +485,10 @@ const styles = StyleSheet.create({
   map: {
     height: Dimensions.get("window").height,
     width: Dimensions.get("window").width,
+  },
+  saveButtonAndroid: {
+    fontSize: 20,
+    textAlign: "center",
   },
   title: {
     fontSize: 20,
