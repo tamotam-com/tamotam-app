@@ -30,7 +30,7 @@ export default function EventDetailScreen({ navigation, route }: any) {
   };
   let markerCoordinates: Coordinate = {
     latitude: selectedEvent.latitude ? selectedEvent.latitude : 0,
-    longitude: selectedEvent.longitude ? selectedEvent.latitude : 0,
+    longitude: selectedEvent.longitude ? selectedEvent.longitude : 0,
   };
 
   useLayoutEffect(() => {
