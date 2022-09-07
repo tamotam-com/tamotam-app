@@ -1,11 +1,34 @@
 # 🤙 TamoTam; HangOut. Offline.
 
-## No Chats here. Look what's happening around you in a Real. Offline. Social Life.
+## ~~ Please Read ~~
 
-- 😩 Tired of yet another app taking your attention from the surrounding beautiful world?
-- 🥺 Missing the preCOVID social vibes?
-- 💻 Mostly connecting with real people via virtual platforms?
-- 📱 Have you noticed that most interaction comes via chats and an indefinite number of applications with virtual communication?
+The application is in an early stage of development, the so-called "Early Alpha".
+It's relatively stable, but some features might not work, and we kindly ask you not to review it poorly for that reason. We release it to get feedback if there's a need for such an application.
+
+List of known issues:
+- Long loading time during initial load, especially for non-US based users,
+- Uploaded Images aren't displayed after reloading the application,
+- Sometimes, users-added (white Markers) aren't loaded,
+- Edited events aren't reflected on the Map.
+
+The remaining list of improvements can be found on https://github.com/tamotam-com/tamotam-app/issues.
+That's an Open Source project; feel free to contribute.
+
+### ~~ Normal Description ~~
+TamoTam aims to limit online time spent on applications. In our Proof of Concept (PoC), we showcase a list of offline events happening around and allow users to add them by themselves without any registration.
+
+Eventually, we want to keep the user as little time as possible in TamoTam in favor of spending time outside the screen.
+The application aims to be minimalistic and exclude features such as:
+- Feed, which addicts users to stay outside the real world,
+- Likes, we advise you to watch The Social Dilemma to understand why,
+- Comments, #StopHate, 
+- Share, #StopFakeNews,
+- Other complicated Algorithms unconsciously affect you to stay online.
+
+It will take time before the application will be performant and user-friendly, but in early 2023 we expect Late Alpha / Early Beta.
+Thanks in advance for understanding while reviewing TamoTam.
+
+Look what's happening around you in a Real. Offline. Social Life.
 
 ## Launch
 
