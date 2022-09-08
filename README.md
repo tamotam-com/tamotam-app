@@ -1,5 +1,7 @@
 # 🤙 TamoTam. HangOut. Offline.
 
+## Go Online to be Offline.
+
 ## ~~ Please Read ~~
 
 The application is in an early stage of development, the so-called "Early Alpha".
