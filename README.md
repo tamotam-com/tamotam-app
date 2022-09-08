@@ -2,7 +2,7 @@
 
 ## Go Online to be Offline.
 
-## ~~ Please Read ~~
+### ~~ Please Read ~~
 
 The application is in an early stage of development, the so-called "Early Alpha".
 It's relatively stable, but some features might not work, and we kindly ask you not to review it poorly for that reason. We release it to get feedback if there's a need for such an application.
