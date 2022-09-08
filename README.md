@@ -1,4 +1,4 @@
-# 🤙 TamoTam; HangOut. Offline.
+# 🤙 TamoTam. HangOut. Offline.
 
 ## ~~ Please Read ~~
 
@@ -9,7 +9,8 @@ List of known issues:
 - Long loading time during initial load, especially for non-US based users,
 - Uploaded Images aren't displayed after reloading the application,
 - Sometimes, users-added (white Markers) aren't loaded,
-- Edited events aren't reflected on the Map.
+- Edited events aren't reflected on the Map,
+- Not an issue, but we might need to be more explicit about it: date & time are aligned per your localization.
 
 The remaining list of improvements can be found on https://github.com/tamotam-com/tamotam-app/issues.
 That's an Open Source project; feel free to contribute.
@@ -24,6 +25,8 @@ The application aims to be minimalistic and exclude features such as:
 - Comments, #StopHate, 
 - Share, #StopFakeNews,
 - Other complicated Algorithms unconsciously affect you to stay online.
+
+That's because we believe Social Media affects us mentally, such as Anxiety, Depression, Fear Of Missing Out (FOMO), Fear of Speaking Up, Isolation, and more.
 
 It will take time before the application will be performant and user-friendly, but in early 2023 we expect Late Alpha / Early Beta.
 Thanks in advance for understanding while reviewing TamoTam.
