@@ -61,3 +61,7 @@ Alternatively, `expo run:ios --configuration Release`, for production version.
 
 1. `eas build -p android`
 2. `eas build -p ios`
+
+## Contact
+
+contact[at]tamotam[dot]com
