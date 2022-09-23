@@ -64,7 +64,7 @@ Alternatively, `expo run:ios --configuration Release`, for production version.
 
 ## Architecture
 
-We're using `Redux`, but the easiest to understand the architecture is the image below with `Flux` architecture.
+We're using `Redux`, but the easiest to understand the architecture is the image below with `Flux` architecture, which in fact is really similar. However, it's important to note we're using 1 store, like in `Redux` architecture.
 
 ![Architecture image](docs/architecture.png)
 *Image source: https://www.freecodecamp.org/news/an-introduction-to-the-flux-architectural-pattern-674ea74775c9/*
