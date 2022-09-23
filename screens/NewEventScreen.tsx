@@ -118,14 +118,6 @@ export default function NewEventScreen({ navigation, route }: any) {
       analytics().logEvent("custom_log", {
         description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
       });
-      if (status !== "granted") {
-        Alert.alert(
-          "⚠️ Insufficient permissions! ⚠️",
-          "Sorry, we need location permissions to make this work!",
-          [{ text: "Okay" }]
-        );
-        return;
-      }
     }
 
     try {

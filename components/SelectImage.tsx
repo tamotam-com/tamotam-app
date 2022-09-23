@@ -26,14 +26,6 @@ const SelectImage = (props: {
         analytics().logEvent("custom_log", {
           description: "--- Analytics: components -> SelectImage -> useEffect[], Platform.OS: " + Platform.OS,
         });
-        if (status !== "granted") {
-          Alert.alert(
-            "⚠️ Insufficient permissions! ⚠️",
-            "Sorry, we need camera roll permissions to make this work!",
-            [{ text: "Okay" }]
-          );
-          return;
-        }
       }
     })();
   }, []);

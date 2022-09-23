@@ -196,14 +196,6 @@ export default function MapScreen() {
       analytics().logEvent("custom_log", {
         description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler, Platform.OS: " + Platform.OS,
       });
-      if (status !== "granted") {
-        Alert.alert(
-          "⚠️ Insufficient permissions! ⚠️",
-          "Sorry, we need location permissions to make this work!",
-          [{ text: "Okay" }]
-        );
-        return;
-      }
     }
 
     try {
@@ -220,11 +212,12 @@ export default function MapScreen() {
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
-        Alert.alert(
-          "Error ❌",
-          "We couldn't fetch your location.\nPlease give us the permissions, and it's essential to use TamoTam!",
-          [{ text: "Okay" }]
-        );
+        setInitialRegionValue({
+          latitude: 0,
+          longitude: 0,
+          latitudeDelta: 10,
+          longitudeDelta: 10,
+        });
 
         analytics().logEvent("custom_log", {
           description: "--- Analytics: screens -> MapScreen -> getUserLocationHandler -> catch, error: " + error,
