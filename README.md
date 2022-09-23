@@ -24,7 +24,7 @@ Eventually, we want to keep the user as little time as possible in TamoTam in fa
 The application aims to be minimalistic and exclude features such as:
 - Feed, which addicts users to stay outside the real world,
 - Likes, we advise you to watch The Social Dilemma to understand why,
-- Comments, #StopHate, 
+- Comments, #StopHate,
 - Share, #StopFakeNews,
 - Other complicated Algorithms unconsciously affect you to stay online.
 
@@ -61,6 +61,13 @@ Alternatively, `expo run:ios --configuration Release`, for production version.
 
 1. `eas build -p android`
 2. `eas build -p ios`
+
+## Architecture
+
+We're using `Redux`, but the easiest to understand the architecture is the image below with `Flux` architecture.
+
+![Architecture image](docs/architecture.png)
+*Image source: https://www.freecodecamp.org/news/an-introduction-to-the-flux-architectural-pattern-674ea74775c9/*
 
 ## Contact
 
