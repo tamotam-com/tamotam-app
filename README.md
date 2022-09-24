@@ -1,5 +1,8 @@
 # 🤙 TamoTam. HangOut. Offline.
 
+[![TamoTam in Apple App Store](docs/AppleAppStoreButton.png)](https://apps.apple.com/pl/app/tamotam-hangout-offline/id1625649957)
+[![TamoTam in Google Play Store](docs/GooglePlayStoreButton.png)](https://play.google.com/store/apps/details?id=com.tamotam.application)
+
 ## Go Online to be Offline.
 
 ### ~~ Please Read ~~
