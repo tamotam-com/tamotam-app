@@ -72,6 +72,8 @@ We're using `Redux`, but the easiest to understand the architecture is the image
 ![Data Flow Architecture image](docs/dataFlowArchitecture.png)
 *Image source: https://www.freecodecamp.org/news/an-introduction-to-the-flux-architectural-pattern-674ea74775c9/*
 
+External API's, like `Ticketmaster`, provide +/- 10k of external events. The `TamoTam`'s client if fetching also events added by the user, from `Firebase`. After all events will be fetched, those are being cached locally, using [AsyncStorage](https://github.com/react-native-async-storage/async-storage). After events are being cached locally on a device, the user can saved their favourite events. Those saved events are also saved locally on a device, using `SQLite`. In addition to that, users can add their own events, and those are saved in `Firebase`. 
+
 ![Application Architecture image](docs/applicationArchitecture.svg)
 *Made using: https://app.diagrams.net*
 
