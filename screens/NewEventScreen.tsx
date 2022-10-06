@@ -134,11 +134,12 @@ export default function NewEventScreen({ navigation, route }: any) {
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
-        Alert.alert(
-          "Error ❌",
-          "We couldn't fetch your location.\nPlease give us the permissions, and it's essential to use TamoTam!",
-          [{ text: "Okay" }]
-        );
+        setInitialRegionValue({
+          latitude: 52.3676,
+          longitude: 4.9041,
+          latitudeDelta: 10,
+          longitudeDelta: 10,
+        });
 
         analytics().logEvent("custom_log", {
           description: "--- Analytics: screens -> NewEventScreen -> getUserLocationHandler -> catch, error: " + error,

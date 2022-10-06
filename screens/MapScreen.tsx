@@ -213,8 +213,8 @@ export default function MapScreen() {
     } catch (error: unknown) {
       if (error instanceof Error) {
         setInitialRegionValue({
-          latitude: 0,
-          longitude: 0,
+          latitude: 52.3676,
+          longitude: 4.9041,
           latitudeDelta: 10,
           longitudeDelta: 10,
         });
