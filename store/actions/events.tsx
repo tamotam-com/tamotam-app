@@ -10,9 +10,9 @@ import { Event } from "../../interfaces/event";
 import {
   BIKEREG_NUMBER_OF_PAGES,
   FIRESTORE_COLLECTION,
-  PREDICTHQ_ACCESS_TOKEN,
-  PREDICTHQ_CATEGORIES,
-  PREDICTHQ_LIMIT,
+  // PREDICTHQ_ACCESS_TOKEN,
+  // PREDICTHQ_CATEGORIES,
+  // PREDICTHQ_LIMIT,
   RUNREG_NUMBER_OF_PAGES,
   SEATGEEK_CLIENT_ID,
   SEATGEEK_PAGE_SIZE,
@@ -35,7 +35,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let bikeRegEvents: Event[] = [];
     let eventsFinal: Event[] = [];
-    let predictHqEvents: Event[] = [];
+    // let predictHqEvents: Event[] = [];
     let runRegEvents: Event[] = [];
     let seatGeekEvents: Event[] = [];
     let skiRegEvents: Event[] = [];
@@ -45,7 +45,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
     let usersEvents: Event[] = [];
 
     let promiseBikeRegEvents: void | AxiosResponse<any, any> | any;
-    let promisePredictHqEvents: void | AxiosResponse<any, any> | any;
+    // let promisePredictHqEvents: void | AxiosResponse<any, any> | any;
     let promiseSeatGeekEvents: void | AxiosResponse<any, any> | any;
     let promiseSkiRegEvents: void | AxiosResponse<any, any> | any;
     let promiseRunRegEvents: void | AxiosResponse<any, any> | any;
@@ -112,41 +112,41 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
       });
 
       // TODO: Delete PredictHQ after temporarily access will be granted, because it's too expensive after that.
-      promisePredictHqEvents =
-        await axios({
-          headers: {
-            Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
-            Accept: "application/json",
-          },
-          method: "GET",
-          params: {
-            category: PREDICTHQ_CATEGORIES,
-            country: Localization.region,
-            limit: PREDICTHQ_LIMIT,
-          },
-          url: "https://api.predicthq.com/v1/events/",
-        }).catch((error: unknown) => {
-          if (error instanceof Error) {
-            analytics().logEvent("custom_log", {
-              description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> catch, error: " + error,
-            });
-            crashlytics().recordError(error);
-          }
-        }).finally(() => {
-          analytics().logEvent("custom_log", {
-            description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> finally",
-          });
-        });
+      // promisePredictHqEvents =
+      //   await axios({
+      //     headers: {
+      //       Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
+      //       Accept: "application/json",
+      //     },
+      //     method: "GET",
+      //     params: {
+      //       category: PREDICTHQ_CATEGORIES,
+      //       country: Localization.region,
+      //       limit: PREDICTHQ_LIMIT,
+      //     },
+      //     url: "https://api.predicthq.com/v1/events/",
+      //   }).catch((error: unknown) => {
+      //     if (error instanceof Error) {
+      //       analytics().logEvent("custom_log", {
+      //         description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> catch, error: " + error,
+      //       });
+      //       crashlytics().recordError(error);
+      //     }
+      //   }).finally(() => {
+      //     analytics().logEvent("custom_log", {
+      //       description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> finally",
+      //     });
+      //   });
 
-      for (const key in promisePredictHqEvents) {
-        predictHqEvents.push({
-          key,
-          description: promisePredictHqEvents.data.results[key].description,
-          latitude: promisePredictHqEvents.data.results[key].location[1],
-          longitude: promisePredictHqEvents.data.results[key].location[0],
-          title: promisePredictHqEvents.data.results[key].title,
-        });
-      }
+      // for (const key in promisePredictHqEvents) {
+      //   predictHqEvents.push({
+      //     key,
+      //     description: promisePredictHqEvents.data.results[key].description,
+      //     latitude: promisePredictHqEvents.data.results[key].location[1],
+      //     longitude: promisePredictHqEvents.data.results[key].location[0],
+      //     title: promisePredictHqEvents.data.results[key].title,
+      //   });
+      // }
 
       for (let page = 0; page < SEATGEEK_NUMBER_OF_PAGES; page++) {
         promiseSeatGeekEvents = await axios({
@@ -477,7 +477,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
 
       Promise.race([
         promiseBikeRegEvents,
-        promisePredictHqEvents,
+        // promisePredictHqEvents,
         promiseRunRegEvents,
         promiseSeatGeekEvents,
         promiseSkiRegEvents,
@@ -487,7 +487,7 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
       ]).then(() => {
         eventsFinal = [
           ...bikeRegEvents,
-          ...predictHqEvents,
+          // ...predictHqEvents,
           ...runRegEvents,
           ...seatGeekEvents,
           ...skiRegEvents,
