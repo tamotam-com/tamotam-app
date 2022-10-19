@@ -3,6 +3,26 @@
 [![TamoTam in Apple App Store](docs/AppleAppStoreButton.png)](https://apps.apple.com/pl/app/tamotam-hangout-offline/id1625649957)
 [![TamoTam in Google Play Store](docs/GooglePlayStoreButton.png)](https://play.google.com/store/apps/details?id=com.tamotam.application)
 
+## Frontend/JavaScript/Web Developer interested in React Native/JavaScript Mobile Development?
+
+The project is a combination of a personal education project to learn JavaScript Mobile Development using React Native and business idea to create a mobile app with offline-only events.
+
+Therefore, even if that's just from business point of view super easy app for now, it contains several nice technical implementation, which helped me to understand the ecosystem on React Native and become better developer.
+
+### Technical goodies for Developers
+
+- React/Native + TypeScript;
+- Redux, we might find in Web;
+- Different databases (Firebase, SQLite, AsyncStorage);
+- AsyncStorage, which is really comparable to localStorage we have on Web;
+- Caching data using AsyncStorage;
+- Making the Web code actually compiled & working with deployed app to the store;
+- Logging & Monitoring to Firebase Analytics/Firebase Performance Monitoring;
+- Reporting crashes to Firebase Crashlytics;
+- Handling environmental variables in Web, Android, and iOS - changes in native code were required;
+- Integration of 3rd party tools, like Firebase-* and Google Maps;
+- Usage, looks & feel of Material Design (React Native Paper) in a real application.
+
 ## Go Online to be Offline.
 
 ### ~~ Please Read ~~
