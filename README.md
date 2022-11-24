@@ -23,6 +23,11 @@ Therefore, even if that's just from business point of view super easy app for no
 - Integration of 3rd party tools, like Firebase-* and Google Maps;
 - Usage, looks & feel of Material Design (React Native Paper) in a real application.
 
+### Stay up to date
+
+Keep yourself up to date about TamoTam and me motivated by giving a **Star** :-)
+![Star TamoTam on GitHub](docs/star.mov)
+
 ## Go Online to be Offline.
 
 ### ~~ Please Read ~~
