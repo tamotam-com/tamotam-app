@@ -340,6 +340,7 @@ export default function MapScreen() {
             >
               <Callout
                 onPress={() => saveEventHandler(event)} // For iOS.
+                // TODO: The new styling for iOS isn't good.
                 style={[
                   styles.locationButtonCallout,
                   {
@@ -423,7 +424,7 @@ export default function MapScreen() {
                       name="check-circle-outline"
                       size={16} /> SAVE</StyledText>
                   : <Button
-                    color={
+                    buttonColor={
                       colorScheme === "dark"
                         ? Colors.dark.text
                         : Colors.light.text
@@ -431,6 +432,9 @@ export default function MapScreen() {
                     icon="check-circle-outline"
                     labelStyle={{ fontSize: 16 }}
                     mode="contained"
+                    textColor={
+                      colorScheme === "dark" ? Colors.dark.background : Colors.light.background
+                    }
                   >Save</Button>}
               </Callout>
             </Marker>
@@ -470,10 +474,10 @@ const styles = StyleSheet.create({
   locationButtonCallout: {
     borderRadius: 10,
     borderWidth: 1,
-    height: 400,
+    height: Platform.OS === "android" ? 400 : 340,
     padding: 10,
     shadowRadius: 15,
-    width: 350,
+    width: Platform.OS === "android" ? 350 : 290,
   },
   map: {
     height: Dimensions.get("window").height,

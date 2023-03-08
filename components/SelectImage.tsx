@@ -3,7 +3,7 @@ import analytics from "@react-native-firebase/analytics";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import React, { useEffect, useState } from "react";
-import { Alert, ColorSchemeName, Image, Platform, StyleSheet } from "react-native";
+import { ColorSchemeName, Image, Platform, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { Text, View } from "./Themed";
 
@@ -67,9 +67,16 @@ const SelectImage = (props: {
         )}
       </View>
       <Button
-        color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+        buttonColor={
+          colorScheme === "dark"
+            ? Colors.dark.background
+            : Colors.light.background
+        }
         icon="camera"
         onPress={selectImageHandler}
+        textColor={
+          colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+        }
       >
         Upload Image
       </Button>

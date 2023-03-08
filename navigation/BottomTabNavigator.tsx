@@ -66,6 +66,7 @@ export default function BottomTabNavigator({ navigation }: any) {
       <Portal>
         <FAB
           color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+          customSize={64}
           icon="map-marker-plus-outline"
           onPress={() => navigation.navigate("NewEvent")}
           style={{
@@ -76,9 +77,10 @@ export default function BottomTabNavigator({ navigation }: any) {
             borderWidth: 1,
             borderColor:
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
-            bottom: 100,
+            borderRadius: 50,
+            bottom: 125,
             position: "absolute",
-            right: 16,
+            right: 10,
             shadowColor:
               colorScheme === "dark" ? Colors.dark.text : Colors.light.text,
             shadowRadius: 15,

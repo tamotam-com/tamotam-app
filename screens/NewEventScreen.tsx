@@ -403,24 +403,34 @@ export default function NewEventScreen({ navigation, route }: any) {
           <View style={styles.dateTimeButtonsContainer}>
             <View>
               <Button
-                color={
-                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                buttonColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.background
+                    : Colors.light.background
                 }
                 icon="calendar-edit"
                 mode="text"
                 onPress={onShowDatePicker}
+                textColor={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
               >
                 Pick date
               </Button>
             </View>
             <View>
               <Button
-                color={
-                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                buttonColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.background
+                    : Colors.light.background
                 }
                 icon="clock-outline"
                 mode="text"
                 onPress={onShowTimePicker}
+                textColor={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
               >
                 Pick time
               </Button>
@@ -452,13 +462,18 @@ export default function NewEventScreen({ navigation, route }: any) {
           </View>
           <SelectImage onImageTaken={onImageChange} />
           <Button
-            color={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            buttonColor={
+              colorScheme === "dark"
+                ? Colors.dark.text
+                : Colors.light.text
             }
             icon="plus-box"
             mode="contained"
             onPress={addEventHandler}
             style={[styles.addEventButton, { borderColor: colorScheme === "dark" ? "#ffffff" : "#000000" },]}
+            textColor={
+              colorScheme === "dark" ? Colors.dark.background : Colors.light.background
+            }
           >
             Add Event
           </Button>

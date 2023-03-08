@@ -191,36 +191,54 @@ export default function SavedScreen({ navigation, route }: any) {
           title={eventData.item.title}
         >
           <Button
-            color={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            buttonColor={
+              colorScheme === "dark"
+                ? Colors.dark.background
+                : Colors.light.background
             }
             icon="information-outline"
+            mode="text"
             onPress={() =>
               navigation.navigate("EventDetail", {
                 eventId: eventData.item.id,
               })
             }
+            textColor={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
           >
             Read More
           </Button>
           <Button
-            color={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            buttonColor={
+              colorScheme === "dark"
+                ? Colors.dark.background
+                : Colors.light.background
             }
             disabled={!eventData.item.isUserEvent}
             icon="lead-pencil"
+            mode="text"
             onPress={() =>
               navigation.navigate("EditEvent", { eventId: eventData.item.id })
+            }
+            textColor={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
             }
           >
             Edit
           </Button>
           <Button
-            color={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            buttonColor={
+              colorScheme === "dark"
+                ? Colors.dark.background
+                : Colors.light.background
             }
             icon="delete"
+            mode="text"
             onPress={() => deleteHandler(eventData.item)}
+            textColor={
+              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            }
           >
             {" "}
           </Button>

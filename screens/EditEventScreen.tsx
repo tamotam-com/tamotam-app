@@ -398,24 +398,34 @@ export default function EditEventScreen({ navigation, route }: any) {
           <View style={styles.dateTimeButtonsContainer}>
             <View>
               <Button
-                color={
-                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                buttonColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.background
+                    : Colors.light.background
                 }
                 icon="calendar-edit"
                 mode="text"
                 onPress={onShowDatePicker}
+                textColor={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
               >
                 Pick date
               </Button>
             </View>
             <View>
               <Button
-                color={
-                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                buttonColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.background
+                    : Colors.light.background
                 }
                 icon="clock-outline"
                 mode="text"
                 onPress={onShowTimePicker}
+                textColor={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
               >
                 Pick time
               </Button>
@@ -454,11 +464,16 @@ export default function EditEventScreen({ navigation, route }: any) {
             onImageTaken={onImageChange}
           />
           <Button
-            color={
-              colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+            buttonColor={
+              colorScheme === "dark"
+                ? Colors.dark.text
+                : Colors.light.text
             }
             icon="check-circle-outline"
             onPress={onSaveHandler}
+            textColor={
+              colorScheme === "dark" ? Colors.dark.background : Colors.light.background
+            }
           >
             Save
           </Button>
