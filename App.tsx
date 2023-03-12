@@ -13,7 +13,7 @@ import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import { Alert } from "react-native";
 import { ColorSchemeName } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import { MD3DarkTheme, Provider as PaperProvider } from "react-native-paper";
 import { Provider as StoreProvider } from "react-redux";
 
 init()
@@ -64,7 +64,7 @@ export default function App() {
   } else {
     return (
       <StoreProvider store={store}>
-        <PaperProvider>
+        <PaperProvider theme={MD3DarkTheme}>
           <Navigation colorScheme={colorScheme} />
           <StatusBar />
         </PaperProvider>
