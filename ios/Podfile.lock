@@ -618,7 +618,7 @@ PODS:
     - React-Core
   - EXLocation (15.1.1):
     - ExpoModulesCore
-  - Expo (48.0.6):
+  - Expo (48.0.7):
     - ExpoModulesCore
   - ExpoImagePicker (14.1.1):
     - ExpoModulesCore
@@ -626,7 +626,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLocalization (14.1.1):
     - ExpoModulesCore
-  - ExpoModulesCore (1.2.4):
+  - ExpoModulesCore (1.2.5):
     - React-Core
     - React-RCTAppDelegate
     - ReactCommon/turbomodule/core
@@ -1657,11 +1657,11 @@ SPEC CHECKSUMS:
   EXFont: 6ea3800df746be7233208d80fe379b8ed74f4272
   EXImageLoader: fd053169a8ee932dd83bf1fe5487a50c26d27c2b
   EXLocation: 74a0ba446f54fd585ea6cfcd19a25644bf22c30d
-  Expo: 04ba1ddde0be07aff4306ae636a1804810679145
+  Expo: 707f9b0039eacc6a1dce90c08c9e37b9c417bba2
   ExpoImagePicker: 270dea232b3a072d981dd564e2cafc63a864edb1
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
   ExpoLocalization: f26cd431ad9ea3533c5b08c4fabd879176a794bb
-  ExpoModulesCore: 1667335d4f4c9b7801990930e6f0eea42c916a21
+  ExpoModulesCore: 397fc99e9d6c9dcc010f36d5802097c17b90424c
   ExpoWebBrowser: 033d34c478d9986da2f1679729041423837626e0
   EXSplashScreen: cd7fb052dff5ba8311d5c2455ecbebffe1b7a8ca
   EXSQLite: 848167441b14cb6cdd6ae46c8d62289161a79550
