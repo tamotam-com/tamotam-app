@@ -15,7 +15,14 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
-import { fetchEvents, readItemFromStorage, saveEvent } from "../store/actions/events";
+import { fetchBikeRegEvents } from '../store/actions/bikeRegEvents';
+import { fetchRunRegEvents } from '../store/actions/runRegEvents';
+import { fetchSeatGeekEvents } from '../store/actions/seatGeekEvents';
+import { fetchSkiRegEvents } from '../store/actions/skiRegEvents';
+import { fetchTicketmasterEvents } from '../store/actions/ticketmasterEvents';
+import { fetchTriRegEvents } from '../store/actions/triRegEvents';
+import { fetchUsersEvents } from '../store/actions/usersEvents';
+import { readItemFromStorage, saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
 import {
@@ -140,7 +147,13 @@ export default function MapScreen() {
 
       const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
       if (new Date().getTime() >= expirationEventsDateParsed.getTime() || eventsInJSONString === null) {
-        dispatch(fetchEvents());
+        dispatch(fetchBikeRegEvents());
+        dispatch(fetchRunRegEvents());
+        dispatch(fetchSeatGeekEvents());
+        dispatch(fetchSkiRegEvents());
+        dispatch(fetchTicketmasterEvents());
+        dispatch(fetchTriRegEvents());
+        dispatch(fetchUsersEvents());
         return;
       }
       analytics().logEvent("custom_log", {
