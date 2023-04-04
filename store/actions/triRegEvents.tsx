@@ -1,14 +1,15 @@
 import analytics from '@react-native-firebase/analytics';
 import axios, {AxiosResponse} from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
-// import writeItemToStorage from '../../common/writeItemToStorage';
+import readItemFromStorage from '../../common/readItemFromStorage';
+import writeItemToStorage from '../../common/writeItemToStorage';
 import { Event } from '../../interfaces/event';
 
 export const SET_EVENTS = 'SET_EVENTS';
 
 export const fetchTriRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
-    let triRegEvents: Event[] = [];
+    let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
     await axios({
       method: 'GET',
@@ -30,7 +31,7 @@ export const fetchTriRegEvents: () => (dispatch: any) => void = () => {
               (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
                 arrayByDashSignDivider[1].slice(-2) * 6e4);
 
-          triRegEvents.push({
+          eventsInStorage.push({
             id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
             // TODO: That's the only case such a check is required. Let's see if it shouldn't be done on the MapScreen side.
             date: new Date(dateInMilliseconds),
@@ -48,8 +49,8 @@ export const fetchTriRegEvents: () => (dispatch: any) => void = () => {
         }
         analytics().logEvent('custom_log', {
           description:
-            '--- Analytics: store -> actions -> triRegEvents -> fetchTriRegEvents -> try, triRegEvents: ' +
-            triRegEvents,
+            '--- Analytics: store -> actions -> triRegEvents -> fetchTriRegEvents -> try, eventsInStorage: ' +
+            eventsInStorage,
         });
       })
       .catch((error: unknown) => {
@@ -65,9 +66,9 @@ export const fetchTriRegEvents: () => (dispatch: any) => void = () => {
       .finally(() => {
         dispatch({
           type: SET_EVENTS,
-          events: triRegEvents,
+          events: eventsInStorage,
         });
-        // writeItemToStorage(triRegEvents);
+        writeItemToStorage(eventsInStorage);
         analytics().logEvent('custom_log', {
           description:
             '--- Analytics: store -> actions -> triRegEvents -> fetchTriRegEvents -> finally',

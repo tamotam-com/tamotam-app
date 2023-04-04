@@ -134,11 +134,6 @@ export default function MapScreen() {
             setError(new Error(error.message));
           }
         } finally {
-          Alert.alert(
-            "Loading ℹ️",
-            "If it's your first time, it might take a while. If not, it should be quick. Events will be shown gradually; once the process is completed, you will see a notification. Almost there, a bit of patience 🙏",
-            [{ text: "Okay" }]
-          );
           analytics().logEvent("custom_log", {
             description: "--- Analytics: screens -> MapScreen -> loadEvents -> try -> finally2",
           });
@@ -147,13 +142,46 @@ export default function MapScreen() {
 
       const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
       if (new Date().getTime() >= expirationEventsDateParsed.getTime() || eventsInJSONString === null) {
-        dispatch(fetchBikeRegEvents());
-        dispatch(fetchRunRegEvents());
-        dispatch(fetchSeatGeekEvents());
-        dispatch(fetchSkiRegEvents());
-        dispatch(fetchTicketmasterEvents());
-        dispatch(fetchTriRegEvents());
-        dispatch(fetchUsersEvents());
+        const promiseBikeRegEvents: void = dispatch(fetchBikeRegEvents());
+        const promiseRunRegEvents: void = dispatch(fetchRunRegEvents());
+        const promiseSeatGeekEvents: void = dispatch(fetchSeatGeekEvents());
+        const promiseSkiRegEvents: void = dispatch(fetchSkiRegEvents());
+        const promiseTicketmasterEvents: void = dispatch(fetchTicketmasterEvents());
+        const promiseTriRegEvents: void = dispatch(fetchTriRegEvents());
+        const promiseUsersEvents: void = dispatch(fetchUsersEvents());
+
+        Promise.allSettled([
+          promiseBikeRegEvents,
+          promiseRunRegEvents,
+          // promisePredictHqEvents,
+          promiseSeatGeekEvents,
+          promiseSkiRegEvents,
+          promiseTicketmasterEvents,
+          promiseTriRegEvents,
+          promiseUsersEvents,
+        ])
+          .then(() => {
+            analytics().logEvent('custom_log', {
+              description:
+                '--- Analytics: screens -> MapScreen -> loadEvents -> try -> then',
+            });
+          })
+          .catch((error: unknown) => {
+            if (error instanceof Error) {
+              analytics().logEvent('custom_log', {
+                description:
+                  '--- Analytics: screens -> MapScreen -> loadEvents -> try -> catch3, error: ' +
+                  error,
+              });
+              crashlytics().recordError(error);
+            }
+          })
+          .finally(() => {
+            analytics().logEvent('custom_log', {
+              description:
+                '--- Analytics: screens -> MapScreen -> loadEvents -> try -> finally3 -> Promise.allSettled([...]) -> finally',
+            });
+          });
         return;
       }
       analytics().logEvent("custom_log", {

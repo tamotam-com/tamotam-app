@@ -1,7 +1,8 @@
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import firestore from '@react-native-firebase/firestore';
-// import writeItemToStorage from '../../common/writeItemToStorage';
+import readItemFromStorage from '../../common/readItemFromStorage';
+import writeItemToStorage from '../../common/writeItemToStorage';
 import { Event } from '../../interfaces/event';
 import {
   FIRESTORE_COLLECTION,
@@ -12,14 +13,14 @@ export const SET_EVENTS = 'SET_EVENTS';
 
 export const fetchUsersEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
-    let usersEvents: Event[] = [];
+    let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
     await firestore()
       .collection(FIRESTORE_COLLECTION)
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          usersEvents.push({
+          eventsInStorage.push({
             id: documentSnapshot.data().id,
             date: new Date(documentSnapshot.data().date.seconds * 1000),
             description: documentSnapshot.data().description,
@@ -32,8 +33,8 @@ export const fetchUsersEvents: () => (dispatch: any) => void = () => {
         });
         analytics().logEvent('custom_log', {
           description:
-            '--- Analytics: store -> actions -> usersEvents -> fetchUsersEvents -> then, usersEvents: ' +
-            usersEvents,
+            '--- Analytics: store -> actions -> usersEvents -> fetchUsersEvents -> then, eventsInStorage: ' +
+            eventsInStorage,
         });
       })
       .catch((error: unknown) => {
@@ -49,9 +50,9 @@ export const fetchUsersEvents: () => (dispatch: any) => void = () => {
       .finally(() => {
         dispatch({
           type: SET_EVENTS,
-          events: usersEvents,
+          events: eventsInStorage,
         });
-        // writeItemToStorage(usersEvents);
+        writeItemToStorage(eventsInStorage);
         analytics().logEvent('custom_log', {
           description:
             '--- Analytics: store -> actions -> usersEvents -> fetchUsersEvents -> finally',

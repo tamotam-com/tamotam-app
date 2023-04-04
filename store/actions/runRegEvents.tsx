@@ -1,7 +1,8 @@
 import analytics from '@react-native-firebase/analytics';
 import axios, {AxiosResponse} from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
-// import writeItemToStorage from '../../common/writeItemToStorage';
+import readItemFromStorage from '../../common/readItemFromStorage';
+import writeItemToStorage from '../../common/writeItemToStorage';
 import { Event } from '../../interfaces/event';
 import {
   RUNREG_NUMBER_OF_PAGES,
@@ -12,7 +13,7 @@ export const SET_EVENTS = 'SET_EVENTS';
 
 export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
-    let runRegEvents: Event[] = [];
+    let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
     for (let page = 1; page < RUNREG_NUMBER_OF_PAGES; page++) {
       await axios({
@@ -34,7 +35,7 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
                 (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
                   arrayByDashSignDivider[1].slice(-2) * 6e4);
 
-            runRegEvents.push({
+            eventsInStorage.push({
               id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
               date: new Date(dateInMilliseconds),
               description: response.data.MatchingEvents[EventId].PresentedBy,
@@ -47,8 +48,8 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
           }
           analytics().logEvent('custom_log', {
             description:
-              '--- Analytics: store -> actions -> runRegEvents -> fetchRunRegEvents -> try, runRegEvents: ' +
-              runRegEvents,
+              '--- Analytics: store -> actions -> runRegEvents -> fetchRunRegEvents -> try, eventsInStorage: ' +
+              eventsInStorage,
           });
         })
         .catch((error: unknown) => {
@@ -70,8 +71,8 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
     }
     dispatch({
       type: SET_EVENTS,
-      events: runRegEvents,
+      events: eventsInStorage,
     });
-    // writeItemToStorage(runRegEvents);
+    writeItemToStorage(eventsInStorage);
   };
 };

@@ -1,6 +1,7 @@
 import analytics from '@react-native-firebase/analytics';
 import axios, {AxiosResponse} from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
+import readItemFromStorage from '../../common/readItemFromStorage';
 import writeItemToStorage from '../../common/writeItemToStorage';
 import {
   TICKETMASTER_API_KEY,
@@ -13,7 +14,7 @@ export const SET_EVENTS = 'SET_EVENTS';
 
 export const fetchTicketmasterEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
-    let ticketmasterEvents: any[] = [];
+    let eventsInStorage: null | any = await readItemFromStorage();
     let ticketmasterEventsCountry: any[] = [];
 
     const ticketmasterCountries: string[] = [
@@ -70,8 +71,8 @@ export const fetchTicketmasterEvents: () => (dispatch: any) => void = () => {
             }
             analytics().logEvent('custom_log', {
               description:
-                '--- Analytics: store -> actions -> ticketmasterEvents -> fetchTicketmasterEvents -> try, ticketmasterEvents: ' +
-                ticketmasterEvents,
+                '--- Analytics: store -> actions -> ticketmasterEvents -> fetchTicketmasterEvents -> try, eventsInStorage: ' +
+                eventsInStorage,
             });
           })
           .catch((error: unknown) => {
@@ -98,7 +99,7 @@ export const fetchTicketmasterEvents: () => (dispatch: any) => void = () => {
 
       list.forEach((eventStringified: string) => {
         JSON.parse(eventStringified);
-        ticketmasterEvents.push(JSON.parse(eventStringified));
+        eventsInStorage.push(JSON.parse(eventStringified));
         ticketmasterEventsCountry.push(JSON.parse(eventStringified));
       });
 
@@ -127,19 +128,19 @@ export const fetchTicketmasterEvents: () => (dispatch: any) => void = () => {
       // });
       ticketmasterEventsCountry = [];
     }
-    ticketmasterEvents.forEach((eventStringified: any, index: number) => {
-      ticketmasterEvents[index].id = Number(eventStringified.id);
-      ticketmasterEvents[index].date = new Date(eventStringified.date);
-      ticketmasterEvents[index].description = eventStringified.description;
-      ticketmasterEvents[index].imageUrl = eventStringified.imageUrl;
-      ticketmasterEvents[index].latitude = Number(eventStringified.latitude);
-      ticketmasterEvents[index].longitude = Number(eventStringified.longitude);
-      ticketmasterEvents[index].title = eventStringified.title;
+    eventsInStorage.forEach((eventStringified: any, index: number) => {
+      eventsInStorage[index].id = Number(eventStringified.id);
+      eventsInStorage[index].date = new Date(eventStringified.date);
+      eventsInStorage[index].description = eventStringified.description;
+      eventsInStorage[index].imageUrl = eventStringified.imageUrl;
+      eventsInStorage[index].latitude = Number(eventStringified.latitude);
+      eventsInStorage[index].longitude = Number(eventStringified.longitude);
+      eventsInStorage[index].title = eventStringified.title;
     });
     dispatch({
       type: SET_EVENTS,
-      events: ticketmasterEvents,
+      events: eventsInStorage,
     });
-    writeItemToStorage(ticketmasterEvents);
+    writeItemToStorage(eventsInStorage);
   };
 };

@@ -27,11 +27,6 @@ export const writeItemToStorage: (eventsToAsyncStorage: Event[]) => Promise<void
       crashlytics().recordError(error);
     }
   } finally {
-    Alert.alert(
-      "Events locally saved ✅",
-      "Once a week, TamoTam will make such a big load of events.",
-      [{ text: "Okay" }]
-    );
     analytics().logEvent("custom_log", {
       description: "--- Analytics: common -> writeItemToStorage -> finally",
     });

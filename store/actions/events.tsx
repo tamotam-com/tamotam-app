@@ -20,7 +20,6 @@ export const UPDATE_EVENT = "UPDATE_EVENT";
 
 export const fetchEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
-    let eventsFinal: Event[] = [];
     // let predictHqEvents: Event[] = [];
 
 
@@ -61,11 +60,6 @@ export const fetchEvents: () => (dispatch: any) => void = () => {
       //     title: promisePredictHqEvents.data.results[key].title,
       //   });
       // }
-
-
-        // analytics().logEvent("custom_log", {
-        //   description: "--- Analytics: store -> actions -> events -> fetchEvents -> finally -> Promise.race([...]) -> then, eventsFinal: " + eventsFinal,
-        // });
   };
 };
 
@@ -258,11 +252,6 @@ export const readItemFromStorage: (eventsFromAsyncStorage: Event[]) => void = (e
         crashlytics().recordError(error);
       }
     } finally {
-      Alert.alert(
-        "Events loaded ✅",
-        "These are stored for a week on your local device as long as you won't explicitly clear the data or uninstall TamoTam.",
-        [{ text: "Okay" }]
-      );
       analytics().logEvent("custom_log", {
         description: "--- Analytics: store -> actions -> events -> readItemFromStorage -> finally",
       });

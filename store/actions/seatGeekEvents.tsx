@@ -1,7 +1,8 @@
 import analytics from '@react-native-firebase/analytics';
 import axios, {AxiosResponse} from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
-// import writeItemToStorage from '../../common/writeItemToStorage';
+import readItemFromStorage from '../../common/readItemFromStorage';
+import writeItemToStorage from '../../common/writeItemToStorage';
 import { Dispatch } from 'redux';
 import { Event } from '../../interfaces/event';
 import {
@@ -16,7 +17,7 @@ export const SET_EVENTS = 'SET_EVENTS';
 
 export const fetchSeatGeekEvents: () => (dispatch: Dispatch) => void = () => {
   return async (dispatch: Dispatch) => {
-    let seatGeekEvents: Event[] = [];
+    let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
     for (let page: number = 0; page < SEATGEEK_NUMBER_OF_PAGES; page++) {
       await axios({
@@ -25,7 +26,7 @@ export const fetchSeatGeekEvents: () => (dispatch: Dispatch) => void = () => {
       })
         .then((response: AxiosResponse<any, any>) => {
           for (const id in response.data.events) {
-            seatGeekEvents.push({
+            eventsInStorage.push({
               id, // TODO: It's only 0-9.
               date: new Date(response.data.events[id].datetime_local),
               description: response.data.events[id].description,
@@ -38,8 +39,8 @@ export const fetchSeatGeekEvents: () => (dispatch: Dispatch) => void = () => {
           }
           analytics().logEvent('custom_log', {
             description:
-              '--- Analytics: store -> actions -> seatGeekEvents -> fetchSeatGeekEvents -> try, seatGeekEvents: ' +
-              seatGeekEvents,
+              '--- Analytics: store -> actions -> seatGeekEvents -> fetchSeatGeekEvents -> try, eventsInStorage: ' +
+              eventsInStorage,
           });
         })
         .catch((error: unknown) => {
@@ -61,8 +62,8 @@ export const fetchSeatGeekEvents: () => (dispatch: Dispatch) => void = () => {
     }
     dispatch({
       type: SET_EVENTS,
-      events: seatGeekEvents,
+      events: eventsInStorage,
     });
-    // writeItemToStorage(seatGeekEvents);
+    writeItemToStorage(eventsInStorage);
   };
 };
