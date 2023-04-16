@@ -1,15 +1,15 @@
 import analytics from '@react-native-firebase/analytics';
 import axios, {AxiosResponse} from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
-import readItemFromStorage from '../../common/readItemFromStorage';
-import writeItemToStorage from '../../common/writeItemToStorage';
+import readItemFromStorage from '../../../common/readItemFromStorage';
+import writeItemToStorage from '../../../common/writeItemToStorage';
 import {
   TICKETMASTER_API_KEY,
   TICKETMASTER_NUMBER_OF_PAGES,
   TICKETMASTER_SIZE,
   // @ts-ignore
 } from '@env';
-import { Event } from '../../interfaces/event';
+import { Event } from '../../../interfaces/event';
 
 export const SET_EVENTS = 'SET_EVENTS';
 

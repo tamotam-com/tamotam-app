@@ -1,21 +1,22 @@
 import analytics from '@react-native-firebase/analytics';
 import axios, {AxiosResponse} from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
-import readItemFromStorage from '../../common/readItemFromStorage';
-import writeItemToStorage from '../../common/writeItemToStorage';
-import { Event } from '../../interfaces/event';
+import readItemFromStorage from '../../../common/readItemFromStorage';
+import writeItemToStorage from '../../../common/writeItemToStorage';
+import { Event } from '../../../interfaces/event';
 
 export const SET_EVENTS = 'SET_EVENTS';
 
-export const fetchSkiRegEvents: () => (dispatch: any) => void = () => {
+export const fetchTriRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
     await axios({
       method: 'GET',
-      url: 'https://www.skireg.com/api/search',
+      url: 'https://www.trireg.com/api/search',
     })
       .then((response: AxiosResponse<any, any>) => {
+        // console.log(response.data.MatchingEvents);
         for (const EventId in response.data.MatchingEvents) {
           const arrayByDashSignDivider =
             response.data.MatchingEvents[EventId].EventDate.match(/\d+/g);
@@ -32,18 +33,23 @@ export const fetchSkiRegEvents: () => (dispatch: any) => void = () => {
 
           eventsInStorage.push({
             id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
+            // TODO: That's the only case such a check is required. Let's see if it shouldn't be done on the MapScreen side.
             date: new Date(dateInMilliseconds),
             description: response.data.MatchingEvents[EventId].PresentedBy,
             imageUrl: '',
             isUserEvent: false,
-            latitude: response.data.MatchingEvents[EventId].Latitude,
-            longitude: response.data.MatchingEvents[EventId].Longitude,
+            latitude: response.data.MatchingEvents[EventId].Latitude
+              ? response.data.MatchingEvents[EventId].Latitude
+              : 32.2332,
+            longitude: response.data.MatchingEvents[EventId].Longitude
+              ? response.data.MatchingEvents[EventId].Longitude
+              : 5.213,
             title: response.data.MatchingEvents[EventId].EventName,
           });
         }
         analytics().logEvent('custom_log', {
           description:
-            '--- Analytics: store -> actions -> skiRegEvents -> fetchSkiRegEvents -> try, eventsInStorage: ' +
+            '--- Analytics: store -> actions -> triRegEvents -> fetchTriRegEvents -> try, eventsInStorage: ' +
             eventsInStorage,
         });
       })
@@ -51,7 +57,7 @@ export const fetchSkiRegEvents: () => (dispatch: any) => void = () => {
         if (error instanceof Error) {
           analytics().logEvent('custom_log', {
             description:
-              '--- Analytics: store -> actions -> skiRegEvents -> fetchSkiRegEvents -> catch, error: ' +
+              '--- Analytics: store -> actions -> triRegEvents -> fetchTriRegEvents -> catch, error: ' +
               error,
           });
           crashlytics().recordError(error);
@@ -65,8 +71,8 @@ export const fetchSkiRegEvents: () => (dispatch: any) => void = () => {
         writeItemToStorage(eventsInStorage);
         analytics().logEvent('custom_log', {
           description:
-            '--- Analytics: store -> actions -> skiRegEvents -> fetchSkiRegEvents -> finally',
+            '--- Analytics: store -> actions -> triRegEvents -> fetchTriRegEvents -> finally',
         });
-    });
+      });
   };
 };

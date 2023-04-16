@@ -1,15 +1,8 @@
-// import * as Localization from "expo-localization";
 import analytics from "@react-native-firebase/analytics";
 import crashlytics from "@react-native-firebase/crashlytics";
 import { deleteSavedEvent, fetchSavedEvents, insertSavedEvent } from "../../helpers/sqlite_db";
 import { Alert } from "react-native";
 import { Event } from "../../interfaces/event";
-import {
-  // PREDICTHQ_ACCESS_TOKEN,
-  // PREDICTHQ_CATEGORIES,
-  // PREDICTHQ_LIMIT,
-  // @ts-ignore
-} from "@env";
 
 export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
@@ -17,51 +10,6 @@ export const SAVE_EVENT = "SAVE_EVENT";
 export const SET_EVENTS = "SET_EVENTS";
 export const SET_SAVED_EVENTS = "SET_SAVED_EVENTS";
 export const UPDATE_EVENT = "UPDATE_EVENT";
-
-export const fetchEvents: () => (dispatch: any) => void = () => {
-  return async (dispatch: any) => {
-    // let predictHqEvents: Event[] = [];
-
-
-
-      // TODO: Delete PredictHQ after temporarily access will be granted, because it's too expensive after that.
-      // promisePredictHqEvents =
-      //   await axios({
-      //     headers: {
-      //       Authorization: `Bearer ${PREDICTHQ_ACCESS_TOKEN}`,
-      //       Accept: "application/json",
-      //     },
-      //     method: "GET",
-      //     params: {
-      //       category: PREDICTHQ_CATEGORIES,
-      //       country: Localization.region,
-      //       limit: PREDICTHQ_LIMIT,
-      //     },
-      //     url: "https://api.predicthq.com/v1/events/",
-      //   }).catch((error: unknown) => {
-      //     if (error instanceof Error) {
-      //       analytics().logEvent("custom_log", {
-      //         description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> catch, error: " + error,
-      //       });
-      //       crashlytics().recordError(error);
-      //     }
-      //   }).finally(() => {
-      //     analytics().logEvent("custom_log", {
-      //       description: "--- Analytics: store -> actions -> events -> fetchEvents -> promisePredictHqEvents -> finally",
-      //     });
-      //   });
-
-      // for (const key in promisePredictHqEvents) {
-      //   predictHqEvents.push({
-      //     key,
-      //     description: promisePredictHqEvents.data.results[key].description,
-      //     latitude: promisePredictHqEvents.data.results[key].location[1],
-      //     longitude: promisePredictHqEvents.data.results[key].location[0],
-      //     title: promisePredictHqEvents.data.results[key].title,
-      //   });
-      // }
-  };
-};
 
 export const addEvent = (event: Event) => {
   return async (

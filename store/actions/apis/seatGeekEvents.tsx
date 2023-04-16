@@ -1,10 +1,10 @@
 import analytics from '@react-native-firebase/analytics';
 import axios, {AxiosResponse} from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
-import readItemFromStorage from '../../common/readItemFromStorage';
-import writeItemToStorage from '../../common/writeItemToStorage';
+import readItemFromStorage from '../../../common/readItemFromStorage';
+import writeItemToStorage from '../../../common/writeItemToStorage';
 import { Dispatch } from 'redux';
-import { Event } from '../../interfaces/event';
+import { Event } from '../../../interfaces/event';
 import {
   SEATGEEK_CLIENT_ID,
   // SEATGEEK_PAGE_SIZE, TODO: No idea why it doesn't work.

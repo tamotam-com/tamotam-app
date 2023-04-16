@@ -15,13 +15,14 @@ import React, {
   MutableRefObject,
 } from "react";
 import StyledText from "../components/StyledText";
-import { fetchBikeRegEvents } from '../store/actions/bikeRegEvents';
-import { fetchRunRegEvents } from '../store/actions/runRegEvents';
-import { fetchSeatGeekEvents } from '../store/actions/seatGeekEvents';
-import { fetchSkiRegEvents } from '../store/actions/skiRegEvents';
-import { fetchTicketmasterEvents } from '../store/actions/ticketmasterEvents';
-import { fetchTriRegEvents } from '../store/actions/triRegEvents';
-import { fetchUsersEvents } from '../store/actions/usersEvents';
+import { fetchBikeRegEvents } from '../store/actions/apis/bikeRegEvents';
+import { fetchPredictHqEvents } from '../store/actions/apis/predictHqEvents';
+import { fetchRunRegEvents } from '../store/actions/apis/runRegEvents';
+import { fetchSeatGeekEvents } from '../store/actions/apis/seatGeekEvents';
+import { fetchSkiRegEvents } from '../store/actions/apis/skiRegEvents';
+import { fetchTicketmasterEvents } from '../store/actions/apis/ticketmasterEvents';
+import { fetchTriRegEvents } from '../store/actions/apis/triRegEvents';
+import { fetchUsersEvents } from '../store/actions/apis/usersEvents';
 import { readItemFromStorage, saveEvent } from "../store/actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
@@ -143,6 +144,7 @@ export default function MapScreen() {
       const eventsParsed: Event[] = JSON.parse(eventsInJSONString);
       if (new Date().getTime() >= expirationEventsDateParsed.getTime() || eventsInJSONString === null) {
         const promiseBikeRegEvents: void = dispatch(fetchBikeRegEvents());
+        const promisePredictHqEvents: void = dispatch(fetchPredictHqEvents());
         const promiseRunRegEvents: void = dispatch(fetchRunRegEvents());
         const promiseSeatGeekEvents: void = dispatch(fetchSeatGeekEvents());
         const promiseSkiRegEvents: void = dispatch(fetchSkiRegEvents());
@@ -153,7 +155,7 @@ export default function MapScreen() {
         Promise.allSettled([
           promiseBikeRegEvents,
           promiseRunRegEvents,
-          // promisePredictHqEvents,
+          promisePredictHqEvents,
           promiseSeatGeekEvents,
           promiseSkiRegEvents,
           promiseTicketmasterEvents,

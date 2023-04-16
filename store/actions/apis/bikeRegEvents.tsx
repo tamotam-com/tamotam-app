@@ -1,24 +1,24 @@
 import analytics from '@react-native-firebase/analytics';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
-import readItemFromStorage from '../../common/readItemFromStorage';
-import writeItemToStorage from '../../common/writeItemToStorage';
-import { Event } from '../../interfaces/event';
+import readItemFromStorage from '../../../common/readItemFromStorage';
+import writeItemToStorage from '../../../common/writeItemToStorage';
+import { Event } from '../../../interfaces/event';
 import {
-  RUNREG_NUMBER_OF_PAGES,
+  BIKEREG_NUMBER_OF_PAGES,
   // @ts-ignore
 } from '@env';
 
 export const SET_EVENTS = 'SET_EVENTS';
 
-export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
+export const fetchBikeRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
-    for (let page = 1; page < RUNREG_NUMBER_OF_PAGES; page++) {
+    for (let page = 1; page < BIKEREG_NUMBER_OF_PAGES; page++) {
       await axios({
         method: 'GET',
-        url: `https://www.runreg.com/api/search?startpage=${page}`,
+        url: `https://www.bikereg.com/api/search?startpage=${1}`,
       })
         .then((response: AxiosResponse<any, any>) => {
           for (const EventId in response.data.MatchingEvents) {
@@ -48,7 +48,7 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
           }
           analytics().logEvent('custom_log', {
             description:
-              '--- Analytics: store -> actions -> runRegEvents -> fetchRunRegEvents -> try, eventsInStorage: ' +
+              '--- Analytics: store -> actions -> bikeRegEvents -> fetchBikeRegEvents -> try, eventsInStorage: ' +
               eventsInStorage,
           });
         })
@@ -56,7 +56,7 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
           if (error instanceof Error) {
             analytics().logEvent('custom_log', {
               description:
-                '--- Analytics: store -> actions -> runRegEvents -> fetchRunRegEvents -> catch, error: ' +
+                '--- Analytics: store -> actions -> bikeRegEvents -> fetchBikeRegEvents -> catch, error: ' +
                 error,
             });
             crashlytics().recordError(error);
@@ -65,7 +65,7 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
         .finally(() => {
           analytics().logEvent('custom_log', {
             description:
-              '--- Analytics: store -> actions -> runRegEvents -> fetchRunRegEvents -> finally',
+              '--- Analytics: store -> actions -> bikeRegEvents -> fetchBikeRegEvents -> finally',
           });
         });
     }

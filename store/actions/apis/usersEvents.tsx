@@ -1,9 +1,9 @@
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import firestore from '@react-native-firebase/firestore';
-import readItemFromStorage from '../../common/readItemFromStorage';
-import writeItemToStorage from '../../common/writeItemToStorage';
-import { Event } from '../../interfaces/event';
+import readItemFromStorage from '../../../common/readItemFromStorage';
+import writeItemToStorage from '../../../common/writeItemToStorage';
+import { Event } from '../../../interfaces/event';
 import {
   FIRESTORE_COLLECTION,
   // @ts-ignore
