@@ -4,17 +4,19 @@ import crashlytics from "@react-native-firebase/crashlytics";
 import eventsReducer from "./store/reducers/events";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
+import Colors from "./constants/Colors";
 import React, { useEffect } from "react";
 import Navigation from "./navigation";
 import ReduxThunk from "redux-thunk";
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import { init } from "./helpers/sqlite_db";
 import { useNetInfo, NetInfoState } from "@react-native-community/netinfo";
-import { Alert } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { ColorSchemeName } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { MD3DarkTheme, Provider as PaperProvider } from "react-native-paper";
+import { ActivityIndicator, MD3DarkTheme, Provider as PaperProvider } from "react-native-paper";
 import { Provider as StoreProvider } from "react-redux";
+import { View } from "./components/Themed";
 
 init()
   .then(() => {
@@ -60,7 +62,14 @@ export default function App() {
   }, [internetState.isConnected]);
 
   if (!isLoadingComplete) {
-    return null;
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+          size="large"
+        />
+      </View>
+    );
   } else {
     return (
       <StoreProvider store={store}>
@@ -72,3 +81,11 @@ export default function App() {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+});

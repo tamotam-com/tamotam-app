@@ -327,7 +327,7 @@ export default function MapScreen() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || events.length < 1) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator
