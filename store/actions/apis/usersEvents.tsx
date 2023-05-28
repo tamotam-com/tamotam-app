@@ -26,8 +26,8 @@ export const fetchUsersEvents: () => (dispatch: any) => void = () => {
             description: documentSnapshot.data().description,
             imageUrl: '',
             isUserEvent: documentSnapshot.data().isUserEvent,
-            latitude: documentSnapshot.data().coordinate.latitude,
-            longitude: documentSnapshot.data().coordinate.longitude,
+            latitude: documentSnapshot.data().latitude,
+            longitude: documentSnapshot.data().longitude,
             title: documentSnapshot.data().title,
           });
         });
