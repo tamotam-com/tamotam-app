@@ -14,7 +14,8 @@ TamoTam aims to limit online time spent on digital applications in favour of off
 The application aims to be minimalistic and exclude features such as:
 
 - Addictive Feed,
-- Likes causing Rat Racing,
+- Destructive Notifications,
+- Brain-affecting Likes,
 - Comments, #StopHate,
 - Share, #StopFakeNews,
 - Other complicated Algorithms unconsciously affect you to stay online.
