@@ -23,7 +23,7 @@ The application aims to be minimalistic and exclude features such as:
 That's because we believe Social Media affects us mentally, such as Anxiety, Depression, Fear Of Missing Out (FOMO), Fear of Speaking Up, Isolation, and more.
 
 Look what's happening around you in Real. Offline. Social Life.
-Could you add your events (login or registration required) to contribute to that idea?
+Could you add your events (log in or registration required) to contribute to that idea?
 
 ### Note
 
