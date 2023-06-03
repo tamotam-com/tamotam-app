@@ -5,11 +5,11 @@
 
 ## Description
 
-List of offline events happening around you. No login or registration required.
+Map with offline events happening around you. You don't need to log in or register.
 
 ### Go Online to be Offline.
 
-TamoTam aims to limit online time spent on digital applications in favour of offline social life, outside of the screen.
+TamoTam aims to limit online time spent on digital applications in favor of offline social life outside the screen.
 
 The application aims to be minimalistic and exclude features such as:
 
@@ -18,12 +18,12 @@ The application aims to be minimalistic and exclude features such as:
 - Brain-affecting Likes,
 - Comments, #StopHate,
 - Share, #StopFakeNews,
-- Other complicated Algorithms unconsciously affect you to stay online.
+- Other complicated Algorithms unconsciously affect your stay online.
 
 That's because we believe Social Media affects us mentally, such as Anxiety, Depression, Fear Of Missing Out (FOMO), Fear of Speaking Up, Isolation, and more.
 
-Look what's happening around you in a Real. Offline. Social Life.
-Contribute to that idea by adding your events (login or registration required).
+Look what's happening around you in Real. Offline. Social Life.
+Could you add your events (login or registration required) to contribute to that idea?
 
 ### Note
 
