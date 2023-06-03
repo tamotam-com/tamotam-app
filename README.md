@@ -5,7 +5,7 @@
 
 ## Description
 
-List of offline events happening around you, without login or registration required.
+List of offline events happening around you. No login or registration required.
 
 ### Go Online to be Offline.
 
@@ -23,7 +23,7 @@ The application aims to be minimalistic and exclude features such as:
 That's because we believe Social Media affects us mentally, such as Anxiety, Depression, Fear Of Missing Out (FOMO), Fear of Speaking Up, Isolation, and more.
 
 Look what's happening around you in a Real. Offline. Social Life.
-Contribute to that idea by adding your events.
+Contribute to that idea by adding your events (login or registration required).
 
 ### Note
 
