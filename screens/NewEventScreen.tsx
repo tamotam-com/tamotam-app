@@ -51,6 +51,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   const [dateTimeMode, setDateTimeMode] = useState<string | any>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error(""));
+  const [imageUrlStorage, setImageUrlStorage] = useState("");
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
     latitude: 0,
     longitude: 0,
@@ -59,7 +60,6 @@ export default function NewEventScreen({ navigation, route }: any) {
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<any | Date>(new Date());
-  const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>({
     latitude: 0,
     longitude: 0,
@@ -218,13 +218,6 @@ export default function NewEventScreen({ navigation, route }: any) {
     setShowDatepicker(false);
   };
 
-  const onImageChange: (imagePath: string) => void = (imagePath: string) => {
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> NewEventScreen -> onImageChange, imagePath: " + imagePath,
-    });
-    setSelectedImage(imagePath);
-  };
-
   const onLocationChange: (e: {
     nativeEvent: {
       coordinate: Coordinate;
@@ -282,7 +275,7 @@ export default function NewEventScreen({ navigation, route }: any) {
         id: Math.random() * 100000000000000000,
         date: selectedDate,
         description: descriptionValue,
-        imageUrl: selectedImage,
+        imageUrl: imageUrlStorage,
         isUserEvent: true,
         latitude: selectedLocation.latitude,
         longitude: selectedLocation.longitude,
@@ -460,7 +453,7 @@ export default function NewEventScreen({ navigation, route }: any) {
               minute: "2-digit",
             })}</StyledText>
           </View>
-          <SelectImage onImageTaken={onImageChange} />
+          <SelectImage imageUrlStorageFromChild={setImageUrlStorage} />
           <Button
             buttonColor={
               colorScheme === "dark"

@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import analytics from "@react-native-firebase/analytics";
 import crashlytics from "@react-native-firebase/crashlytics";
+import firestore from "@react-native-firebase/firestore";
+import storage from "@react-native-firebase/storage";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
@@ -39,6 +41,8 @@ import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
+// @ts-ignore
+import { FIRESTORE_COLLECTION } from "@env";
 
 export default function EditEventScreen({ navigation, route }: any) {
   const colorScheme: ColorSchemeName = useColorScheme();
@@ -52,6 +56,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [dateTimeMode, setDateTimeMode] = useState<string | any>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error());
+  const [imageUrlStorage, setImageUrlStorage] = useState("");
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
     latitude: selectedEvent.latitude,
     longitude: selectedEvent.longitude,
@@ -64,7 +69,6 @@ export default function EditEventScreen({ navigation, route }: any) {
       ? new Date(selectedEvent.date)
       : new Date()
   );
-  const [selectedImage, setSelectedImage] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
@@ -223,13 +227,6 @@ export default function EditEventScreen({ navigation, route }: any) {
     setShowDatepicker(false);
   };
 
-  const onImageChange: (imagePath: string) => void = (imagePath: string) => {
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> EditEventScreen -> onImageChange, imagePath: " + imagePath,
-    });
-    setSelectedImage(imagePath);
-  };
-
   const onLocationChange: (e: {
     nativeEvent: {
       coordinate: Coordinate;
@@ -275,7 +272,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     setDateTimeMode(currentMode);
   };
 
-  const onSaveHandler: () => void = () => {
+  const onSaveHandler: () => void = async () => {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler",
     });
@@ -283,23 +280,49 @@ export default function EditEventScreen({ navigation, route }: any) {
     setIsLoading(true);
 
     try {
-      const newEvent: Event = {
+      const updatedEvent: Event = {
         id: eventId,
         date: selectedDate,
         description: descriptionValue
           ? descriptionValue
           : selectedEvent.description,
-        imageUrl: selectedImage ? selectedImage : selectedEvent.imageUrl,
-        isUserEvent: selectedEvent.isUserEvent,
+        // @ts-ignore
+        imageUrl: imageUrlStorage ? imageUrlStorage : await storage().refFromURL(selectedEvent.imageUrl).path, // Get just the name of the file, otherwise the image won't be displayed correctly with "getDownloadURL()" while fetching the image.
+        isUserEvent: Boolean(selectedEvent.isUserEvent),
         latitude: markerCoordinates.latitude,
         longitude: markerCoordinates.longitude,
         title: titleValue ? titleValue : selectedEvent.title,
       };
 
-      analytics().logEvent("custom_log", {
-        description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try, newEvent: " + newEvent,
-      });
-      dispatch(updateEvent(newEvent));
+      firestore()
+        .collection(FIRESTORE_COLLECTION)
+        .doc(selectedEvent.firestoreDocumentId)
+        .update(updatedEvent)
+        .then(() => {
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try -> then, updatedEvent: " + updatedEvent,
+          });
+        })
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try -> catch, error: " + error,
+            });
+            crashlytics().recordError(error);
+            setError(new Error(error.message));
+          }
+        })
+        .finally(() => {
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> finally",
+          });
+        });
+      dispatch(updateEvent({
+        ...updatedEvent,
+        // Those 2 fields must be available only locally.
+        firestoreDocumentId: selectedEvent.firestoreDocumentId,
+        imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : selectedEvent.imageUrl,
+      }));
     } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
@@ -461,7 +484,7 @@ export default function EditEventScreen({ navigation, route }: any) {
                 ? selectedEvent.imageUrl
                 : require("../assets/images/no-image.jpeg")
             }
-            onImageTaken={onImageChange}
+            imageUrlStorageFromChild={setImageUrlStorage}
           />
           <Button
             buttonColor={

@@ -9,7 +9,7 @@ export const init: () => Promise<unknown> = () => {
   const promise: Promise<unknown> = new Promise((resolve: (value: unknown) => void, reject: (reason?: any) => void) => {
     sqlite_db.transaction((SQLiteTransaction: SQLTransaction) => {
       SQLiteTransaction.executeSql(
-        `CREATE TABLE IF NOT EXISTS savedEvents (id INTEGER PRIMARY KEY NOT NULL, date REAL NOT NULL, description TEXT, imageUrl TEXT, isUserEvent INTEGER NOT NULL, latitude REAL NOT NULL, longitude REAL NOT NULL, title)`,
+        `CREATE TABLE IF NOT EXISTS savedEvents (id INTEGER PRIMARY KEY NOT NULL, date REAL NOT NULL, description TEXT, firestoreDocumentId TEXT NOT NULL, imageUrl TEXT, isUserEvent INTEGER NOT NULL, latitude REAL NOT NULL, longitude REAL NOT NULL, title TEXT)`,
         [],
         (transaction: SQLTransaction, result: SQLResultSet) => {
           resolve(result);
@@ -69,9 +69,10 @@ export const deleteSavedEvent: (id: number | string) => Promise<unknown> = (
 };
 
 export const insertSavedEvent:
-  (date: Date, description: string, imageUrl: string, isUserEvent: boolean, latitude: number, longitude: number, title: string) => Promise<unknown> = (
+  (date: Date, description: string, firestoreDocumentId: string | undefined, imageUrl: string, isUserEvent: boolean, latitude: number, longitude: number, title: string) => Promise<unknown> = (
     date: Date,
     description: string,
+    firestoreDocumentId: string | undefined,
     imageUrl: string,
     isUserEvent: boolean,
     latitude: number,
@@ -81,8 +82,8 @@ export const insertSavedEvent:
     const promise: Promise<unknown> = new Promise((resolve: (value: unknown) => void, reject: (reason?: any) => void) => {
       sqlite_db.transaction((SQLiteTransaction: SQLTransaction) => {
         SQLiteTransaction.executeSql(
-          `INSERT INTO savedEvents (date, description, imageUrl, isUserEvent, latitude, longitude, title) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-          [String(date), description, imageUrl, Number(isUserEvent), latitude, longitude, title],
+          `INSERT INTO savedEvents (date, description, firestoreDocumentId, imageUrl, isUserEvent, latitude, longitude, title) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          [String(date), description, firestoreDocumentId ? firestoreDocumentId : null, imageUrl, Number(isUserEvent), latitude, longitude, title],
           (transaction: SQLTransaction, result: SQLResultSet) => {
             resolve(result);
             analytics().logEvent("custom_log", {

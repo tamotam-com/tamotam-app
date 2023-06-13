@@ -78,6 +78,7 @@ export const deleteEvent = (event: Event) => {
         id: number | string;
         date: Date;
         description: string;
+        firestoreDocumentId?: string;
         imageUrl: string;
         isUserEvent: boolean;
         latitude: number;
@@ -95,6 +96,7 @@ export const deleteEvent = (event: Event) => {
           id: event.id,
           date: event.date,
           description: event.description,
+          firestoreDocumentId: event.firestoreDocumentId,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
           latitude: event.latitude,
@@ -215,6 +217,7 @@ export const saveEvent = (event: Event) => {
         id: number | string;
         date: Date;
         description: string;
+        firestoreDocumentId?: string;
         imageUrl: string;
         isUserEvent: boolean;
         latitude: number;
@@ -227,6 +230,7 @@ export const saveEvent = (event: Event) => {
       const dbResult: any = await insertSavedEvent(
         event.date,
         event.description,
+        event.firestoreDocumentId,
         event.imageUrl,
         event.isUserEvent,
         event.latitude,
@@ -240,6 +244,7 @@ export const saveEvent = (event: Event) => {
           id: event.id,
           date: event.date,
           description: event.description,
+          firestoreDocumentId: event.firestoreDocumentId,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
           latitude: event.latitude,
@@ -287,6 +292,7 @@ export const updateEvent = (event: Event) => {
         id: number | string;
         date: Date;
         description: string;
+        firestoreDocumentId: string;
         imageUrl: string;
         isUserEvent: boolean;
         latitude: number;
@@ -302,6 +308,7 @@ export const updateEvent = (event: Event) => {
           id: event.id,
           date: event.date,
           description: event.description,
+          firestoreDocumentId: event.firestoreDocumentId!,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
           latitude: event.latitude,

@@ -1,5 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import analytics from "@react-native-firebase/analytics";
+import storage, { FirebaseStorageTypes } from "@react-native-firebase/storage";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import React, { useEffect, useState } from "react";
@@ -9,7 +10,7 @@ import { Text, View } from "./Themed";
 
 const SelectImage = (props: {
   existingImageUrl?: string;
-  onImageTaken: (arg0: string) => void;
+  imageUrlStorageFromChild: (arg0: string) => void;
 }) => {
   const colorScheme: ColorSchemeName = useColorScheme();
   const [pickedImage, setPickedImage] = useState("");
@@ -31,6 +32,7 @@ const SelectImage = (props: {
   }, []);
 
   const selectImageHandler = async () => {
+    let bucketStorageReference: FirebaseStorageTypes.Reference | string = "";
     let image: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
         // TODO: Shall it be also camera?
@@ -40,9 +42,15 @@ const SelectImage = (props: {
         quality: 1,
       });
 
-    if (!image.cancelled) {
-      setPickedImage(image.uri);
-      props.onImageTaken(image.uri);
+    if (!image.canceled) {
+      setPickedImage(image.assets[0].uri);
+
+      bucketStorageReference = await storage().ref(new Date().getTime().toString()); // Randomize the file name of an image in order not to forward local path of a user image.
+
+      const pathToFile: string = image.assets[0].uri;
+      const bucketStorageTaskSnapshot: FirebaseStorageTypes.TaskSnapshot | any = await bucketStorageReference.putFile(pathToFile);
+
+      props.imageUrlStorageFromChild(bucketStorageTaskSnapshot.metadata.fullPath);
     }
     analytics().logEvent("custom_log", {
       description: "--- Analytics: components -> SelectImage -> selectImageHandler, image: " + image,
