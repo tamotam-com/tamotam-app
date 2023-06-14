@@ -2,6 +2,7 @@ import * as Location from "expo-location";
 import analytics from "@react-native-firebase/analytics";
 import crashlytics from "@react-native-firebase/crashlytics";
 import firestore from "@react-native-firebase/firestore";
+import storage from "@react-native-firebase/storage";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
@@ -304,7 +305,10 @@ export default function NewEventScreen({ navigation, route }: any) {
             description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
           });
         });
-      dispatch(addEvent(newEvent));
+      dispatch(addEvent({
+        ...newEvent,
+        imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : '',
+      }));
     } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(
