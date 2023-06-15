@@ -19,6 +19,7 @@ export const addEvent = (event: Event) => {
         id: number | string;
         date: Date;
         description: string;
+        firestoreDocumentId: string;
         imageUrl: string;
         isUserEvent: boolean;
         latitude: number;
@@ -34,6 +35,7 @@ export const addEvent = (event: Event) => {
           id: event.id,
           date: event.date,
           description: event.description,
+          firestoreDocumentId: event.firestoreDocumentId!,
           imageUrl: event.imageUrl,
           isUserEvent: event.isUserEvent,
           latitude: event.latitude,

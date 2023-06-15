@@ -52,6 +52,7 @@ target 'TamoTam' do
   pod 'GTMSessionFetcher', :modular_headers => true
   pod 'nanopb', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
+  use_frameworks! :linkage => :static
   $RNFirebaseAsStaticFramework = true
   config = use_native_modules!
 

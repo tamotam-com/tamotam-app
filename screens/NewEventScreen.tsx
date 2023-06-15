@@ -265,6 +265,8 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const addEventHandler: () => Promise<void> = async () => {
+    let firestoreDocumentIdResponse: string = "";
+
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> addEventHandler",
     });
@@ -286,7 +288,9 @@ export default function NewEventScreen({ navigation, route }: any) {
       firestore()
         .collection(FIRESTORE_COLLECTION)
         .add(newEvent)
-        .then(() => {
+        .then((response) => {
+          // @ts-ignore
+          firestoreDocumentIdResponse = response._documentPath._parts[1];
           analytics().logEvent("custom_log", {
             description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
           });
@@ -300,15 +304,18 @@ export default function NewEventScreen({ navigation, route }: any) {
             setError(new Error(error.message));
           }
         })
-        .finally(() => {
+        .finally(async () => {
+          dispatch(addEvent({
+            ...newEvent,
+            // Those 2 fields must be available only locally.
+            firestoreDocumentId: firestoreDocumentIdResponse,
+            imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : '',
+          }));
+
           analytics().logEvent("custom_log", {
             description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
           });
         });
-      dispatch(addEvent({
-        ...newEvent,
-        imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : '',
-      }));
     } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert(

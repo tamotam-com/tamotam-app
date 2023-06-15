@@ -287,7 +287,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           ? descriptionValue
           : selectedEvent.description,
         // @ts-ignore
-        imageUrl: imageUrlStorage ? imageUrlStorage : await storage().refFromURL(selectedEvent.imageUrl).path, // Get just the name of the file, otherwise the image won't be displayed correctly with "getDownloadURL()" while fetching the image.
+        imageUrl: imageUrlStorage ? imageUrlStorage : selectedEvent.imageUrl ? await storage().refFromURL(selectedEvent.imageUrl).path : '', // Get just the name of the file, otherwise the image won't be displayed correctly with "getDownloadURL()" while fetching the image.
         isUserEvent: Boolean(selectedEvent.isUserEvent),
         latitude: markerCoordinates.latitude,
         longitude: markerCoordinates.longitude,

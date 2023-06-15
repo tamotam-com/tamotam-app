@@ -20,6 +20,7 @@ export default (state = initialState, action: any) => {
         id: action.eventData.id,
         date: action.eventData.date,
         description: action.eventData.description,
+        firestoreDocumentId: action.eventData.firestoreDocumentId,
         imageUrl: action.eventData.imageUrl,
         isUserEvent: action.eventData.isUserEvent,
         latitude: action.eventData.latitude,
