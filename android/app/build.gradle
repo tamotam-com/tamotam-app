@@ -121,8 +121,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         resValue "string", "build_config_package", "com.tamotam.application"
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 88
-        versionName "0.8.8"
+        versionCode 89
+        versionName "0.8.9"
     }
 
     splits {
