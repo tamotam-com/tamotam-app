@@ -109,3 +109,5 @@ External API's, like `Ticketmaster`, provide +/- 10k of external events. The `Ta
 ## Contact
 
 contact[at]tamotam[dot]com
+
+(demo) number of Android downloads badge: [https://playbadges.pavi2410.me/badge/full?id=com.tamotam.application](https://playbadges.pavi2410.me/badge/full?id=com.tamotam.application)
