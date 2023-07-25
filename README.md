@@ -106,6 +106,16 @@ External API's, like `Ticketmaster`, provide +/- 10k of external events. The `Ta
 - [React Status Newsletter](https://react.statuscode.com/issues/310)
 - [Reddit r/reactnative](https://www.reddit.com/r/reactnative/comments/xzcxn8/react_native_typescript_app_with_firebase/)
 
+## Research
+
+- [Brain Drain: The Mere Presence of One’s Own Smartphone Reduces Available Cognitive Capacity](https://www.journals.uchicago.edu/doi/full/10.1086/691462)
+- [No More FOMO: Limiting Social Media Decreases Loneliness and Depression](https://guilfordjournals.com/doi/10.1521/jscp.2018.37.10.751)
+- [Increases in Depression, Self‐Harm, and Suicide Among U.S. Adolescents After 2012 and Links to Technology Use: Possible Mechanisms](https://prcp.psychiatryonline.org/doi/full/10.1176/appi.prcp.20190015)
+- [A systematic review: the influence of social media on depression, anxiety and psychological distress in adolescents](https://www.tandfonline.com/doi/full/10.1080/02673843.2019.1590851)
+- [Cognitive Effects of Social Media Use: A Case of Older Adults](https://journals.sagepub.com/doi/full/10.1177/2056305118787203)
+- [Associations between smartphone use and mental health and well-being among young Swiss men](https://www.sciencedirect.com/science/article/pii/S002239562200588X)
+- [Excessive Smartphone Use Is Associated With Health Problems in Adolescents and Young Adults](https://www.frontiersin.org/articles/10.3389/fpsyt.2021.669042/full)
+
 ## Contact
 
 contact[at]tamotam[dot]com
