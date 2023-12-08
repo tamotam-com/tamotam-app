@@ -235,14 +235,14 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const onShowDatePicker: () => void = () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> NewEventScreen -> onShowDatePicker, text: ",
+      description: "--- Analytics: screens -> NewEventScreen -> onShowDatePicker",
     });
     showDateTimeMode("date");
   };
 
   const onShowTimePicker: () => void = () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> NewEventScreen -> onShowTimePicker, text: ",
+      description: "--- Analytics: screens -> NewEventScreen -> onShowTimePicker",
     });
     showDateTimeMode("time");
   };

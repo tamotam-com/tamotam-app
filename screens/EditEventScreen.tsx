@@ -243,14 +243,14 @@ export default function EditEventScreen({ navigation, route }: any) {
 
   const onShowDatePicker: () => void = () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> EditEventScreen -> onShowDatePicker, text: ",
+      description: "--- Analytics: screens -> EditEventScreen -> onShowDatePicker",
     });
     showDateTimeMode("date");
   };
 
   const onShowTimePicker: () => void = () => {
     analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> EditEventScreen -> onShowTimePicker, text: ",
+      description: "--- Analytics: screens -> EditEventScreen -> onShowTimePicker",
     });
     showDateTimeMode("time");
   };
