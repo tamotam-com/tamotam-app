@@ -58,21 +58,18 @@ export default function MapScreen() {
   );
 
   const [error, setError] = useState<Error>(new Error());
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  //Handle State For Filter Events
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
-  const [isFiltering, setIsFiltering] = useState<boolean>(false);
-  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
-  const [selectedStartDate, setSelectedStartDate] = useState<any | Date>(new Date());
-  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
-
   const [initialRegionValue, setInitialRegionValue] = useState<Region>({
     latitude: 0,
     longitude: 0,
     latitudeDelta: 0,
     longitudeDelta: 0,
   });
+  const [isFiltering, setIsFiltering] = useState<boolean>(false);
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedStartDate, setSelectedStartDate] = useState<any | Date>(new Date());
+  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
 
   useEffect(() => {
     if (error.message !== "") {
