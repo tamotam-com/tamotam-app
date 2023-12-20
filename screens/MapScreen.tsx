@@ -617,7 +617,7 @@ export default function MapScreen() {
         transparent={true}
         visible={isFilterModalVisible}
         onRequestClose={() => setIsFilterModalVisible(false)}>
-        <View style={styles.centeredView}>
+        <View style={styles.centered}>
           <View style={styles.modalContainer}>
             <View style={styles.modalView}>
               <View>
@@ -677,11 +677,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   centered: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-  centeredView: {
     alignItems: "center",
     backgroundColor: "transparent",
     flex: 1,
