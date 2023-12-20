@@ -71,6 +71,8 @@ export default function MapScreen() {
   const [selectedStartDate, setSelectedStartDate] = useState<any | Date>(new Date());
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
 
+  const eventsOnMap: Event[] = isFiltering ? filteredEvents : events;
+
   useEffect(() => {
     if (error.message !== "") {
       Alert.alert(
@@ -449,8 +451,8 @@ export default function MapScreen() {
           showsUserLocation={true}
           style={styles.map}>
           {/* TODO: After outsourcing/refactoring fetching the data in store adjust the markers after API will stop returning 402. */}
-          {isFiltering === false
-            ? events.map((event: Event) => {
+          {
+            eventsOnMap.map((event: Event) => {
               return new Date().getTime() < new Date(event.date).getTime() ? (
                 <Marker
                   coordinate={{
@@ -589,138 +591,7 @@ export default function MapScreen() {
                 </Marker>
               ) : null;
             })
-            : filteredEvents.map((event: Event) => {
-              return new Date().getTime() < new Date(event.date).getTime() ? (
-                <Marker
-                  coordinate={{
-                    latitude: event.latitude,
-                    longitude: event.longitude,
-                  }}
-                  icon={
-                    event.isUserEvent
-                      ? require("../assets/images/icon-map-user-event.png")
-                      : require("../assets/images/icon-map-tamotam-event.png")
-                  }
-                  key={event.id}
-                  onCalloutPress={() => saveEventHandler(event)} // For Android.
-                  tracksViewChanges={false}>
-                  <Callout
-                    onPress={() => saveEventHandler(event)} // For iOS.
-                    // TODO: The new styling for iOS isn"t good.
-                    style={[
-                      styles.locationButtonCallout,
-                      {
-                        backgroundColor:
-                          colorScheme === "dark"
-                            ? Colors.dark.background
-                            : Colors.light.background,
-                        borderColor:
-                          colorScheme === "dark"
-                            ? Colors.dark.text
-                            : Colors.light.text,
-                        shadowColor:
-                          colorScheme === "dark"
-                            ? Colors.dark.text
-                            : Colors.light.text,
-                      },
-                    ]}
-                    tooltip>
-                    <StyledText style={styles.title}>
-                      {event.title
-                        ? event.title
-                        : "No information about title."}
-                    </StyledText>
-                    {Platform.OS === "android" ? (
-                      <Text style={styles.imageWrapperAndroid}>
-                        <Image
-                          resizeMode="cover"
-                          source={
-                            event.imageUrl &&
-                              typeof event.imageUrl === "string"
-                              ? { uri: event.imageUrl }
-                              : require("../assets/images/no-image.jpeg")
-                          }
-                          style={styles.imageAndroid}
-                        />
-                      </Text>
-                    ) : (
-                      <Image
-                        source={
-                          event.imageUrl && typeof event.imageUrl === "string"
-                            ? { uri: event.imageUrl }
-                            : require("../assets/images/no-image.jpeg")
-                        }
-                        style={styles.imageIOS}
-                      />
-                    )}
-                    <StyledText style={styles.description}>
-                      {event.description
-                        ? event.description
-                        : "No information about description."}
-                    </StyledText>
-                    <StyledText style={styles.description}>
-                      🗓️{" "}
-                      {new Date(event.date) instanceof Date
-                        ? new Date(event.date).toLocaleDateString()
-                        : "No information"}
-                    </StyledText>
-                    <StyledText style={styles.description}>
-                      🕒{" "}
-                      {new Date(event.date) instanceof Date
-                        ? new Date(event.date).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
-                        : "No information"}
-                    </StyledText>
-                    {Platform.OS === "android" ? (
-                      <StyledText
-                        style={[
-                          styles.saveButtonAndroid,
-                          {
-                            backgroundColor:
-                              colorScheme === "dark"
-                                ? Colors.dark.text
-                                : Colors.light.text,
-                            color:
-                              colorScheme === "dark"
-                                ? Colors.dark.background
-                                : Colors.light.background,
-                          },
-                        ]}>
-                        <MaterialIcons
-                          color={
-                            colorScheme === "dark"
-                              ? Colors.dark.background
-                              : Colors.light.background
-                          }
-                          name="check-circle-outline"
-                          size={44}
-                        />{" "}
-                        SAVE
-                      </StyledText>
-                    ) : (
-                      <Button
-                        buttonColor={
-                          colorScheme === "dark"
-                            ? Colors.dark.text
-                            : Colors.light.text
-                        }
-                        icon="check-circle-outline"
-                        labelStyle={{ fontSize: 16 }}
-                        mode="contained"
-                        textColor={
-                          colorScheme === "dark"
-                            ? Colors.dark.background
-                            : Colors.light.background
-                        }>
-                        Save
-                      </Button>
-                    )}
-                  </Callout>
-                </Marker>
-              ) : null;
-            })}
+          }
         </MapView>
       </View>
 
