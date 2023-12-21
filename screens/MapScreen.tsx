@@ -5,6 +5,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
 import CustomMapStyles from "../constants/CustomMapStyles";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import MapView from "react-native-map-clustering";
 import React, {
   useCallback,
@@ -44,7 +45,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Region } from "../interfaces/region";
 import { View } from "../components/Themed";
 import { Modal } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function MapScreen() {
 
@@ -416,17 +416,17 @@ export default function MapScreen() {
             onPress={onShowFilter}
             style={{
               backgroundColor:
-                !isFiltering
-                  ? Colors.light.background
-                  : Colors.light.text,
+                colorScheme === "dark"
+                  ? Colors.dark.background
+                  : Colors.light.background,
               padding: 10,
             }}
           >
             <MaterialIcons
               color={
-                !isFiltering
-                  ? Colors.dark.background
-                  : Colors.light.background
+                colorScheme === "dark"
+                  ? Colors.dark.text
+                  : Colors.light.text
               }
               name="filter-list"
               size={24}
@@ -618,48 +618,67 @@ export default function MapScreen() {
         visible={isFilterModalVisible}
         onRequestClose={() => setIsFilterModalVisible(false)}>
         <View style={styles.centered}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalView}>
-              <View>
-                <Button
-                  buttonColor={
-                    colorScheme === "dark"
-                      ? Colors.dark.background
-                      : Colors.light.background
-                  }
-                  icon="calendar-edit"
-                  mode="text"
-                  onPress={onShowDatePicker}
-                  textColor={
-                    colorScheme === "dark"
-                      ? Colors.dark.text
-                      : Colors.light.text
-                  }>
-                  Pick date
-                </Button>
-              </View>
+          <View style={[
+            styles.modalContainer, {
+              backgroundColor:
+                colorScheme === "dark"
+                  ? Colors.dark.background
+                  : Colors.light.background,
+            }]}>
+            <View style={{ marginVertical: 20, }}>
+              <Button
+                buttonColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.background
+                    : Colors.light.background
+                }
+                icon="calendar-edit"
+                mode="text"
+                onPress={onShowDatePicker}
+                textColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.text
+                    : Colors.light.text
+                }>
+                Pick date
+              </Button>
             </View>
             <View style={{ alignItems: "center", justifyContent: "center" }}>
               <StyledText>
                 Date: {new Date(selectedStartDate).toLocaleDateString()}
               </StyledText>
             </View>
-            <View style={styles.buttonRow}>
-              <TouchableOpacity
+            <View style={{ flexDirection: "row", marginVertical: 40 }}>
+              <Button
+                buttonColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.text
+                    : Colors.light.text
+                }
+                mode="contained"
                 onPress={onFilterDateEvents}
-                style={styles.filterDateButton}
+                style={{ marginRight: 5 }}
+                textColor={
+                  colorScheme === "dark" ? Colors.dark.background : Colors.light.background
+                }
               >
-                <Text style={{ color: Colors.light.background, fontSize: 16 }}>
-                  Filter
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={onClearFilters}>
-                <Text style={{ color: Colors.light.background, fontSize: 16 }}>
-                  Clear
-                </Text>
-              </TouchableOpacity>
+                Filter
+              </Button>
+              <Button
+                buttonColor={
+                  colorScheme === "dark"
+                    ? Colors.dark.background
+                    : Colors.light.background
+                }
+                mode="outlined"
+                onPress={onClearFilters}
+                style={{ marginLeft: 5 }}
+                textColor={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
+              >
+                Clear
+              </Button>
             </View>
           </View>
         </View>
@@ -671,24 +690,11 @@ export default function MapScreen() {
 }
 
 const styles = StyleSheet.create({
-  buttonRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   centered: {
     alignItems: "center",
     backgroundColor: "transparent",
     flex: 1,
     justifyContent: "center",
-  },
-  clearButton: {
-    alignSelf: "center",
-    backgroundColor: Colors.light.text,
-    borderRadius: 6,
-    marginVertical: 40,
-    paddingHorizontal: 30,
-    paddingVertical: 6,
   },
   description: {
     fontSize: 14,
@@ -699,15 +705,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 20,
     zIndex: 999
-  },
-  filterDateButton: {
-    alignSelf: "center",
-    backgroundColor: Colors.light.text,
-    borderRadius: 6,
-    marginRight: 10,
-    marginVertical: 40,
-    paddingHorizontal: 30,
-    paddingVertical: 6,
   },
   imageAndroid: {
     height: 200,
@@ -736,16 +733,9 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
   },
   modalContainer: {
-    backgroundColor: Colors.light.background,
-    paddingVertical: 20,
+    borderRadius: 50,
     paddingHorizontal: 50,
-    borderRadius: 10,
-    elevation: 5,
-  },
-  modalView: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 20,
+    paddingVertical: 20,
   },
   saveButtonAndroid: {
     fontSize: 20,
