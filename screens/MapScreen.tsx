@@ -68,7 +68,7 @@ export default function MapScreen() {
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedStartDate, setSelectedStartDate] = useState<any | Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<any | Date>(new Date());
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
 
   const eventsOnMap: Event[] = isFiltering ? filteredEvents : events;
@@ -302,7 +302,7 @@ export default function MapScreen() {
     setFilteredEvents([]);
     setIsFiltering(false);
     setIsFilterModalVisible(false);
-    setSelectedStartDate(new Date());
+    setSelectedDate(new Date());
   };
 
   const onFilterDateEvents: () => void = () => {
@@ -310,7 +310,7 @@ export default function MapScreen() {
       description: "--- Analytics: screens -> MapScreen -> onFilterDateEvents",
     });
     const filtered: Event[] = events.filter((event: Event) => {
-      return new Date(event.date).toLocaleDateString() === selectedStartDate.toLocaleDateString()
+      return new Date(event.date).toLocaleDateString() === selectedDate.toLocaleDateString()
     });
     setFilteredEvents(filtered);
     setIsFiltering(true);
@@ -404,7 +404,7 @@ export default function MapScreen() {
       setShowDatepicker(false);
       return;
     }
-    setSelectedStartDate(selectedValueDate);
+    setSelectedDate(selectedValueDate);
     setShowDatepicker(false);
   };
 
@@ -595,23 +595,6 @@ export default function MapScreen() {
         </MapView>
       </View>
 
-      {showDatepicker == true && (
-        <DateTimePicker
-          display="spinner"
-          is24Hour={true}
-          maximumDate={
-            new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-          }
-          minimumDate={new Date()}
-          mode={"date"}
-          onChange={onDateTimeChange}
-          testID="dateTimePicker"
-          textColor={
-            colorScheme === "dark" ? Colors.dark.text : Colors.light.text
-          }
-          value={selectedStartDate}
-        />
-      )}
       <Modal
         animationType="slide"
         transparent={true}
@@ -643,9 +626,26 @@ export default function MapScreen() {
                 Pick date
               </Button>
             </View>
+            {showDatepicker == true && (
+              <DateTimePicker
+                display="spinner"
+                is24Hour={true}
+                maximumDate={
+                  new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+                }
+                minimumDate={new Date()}
+                mode={"date"}
+                onChange={onDateTimeChange}
+                testID="dateTimePicker"
+                textColor={
+                  colorScheme === "dark" ? Colors.dark.text : Colors.light.text
+                }
+                value={selectedDate}
+              />
+            )}
             <View style={{ alignItems: "center", justifyContent: "center" }}>
               <StyledText>
-                Date: {new Date(selectedStartDate).toLocaleDateString()}
+                Date: {new Date(selectedDate).toLocaleDateString()}
               </StyledText>
             </View>
             <View style={{ flexDirection: "row", marginVertical: 40 }}>
