@@ -648,7 +648,7 @@ export default function MapScreen() {
                 Date: {new Date(selectedDate).toLocaleDateString()}
               </StyledText>
             </View>
-            <View style={{ flexDirection: "row", marginVertical: 40 }}>
+            <View style={{ justifyContent: 'space-evenly', flexDirection: "row", marginVertical: 40 }}>
               <Button
                 buttonColor={
                   colorScheme === "dark"
