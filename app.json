@@ -2,7 +2,7 @@
   "expo": {
     "name": "TamoTam",
     "slug": "TamoTam",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -18,7 +18,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "0.9.0",
+      "buildNumber": "0.9.1",
       "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.tamotam.application"
     },
@@ -29,7 +29,7 @@
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.tamotam.application",
-      "versionCode": 90
+      "versionCode": 91
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
