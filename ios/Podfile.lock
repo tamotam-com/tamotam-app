@@ -623,8 +623,6 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (12.0.1):
     - ExpoModulesCore
-  - ExpoLocalization (14.1.1):
-    - ExpoModulesCore
   - ExpoModulesCore (1.2.7):
     - React-Core
     - React-RCTAppDelegate
@@ -1303,7 +1301,6 @@ DEPENDENCIES:
   - Expo (from `../node_modules/expo`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
-  - ExpoLocalization (from `../node_modules/expo-localization/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
@@ -1425,8 +1422,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-image-picker/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
-  ExpoLocalization:
-    :path: "../node_modules/expo-localization/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
   ExpoWebBrowser:
@@ -1546,7 +1541,6 @@ SPEC CHECKSUMS:
   Expo: d351b4546895fb99ae4e5a1bc39df770ab9dc7d1
   ExpoImagePicker: 270dea232b3a072d981dd564e2cafc63a864edb1
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
-  ExpoLocalization: f26cd431ad9ea3533c5b08c4fabd879176a794bb
   ExpoModulesCore: 653958063a301098b541ae4dfed1ac0b98db607b
   ExpoWebBrowser: 033d34c478d9986da2f1679729041423837626e0
   EXSplashScreen: 0e0a9ba0cf7553094e93213099bd7b42e6e237e9
@@ -1631,4 +1625,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 9ff5c9ab3b85985fa066a7093feb758bcadd3d68
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.14.3

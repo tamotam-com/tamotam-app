@@ -1,15 +1,13 @@
-// TODO: Delete PredictHQ after temporarily access will be granted, because it's too expensive after that.
-import * as Localization from "expo-localization";
 import analytics from '@react-native-firebase/analytics';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
 import readItemFromStorage from '../../../common/readItemFromStorage';
 import writeItemToStorage from '../../../common/writeItemToStorage';
-import {Event} from '../../../interfaces/event';
+import { Event } from '../../../interfaces/event';
 import {
   PREDICTHQ_ACCESS_TOKEN,
   PREDICTHQ_CATEGORIES,
-  PREDICTHQ_LIMIT,
+  PREDICTHQ_LOCATIONS
   // @ts-ignore
 } from '@env';
 
@@ -27,19 +25,21 @@ export const fetchPredictHqEvents: () => (dispatch: any) => void = () => {
       method: 'GET',
       params: {
         category: PREDICTHQ_CATEGORIES,
-        country: Localization.region,
-        limit: PREDICTHQ_LIMIT,
+        "saved_location.location_id": PREDICTHQ_LOCATIONS,
       },
       url: 'https://api.predicthq.com/v1/events/',
     })
       .then((response: AxiosResponse<any, any>) => {
-        for (const key in response) {
+        for (const id in response.data.results) {
           eventsInStorage.push({
-            key,
-            description: response.data.results[key].description,
-            latitude: response.data.results[key].location[1],
-            longitude: response.data.results[key].location[0],
-            title: response.data.results[key].title,
+            id: response.data.results[id].id,
+            date: new Date(response.data.results[id].start),
+            description: response.data.results[id].description,
+            imageUrl: '',
+            isUserEvent: false,
+            latitude: response.data.results[id].location[1],
+            longitude: response.data.results[id].location[0],
+            title: response.data.results[id].title,
           });
         }
         analytics().logEvent('custom_log', {

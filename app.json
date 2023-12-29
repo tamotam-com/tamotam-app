@@ -37,8 +37,7 @@
     "plugins": [
       "@react-native-firebase/app",
       "@react-native-firebase/crashlytics",
-      "@react-native-firebase/perf",
-      "expo-localization"
+      "@react-native-firebase/perf"
     ],
     "extra": {
       "eas": {
