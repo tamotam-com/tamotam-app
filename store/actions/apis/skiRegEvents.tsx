@@ -15,7 +15,7 @@ export const fetchSkiRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
-    for (let page = 0; page < SKIREG_NUMBER_OF_PAGES; page++) {
+    for (let page: number = 0; page < SKIREG_NUMBER_OF_PAGES; page++) {
       await axios({
         method: 'GET',
         url: `https://www.skireg.com/api/search/search?startpage=${page}`,

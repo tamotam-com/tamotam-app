@@ -15,7 +15,7 @@ export const fetchBikeRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
-    for (let page = 0; page < BIKEREG_NUMBER_OF_PAGES; page++) {
+    for (let page: number = 0; page < BIKEREG_NUMBER_OF_PAGES; page++) {
       await axios({
         method: 'GET',
         url: `https://www.bikereg.com/api/search?startpage=${page}`,

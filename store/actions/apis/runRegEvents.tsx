@@ -15,7 +15,7 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
-    for (let page = 1; page < RUNREG_NUMBER_OF_PAGES; page++) {
+    for (let page: number = 0; page < RUNREG_NUMBER_OF_PAGES; page++) {
       await axios({
         method: 'GET',
         url: `https://www.runreg.com/api/search?startpage=${page}`,

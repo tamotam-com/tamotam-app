@@ -41,7 +41,7 @@ export const fetchTicketmasterEvents: () => (dispatch: any) => void = () => {
       'US',
     ];
     for (const country of ticketmasterCountries) {
-      for (let page = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
+      for (let page: number = 0; page < TICKETMASTER_NUMBER_OF_PAGES; page++) {
         await axios({
           method: 'GET',
           url: `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=${country}&apikey=${TICKETMASTER_API_KEY}&size=${TICKETMASTER_SIZE}&page=${page}`,
