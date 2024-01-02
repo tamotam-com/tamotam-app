@@ -1,5 +1,5 @@
 import analytics from '@react-native-firebase/analytics';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
 import readItemFromStorage from '../../../common/readItemFromStorage';
 import writeItemToStorage from '../../../common/writeItemToStorage';
@@ -32,11 +32,11 @@ export const fetchRunRegEvents: () => (dispatch: any) => void = () => {
             const dateInMilliseconds =
               +arrayByDashSignDivider[0] +
               checkForDash *
-                (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
-                  arrayByDashSignDivider[1].slice(-2) * 6e4);
+              (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                arrayByDashSignDivider[1].slice(-2) * 6e4);
 
             eventsInStorage.push({
-              id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
+              id: 'runreg' + response.data.MatchingEvents[EventId].EventId,
               date: new Date(dateInMilliseconds),
               description: response.data.MatchingEvents[EventId].PresentedBy,
               imageUrl: '',

@@ -456,8 +456,8 @@ export default function MapScreen() {
               return new Date().getTime() < new Date(event.date).getTime() ? (
                 <Marker
                   coordinate={{
-                    latitude: event.latitude,
-                    longitude: event.longitude,
+                    latitude: event.latitude ? event.latitude : 32.2332,
+                    longitude: event.longitude ? event.longitude : 5.213,
                   }}
                   icon={
                     event.isUserEvent ?

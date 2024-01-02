@@ -1,5 +1,5 @@
 import analytics from '@react-native-firebase/analytics';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
 import readItemFromStorage from '../../../common/readItemFromStorage';
 import writeItemToStorage from '../../../common/writeItemToStorage';
@@ -49,7 +49,7 @@ export const fetchTicketmasterEvents: () => (dispatch: any) => void = () => {
           .then((response: AxiosResponse<any, any>) => {
             for (const id in response.data._embedded.events) {
               eventsInStorage.push({
-                id,
+                id: 'ticketmaster' + response.data._embedded.events[id].id,
                 date: new Date(
                   response.data._embedded.events[id].dates.start.dateTime,
                 ),

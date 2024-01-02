@@ -15,10 +15,10 @@ export const fetchBikeRegEvents: () => (dispatch: any) => void = () => {
   return async (dispatch: any) => {
     let eventsInStorage: Event[] | null | any = await readItemFromStorage();
 
-    for (let page = 1; page < BIKEREG_NUMBER_OF_PAGES; page++) {
+    for (let page = 0; page < BIKEREG_NUMBER_OF_PAGES; page++) {
       await axios({
         method: 'GET',
-        url: `https://www.bikereg.com/api/search?startpage=${1}`,
+        url: `https://www.bikereg.com/api/search?startpage=${page}`,
       })
         .then((response: AxiosResponse<any, any>) => {
           for (const EventId in response.data.MatchingEvents) {
@@ -32,11 +32,11 @@ export const fetchBikeRegEvents: () => (dispatch: any) => void = () => {
             const dateInMilliseconds =
               +arrayByDashSignDivider[0] +
               checkForDash *
-                (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
-                  arrayByDashSignDivider[1].slice(-2) * 6e4);
+              (arrayByDashSignDivider[1].slice(0, 2) * 3.6e6 +
+                arrayByDashSignDivider[1].slice(-2) * 6e4);
 
             eventsInStorage.push({
-              id: EventId, // TODO: This EventId isn't fully correct as it goes 0, 1, 2, ... instead of the EventID fetched from the API.
+              id: 'bikereg' + response.data.MatchingEvents[EventId].EventId,
               date: new Date(dateInMilliseconds),
               description: response.data.MatchingEvents[EventId].PresentedBy,
               imageUrl: '',

@@ -32,7 +32,7 @@ export const fetchPredictHqEvents: () => (dispatch: any) => void = () => {
       .then((response: AxiosResponse<any, any>) => {
         for (const id in response.data.results) {
           eventsInStorage.push({
-            id: response.data.results[id].id,
+            id: 'predicthq' + response.data.results[id].id,
             date: new Date(response.data.results[id].start),
             description: response.data.results[id].description,
             imageUrl: '',

@@ -275,7 +275,7 @@ export default function NewEventScreen({ navigation, route }: any) {
 
     try {
       const newEvent: Event = {
-        id: Math.random() * 100000000000000000,
+        id: 'users' + Math.random() * 100000000000000000,
         date: selectedDate,
         description: descriptionValue,
         imageUrl: imageUrlStorage,

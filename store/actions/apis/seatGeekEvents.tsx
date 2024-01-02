@@ -1,5 +1,5 @@
 import analytics from '@react-native-firebase/analytics';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
 import readItemFromStorage from '../../../common/readItemFromStorage';
 import writeItemToStorage from '../../../common/writeItemToStorage';
@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 import { Event } from '../../../interfaces/event';
 import {
   SEATGEEK_CLIENT_ID,
-  // SEATGEEK_PAGE_SIZE, TODO: No idea why it doesn't work.
+  SEATGEEK_PAGE_SIZE,
   SEATGEEK_NUMBER_OF_PAGES,
   SEATGEEK_SECRET,
   // @ts-ignore
@@ -22,12 +22,12 @@ export const fetchSeatGeekEvents: () => (dispatch: Dispatch) => void = () => {
     for (let page: number = 0; page < SEATGEEK_NUMBER_OF_PAGES; page++) {
       await axios({
         method: 'GET',
-        url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}&per_page=5000`,
+        url: `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_CLIENT_ID}&client_secret=${SEATGEEK_SECRET}&per_page=${SEATGEEK_PAGE_SIZE}`,
       })
         .then((response: AxiosResponse<any, any>) => {
           for (const id in response.data.events) {
             eventsInStorage.push({
-              id, // TODO: It's only 0-9.
+              id: 'seatgeek' + response.data.events[id].id,
               date: new Date(response.data.events[id].datetime_local),
               description: response.data.events[id].description,
               imageUrl: response.data.events[id].performers[0].image,
