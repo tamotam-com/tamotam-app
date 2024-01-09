@@ -68,7 +68,9 @@ export default function MapScreen() {
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<any | Date>(new Date());
+  const [selectedStartDate, setSelectedStartDate] = useState<any | Date>(new Date());
+  const [selectedEndDate, setSelectedEndDate] = useState<any | Date>(new Date());
+  const [SelectedDatepicker, setSelectedDatepicker] = useState<string | any>("");
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
 
   const eventsOnMap: Event[] = isFiltering ? filteredEvents : events;
@@ -302,7 +304,8 @@ export default function MapScreen() {
     setFilteredEvents([]);
     setIsFiltering(false);
     setIsFilterModalVisible(false);
-    setSelectedDate(new Date());
+    setSelectedStartDate(new Date());
+    setSelectedEndDate(new Date());
   };
 
   const onFilterDateEvents: () => void = () => {
@@ -310,7 +313,11 @@ export default function MapScreen() {
       description: "--- Analytics: screens -> MapScreen -> onFilterDateEvents",
     });
     const filtered: Event[] = events.filter((event: Event) => {
-      return new Date(event.date).toLocaleDateString() === selectedDate.toLocaleDateString()
+      const eventDate = new Date(event.date).getTime();
+      const startDate = selectedStartDate ? selectedStartDate.getTime() : 0;
+      const endDate = selectedEndDate ? selectedEndDate.getTime() : Number.MAX_SAFE_INTEGER;
+  
+      return eventDate >= startDate && eventDate <= endDate;
     });
     setFilteredEvents(filtered);
     setIsFiltering(true);
@@ -389,10 +396,16 @@ export default function MapScreen() {
     );
   }
 
-  const onShowDatePicker: () => void = () => {
+  const onShowDatePicker: (endDate?: boolean) => void = (endDate = false) => {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> onShowDatePicker",
     });
+
+    if (endDate) {
+      setSelectedDatepicker('end'); 
+    } else {
+      setSelectedDatepicker('start'); 
+    }
     setShowDatepicker(true);
   };
 
@@ -404,8 +417,13 @@ export default function MapScreen() {
       setShowDatepicker(false);
       return;
     }
-    setSelectedDate(selectedValueDate);
+    if (SelectedDatepicker == 'end') {
+      setSelectedEndDate(selectedValueDate);
+    } else {
+      setSelectedStartDate(selectedValueDate);
+    }
     setShowDatepicker(false);
+    setSelectedDatepicker(''); 
   };
 
   const Map: () => JSX.Element = () => (
@@ -609,22 +627,24 @@ export default function MapScreen() {
                   : Colors.light.background,
             }]}>
             <View style={{ marginVertical: 20, }}>
-              <Button
-                buttonColor={
-                  colorScheme === "dark"
-                    ? Colors.dark.background
-                    : Colors.light.background
-                }
-                icon="calendar-edit"
-                mode="text"
-                onPress={onShowDatePicker}
-                textColor={
-                  colorScheme === "dark"
-                    ? Colors.dark.text
-                    : Colors.light.text
-                }>
-                Pick date
-              </Button>
+            <Button
+              buttonColor={colorScheme === "dark" ? Colors.dark.background : Colors.light.background}
+              icon="calendar-edit"
+              mode="text"
+              onPress={() => onShowDatePicker(false)}
+              textColor={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+              >
+              Pick start date
+            </Button>
+            <Button
+              buttonColor={colorScheme === "dark" ? Colors.dark.background : Colors.light.background}
+              icon="calendar-edit"
+              mode="text"
+              onPress={() => onShowDatePicker(true)}
+              textColor={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+            >
+              Pick end date
+            </Button>
             </View>
             {showDatepicker == true && (
               <DateTimePicker
@@ -635,17 +655,21 @@ export default function MapScreen() {
                 }
                 minimumDate={new Date()}
                 mode={"date"}
-                onChange={onDateTimeChange}
+                onChange={(event, value) => onDateTimeChange(event, value)}
                 testID="dateTimePicker"
                 textColor={
                   colorScheme === "dark" ? Colors.dark.text : Colors.light.text
                 }
-                value={selectedDate}
-              />
+                value={selectedEndDate ? selectedEndDate : selectedStartDate} />
             )}
             <View style={{ alignItems: "center", justifyContent: "center" }}>
               <StyledText>
-                Date: {new Date(selectedDate).toLocaleDateString()}
+               Start Date: {new Date(selectedStartDate).toLocaleDateString()}
+              </StyledText>
+            </View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <StyledText>
+               End Date: {new Date(selectedEndDate).toLocaleDateString()}
               </StyledText>
             </View>
             <View style={{ justifyContent: 'space-evenly', flexDirection: "row", marginVertical: 40 }}>
