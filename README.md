@@ -59,7 +59,7 @@ Therefore, even if that's just from business point of view super easy app for no
 ### Stay up to date
 
 Keep yourself up to date about TamoTam and me motivated by giving a **Star** :-)
-![Star TamoTam on GitHub](docs/star.mov)
+![Star TamoTam on GitHub](docs/star.webm)
 
 ## Run it
 
