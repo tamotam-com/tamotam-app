@@ -65,15 +65,15 @@ export default function MapScreen() {
     latitudeDelta: 0,
     longitudeDelta: 0,
   });
+  const [isEndDateSelected, setIsEndDateSelected] = useState<boolean>(false);
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedStartDate, setSelectedStartDate] = useState<any | Date>(new Date());
-  const [selectedEndDate, setSelectedEndDate] = useState<any | Date>(new Date());
-  const [SelectedDatepicker, setSelectedDatepicker] = useState<string | any>("");
-  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [isStartDateSelected, setIsStartDateSelected] = useState<boolean>(false);
-  const [isEndDateSelected, setIsEndDateSelected] = useState<boolean>(false);
+  const [selectedDatepicker, setSelectedDatepicker] = useState<string>("");
+  const [selectedEndDate, setSelectedEndDate] = useState<any | Date>(new Date());
+  const [selectedStartDate, setSelectedStartDate] = useState<any | Date>(new Date());
+  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
 
   const eventsOnMap: Event[] = isFiltering ? filteredEvents : events;
 
@@ -304,10 +304,12 @@ export default function MapScreen() {
       description: "--- Analytics: screens -> MapScreen -> onClearFilters",
     });
     setFilteredEvents([]);
+    setIsEndDateSelected(false);
     setIsFiltering(false);
     setIsFilterModalVisible(false);
-    setSelectedStartDate(new Date());
+    setIsStartDateSelected(false);
     setSelectedEndDate(new Date());
+    setSelectedStartDate(new Date());
   };
 
   const onFilterDateEvents: () => void = () => {
@@ -315,15 +317,17 @@ export default function MapScreen() {
       description: "--- Analytics: screens -> MapScreen -> onFilterDateEvents",
     });
     const filtered: Event[] = events.filter((event: Event) => {
-      const eventDate = new Date(event.date).getTime();
-      const startDate = selectedStartDate ? selectedStartDate.getTime() : 0;
-      const endDate = selectedEndDate ? selectedEndDate.getTime() : Number.MAX_SAFE_INTEGER;
-  
+      const eventDate: number = new Date(event.date).getTime();
+      const startDate: number = selectedStartDate ?? selectedStartDate.getTime();
+      const endDate: number = selectedEndDate ?? selectedEndDate.getTime();
+
       return eventDate >= startDate && eventDate <= endDate;
     });
     setFilteredEvents(filtered);
     setIsFiltering(true);
     setIsFilterModalVisible(false);
+    setIsEndDateSelected(false);
+    setIsStartDateSelected(false);
   };
 
   const onShowFilter: () => void = () => {
@@ -398,15 +402,15 @@ export default function MapScreen() {
     );
   }
 
-  const onShowDatePicker: (endDate?: boolean) => void = (endDate = false) => {
+  const onShowDatePicker: (dateType: string) => void = (dateType: string) => {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> onShowDatePicker",
     });
 
-    if (endDate) {
-      setSelectedDatepicker('end'); 
+    if (dateType === "startDate") {
+      setSelectedDatepicker("start");
     } else {
-      setSelectedDatepicker('start'); 
+      setSelectedDatepicker("end");
     }
     setShowDatepicker(true);
   };
@@ -419,36 +423,36 @@ export default function MapScreen() {
       setShowDatepicker(false);
       return;
     }
-    if (SelectedDatepicker == 'end') {
-        if (selectedValueDate && selectedValueDate < selectedStartDate) {
-          Alert.alert("Error", "End date cannot be before start date");
-          return;
-        }
-        if (selectedStartDate && selectedValueDate && isSameDay(selectedStartDate, selectedValueDate)) {
-          Alert.alert("Error", "Start and end dates cannot be the same day");
-          return;
-        }
-        else{
-          setSelectedEndDate(selectedValueDate);
-          setIsEndDateSelected(true);
-        }
-    
+    if (selectedDatepicker === "end") {
+      if (selectedValueDate && selectedValueDate < selectedStartDate) {
+        Alert.alert("Error", "End date cannot be before start date");
+        return;
+      }
+      if (selectedStartDate && selectedValueDate && isSameDay(selectedStartDate, selectedValueDate)) {
+        Alert.alert("Error", "Start and end dates cannot be the same day");
+        return;
+      }
+      else {
+        setIsEndDateSelected(true);
+        setSelectedEndDate(selectedValueDate);
+      }
+
     } else {
-      setSelectedStartDate(selectedValueDate);
       setIsStartDateSelected(true);
+      setSelectedStartDate(selectedValueDate);
     }
+    setSelectedDatepicker("");
     setShowDatepicker(false);
-    setSelectedDatepicker(''); 
   };
 
-  // Helper function to check if two dates are the same day
-    const isSameDay = (date1: Date, date2: Date): boolean => {
-      return (
-        date1.getFullYear() === date2.getFullYear() &&
-        date1.getMonth() === date2.getMonth() &&
-        date1.getDate() === date2.getDate()
-      );
-    };
+  const isSameDay = (date1: Date, date2: Date): boolean => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
   const Map: () => JSX.Element = () => (
     <>
       <View style={styles.centered}>
@@ -650,8 +654,8 @@ export default function MapScreen() {
                   : Colors.light.background,
             }]}>
             {showDatepicker == true && (
-              <DateTimePicker 
-              style={{width:"80%"}}
+              <DateTimePicker
+                style={{ width: "80%" }}
                 display="spinner"
                 is24Hour={true}
                 maximumDate={
@@ -667,52 +671,52 @@ export default function MapScreen() {
                 value={selectedEndDate ? selectedEndDate : selectedStartDate} />
             )}
             <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <View style={{marginTop:20}}>
-              <Button
-                buttonColor={colorScheme === "dark" ? Colors.dark.background : Colors.light.background}
-                icon="calendar-edit"
-                mode="text"
-                onPress={() => onShowDatePicker(false)}
-                textColor={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
-              >
-                Pick start date
-              </Button>
+              <View style={{ marginTop: 20 }}>
+                <Button
+                  buttonColor={colorScheme === "dark" ? Colors.dark.background : Colors.light.background}
+                  icon="calendar-edit"
+                  mode="text"
+                  onPress={() => onShowDatePicker("startDate")}
+                  textColor={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+                >
+                  Pick start date
+                </Button>
               </View>
               <StyledText>
-               Start Date: {new Date(selectedStartDate).toLocaleDateString()}
+                Start Date: {new Date(selectedStartDate).toLocaleDateString()}
               </StyledText>
             </View>
             <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <View style={{marginTop:20}}>
-            <Button
-                buttonColor={colorScheme === "dark" ? Colors.dark.background : Colors.light.background}
-                icon="calendar-edit"
-                mode="text"
-                onPress={() => onShowDatePicker(true)}
-                textColor={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
-                disabled={!isStartDateSelected} // Disable end date picker if start date is not selected
-              >
-                Pick end date
-              </Button>
-            </View>
+              <View style={{ marginTop: 20 }}>
+                <Button
+                  buttonColor={colorScheme === "dark" ? Colors.dark.background : Colors.light.background}
+                  disabled={!isStartDateSelected}
+                  icon="calendar-edit"
+                  mode="text"
+                  onPress={() => onShowDatePicker("endDate")}
+                  textColor={colorScheme === "dark" ? Colors.dark.text : Colors.light.text}
+                >
+                  Pick end date
+                </Button>
+              </View>
               <StyledText>
-               End Date: {new Date(selectedEndDate).toLocaleDateString()}
+                End Date: {new Date(selectedEndDate).toLocaleDateString()}
               </StyledText>
             </View>
-            <View style={{ justifyContent: 'space-evenly', flexDirection: "row", marginVertical: 40 }}>
+            <View style={{ justifyContent: "space-evenly", flexDirection: "row", marginVertical: 40 }}>
               <Button
                 buttonColor={
                   colorScheme === "dark"
                     ? Colors.dark.text
                     : Colors.light.text
                 }
+                disabled={!isEndDateSelected || !isStartDateSelected}
                 mode="contained"
                 onPress={onFilterDateEvents}
                 style={{ marginRight: 5 }}
                 textColor={
                   colorScheme === "dark" ? Colors.dark.background : Colors.light.background
                 }
-                disabled={!isStartDateSelected || !isEndDateSelected} 
               >
                 Filter
               </Button>
