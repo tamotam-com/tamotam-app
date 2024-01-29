@@ -33,7 +33,7 @@ export const readItemFromStorage: () => Promise<Event[] | null> = async () => {
     });
   }
 
-  return eventsParsed ? null : [];
+  return eventsParsed ? eventsParsed : [];
 };
 
 export default readItemFromStorage;
