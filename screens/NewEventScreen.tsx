@@ -60,13 +60,16 @@ export default function NewEventScreen({ navigation, route }: any) {
     longitudeDelta: 0,
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<any | Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<any | Date>();
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>({
     latitude: 0,
     longitude: 0,
   });
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
+  const [titleError, setTitleError] = useState<string>("");
+  const [locationError, setLocationError] = useState<string>("");
+  const [dateTimeError, setDateTimeError] = useState<string>("");
   let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
 
   useEffect(() => {
@@ -217,6 +220,8 @@ export default function NewEventScreen({ navigation, route }: any) {
     });
     setSelectedDate(selectedValueDate);
     setShowDatepicker(false);
+    // Date & Time Error Blank
+    setDateTimeError("")
   };
 
   const onLocationChange: (e: {
@@ -231,6 +236,8 @@ export default function NewEventScreen({ navigation, route }: any) {
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
     });
+    //location error blank
+    setLocationError("")
   };
 
   const onShowDatePicker: () => void = () => {
@@ -254,6 +261,8 @@ export default function NewEventScreen({ navigation, route }: any) {
       description: "--- Analytics: screens -> NewEventScreen -> onTitleChange, text: " + text,
     });
     setTitleValue(text);
+    //Title error blank
+    setTitleError("")
   };
 
   const showDateTimeMode: (currentMode: string) => void = (currentMode: string) => {
@@ -265,6 +274,16 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const addEventHandler: () => Promise<void> = async () => {
+    if (!titleValue.trim()) {
+      setTitleError("* Please enter a title.");
+    }
+    if (selectedLocation.latitude === 0 || selectedLocation.longitude === 0) {
+      setLocationError("* Please select a location.");
+    }
+    if (!selectedDate) {
+      setDateTimeError("* Please select a date and time.");
+    }
+    else{
     let firestoreDocumentIdResponse: string = "";
 
     analytics().logEvent("custom_log", {
@@ -338,6 +357,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     }
 
     navigation.goBack();
+  }
   };
 
   const Map: () => JSX.Element = () => (
@@ -379,6 +399,7 @@ export default function NewEventScreen({ navigation, route }: any) {
     >
       <ScrollView>
         <Map />
+        {locationError && <StyledText style={[styles.error,styles.form,{marginTop:12}]}>{locationError}</StyledText>}
         <View style={styles.form}>
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
@@ -392,6 +413,7 @@ export default function NewEventScreen({ navigation, route }: any) {
             onChangeText={onTitleChange}
             value={titleValue}
           />
+          {titleError && <StyledText style={styles.error}>{titleError}</StyledText>}
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
             style={[
@@ -454,9 +476,10 @@ export default function NewEventScreen({ navigation, route }: any) {
               textColor={
                 colorScheme === "dark" ? Colors.dark.text : Colors.light.text
               }
-              value={selectedDate}
+              value={selectedDate || new Date()}
             />
           )}
+          {selectedDate &&
           <View style={styles.centered}>
             <StyledText>Date: {new Date(selectedDate).toLocaleDateString()}</StyledText>
             <StyledText>Time: {new Date(selectedDate).toLocaleTimeString([], {
@@ -464,6 +487,8 @@ export default function NewEventScreen({ navigation, route }: any) {
               minute: "2-digit",
             })}</StyledText>
           </View>
+          }
+          {dateTimeError && <StyledText style={styles.error}>{dateTimeError}</StyledText>}
           <SelectImage imageUrlStorageFromChild={setImageUrlStorage} />
           <Button
             buttonColor={
@@ -527,5 +552,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
   },
 });
