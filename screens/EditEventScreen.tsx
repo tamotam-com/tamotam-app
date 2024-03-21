@@ -72,6 +72,9 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
+  const [titleError, setTitleError] = useState<string>("");
+  const [locationError, setLocationError] = useState<string>("");
+  const [dateTimeError, setDateTimeError] = useState<string>("");
   let markerCoordinates: Coordinate = {
     latitude: selectedEvent.latitude ? selectedEvent.latitude : 0,
     longitude: selectedEvent.longitude ? selectedEvent.longitude : 0,
@@ -225,6 +228,8 @@ export default function EditEventScreen({ navigation, route }: any) {
     });
     setSelectedDate(selectedValueDate);
     setShowDatepicker(false);
+    // Edit Date & Time Error Blank
+    setDateTimeError("")
   };
 
   const onLocationChange: (e: {
@@ -239,6 +244,8 @@ export default function EditEventScreen({ navigation, route }: any) {
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
     });
+    //Edit location error blank
+    setLocationError("")
   };
 
   const onShowDatePicker: () => void = () => {
@@ -262,6 +269,8 @@ export default function EditEventScreen({ navigation, route }: any) {
       description: "--- Analytics: screens -> EditEventScreen -> onTitleChange, text: " + text,
     });
     setTitleValue(text);
+    //Edit Title error blank
+    setTitleError("")
   };
 
   const showDateTimeMode: (currentMode: string) => void = (currentMode: string) => {
@@ -273,6 +282,16 @@ export default function EditEventScreen({ navigation, route }: any) {
   };
 
   const onSaveHandler: () => void = async () => {
+     if (!titleValue.trim()) {
+      setTitleError("* Please enter a title.");
+    }
+    if (markerCoordinates.latitude === 0 || markerCoordinates.longitude === 0) {
+      setLocationError("* Please select a location.");
+    }
+    if (!selectedDate) {
+      setDateTimeError("* Please select a date and time.");
+    }
+    else{
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler",
     });
@@ -345,6 +364,7 @@ export default function EditEventScreen({ navigation, route }: any) {
     }
 
     navigation.goBack();
+  }
   };
 
   const Map: () => JSX.Element = () => (
@@ -393,6 +413,7 @@ export default function EditEventScreen({ navigation, route }: any) {
           </View> :
           <Map />
         }
+        {locationError && <StyledText style={[styles.error,styles.form,{marginTop:12}]}>{locationError}</StyledText>}
         <View style={styles.form}>
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
@@ -406,6 +427,7 @@ export default function EditEventScreen({ navigation, route }: any) {
               },
             ]}
           />
+          {titleError && <StyledText style={styles.error}>{titleError}</StyledText>}
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
             defaultValue={selectedEvent ? selectedEvent.description : ""}
@@ -478,6 +500,7 @@ export default function EditEventScreen({ navigation, route }: any) {
               minute: "2-digit",
             })}</StyledText>
           </View>
+          {dateTimeError && <StyledText style={styles.error}>{dateTimeError}</StyledText>}
           <SelectImage
             existingImageUrl={
               selectedEvent.imageUrl && typeof selectedEvent.imageUrl === "string"
@@ -541,6 +564,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "center",  
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
   },
 });
