@@ -35,7 +35,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, HelperText } from "react-native-paper";
 import { Coordinate } from "../interfaces/coordinate";
 import { Event } from "../interfaces/event";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -49,6 +49,7 @@ export default function NewEventScreen({ navigation, route }: any) {
   const dispatch: Dispatch<any> = useDispatch<Dispatch<any>>();
   const internetState: NetInfoState = useNetInfo();
   const mapRef: MutableRefObject<null> = useRef<null>(null);
+  const [dateTimeError, setDateTimeError] = useState<string>("");
   const [dateTimeMode, setDateTimeMode] = useState<string | any>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error(""));
@@ -60,16 +61,15 @@ export default function NewEventScreen({ navigation, route }: any) {
     longitudeDelta: 0,
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [locationError, setLocationError] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<any | Date>();
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>({
     latitude: 0,
     longitude: 0,
   });
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
-  const [titleValue, setTitleValue] = useState<string>("");
   const [titleError, setTitleError] = useState<string>("");
-  const [locationError, setLocationError] = useState<string>("");
-  const [dateTimeError, setDateTimeError] = useState<string>("");
+  const [titleValue, setTitleValue] = useState<string>("");
   let markerCoordinates: Coordinate = { latitude: 0, longitude: 0 };
 
   useEffect(() => {
@@ -218,10 +218,9 @@ export default function NewEventScreen({ navigation, route }: any) {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> onDateTimeChange, selectedValueDate: " + selectedValueDate,
     });
+    setDateTimeError("")
     setSelectedDate(selectedValueDate);
     setShowDatepicker(false);
-    // Date & Time Error Blank
-    setDateTimeError("")
   };
 
   const onLocationChange: (e: {
@@ -232,12 +231,11 @@ export default function NewEventScreen({ navigation, route }: any) {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
     });
+    setLocationError("")
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
     });
-    //location error blank
-    setLocationError("")
   };
 
   const onShowDatePicker: () => void = () => {
@@ -260,9 +258,8 @@ export default function NewEventScreen({ navigation, route }: any) {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> onTitleChange, text: " + text,
     });
-    setTitleValue(text);
-    //Title error blank
     setTitleError("")
+    setTitleValue(text);
   };
 
   const showDateTimeMode: (currentMode: string) => void = (currentMode: string) => {
@@ -275,89 +272,89 @@ export default function NewEventScreen({ navigation, route }: any) {
 
   const addEventHandler: () => Promise<void> = async () => {
     if (!titleValue.trim()) {
-      setTitleError("* Please enter a title.");
+      setTitleError("Error: please enter a title.");
     }
     if (selectedLocation.latitude === 0 || selectedLocation.longitude === 0) {
-      setLocationError("* Please select a location.");
+      setLocationError("Error: please select a location.");
     }
     if (!selectedDate) {
-      setDateTimeError("* Please select a date and time.");
+      setDateTimeError("Error: please select a date and time.");
     }
-    else{
-    let firestoreDocumentIdResponse: string = "";
+    else {
+      let firestoreDocumentIdResponse: string = "";
 
-    analytics().logEvent("custom_log", {
-      description: "--- Analytics: screens -> NewEventScreen -> addEventHandler",
-    });
-    setError(new Error(""));
-    setIsLoading(true);
-
-    try {
-      const newEvent: Event = {
-        id: 'users' + Math.random() * 100000000000000000,
-        date: selectedDate,
-        description: descriptionValue,
-        imageUrl: imageUrlStorage,
-        isUserEvent: true,
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
-        title: titleValue,
-      };
-
-      firestore()
-        .collection(FIRESTORE_COLLECTION)
-        .add(newEvent)
-        .then((response) => {
-          // @ts-ignore
-          firestoreDocumentIdResponse = response._documentPath._parts[1];
-          analytics().logEvent("custom_log", {
-            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
-          });
-        })
-        .catch((error: unknown) => {
-          if (error instanceof Error) {
-            analytics().logEvent("custom_log", {
-              description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> catch, error: " + error,
-            });
-            crashlytics().recordError(error);
-            setError(new Error(error.message));
-          }
-        })
-        .finally(async () => {
-          dispatch(addEvent({
-            ...newEvent,
-            // Those 2 fields must be available only locally.
-            firestoreDocumentId: firestoreDocumentIdResponse,
-            imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : '',
-          }));
-
-          analytics().logEvent("custom_log", {
-            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
-          });
-        });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        Alert.alert(
-          "Error ❌",
-          "TamoTam couldn't create an event.\nTry one more time!",
-          [{ text: "Okay" }]
-        );
-
-        analytics().logEvent("custom_log", {
-          description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> catch, error: " + error,
-        });
-        crashlytics().recordError(error);
-        setError(new Error(error.message));
-      }
-    } finally {
       analytics().logEvent("custom_log", {
-        description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
+        description: "--- Analytics: screens -> NewEventScreen -> addEventHandler",
       });
-      setIsLoading(false);
-    }
+      setError(new Error(""));
+      setIsLoading(true);
 
-    navigation.goBack();
-  }
+      try {
+        const newEvent: Event = {
+          id: 'users' + Math.random() * 100000000000000000,
+          date: selectedDate,
+          description: descriptionValue,
+          imageUrl: imageUrlStorage,
+          isUserEvent: true,
+          latitude: selectedLocation.latitude,
+          longitude: selectedLocation.longitude,
+          title: titleValue,
+        };
+
+        firestore()
+          .collection(FIRESTORE_COLLECTION)
+          .add(newEvent)
+          .then((response) => {
+            // @ts-ignore
+            firestoreDocumentIdResponse = response._documentPath._parts[1];
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
+            });
+          })
+          .catch((error: unknown) => {
+            if (error instanceof Error) {
+              analytics().logEvent("custom_log", {
+                description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> catch, error: " + error,
+              });
+              crashlytics().recordError(error);
+              setError(new Error(error.message));
+            }
+          })
+          .finally(async () => {
+            dispatch(addEvent({
+              ...newEvent,
+              // Those 2 fields must be available only locally.
+              firestoreDocumentId: firestoreDocumentIdResponse,
+              imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : '',
+            }));
+
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
+            });
+          });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          Alert.alert(
+            "Error ❌",
+            "TamoTam couldn't create an event.\nTry one more time!",
+            [{ text: "Okay" }]
+          );
+
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> catch, error: " + error,
+          });
+          crashlytics().recordError(error);
+          setError(new Error(error.message));
+        }
+      } finally {
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
+        });
+        setIsLoading(false);
+      }
+
+      navigation.goBack();
+    }
   };
 
   const Map: () => JSX.Element = () => (
@@ -399,8 +396,8 @@ export default function NewEventScreen({ navigation, route }: any) {
     >
       <ScrollView>
         <Map />
-        {locationError && <StyledText style={[styles.error,styles.form,{marginTop:12}]}>{locationError}</StyledText>}
         <View style={styles.form}>
+          {locationError && <HelperText style={styles.error} type="error">{locationError}</HelperText>}
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
             style={[
@@ -413,7 +410,7 @@ export default function NewEventScreen({ navigation, route }: any) {
             onChangeText={onTitleChange}
             value={titleValue}
           />
-          {titleError && <StyledText style={styles.error}>{titleError}</StyledText>}
+          {titleError && <HelperText style={[styles.error, { marginTop: -15 }]} type="error">{titleError}</HelperText>}
           <StyledText style={styles.label}>Description</StyledText>
           <TextInput
             style={[
@@ -480,15 +477,15 @@ export default function NewEventScreen({ navigation, route }: any) {
             />
           )}
           {selectedDate &&
-          <View style={styles.centered}>
-            <StyledText>Date: {new Date(selectedDate).toLocaleDateString()}</StyledText>
-            <StyledText>Time: {new Date(selectedDate).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}</StyledText>
-          </View>
+            <View style={styles.centered}>
+              <StyledText>Date: {new Date(selectedDate).toLocaleDateString()}</StyledText>
+              <StyledText>Time: {new Date(selectedDate).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}</StyledText>
+            </View>
           }
-          {dateTimeError && <StyledText style={styles.error}>{dateTimeError}</StyledText>}
+          {dateTimeError && <HelperText style={[styles.error, { marginTop: -30 }]} type="error">{dateTimeError}</HelperText>}
           <SelectImage imageUrlStorageFromChild={setImageUrlStorage} />
           <Button
             buttonColor={
@@ -554,7 +551,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   error: {
-    color: 'red',
-    marginBottom: 10,
+    color: "red",
+    marginBottom: 20,
   },
 });
