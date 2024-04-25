@@ -53,7 +53,6 @@ export default function EditEventScreen({ navigation, route }: any) {
   const selectedEvent: Event = useSelector<any, any>((state: any) =>
     state.events.savedEvents.find((event: Event) => event.id === eventId)
   );
-  const [dateTimeError, setDateTimeError] = useState<string>("");
   const [dateTimeMode, setDateTimeMode] = useState<string | any>("");
   const [descriptionValue, setDescriptionValue] = useState<string>("");
   const [error, setError] = useState<Error>(new Error());
@@ -65,7 +64,6 @@ export default function EditEventScreen({ navigation, route }: any) {
     longitudeDelta: 10,
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [locationError, setLocationError] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<any | Date>(
     new Date(selectedEvent.date) instanceof Date
       ? new Date(selectedEvent.date)
@@ -74,7 +72,7 @@ export default function EditEventScreen({ navigation, route }: any) {
   const [selectedLocation, setSelectedLocation] = useState<Coordinate>();
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [titleError, setTitleError] = useState<string>("");
-  const [titleValue, setTitleValue] = useState<string>("");
+  const [titleValue, setTitleValue] = useState<string>(selectedEvent.title);
   let markerCoordinates: Coordinate = {
     latitude: selectedEvent.latitude ? selectedEvent.latitude : 0,
     longitude: selectedEvent.longitude ? selectedEvent.longitude : 0,
@@ -226,7 +224,6 @@ export default function EditEventScreen({ navigation, route }: any) {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> EditEventScreen -> onDateTimeChange, selectedValueDate: " + selectedValueDate,
     });
-    setDateTimeError("")
     setSelectedDate(selectedValueDate);
     setShowDatepicker(false);
   };
@@ -239,7 +236,6 @@ export default function EditEventScreen({ navigation, route }: any) {
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> EditEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
     });
-    setLocationError("")
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
@@ -263,6 +259,10 @@ export default function EditEventScreen({ navigation, route }: any) {
   const onTitleChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
+    if (!titleValue.trim()) {
+      setTitleError("Error: please enter a title.");
+    }
+
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> EditEventScreen -> onTitleChange, text: " + text,
     });
@@ -279,89 +279,78 @@ export default function EditEventScreen({ navigation, route }: any) {
   };
 
   const onSaveHandler: () => void = async () => {
-    if (!titleValue.trim()) {
-      setTitleError("Error: please enter a title.");
-    }
-    if (markerCoordinates.latitude === 0 || markerCoordinates.longitude === 0) {
-      setLocationError("Error: please select a location.");
-    }
-    if (!selectedDate) {
-      setDateTimeError("Error: please select a date and time.");
-    }
-    else {
-      analytics().logEvent("custom_log", {
-        description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler",
-      });
-      setError(new Error(""));
-      setIsLoading(true);
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler",
+    });
+    setError(new Error(""));
+    setIsLoading(true);
 
-      try {
-        const updatedEvent: Event = {
-          id: eventId,
-          date: selectedDate,
-          description: descriptionValue
-            ? descriptionValue
-            : selectedEvent.description,
-          // @ts-ignore
-          imageUrl: imageUrlStorage ? imageUrlStorage : selectedEvent.imageUrl ? await storage().refFromURL(selectedEvent.imageUrl).path : '', // Get just the name of the file, otherwise the image won't be displayed correctly with "getDownloadURL()" while fetching the image.
-          isUserEvent: Boolean(selectedEvent.isUserEvent),
-          latitude: markerCoordinates.latitude,
-          longitude: markerCoordinates.longitude,
-          title: titleValue ? titleValue : selectedEvent.title,
-        };
+    try {
+      const updatedEvent: Event = {
+        id: eventId,
+        date: selectedDate,
+        description: descriptionValue
+          ? descriptionValue
+          : selectedEvent.description,
+        // @ts-ignore
+        imageUrl: imageUrlStorage ? imageUrlStorage : selectedEvent.imageUrl ? await storage().refFromURL(selectedEvent.imageUrl).path : '', // Get just the name of the file, otherwise the image won't be displayed correctly with "getDownloadURL()" while fetching the image.
+        isUserEvent: Boolean(selectedEvent.isUserEvent),
+        latitude: markerCoordinates.latitude,
+        longitude: markerCoordinates.longitude,
+        title: titleValue ? titleValue : selectedEvent.title,
+      };
 
-        firestore()
-          .collection(FIRESTORE_COLLECTION)
-          .doc(selectedEvent.firestoreDocumentId)
-          .update(updatedEvent)
-          .then(() => {
-            analytics().logEvent("custom_log", {
-              description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try -> then, updatedEvent: " + updatedEvent,
-            });
-          })
-          .catch((error: unknown) => {
-            if (error instanceof Error) {
-              analytics().logEvent("custom_log", {
-                description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try -> catch, error: " + error,
-              });
-              crashlytics().recordError(error);
-              setError(new Error(error.message));
-            }
-          })
-          .finally(() => {
-            analytics().logEvent("custom_log", {
-              description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> finally",
-            });
-          });
-        dispatch(updateEvent({
-          ...updatedEvent,
-          // Those 2 fields must be available only locally.
-          firestoreDocumentId: selectedEvent.firestoreDocumentId,
-          imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : selectedEvent.imageUrl,
-        }));
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          Alert.alert(
-            "Error ❌",
-            "TamoTam couldn't save the changes.\nTry one more time!",
-            [{ text: "Okay" }]
-          );
-
+      firestore()
+        .collection(FIRESTORE_COLLECTION)
+        .doc(selectedEvent.firestoreDocumentId)
+        .update(updatedEvent)
+        .then(() => {
           analytics().logEvent("custom_log", {
-            description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> catch, error: " + error,
+            description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try -> then, updatedEvent: " + updatedEvent,
           });
-          crashlytics().recordError(error);
-          setError(new Error(error.message));
-        }
-      } finally {
-        analytics().logEvent("custom_log", {
-          description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> finally",
+        })
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> try -> catch, error: " + error,
+            });
+            crashlytics().recordError(error);
+            setError(new Error(error.message));
+          }
+        })
+        .finally(() => {
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> finally",
+          });
         });
-        setIsLoading(false);
-      }
+      dispatch(updateEvent({
+        ...updatedEvent,
+        // Those 2 fields must be available only locally.
+        firestoreDocumentId: selectedEvent.firestoreDocumentId,
+        imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : selectedEvent.imageUrl,
+      }));
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Alert.alert(
+          "Error ❌",
+          "TamoTam couldn't save the changes.\nTry one more time!",
+          [{ text: "Okay" }]
+        );
 
-      navigation.goBack();
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
+      }
+    } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: screens -> EditEventScreen -> onSaveHandler -> finally",
+      });
+      setIsLoading(false);
     }
+
+    navigation.goBack();
   };
 
   const Map: () => JSX.Element = () => (
@@ -411,7 +400,6 @@ export default function EditEventScreen({ navigation, route }: any) {
           <Map />
         }
         <View style={styles.form}>
-          {locationError && <HelperText style={styles.error} type="error">{locationError}</HelperText>}
           <StyledText style={styles.label}>Title</StyledText>
           <TextInput
             defaultValue={selectedEvent ? selectedEvent.title : ""}
@@ -497,7 +485,6 @@ export default function EditEventScreen({ navigation, route }: any) {
               minute: "2-digit",
             })}</StyledText>
           </View>
-          {dateTimeError && <HelperText style={[styles.error, { marginTop: -30 }]} type="error">{dateTimeError}</HelperText>}
           <SelectImage
             existingImageUrl={
               selectedEvent.imageUrl && typeof selectedEvent.imageUrl === "string"
@@ -512,7 +499,9 @@ export default function EditEventScreen({ navigation, route }: any) {
                 ? Colors.dark.text
                 : Colors.light.text
             }
+            disabled={!titleValue.trim()}
             icon="check-circle-outline"
+            mode={!titleValue.trim() ? "contained" : "text"}
             onPress={onSaveHandler}
             textColor={
               colorScheme === "dark" ? Colors.dark.background : Colors.light.background

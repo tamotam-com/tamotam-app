@@ -207,6 +207,10 @@ export default function NewEventScreen({ navigation, route }: any) {
     _event: any,
     selectedValueDate: Date | undefined
   ) => void = (_event: any, selectedValueDate: Date | undefined) => {
+    if (!selectedDate) {
+      setDateTimeError("Error: please select a date and time.");
+    }
+
     if (_event.type === "dismissed") {
       setShowDatepicker(false);
       return;
@@ -228,6 +232,10 @@ export default function NewEventScreen({ navigation, route }: any) {
       coordinate: Coordinate;
     };
   }) => void = (e: { nativeEvent: { coordinate: Coordinate } }) => {
+    if (selectedLocation.latitude === 0 || selectedLocation.longitude === 0) {
+      setLocationError("Error: please select a location.");
+    }
+
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> onLocationChange, e.nativeEvent.coordinate: " + e.nativeEvent.coordinate,
     });
@@ -255,6 +263,10 @@ export default function NewEventScreen({ navigation, route }: any) {
   const onTitleChange: (text: SetStateAction<string>) => void = (
     text: SetStateAction<string>
   ) => {
+    if (!titleValue.trim()) {
+      setTitleError("Error: please enter a title.");
+    }
+
     analytics().logEvent("custom_log", {
       description: "--- Analytics: screens -> NewEventScreen -> onTitleChange, text: " + text,
     });
@@ -271,90 +283,79 @@ export default function NewEventScreen({ navigation, route }: any) {
   };
 
   const addEventHandler: () => Promise<void> = async () => {
-    if (!titleValue.trim()) {
-      setTitleError("Error: please enter a title.");
-    }
-    if (selectedLocation.latitude === 0 || selectedLocation.longitude === 0) {
-      setLocationError("Error: please select a location.");
-    }
-    if (!selectedDate) {
-      setDateTimeError("Error: please select a date and time.");
-    }
-    else {
-      let firestoreDocumentIdResponse: string = "";
+    let firestoreDocumentIdResponse: string = "";
 
-      analytics().logEvent("custom_log", {
-        description: "--- Analytics: screens -> NewEventScreen -> addEventHandler",
-      });
-      setError(new Error(""));
-      setIsLoading(true);
+    analytics().logEvent("custom_log", {
+      description: "--- Analytics: screens -> NewEventScreen -> addEventHandler",
+    });
+    setError(new Error(""));
+    setIsLoading(true);
 
-      try {
-        const newEvent: Event = {
-          id: 'users' + Math.random() * 100000000000000000,
-          date: selectedDate,
-          description: descriptionValue,
-          imageUrl: imageUrlStorage,
-          isUserEvent: true,
-          latitude: selectedLocation.latitude,
-          longitude: selectedLocation.longitude,
-          title: titleValue,
-        };
+    try {
+      const newEvent: Event = {
+        id: 'users' + Math.random() * 100000000000000000,
+        date: selectedDate,
+        description: descriptionValue,
+        imageUrl: imageUrlStorage,
+        isUserEvent: true,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
+        title: titleValue,
+      };
 
-        firestore()
-          .collection(FIRESTORE_COLLECTION)
-          .add(newEvent)
-          .then((response) => {
-            // @ts-ignore
-            firestoreDocumentIdResponse = response._documentPath._parts[1];
-            analytics().logEvent("custom_log", {
-              description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
-            });
-          })
-          .catch((error: unknown) => {
-            if (error instanceof Error) {
-              analytics().logEvent("custom_log", {
-                description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> catch, error: " + error,
-              });
-              crashlytics().recordError(error);
-              setError(new Error(error.message));
-            }
-          })
-          .finally(async () => {
-            dispatch(addEvent({
-              ...newEvent,
-              // Those 2 fields must be available only locally.
-              firestoreDocumentId: firestoreDocumentIdResponse,
-              imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : '',
-            }));
-
-            analytics().logEvent("custom_log", {
-              description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
-            });
+      firestore()
+        .collection(FIRESTORE_COLLECTION)
+        .add(newEvent)
+        .then((response) => {
+          // @ts-ignore
+          firestoreDocumentIdResponse = response._documentPath._parts[1];
+          analytics().logEvent("custom_log", {
+            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> then, newEvent: " + newEvent,
           });
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          Alert.alert(
-            "Error ❌",
-            "TamoTam couldn't create an event.\nTry one more time!",
-            [{ text: "Okay" }]
-          );
+        })
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            analytics().logEvent("custom_log", {
+              description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> try -> catch, error: " + error,
+            });
+            crashlytics().recordError(error);
+            setError(new Error(error.message));
+          }
+        })
+        .finally(async () => {
+          dispatch(addEvent({
+            ...newEvent,
+            // Those 2 fields must be available only locally.
+            firestoreDocumentId: firestoreDocumentIdResponse,
+            imageUrl: imageUrlStorage ? await storage().ref(imageUrlStorage).getDownloadURL() : '',
+          }));
 
           analytics().logEvent("custom_log", {
-            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> catch, error: " + error,
+            description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
           });
-          crashlytics().recordError(error);
-          setError(new Error(error.message));
-        }
-      } finally {
-        analytics().logEvent("custom_log", {
-          description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
         });
-        setIsLoading(false);
-      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Alert.alert(
+          "Error ❌",
+          "TamoTam couldn't create an event.\nTry one more time!",
+          [{ text: "Okay" }]
+        );
 
-      navigation.goBack();
+        analytics().logEvent("custom_log", {
+          description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> catch, error: " + error,
+        });
+        crashlytics().recordError(error);
+        setError(new Error(error.message));
+      }
+    } finally {
+      analytics().logEvent("custom_log", {
+        description: "--- Analytics: screens -> NewEventScreen -> addEventHandler -> finally",
+      });
+      setIsLoading(false);
     }
+
+    navigation.goBack();
   };
 
   const Map: () => JSX.Element = () => (
@@ -493,8 +494,9 @@ export default function NewEventScreen({ navigation, route }: any) {
                 ? Colors.dark.text
                 : Colors.light.text
             }
+            disabled={!titleValue.trim() || !selectedDate || selectedLocation.latitude === 0 || selectedLocation.longitude === 0}
             icon="plus-box"
-            mode="contained"
+            mode={!titleValue.trim() || !selectedDate || selectedLocation.latitude === 0 || selectedLocation.longitude === 0 ? "contained" : "text"}
             onPress={addEventHandler}
             style={[styles.addEventButton, { borderColor: colorScheme === "dark" ? "#ffffff" : "#000000" },]}
             textColor={
